@@ -1,10 +1,13 @@
-/goinfre/alangloi/apps/CLion/ch-0/212.5284.51/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_DEPENDS_USE_COMPILER=FALSE -G "CodeBlocks - Unix Makefiles" /Users/alangloi/Documents/minishell
--- The C compiler identification is AppleClang 11.0.0.11000033
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc - skipped
--- Detecting C compile features
--- Detecting C compile features - done
+"/Users/alangloi/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/212.5284.51/CLion.app/Contents/bin/cmake/mac/bin/cmake" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_DEPENDS_USE_COMPILER=FALSE -G "CodeBlocks - Unix Makefiles" /Users/alangloi/Documents/minishell
 -- Configuring done
--- Generating done
--- Build files have been written to: /Users/alangloi/Documents/minishell/cmake-build-debug
+CMake Error at CMakeLists.txt:6 (add_executable):
+  Cannot find source file:
+
+    main.c
+
+
+CMake Error at CMakeLists.txt:6 (add_executable):
+  No SOURCES given to target: minishell
+
+
+CMake Generate step failed.  Build files cannot be regenerated correctly.

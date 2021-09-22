@@ -3,11 +3,9 @@
 UNAME_S := $(shell uname -s)
 
 ifeq ($(UNAME_S),Linux)
-	INSTALL = sudo apt-get install readline
 	LIB = -lreadline
 	INCLUDE = -I
 else
-	INSTALL = brew install readline
 	LIB = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
 	INCLUDE = -I /Users/$(USER)/.brew/opt/readline/include
 endif
@@ -18,7 +16,8 @@ FLAGS = -Wall -Werror -Wextra
 HEADER = includes
 SRC = sources
 OBJ = objects
-SOURCES = main.c
+SOURCES = main.c \
+		utils_1.c
 SRCS = $(addprefix $(SRC)/, $(SOURCES))
 OBJS = $(addprefix $(OBJ)/, $(SOURCES:.c=.o))
 
@@ -31,7 +30,6 @@ $(NAME): $(OBJS)
 	$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIB) -g
 
 $(OBJ)/%.o: $(SRC)/%.c
-	$(INSTALL)
 	$(CC) $(FLAGS) -o $@ -c $^ -I$(HEADER) $(INCLUDE)
 
 clean:

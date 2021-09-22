@@ -1,15 +1,21 @@
 #include "minishell.h"
 
-int main(int argc, char **argv)
-{
-	int status;
+/* prompt_loop : create the loop that will run minishell
+ *
+ * int status;
 	char *line;
 
-	(void)argc;
-	(void)argv;
 	status = 1;
 	while (status) {
-		*line = readline("user@root >");
+        if (!ms_strcmp(line, "exit"))
+            break ;
+		line = readline("user@root > ");
+        add_history(line);
 	}
-	free(line);
+ */
+
+int main(void)
+{
+	//prompt loop
+    return (0);
 }
