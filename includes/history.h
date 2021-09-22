@@ -24,4 +24,4 @@ typedef struct s_hist
 // history_get_history_state
 // history_list
 
-#endif //MINISHELL_HISTORY_H
+#endif

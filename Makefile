@@ -12,25 +12,27 @@ endif
 
 NAME = minishell
 CC = gcc
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -g
 HEADER = includes
+include sources.mk
 SRC = sources
 OBJ = objects
-SOURCES = main.c \
-		utils_1.c
+SOURCES =
 SRCS = $(addprefix $(SRC)/, $(SOURCES))
 OBJS = $(addprefix $(OBJ)/, $(SOURCES:.c=.o))
 
-all: $(OBJ) $(NAME)
+all: $(NAME)
 
-$(OBJ):
-	mkdir -p $(OBJ)
+$OBJ:
+	mkdir -p $@
+
+$(OBJS): | $OBJ
+
+$(OBJ)/%.o: $(SRC)/%.c | $OBJ
+	$(CC) $(FLAGS) -o $@ -c $^ -I$(HEADER) $(INCLUDE)
 
 $(NAME): $(OBJS)
-	$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIB) -g
-
-$(OBJ)/%.o: $(SRC)/%.c
-	$(CC) $(FLAGS) -o $@ -c $^ -I$(HEADER) $(INCLUDE)
+	$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIB)
 
 clean:
 	rm -rf $(OBJ)

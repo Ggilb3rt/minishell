@@ -2,7 +2,7 @@
 // Created by Antoine LANGLOIS on 22/09/2021.
 //
 
-#include "minishell.h"
+#include "history.h"
 
 /* using_history : initialise history
  * - create file
@@ -23,3 +23,7 @@
         i++;
     }
 */
+
+/* clear_history : remove and free history
+ * use of the rl_clear_history function
+ */

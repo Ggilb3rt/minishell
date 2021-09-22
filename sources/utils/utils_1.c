@@ -2,9 +2,9 @@
 // Created by Antoine LANGLOIS on 22/09/2021.
 //
 
-#include "minishell.h"
+#include "utils.h"
 
-/* ms_strlen */
+/* int ms_strlen(const char *str) */
 
 int ms_strcmp(const char *s1, const char *s2)
 {

@@ -14,9 +14,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "history.h"
+# include "parsing.h"
+# include "commands.h"
+# include "utils.h"
 
-/* utils 1 */
-int ms_strcmp(const char *s1, const char *s2);
-//ms_strlen
 
 #endif
