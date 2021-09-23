@@ -1,11 +1,22 @@
+Writing a shell :
+
+- Get into a loop the input of the user
+- Parsing of the user input
+- Executing the command
+- builtins
+- environment
+
+https://segfault42.github.io/posts/minishell/
+------------------------------------------------------------------------------------------------------------------------
 What is a tty?
 
 A tty is an direct interface between the user and the machine. A terminal is generaly just an emulated tty,
 that we call a pty.
 https://www.howtogeek.com/428174/what-is-a-tty-on-linux-and-how-to-use-the-tty-command/
 https://www.youtube.com/watch?v=SYwbEcNrcjI
+
 ------------------------------------------------------------------------------------------------------------------------
-How to use the termcap(old)/terminfo(new) library?
+How to use the terminfo library?
 
 ------------------------------------------------------------------------------------------------------------------------
 What is termios?

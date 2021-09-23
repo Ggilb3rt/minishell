@@ -17,4 +17,20 @@
  * environment of the new program. The 'envp' array must be terminated by a NULL pointer.
  * The argument vector and environment can be accessed by the new program's main function, when it is defined as:
  * 		int main(int argc, char *argv[], char *envp[])
+ *
+ * - pid_t fork(void) : creates a new process by duplicating the calling process. The new process is referred
+ * to as the 'child' process. The calling process is referred to as the 'parent' process.
+ * The child process and the parent process run in separate memory spaces. At the time of 'fork()' both memory spaces
+ * have the same content. Memory writes performed by one of the process do not affect the other.
+ * The child process is an exact duplicate of the parent process except for the following points:
+ * - The child has its own unique process ID, and this PID does not match the ID of any existing process group or
+ * session.
+ * - The child's parent process ID is the same as the parent's process ID.
  */
+
+fork
+	perror
+
+	waitpid
+
+	execve

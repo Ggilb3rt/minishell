@@ -9,7 +9,15 @@
  * buffer pointed by 'buf'.
  */
 
-/* int ms_strlen(const char *str) */
+int ms_strlen(const char *str)
+{
+	int 	i;
+
+	i = 0;
+	while (*str++)
+		i++;
+	return (i);
+}
 
 int ms_strcmp(const char *s1, const char *s2)
 {
