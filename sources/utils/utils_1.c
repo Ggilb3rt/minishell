@@ -4,6 +4,11 @@
 
 #include "utils.h"
 
+/* external functions that we may use :
+ * - ssize_t write(int fd, const void *buf, size_t count) : writes until 'count' bytes in the file descriptor from the
+ * buffer pointed by 'buf'.
+ */
+
 /* int ms_strlen(const char *str) */
 
 int ms_strcmp(const char *s1, const char *s2)

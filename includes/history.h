@@ -7,17 +7,23 @@
 
 # include "minishell.h"
 
-typedef struct s_list
-{
-    char    *line;
-    double  timestamp;
-}               t_list;
+/* for theses two structures, refer to https://linux.die.net/man/3/history */
 
-typedef struct s_hist
+typedef struct s_hist_entry
 {
-    int     size;
+    char			*line;
+    double			timestamp;
+    histdata_t		data;
+}               t_hist_entry;
 
-}               t_hist;
+typedef struct s_hist_state
+{
+    t_hist_entry	**entries;	/* Pointer to the entries themsleves. */
+    int				size;		/* Number of slots allocated to this array. */
+    int				length;		/* Number of elements within this array. */
+    int				flags;
+	int 			offset;		/* The location pointer within this array. */
+}               t_hist_state;
 
 /* history functions */
 // using_history

@@ -1,0 +1,243 @@
+/* create the loop that will run minishell
+ *
+ * external functions that we may use :
+ */
+
+/*
+ * READLINE FUNCTIONS
+ *
+ * - int rl_on_new_line(void) : Tell the update functions that we have moved onto a new (empty) line, usually
+ * after outputting a newline.
+ *
+ * - void rl_replace_line(const char *text, int clear_undo) : Replace the contents of 'rl_line_buffer' with
+ * 'text'. The point and mark are preserved, if possible. If 'clear_undo' is non-zero, the undo list associated
+ * with the current line is cleared.
+ *
+ * - void rl_redisplay(void) : Change what's displayed on the screen to reflect the current contents fo 'rl_line_buffer'.
+ * VARIABLE : char *rl_line_buffer : This is the line gathered so far. You are welcome to modify the contents of the
+ * line, but see https://tiswww.case.edu/php/chet/readline/readline.html#SEC34.
+ */
+
+/*
+ * FILE FUNCTIONS
+ *
+ * - int open(const char *pathname, int flags) : the open() system call opens the file specified by 'pathname'.
+ *
+ * - ssize_t read(int fd, void *buf, size_t count) : read() attempts to read up to 'count' bytes from file
+ * descriptor 'fd' into the buffer starting at 'buf'.
+ * On files that support seeking, the read operation commences at the file offset, and the file offset is
+ * incremented by the number of bytes read. If the file offset is at or past the end of file, no bytes are read,
+ * and 'read()' returns zero.
+ *
+ * - int close(int fd) : closes a file descriptor, so that it no longer refers to any file and may be reused.
+ */
+
+/*
+ * PROCESSES FUNCTIONS
+ *
+ * - pid_t fork(void) : creates a new process by duplicating the calling process. The new process is referred
+ * to as the 'child' process. The calling process is referred to as the 'parent' process.
+ * The child process and the parent process run in separate memory spaces. At the time of 'fork()' both memory spaces
+ * have the same content. Memory writes performed by one of the process do not affect the other.
+ * The child process is an exact duplicate of the parent process except for the following points:
+ * - The child has its own unique process ID, and this PID does not match the ID of any existing process group or
+ * session.
+ * - The child's parent process ID is the same as the parent's process ID.
+ *
+ * - pid_t wait(int *wstatus) : wait for state changes in a child of the calling process, and obtain information
+ * about the child whose state has changed. A state change is considered to be: the child terminated; the child
+ * was stopped by a signal; or the child was resumed by a signal. In the case of a terminated child, performing
+ * a wait allows the system to release the resources associated with the child; if a wait is not performed, then
+ * the terminated child remains in a "zombie" state.
+ * If a child has already changed state, then these calls return immediately. Otherwise, they bllock until either
+ * a child changes state or a signal handler interrupts the call (assuming that system calls are not automatically
+ * restarted using the SA_RESTART flag of 'sigaction()' << FORBIDDEN FUNCTION, CHECK AVAILABLE FLAGS FOR 'signal()'.
+ *
+ * - pid_t waitpid(pid_t pid, int *wstatus, int options) : system call suspends execution of the calling thread
+ * until a child specified by 'pid' argument has changed state. By default, 'waitpid()' waits only for terminated
+ * children.
+ * The value of 'pid' can be :
+ * < -1 meaning wait for any child process whose process group ID is equal to the absolute value of pid.
+ * - 1 meaning wait for any child process.
+ * 0 meaning wait for any child process whose process group ID is equal to that of the calling process at the
+ * time of the call to 'waitpid()'
+ * > 0 meaning wait for the child whose process ID is equal to the value of 'pid'.
+ *
+ * - pid_t wait3(int *status, int options, struct rusage *rusage) : obsolete, use waitpid
+ * (is equivalent to waitpid(-1, status, options))
+ *
+ * - pid_t wait4(pid_t pid, int *status, int options, struct rusage *rusage) : obsolete, use waitpid
+ * (is equivalent to waitpid(pid, status, options))
+ */
+
+/*
+ * STAT FUNCTIONS
+ *
+ * - int stat(const char *restrict pathname, struct stat *restrict statbuf) : returns information about a file,
+ * int the buffer pointed to by statbuf. No permissions are required on the file itself, but-in the case of 'stat()',
+ * and lstat(), execute (search) permission is required on all of the directories in 'pathname' that lead to the file.
+ * Retrieve information about the file pointed to by 'pathname'.
+ *
+ * - int fstat(int fd, struct stat *statbuf) : identical to 'stat()' except that the file about which information
+ * is to be retrieved is specified by the file descriptor 'fd'.
+ *
+ * - int lstat(const char *restrict pathname, struct stat *restrict statbuf) : identical to 'stat()' except that if
+ * 'pathname' is a symbolic link, then it returns information about the link itself, not the file that the link refers
+ * to.
+ * The stat structure :
+ * 		struct stat {
+ * 			dev_t		st_dev;		ID of device containing file
+ * 			ino_t		st_ino;		Inode number
+ * 			mode_t		st_mode;	File type and mode
+ * 			nlink_t		st_nlink;	Number of hard links
+ * 			uid_t		st_uid;		User ID of owner
+ * 			gid_t		st_gid;		Group ID of owner
+ * 			dev_t		st_rdev;	Device ID (if special file)
+ * 			off_t		st_size;	Total size, in bytes
+ * 			blksize_t	st_blksize;	Block size for filesystem I/O
+ * 			blkcnt_t	st_blocks;	Number of 512B blocks allocated
+ * 			struct timespec	st_atim;	Time of last access
+ * 			struct timespec st_mtim;	Time of last modification
+ * 			struct timespec	st_ctim;	Time of last status change
+ * 		#define st_atime st_atim.tv_sec;	Backward compatibility
+ * 		#define st_mtime st_mtim.tv_sec;
+ * 		#define st_ctime st_ctim.tv_sec;
+ * 		}
+ */
+
+/*
+ * REMOVE FILES
+ *
+ * - int unlink(const char *pathname) : deletes a name from the filesystem. If that name was the last link to a file
+ * and no processes have the file open, the file is deleted and the space it was using is made available for reuse.
+ * If the name was the last link to a file but any processes still have the file open, the file will remain in
+ * existence until the last file descriptor referring to it is closed. If the name referred to a symbolic link,
+ * the link is removed.
+ * If the name referred to a socket, FIFO, or device, the name for it is removed but processes which have the object
+ * open may continue to use it.
+ */
+
+/*
+ * MEMORY
+ *
+ * - int dup(int oldfd) : allocates a new file descriptor that refers to the same open file description as the
+ * descriptor 'oldfd'. The new file descriptor number is guaranteed to be the lowest-numbered file descriptor that
+ * was unused in the calling process.
+ * After a successful return, the old and new file descriptors may be used interchangeably. Since the two file
+ * descriptors may be used interchangeably. Since the two file descriptors refer to the same open file description,
+ * they share file offset and file status flags.
+ *
+ * - int dup2(int oldfd, int newfd) : same as 'dup()', but instead of using the lowest-numbered unused file
+ * descriptor, it uses the file descriptor number specified in 'newfd'. In other words, the file descriptor 'newfd'
+ * is adjusted so that it now refers to the same open file description as 'oldfd'.
+ * If the file descriptor 'newfd' was previously open, it is closed before being reused; the close is performed
+ * silently (i.e. any errors during the close are not reported by 'dup2()'.
+ * The steps of closing and reusing the file descriptor 'newfd' are performed 'atomically'. This is important,
+ * because trying to implement equivalent functionality using 'close()' and 'dup()' would be subject to race
+ * conditions, whereby 'newfd' might be reused between the two steps. Such reuse could happen because the
+ * main program is interrupted by a signal handler that allocates a file descriptor, or because a parallel
+ * thread allocates a file descriptor.
+ * Note the following points :
+ * 	- If 'oldfd' is not a valid file descriptor, then the call fails, and 'newfd' is not closed.
+ * 	- If 'oldfd' is a validd file descriptor, and 'newfd' has the same value as 'oldfd', then 'dup2()' does nothing
+ * and return 'newfd'.
+ */
+
+/*
+ * DIRENT LIBRARY
+ *
+ * - DIR *opendir(const char *name) : opens a directory stream corresponding to the directory 'name', and returns
+ * a pointer to the directory stream. The stream is positioned at the first entry in the directory.
+ *
+ * - struct dirent *readdir(DIR *drip) : returns a pointer to a 'dirent' structure representing the next directory
+ * entry in the directory stream pointed to by 'dirp'. It returns NULL on reaching the end of the directory stream
+ * or if an error occured.
+ * The 'dirent' structure is defined as follows:
+ *      struct dirent {
+ *          ino_t           d_ino;          Inode number
+ *          off_t           d_off;          Not an offset, see below.
+ *          unsigned short  d_reclen;       Length of this records.
+ *          unsigned char   d_type;         Type of file; not supported by all filesystem types.
+ *          char            d_name[256];    Null-terminated filename.
+ *       }
+ * The value returned by d_off is the current location associated with the directory stream 'dirp'. Be aware
+ * that despite its type and name, the d_off field is seldom any kind of directory offset on modern filesystems.
+ * Applications should treat this field as an opaque value, making no assumptions about its contents.
+ *
+ * - int closedir(DIR *dirp) : closes the directory stream associated with 'dirp'. A successful call to 'closedir()'
+ * also closes the underlying file descriptor associated with 'dirp'. The directory stream descriptor 'dirp' is
+ * not available after this call.
+ */
+
+/*
+ * ERROR HANDLING
+ *
+ * - char *strerror(int errnum) : returns a pointer to a string that describes the error code passed in the
+ * argument 'errnum'.
+ *
+ * - void perror(const char *s) : produces a message on standard error describing the last error encountered during
+ * a call to a system of library function.
+ * First (is 's' is not NULL and '*s' is not a null byte ('\0')), the argument string 's' is printed, followed by a
+ * colon and a blank. Then an error message corresponding to the current value of 'errno' and a new-line.
+ * To be of most use, the argument string should include the name of the function that incurred the error.
+ */
+
+/*
+ * TERMIOS LIBRARY
+ *
+ * - int isatty(int fd) : tests whether 'fd' is an open file descriptor referring to a terminal.
+ * returns 1 if 'fd' is an open file descriptor referring to a terminal, otherwise 0.
+ *
+ * - char *ttyname(int fd) : the function 'ttyname()' returns a pointer to the null-terminated pathname of the terminal
+ * device that is open on the file descriptor 'fd', or NULL on error (for example, if 'fd' is not connected to a
+ * terminal). The return value may point to static data, possibly overwritten by the next call.
+ *
+ * - int ttyslot(void) : returns the index of the current user's entry in some file.
+ * Need to do more research about this file.
+ *
+ * - char *getenv(const char *name) : searches the environment list to find the environment variable 'name', and
+ * returns a pointer to the corresponding 'value' string.
+ *
+ * - int tcsetattr(int fd, int optional_actions, const struct termios *termios_p) : the termios functions describe
+ * a general terminal interface that is provided to control asynchronous communications ports. Sets the parameters
+ * associated with the terminal (unless support is required from the underlying hardware that is not available) from
+ * the 'termios' structure referred to by 'termios_p'. 'optional_actions' specifies when the changes take effect
+ * The 'termios_p' structure contains at least the following members :
+ *      tcflag_t        c_iflag;            Input modes.
+ *      tcflag_t        c_oflag;            Output modes.
+ *      tcflag_t        c_cflag;            Control modes.
+ *      tcflag_t        c_lflag;            Local modes.
+ *      cc_t            c_cc[NCCS];         Special characters
+ *
+ * - int tcgetattr(int fd, struct termios *termios_p) : gets the parameters associated with the object referred
+ * by 'fd' and stores them in the 'termios' structure referenced by 'termios_p'. This function may be invoked from
+ * a background process; however, the terminal attributes may be subsequently changed by a foreground process.
+ */
+
+/*
+ * TERMCAP LIBRARY
+ *
+ * following functions are conversion aid for programs that use the 'termcap' library. Its parameters are the same
+ * and the routines are emulated using the 'terminfo' database. Thus, it can only be used to query the capabilities
+ * of entries for which a terminfo entry has been compiled.
+ *
+ * - int tgetent(char *bp, const char *name) : Loads the entry for 'name'. Returns 1 on success, 0 if there is no
+ * such entry, and -1 if the terminfo database could not be found. The emulation ignores the buffer pointer 'bp'.
+ *
+ * - int tgetflag(char *id) : routine gets the boolean entry for 'id', or zero if is not available.
+ *
+ * - int tgetnum(char *id) : routine gets the numeric entry for 'id', or -1 if it is not available.
+ *
+ * - char *tgetstr(char *id, char **area) : routine returns the string entry for 'id', or zero if it is nos available.
+ * Use 'tputs()' to output the returned string. The return value will also be copied to the buffer pointed to
+ * by area, and the area value will be updated to point past the null ending this value.
+ *
+ * - char *tgoto (const char *cap, int col, int row) : routine instantiates the parameters into the given capability.
+ * The output from this routine is to be passed to 'tputs()'.
+ *
+ * - int tputs(const char *str, int affcnt, int (*putc)(int)) : applies padding information (i.e., by interpreting
+ * marker embedded in the terminfo capability such as "$<5>" as 5 milliseconds) to the string 'str' and outputs it:
+ *  - The 'str' parameter must be a terminfo string variable or the return value from 'tgetstr()' or 'tgoto()'.
+ *  - 'affcnt' is the number of lines affected, or 1 if not applicable.
+ *  - 'putc' is a putchar-like routine to which the characters are passed, one at a time.
+ */

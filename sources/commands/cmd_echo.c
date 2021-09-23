@@ -3,3 +3,8 @@
 //
 
 #include "commands.h"
+
+/* echo with option -n : echo 'string'
+ * - echo writes the string entered as an argument on the standard output
+ * the option -n don't output the trailing newline
+ */

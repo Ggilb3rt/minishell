@@ -7,21 +7,19 @@
 
 # include "minishell.h"
 
-/* echo with option -n */
+/* echo with option -n : echo 'string' */
 
 /* cd with only a relative or absolute path */
 
 /* pwd with no options */
 
-/* export with no options */
+/* export with no options : export 'name'='word' */
 
-/* export with no options */
+/* unset with no options or arguments : unset 'name' */
 
-/* unset with no options or arguments */
+/* env with no options or arguments : env 'NAME'='value' */
 
-/* env with no options or arguments */
-
-/* exit with no options */
-void    cmd_exit(char *line);
+/* exit with no options : exit 'n' */
+int    cmd_exit(char *line);
 
 #endif

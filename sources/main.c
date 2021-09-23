@@ -1,6 +1,7 @@
 #include "minishell.h"
 
-/* create the loop that will run minishell */
+/* create the loop that will run minishell
+ */
 
 int main(void)
 {
@@ -11,8 +12,9 @@ int main(void)
     while (status)
     {
         line = readline("user@root > ");
-        cmd_exit(line);
-        add_history(line);
+        //parsing
+        if (!cmd_exit(line))
+            break ;
     }
     return (1);
 }

@@ -10,35 +10,42 @@ else
 	INCLUDE = -I /Users/$(USER)/.brew/opt/readline/include
 endif
 
+include sources.mk
 NAME = minishell
 CC = gcc
 FLAGS = -Wall -Werror -Wextra -g
 HEADER = includes
-include sources.mk
 SRC = sources
 OBJ = objects
-SOURCES =
 SRCS = $(addprefix $(SRC)/, $(SOURCES))
 OBJS = $(addprefix $(OBJ)/, $(SOURCES:.c=.o))
+RM = rm -rf
 
-all: $(NAME)
+all: $(OBJ) $(NAME)
 
-$OBJ:
+$(OBJ):
 	mkdir -p $@
+	cd objects && mkdir -p parsing
+	cd objects && mkdir -p commands
+	cd objects && mkdir -p history
+	cd objects && mkdir -p utils
+	cd objects && mkdir -p exec
+	cd objects && mkdir -p pipes
+	cd objects && mkdir -p redirs
 
-$(OBJS): | $OBJ
-
-$(OBJ)/%.o: $(SRC)/%.c | $OBJ
-	$(CC) $(FLAGS) -o $@ -c $^ -I$(HEADER) $(INCLUDE)
+$(OBJS): | $(OBJ)
 
 $(NAME): $(OBJS)
-	$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIB)
+	$(CC) $(FLAGS) -o $@ $^ $(LIB)
+
+$(OBJ)/%.o: $(SRC)/%.c | $(OBJ)
+	$(CC) $(FLAGS) -o $@ -c $^ -I$(HEADER) $(INCLUDE)
 
 clean:
-	rm -rf $(OBJ)
+	$(RM) $(OBJ)
 
 fclean: clean
-	rm -rf $(NAME)
+	$(RM) $(NAME)
 
 re: fclean all
 

@@ -4,10 +4,18 @@
 
 #include "history.h"
 
+/* external functions that we may use :
+ * - void add_history(const char *string) : Place string at the end of the history list. The associated
+ * data field (if any) is set to NULL.
+ * - void rl_clear_history(void) : Clear the history list by deleting all of the entries, in the same
+ * manner as the History library's 'clear_history()' function. This differs from 'clear_history' because it
+ * frees private data Readline saves in the history list.
+ */
+
 /* using_history : initialise history
  * - create file
  * - ...
- * /
+ */
 
 /* history_get_history_state : get state of history (offset, length, size)
  */
@@ -24,6 +32,6 @@
     }
 */
 
-/* clear_history : remove and free history
+/* clear_history or free_history_entry : remove and free history
  * use of the rl_clear_history function
  */
