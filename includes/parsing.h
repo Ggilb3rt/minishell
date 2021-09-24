@@ -7,4 +7,6 @@
 
 # include "minishell.h"
 
+int 	parse_line(char *str);
+
 #endif

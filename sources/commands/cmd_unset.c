@@ -11,3 +11,9 @@
  * cause the shell to abort.
  * NOTE : VARIABLE= is equivalent to VARIABLE=""
  */
+
+int 		cmd_unset(void)
+{
+	printf("USE OF THE UNSED COMMAND\n");
+	return (1);
+}

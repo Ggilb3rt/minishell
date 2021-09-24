@@ -30,8 +30,8 @@ $(OBJ):
 	cd objects && mkdir -p history
 	cd objects && mkdir -p utils
 	cd objects && mkdir -p exec
-	cd objects && mkdir -p pipes
-	cd objects && mkdir -p redirs
+	cd objects && mkdir -p env
+	cd objects && mkdir -p flux
 
 $(OBJS): | $(OBJ)
 

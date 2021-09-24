@@ -16,3 +16,9 @@
  * ' inhibit all interpretation of a sequence of characters.
  * " inhibit all interpretation of a sequence of characters except for $.
  */
+
+int 		cmd_export(void)
+{
+	printf("USE OF THE EXPORT COMMAND\n");
+	return (1);
+}

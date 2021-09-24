@@ -8,18 +8,23 @@
 # include "minishell.h"
 
 /* utils 1 (some libft functions) */
-int		ms_strlen(const char *str);
+size_t	ms_strlen(const char *str);
 int		ms_strcmp(const char *s1, const char *s2);
 
 /* utils 2
  * split
  */
-int		ms_split(char const *s, char c);
+char 	**ms_split(char const *s, char c);
 
 /* utils 3
+ * array count
+ */
+int 	array_count(char **arr);
+
+/* utils 4
  * handling errors
  * frees
  */
-void 	free_tab(char **tab);
+void 	free_tab(char **arr);
 
 #endif

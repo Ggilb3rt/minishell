@@ -38,32 +38,32 @@ static char	*sep_words(const char *str, int start, int finish)
 	return (word);
 }
 
-int	ms_split(char const *s, char c)
+char 	**ms_split(char const *s, char c)
 {
 	size_t	i;
 	size_t	j;
 	int 	count;
-	char 	**tab;
+	char 	**arr;
 
 	i = 0;
 	j = 0;
 	if (!s)
 		return (0);
-	tab = malloc(sizeof(char *) * (numb_words(s, c) + 1));
-	if (!tab)
+	arr = malloc(sizeof(char *) * (numb_words(s, c) + 1));
+	if (!arr)
 		return (0);
 	count = -1;
 	while (i <= ms_strlen(s))
 	{
 		if (s[i] != c && count < 0)
 			count = i;
-		else if ((s[i] == c || i = ms_strlen(s)) && count >= 0)
+		else if ((s[i] == c || i == ms_strlen(s)) && count >= 0)
 		{
-			tab[j++] = sep_words(s, count, i);
+			arr[j++] = sep_words(s, count, i);
 			count = -1;
 		}
 		i++;
 	}
-	tab[j] = 0;
-	return (tab);
+	arr[j] = 0;
+	return (arr);
 }

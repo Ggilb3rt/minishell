@@ -1,20 +1,17 @@
 //
-// Created by Antoine LANGLOIS on 23/09/2021.
+// Created by Antoine LANGLOIS on 24/09/2021.
 //
 
 #include "utils.h"
 
-void 	free_tab(char **tab)
+int 	array_count(char **arr)
 {
 	int i;
 
 	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		tab[i] = NULL;
+	if (!arr)
+		return (0);
+	while (arr[i])
 		i++;
-	}
-	free(tab);
-	tab = NULL;
+	return (i);
 }

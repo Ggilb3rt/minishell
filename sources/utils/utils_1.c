@@ -9,7 +9,7 @@
  * buffer pointed by 'buf'.
  */
 
-int ms_strlen(const char *str)
+size_t ms_strlen(const char *str)
 {
 	int 	i;
 

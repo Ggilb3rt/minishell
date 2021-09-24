@@ -20,11 +20,13 @@
 # include <sys/ioctl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
 # include "history.h"
 # include "parsing.h"
 # include "commands.h"
 # include "utils.h"
 # include "exec.h"
-
+# include "flux.h"
+# include "env.h"
 
 #endif

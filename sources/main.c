@@ -5,16 +5,13 @@
 
 int main(void)
 {
-    int status;
     char *line;
 
-    status = 1;
-    while (status)
+    while (1)
     {
         line = readline("user@root > ");
-        //parsing
-        if (!cmd_exit(line))
-            break ;
+        if (!parse_line(line))
+			break ;
     }
     return (1);
 }

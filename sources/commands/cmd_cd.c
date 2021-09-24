@@ -17,3 +17,9 @@
  * - int chdir(const char *path) : changes the current working directory of the calling process to the directory
  * specified in path.
  */
+
+int		cmd_cd(void)
+{
+	printf("USE OF THE CD COMMAND\n");
+	return (1);
+}

@@ -28,9 +28,11 @@
  * - The child's parent process ID is the same as the parent's process ID.
  */
 
+/*
 fork
 	perror
 
 	waitpid
 
 	execve
+*/

@@ -19,3 +19,9 @@
  * hat the length 'size' unless 'size' is zero, when 'buf' is allocated as big as necessary. The caller should
  * 'free' the returned buffer.
  */
+
+int 		cmd_pwd(void)
+{
+	printf("USE OF THE PWD COMMAND\n");
+	return (1);
+}
