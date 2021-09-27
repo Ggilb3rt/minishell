@@ -24,7 +24,7 @@ as line editing, history, file completion, wildcards, environment variable expan
 
 https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
 ------------------------------------------------------------------------------------------------------------------------
-What are the differents parts of a shell?
+What are the different parts of a shell?
 
 The shell implementation is divided into three parts : The parser, the executor and the shell subsystems.
 - The parser will reads the command line and puts it into a data structure called Command Table that will store the
@@ -48,6 +48,181 @@ together into words called tokens, and a parser that processes the tokens accord
 command table.
 
 https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
+------------------------------------------------------------------------------------------------------------------------
+How to declare the structures Command and SimpleCommand?
+
+The 'Command Table' is an array of 'simpleCommand' structs. A 'simpleCommand' struct contains members for the command
+and arguments of a single entry in the pipeline. The parser will look also at the command line and determine if there
+is anny input or output redirection based on symbols present in the command (i.e. < infile or > outfile).
+
+Here is an example of a command and the 'CommandTable' it generates:
+
+command : ls -al | grep me > file 1
+
+command table :
+    SimpleCommand array
+    ______________________________
+    | 0: | ls     | -al   | NULL |
+    ------------------------------
+    | 1: | grep   | me    | NULL |
+    ------------------------------
+
+    IO Redirection:
+    _____________________________________________
+    | in: default  | out: file1  | err: default  |
+    ---------------------------------------------
+
+// Command Data Structure
+
+// Describes a simple command and arguments
+struct SimpleCommand {
+        // Available space for arguments currently preallocated
+        int _numberOfAvailableArguments;
+
+        // Number of arguments
+        int _numberOfArguments;
+
+        // Array of arguments
+        char ** _arguments;
+
+        SimpleCommand();
+        void insertArgument( char * argument );
+};
+
+// Describes a complete command with the multiple pipes if any
+// and input/output redirection if any.
+struct Command {
+        int _numberOfAvailableSimpleCommands;
+        int _numberOfSimpleCommands;
+        SimpleCommand ** _simpleCommands;
+        char * _outFile;
+        char * _inputFile;
+        char * _errFile;
+        int _background;
+
+        void prompt();
+        void print();
+        void execute();
+        void clear();
+
+        Command();
+        void insertSimpleCommand( SimpleCommand * simpleCommand );
+
+        static Command _currentCommand;
+        static SimpleCommand *_currentSimpleCommand;
+};
+
+The constructor 'SimpleCommand::SimpleCommand' constructs a simple empty command.
+The method 'SimpleCommand::insertArgument(char *argument)' inserts a new argument into the SimpleCommand and enlarges
+the _arguments array if necessary. It also makes sure that the last element is NULL since that is required for the
+exec() system call.
+
+The constructor 'Command::Command()' constructs and empty command that will be populated with the method
+Command::'insertSimpleCommand(SimpleCommand *simpleCommand)'. insertSimpleCommand also enlarges the array
+_simpleCommands if necessary. The variables _outFile, _inputFile, _errFile will be NULL if no redirection was done,
+or the name of the file they are being redirected to.
+
+The variables _currentCommand and _currentCommand are static variables, that is there is only one for the whole class.
+These variables are used to build the Command and Simple command during the parsing of the command.
+
+The Command and SimpleCommand classes implement the main data structure we will use in the shell.
+
+https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
+------------------------------------------------------------------------------------------------------------------------
+How to implement the Lexical Analyzer?
+
+The Lexical analyzer separates input into tokens. It will read the characters one by one from the standard input, and
+form a token that will be passed to the parser. The lexical analyzer uses a file shell.l that contains regular
+expressions describing each of the tokens. The lexer will read the input character by character and it will try to
+match the input with each of the regular expressions. When a string in the input matches one of the regular expressions,
+it will execute the code {...} at the right of the regular expression. The following is a simplified version of shell.l
+that your shell will use :
+
+/*
+ * shell.l: simple lexical analyzer for the shell.
+ */
+
+%{
+
+#include <string.h>
+#include "y.tab.h"
+
+%}
+
+%%
+
+\n      {
+                return NEWLINE;
+}
+
+[ \t]   {
+                /* Discard spaces and tabs */
+        }
+
+">"     {
+                return GREAT;
+        }
+
+"<"     {
+                return LESS;
+        }
+
+">>"     {
+                return GREATGREAT;
+        }
+
+">&"     {
+                return GREATAMPERSAND;
+        }
+
+“|”    {
+                return PIPE;
+        }
+
+“&”    {
+                return AMPERSAND;
+       }
+
+
+[^ \t\n][^ \t\n]*  {
+                /* Assume that file names have only alpha chars */
+                yylval.string_val = strdup(yytext);
+                return WORD;
+        }
+
+/* Add more tokens here */
+
+.       {
+               /* Invalid character in input */
+               return NOTOKEN;
+        }
+
+%%
+
+The first part is a regular expression that describes the token that we expect to match. The action is a piece of C
+code that the programmer adds that is executed once the token matches the regular expression. In the example above
+when the character newline is found, lex will return the constant NEWLINE. We will describe later where the NEWLINE
+constants are defined.
+
+Here is a more complex token that describes a WORD. A WORD can be an argument for a command or the command itself.
+
+[^ \t\n][^ \t\n]* {
+    /* Assume that file names have only alpha chars */
+    yylval.string_val = strdup(yytext);
+    return (WORD);
+}
+
+the expression in [...] matches any character that is inside the brackets. The expression [^ ...] matches any
+character that is not inside the brackets. Therefore, [^ \t\n] describes a token that starts with a character that is
+not a space, tab or newline and is succeeded by zero or more characters that are not spaces, tabs or newlines. The
+token matched is in a variable called 'yytext'. Once a word is matched, a duplicate of the token matched is assigned
+to 'yyval.string_val' in the following statement:
+
+    yylval.string_val = strdup(yytext);
+
+this is the way the value of the token is passed to the parser. Finally, the constant 'WORD' is returned to the parser.
+
+
 ------------------------------------------------------------------------------------------------------------------------
 How to communicate between processes?
 

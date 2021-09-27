@@ -19,4 +19,5 @@ SOURCES = \
 		utils/utils_1.c \
 		utils/utils_2.c \
 		utils/utils_3.c \
-		utils/utils_4.c
+		utils/utils_4.c \
+		debug/debug.c

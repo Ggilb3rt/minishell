@@ -4,7 +4,7 @@
 
 #include "utils.h"
 
-int 	array_count(char **arr)
+int 	array_size(char **arr)
 {
 	int i;
 

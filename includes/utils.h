@@ -14,12 +14,12 @@ int		ms_strcmp(const char *s1, const char *s2);
 /* utils 2
  * split
  */
-char 	**ms_split(char const *s, char c);
+char 	**ms_split(const char *s, char c);
 
 /* utils 3
  * array count
  */
-int 	array_count(char **arr);
+int 	array_size(char **arr);
 
 /* utils 4
  * handling errors
