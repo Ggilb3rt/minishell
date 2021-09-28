@@ -36,65 +36,55 @@ static char	**get_arg(char **str, int i, int last)
 	j = 0;
 	diff = i - last;
 	new = malloc(sizeof(char *) * diff + 1);
+	if (!new)
+		return (0);
 	while (j < diff)
 	{
-		new[j] = str[last + j];
+		new[j] = ms_strdup(str[last + j]);
 		j++;
 	}
 	new[j] = NULL;
 	return (new);
 }
 
-static t_simple_command *get_symbol(char *str)
-{
-	t_simple_command *new;
+/*
+ * convert argument into token, here we have a little problem because when removing the first allocation (ERROR) of
+ * new[i], the first value of the array gives a strange output. Problem to solve
+ */
 
-	if (!str)
-		return (NULL);
-	new = malloc(sizeof(t_simple_command));
+char	**create_token(char **str)
+{
+	char	**new;
+	int		size;
+	int		i;
+
+	i = 0;
+	size = array_size(str);
+	new = malloc(sizeof(char) * size + 1);
 	if (!new)
 		return (NULL);
-	new->arg = &str;
-	new->numb = 0;
-	new->numb_avail = 0;
-	new->token = NULL;
-	new->next = NULL;
+	while (str[i])
+	{
+		new[i] = ms_strdup("ERROR");
+		if (!ms_strcmp(str[i], ">"))
+			new[i] = ms_strdup("GREAT");
+		else if (!ms_strcmp(str[i], "<"))
+			new[i] = ms_strdup("LESS");
+		else if (!ms_strcmp(str[i], ">>"))
+			new[i] = ms_strdup("GREATGREAT");
+		else if (!ms_strcmp(str[i], "<<"))
+			new[i] = ms_strdup("LESSLESS");
+		else if (!ms_strcmp(str[i], "|"))
+			new[i] = ms_strdup("PIPE");
+		else if (ms_is_alpha(str[i]))
+			new[i] = ms_strdup("WORD");
+		i++;
+	}
+	new[i] = NULL;
 	return (new);
 }
 
-void create_token(t_simple_command **list)
-{
-	t_simple_command *cur;
-	int	size;
-	int	i;
-
-	i = 0;
-	cur = *list;
-	while (cur->next != NULL)
-	{
-		size = array_size(cur->arg);
-		cur->token = malloc(sizeof(char *) * size + 1);
-		while (cur->arg[i])
-		{
-			printf("%s\n", cur->arg[i]);
-			if (!ms_strcmp(cur->arg[i], ">"))
-				cur->token[i] = ms_strdup("GREAT");
-			else if (!ms_strcmp(cur->arg[i], "<"))
-				cur->token[i] = ms_strdup("LESS");
-			else if (!ms_strcmp(cur->arg[i], ">>"))
-				cur->token[i] = ms_strdup("GREATGREAT");
-			else if (!ms_strcmp(cur->arg[i], "<<"))
-				cur->token[i] = ms_strdup("LESSLESS");
-			else if (!ms_strcmp(cur->arg[i], "|"))
-				cur->token[i] = ms_strdup("PIPE");
-			else if (ms_is_alpha(cur->arg[i]))
-				cur->token[i] = ms_strdup("WORD");
-			i++;
-		}
-		cur->token[i] = NULL;
-		cur = cur->next;
-	}
-}
+/* need to review this algo */
 
 int lexer(char **arg)
 {
@@ -106,32 +96,39 @@ int lexer(char **arg)
 
 	i = 0;
 	last = 0;
-	new = NULL;
 	list = malloc(sizeof(t_simple_command));
+	if (!list)
+		return (0);
 	while (arg[i])
 	{
 		if (!ms_strcmp(arg[i], "<") || !ms_strcmp(arg[i], ">") || !ms_strcmp(arg[i], "|")
 			|| !ms_strcmp(arg[i], "<<") || !ms_strcmp(arg[i], ">>"))
 		{
-			elem = get_symbol(arg[i]);
-			insert_command(elem, list);
-			new = get_arg(arg, i, last);
+			new = get_arg(arg, i + 1, last);
 			elem = alloc_command(new);
 			insert_command(elem, list);
-			last = i + 1;
+			last = i;
+			new = get_arg(arg, i, i);
+			elem = alloc_command(new);
+			insert_command(elem, list);
+			i++;
 		}
 		i++;
 	}
 	if (i - last > 0)
 	{
-		new = get_arg(arg, i, 0);
-		elem = alloc_command(new);
-		insert_command(elem, list);
+		if (!ms_strcmp(arg[i - (i - last)], "<") || !ms_strcmp(arg[i - (i - last)], ">") || !ms_strcmp(arg[i - (i - last)], "|")
+			|| !ms_strcmp(arg[i - (i - last)], "<<") || !ms_strcmp(arg[i - (i - last)], ">>"))
+		{
+			new = get_arg(arg, i, i - last);
+			elem = alloc_command(new);
+			insert_command(elem, list);
+			i++;
+		}
 		new = get_arg(arg, i, last);
 		elem = alloc_command(new);
 		insert_command(elem, list);
 	}
-	create_token(list);
 	print_simple_command(list);
 	return (0);
 }

@@ -52,6 +52,7 @@ typedef struct s_command
 
 /* parsing main */
 int 	parse_line(char *str);
+char	**create_token(char **str);
 
 /* parsing command */
 void 	insert_command(t_simple_command *new, t_simple_command **list_arg);

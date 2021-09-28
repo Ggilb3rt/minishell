@@ -13,18 +13,21 @@ static void	*list_last(t_simple_command *list)
 	return (list);
 }
 
-void 	insert_command(t_simple_command *new, t_simple_command **list_arg) {
+void 	insert_command(t_simple_command *new, t_simple_command **list)
+{
 	t_simple_command *cur;
 
 	if (!new)
 		return;
-	if (!*list_arg) {
-		new->next = *list_arg;
-		*list_arg = new;
+	new->next = NULL;
+	if (!*list)
+	{
+		new->next = *list;
+		*list = new;
 	}
 	else
 	{
-		cur = list_last(*list_arg);
+		cur = list_last(*list);
 		cur->next = new;
 		cur->next->next = NULL;
 	}
@@ -40,8 +43,9 @@ t_simple_command	*alloc_command(char **str)
 	if (!new)
 		return (NULL);
 	new->arg = str;
-	new->numb_avail++;
-	new->numb++;
+	new->token = create_token(new->arg);
+	new->numb_avail = 0;
+	new->numb = 0;
 	new->next = NULL;
 	return (new);
 }
