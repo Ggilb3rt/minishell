@@ -23,7 +23,7 @@
 
 # include "history.h"
 # include "parsing.h"
-# include "commands.h"
+# include "builtins.h"
 # include "utils.h"
 # include "exec.h"
 # include "flux.h"
