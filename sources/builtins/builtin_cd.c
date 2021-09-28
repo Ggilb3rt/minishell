@@ -2,7 +2,7 @@
 // Created by Antoine LANGLOIS on 22/09/2021.
 //
 
-#include "commands.h"
+#include "minishell.h"
 
 /* cd with only a relative or absolute path
  * - cd shall change the working directory of the current shell execution environment

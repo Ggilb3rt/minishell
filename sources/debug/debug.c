@@ -20,11 +20,20 @@ int print_simple_command(t_simple_command **sc)
 		arr_size = array_size(cur->arg);
 		while (i < arr_size)
 		{
-			printf("arg[%i] = %s\n", count, cur->arg[i]);
+			printf("arg[%i] = %s, token[%i] = %s\n", count, cur->arg[i], count, cur->token[i]);
 			i++;
 		}
 		cur = cur->next;
 		count++;
 	}
+	/*
+	i = 0;
+	arr_size = array_size(cur->arg);
+	while (i < arr_size)
+	{
+		printf("arg[%i] = %s, token[%i] = %s\n", count, cur->arg[i], count, cur->token[i]);
+		i++;
+	}
+	 */
 	return (0);
 }

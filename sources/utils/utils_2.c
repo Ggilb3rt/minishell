@@ -2,7 +2,7 @@
 // Created by Antoine LANGLOIS on 23/09/2021.
 //
 
-#include "utils.h"
+#include "minishell.h"
 
 static int 	numb_words(const char *str, char c)
 {

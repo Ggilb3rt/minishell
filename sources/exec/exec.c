@@ -2,7 +2,7 @@
 // Created by Antoine LANGLOIS on 23/09/2021.
 //
 
-#include "exec.h"
+#include "minishell.h"
 
 /* external functions that we may use :
  * - int execve(const char *pathname, char *const argv[], char *const envp[]) : executes the program referred to by

@@ -10,6 +10,8 @@
 /* utils 1 (some libft functions) */
 size_t	ms_strlen(const char *str);
 int		ms_strcmp(const char *s1, const char *s2);
+char 	*ms_strdup(const char *str);
+int 	ms_is_alpha(const char *str);
 
 /* utils 2
  * split

@@ -20,6 +20,7 @@ typedef struct s_simple_command
 	int 					numb_avail;
 	int 					numb;
 	char 					**arg;
+	char					**token;
 	struct s_simple_command	*next;
 	//simple_command();
 	//void insert_argument(char *argument);
@@ -49,7 +50,12 @@ typedef struct s_command
 	//static t_simple_command	*cur_simple_command;
 }				t_command;
 
+/* parsing main */
 int 	parse_line(char *str);
+
+/* parsing command */
+void 	insert_command(t_simple_command *new, t_simple_command **list_arg);
+t_simple_command	*alloc_command(char **str);
 
 /* debug */
 int print_simple_command(t_simple_command **sc);

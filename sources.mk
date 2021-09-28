@@ -1,6 +1,7 @@
 SOURCES = \
 		main.c \
-		parsing/parsing.c \
+		parsing/parsing_main.c \
+		parsing/parsing_command.c \
 		history/history.c \
 		env/env.c \
 		exec/exec.c \
@@ -9,13 +10,13 @@ SOURCES = \
 		flux/flux_pipe.c \
 		flux/flux_redir_input.c \
 		flux/flux_redir_output.c \
-		commands/cmd_echo.c \
-		commands/cmd_cd.c \
-		commands/cmd_env.c \
-		commands/cmd_exit.c \
-		commands/cmd_export.c \
-		commands/cmd_pwd.c \
-		commands/cmd_unset.c \
+		builtins/builtin_echo.c \
+		builtins/builtin_cd.c \
+		builtins/builtin_env.c \
+		builtins/builtin_exit.c \
+		builtins/builtin_export.c \
+		builtins/builtin_pwd.c \
+		builtins/builtin_unset.c \
 		utils/utils_1.c \
 		utils/utils_2.c \
 		utils/utils_3.c \

@@ -39,3 +39,34 @@ int ms_strcmp(const char *s1, const char *s2)
     }
     return (c1 - c2);
 }
+
+char 	*ms_strdup(const char *s)
+{
+	char	*str;
+	int		len;
+	int		i;
+
+	i = 0;
+	len = ms_strlen(s) + 1;
+	str = malloc(sizeof(char) * len);
+	if (!str)
+		return (NULL);
+	while (i < len)
+	{
+		str[i] = s[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+int 	ms_is_alpha(const char *str)
+{
+	while (*str)
+	{
+		if ((*str < 'a' || *str > 'z') && (*str < 'A' || *str > 'Z') && (*str != '-'))
+			return (0);
+		str++;
+	}
+	return (1);
+}

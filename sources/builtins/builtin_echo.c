@@ -2,7 +2,7 @@
 // Created by Antoine LANGLOIS on 22/09/2021.
 //
 
-#include "commands.h"
+#include "minishell.h"
 
 /* echo with option -n : echo 'string'
  * - echo writes the string entered as an argument on the standard output

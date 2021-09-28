@@ -2,7 +2,7 @@
 // Created by Antoine LANGLOIS on 22/09/2021.
 //
 
-#include "commands.h"
+#include "minishell.h"
 
 /* unset with no options or arguments : unset 'name'
  * - Unset values and attributes of variables and functions

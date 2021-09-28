@@ -2,7 +2,7 @@
 // Created by Antoine LANGLOIS on 23/09/2021.
 //
 
-#include "utils.h"
+#include "minishell.h"
 
 void 	free_tab(char **arr)
 {

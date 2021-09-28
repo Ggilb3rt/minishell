@@ -2,7 +2,7 @@
 // Created by Antoine LANGLOIS on 22/09/2021.
 //
 
-#include "commands.h"
+#include "minishell.h"
 
 /* pwd with no options
  * - print the full filename of the current working directory

@@ -2,7 +2,7 @@
 // Created by Antoine LANGLOIS on 22/09/2021.
 //
 
-#include "commands.h"
+#include "minishell.h"
 
 /* exit with no options : exit 'n'
  * - cause the shell to exit from its current execution environment with the exit status specified by the
