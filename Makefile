@@ -26,7 +26,7 @@ all: $(OBJ) $(NAME)
 $(OBJ):
 	mkdir -p $@
 	cd objects && mkdir -p parsing
-	cd objects && mkdir -p commands
+	cd objects && mkdir -p builtins
 	cd objects && mkdir -p history
 	cd objects && mkdir -p utils
 	cd objects && mkdir -p exec
