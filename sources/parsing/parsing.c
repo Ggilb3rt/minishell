@@ -40,19 +40,40 @@ static void 	insert_command(char **str, t_simple_command **list_arg)
 	(*list_arg)->next = NULL;
 	(*list_arg)->arg = str;
 	if (!*list_arg)
-		*list_arg = new;
+	{
+		new->next = *list_arg;
+		(*list_arg) = new;
+	}
 	else
 	{
-		cur = *list_arg;
+		cur = (*list_arg);
 		while (cur->next != NULL)
 			cur = cur->next;
 		cur->next = new;
 		cur->next->next = NULL;
 	}
 	(*list_arg)->numb_avail = 0;
-	(*list_arg)->numb = list_size(*list_arg);
+	(*list_arg)->numb = list_size((*list_arg));
 }
+/*
+static int size_arg(char **commands)
+{
+	int i;
+	int count;
 
+	i = 0;
+	count = 1;
+	while (commands[i])
+	{
+		if (!ms_strcmp(commands[i], "<") || !ms_strcmp(commands[i], ">") || !ms_strcmp(commands[i], "|")
+			|| !ms_strcmp(commands[i], "<<") || !ms_strcmp(commands[i], ">>"))
+			count++;
+		i++;
+	}
+	printf("count = %i\n", count);
+	return (count);
+}
+*/
 static char	**get_arg(char **str, int i, int last)
 {
 	char **new;
@@ -64,6 +85,7 @@ static char	**get_arg(char **str, int i, int last)
 	new = malloc(sizeof(char *) * diff + 1);
 	while (j < diff)
 	{
+		//printf("str[%i] = %s\n", last + j, str[last + j]);
 		new[j] = str[last + j];
 		j++;
 	}
@@ -97,22 +119,21 @@ int lexer(char **commands)
 		}
 		i++;
 	}
+	//printf("%i - %i = %i\n", i, last, i - last);
 	if (i - last > 0)
 	{
 		new = get_arg(commands, i, last);
 		insert_command(new, &list_arg);
 		new = NULL;
 	}
-	print_simple_command(list_arg);
+	print_simple_command(&list_arg);
 	return (0);
 }
 
 int		parse_line(char *str)
 {
 	char	**commands;
-	int		i;
 
-	i = 0;
 	commands = ms_split(str, ' ');
 	lexer(commands);
 	return (1);

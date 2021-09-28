@@ -52,6 +52,6 @@ typedef struct s_command
 int 	parse_line(char *str);
 
 /* debug */
-int print_simple_command(t_simple_command *sc);
+int print_simple_command(t_simple_command **sc);
 
 #endif
