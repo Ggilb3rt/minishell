@@ -20,6 +20,7 @@
 # include <sys/ioctl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <errno.h>
 
 # include "history.h"
 # include "parsing.h"

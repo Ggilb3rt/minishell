@@ -20,12 +20,13 @@
 /* env with no options or arguments : env 'NAME'='value' */
 
 /* exit with no options : exit 'n' */
-int		builtin_echo(void);
-int 	builtin_env(void);
-int		builtin_cd(void);
-int 	builtin_pwd(void);
-int 	builtin_export(void);
-int		builtin_unset(void);
-int 	builtin_exit(void);
+
+int	cmd_echo(char *str);
+int	builtin_env(void);
+int	builtin_cd(void);
+int	cmd_pwd(void);
+int builtin_export(void);
+int	builtin_unset(void);
+int	builtin_exit(void);
 
 #endif

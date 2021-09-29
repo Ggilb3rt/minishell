@@ -20,8 +20,20 @@
  * 'free' the returned buffer.
  */
 
-int 		cmd_pwd(void)
+// ! need to print in the good fd, do I need to manage it here or with pipe ?
+
+int	cmd_pwd(void)
 {
-	printf("USE OF THE PWD COMMAND\n");
-	return (1);
+	char	*buf;
+
+	buf = NULL;
+	buf = getcwd(buf, 0);
+	if (!buf)
+	{
+		perror("BUILTIN PWD ERROR");
+		return (errno);
+	}
+	printf("USE OF THE PWD COMMAND : %s\n", buf);
+	free(buf);
+	return (0);
 }

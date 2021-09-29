@@ -8,7 +8,7 @@
  * - run a program in a modified environment. Set each 'NAME' to 'value' in the environment.
  */
 
-int 		cmd_env(void)
+int	cmd_env(void)
 {
 	printf("USE OF THE ENV COMMAND\n");
 	return (1);

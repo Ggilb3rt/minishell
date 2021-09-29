@@ -3,15 +3,18 @@
 /* create the loop that will run minishell
  */
 
-int main(void)
+int	main(void)
 {
-    char *line;
+	char	*line;
 
-    while (1)
-    {
-        line = readline("user@root > ");
-        if (!parse_line(line))
+	while (1)
+	{
+		line = readline("user@root > ");
+		if (!parse_line(line))
 			break ;
-    }
-    return (1);
+		add_history(line);
+		cmd_pwd();
+		cmd_echo("-n");
+	}
+	return (1);
 }
