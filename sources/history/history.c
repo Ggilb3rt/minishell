@@ -35,3 +35,14 @@
 /* clear_history or free_history_entry : remove and free history
  * use of the rl_clear_history function
  */
+
+/*
+? Inside minishell :
+* up and down arrow keys => use rl_replace_line ? need signals ?
+* Can change value (backspace) => need to put history value in a buffer and modify that buffer. Use Termios ?
+! I just add add_history() in main and it's works...
+
+? Outside minishell :
+* create file .ms_history
+* append readline to the file even if error
+*/

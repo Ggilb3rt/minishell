@@ -9,9 +9,9 @@
  * buffer pointed by 'buf'.
  */
 
-size_t ms_strlen(const char *str)
+size_t	ms_strlen(const char *str)
 {
-	int 	i;
+	int	i;
 
 	i = 0;
 	while (*str++)
@@ -19,28 +19,28 @@ size_t ms_strlen(const char *str)
 	return (i);
 }
 
-int ms_strcmp(const char *s1, const char *s2)
+int	ms_strcmp(const char *s1, const char *s2)
 {
-    const unsigned char *p1;
-    const unsigned char *p2;
-    unsigned char       c1;
-    unsigned char       c2;
+	const unsigned char	*p1;
+	const unsigned char	*p2;
+	unsigned char		c1;
+	unsigned char		c2;
 
-    p1 = (const unsigned char *)s1;
-    p2 = (const unsigned char *)s2;
-    c1 = *p1;
-    c2 = *p2;
-    while (c1 == c2)
-    {
-        c1 = (unsigned char)*p1++;
-        c2 = (unsigned char)*p2++;
-        if (c1 == '\0')
-            return (c1 - c2);
-    }
-    return (c1 - c2);
+	p1 = (const unsigned char *)s1;
+	p2 = (const unsigned char *)s2;
+	c1 = *p1;
+	c2 = *p2;
+	while (c1 == c2)
+	{
+		c1 = (unsigned char)*p1++;
+		c2 = (unsigned char)*p2++;
+		if (c1 == '\0')
+			return (c1 - c2);
+	}
+	return (c1 - c2);
 }
 
-char 	*ms_strdup(const char *s)
+char	*ms_strdup(const char *s)
 {
 	char	*str;
 	int		len;
@@ -60,13 +60,42 @@ char 	*ms_strdup(const char *s)
 	return (str);
 }
 
-int 	ms_is_alpha(const char *str)
+int	ms_is_alpha(const char *str)
 {
 	while (*str)
 	{
-		if ((*str < 'a' || *str > 'z') && (*str < 'A' || *str > 'Z') && (*str != '-'))
+		if ((*str < 'a' || *str > 'z')
+			&& (*str < 'A' || *str > 'Z')
+			&& (*str != '-'))
 			return (0);
 		str++;
 	}
 	return (1);
+}
+
+char	*ms_strnstr(const char *haystack, const char *needle, size_t len)
+{
+	char	*start;
+	char	*pattern;
+	size_t	c;
+
+	while (*haystack && len)
+	{
+		start = (char *)haystack;
+		pattern = (char *)needle;
+		c = len;
+		while (*haystack && *pattern && *haystack == *pattern && c)
+		{
+			haystack++;
+			pattern++;
+			c--;
+		}
+		if (!*pattern)
+			return (start);
+		haystack = start + 1;
+		len--;
+	}
+	if (!*needle)
+		return ((char *)haystack);
+	return (0);
 }
