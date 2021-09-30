@@ -1,7 +1,7 @@
 SOURCES = \
 		main.c \
 		parsing/parsing_main.c \
-		parsing/parsing_command.c \
+		parsing/parsing_elem.c \
 		history/history.c \
 		env/env.c \
 		exec/exec.c \
