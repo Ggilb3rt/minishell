@@ -11,22 +11,6 @@
  * - the subject specifies that we don't need to interpret unclosed quotes or unspecified special
  * characters
  */
-/*
-static int 	list_size(t_simple_command *list_arg)
-{
-	t_simple_command	*cur;
-	int 				i;
-
-	i = 0;
-	cur = list_arg;
-	while (cur->next != NULL)
-	{
-		i++;
-		cur = cur->next;
-	}
-	return (i);
-}
-*/
 
 /*
  * convert argument into token, here we have a little problem because when removing the first allocation (ERROR) of
@@ -52,9 +36,9 @@ char	**create_token(char **str)
 		else if (!ms_strcmp(str[i], "<"))
 			new[i] = ms_strdup("LESS");
 		else if (!ms_strcmp(str[i], ">>"))
-			new[i] = ms_strdup("GREATGREAT");
+			new[i] = ms_strdup("DGREAT");
 		else if (!ms_strcmp(str[i], "<<"))
-			new[i] = ms_strdup("LESSLESS");
+			new[i] = ms_strdup("DLESS");
 		else if (!ms_strcmp(str[i], "|"))
 			new[i] = ms_strdup("PIPE");
 		else if (ms_is_alpha(str[i]))
@@ -128,7 +112,7 @@ int lexer(char **arg)
 	}
 	if (i - cur > 0)
 		cur = convert(list, arg, i, cur);
-	print_simple_command(list);
+	//print_simple_command(list);
 	return (0);
 }
 
