@@ -28,7 +28,7 @@ need to interpret ~ and -
 - print pwd
 */
 
-char	*go_old_path(char *path, char **env)
+char	*get_old_path(char *path, char **env)
 {
 	int		len;
 	int		env_old_pwd;
@@ -39,32 +39,39 @@ char	*go_old_path(char *path, char **env)
 	env_old_pwd = 0;
 	if (path[0] == '-')
 	{
-		while (path[len] == ' ')
-			len++;
-		if (len == 1)
-			return (path);
-		//free(path)
-		path = ms_strdup(get_env_val("OLDPWD"));
+		if (ms_strlen(path) > 1)
+		{
+			if (path[1] != ' ')
+			{
+				return (path);
+			}
+		}
+		//free(path);
+		path = get_env_val("OLDPWD", env);
 	}
 	return (path);
 }
 
+/*
+dont use path because must free (with path maybe need free)
+*/
 int	cmd_cd(char *path, char **env)
 {
 	int		err;
 	char	*msg;
 
 	msg = NULL;
-	(void)env;
-	path = go_old_path(path, **env);
+	path = get_old_path(path, env);
 	err = chdir(path);
 	if (err == -1)
 	{
 		msg = ms_strjoin("cd: ", path);
 		perror(msg);
 		free(msg);
+		// ? free(path)
 		return (1);
 	}
+	// ? free(path)
 	printf("USE OF THE CD COMMAND : %s\n", path);
 	return (0);
 }

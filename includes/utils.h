@@ -12,12 +12,14 @@ size_t	ms_strlen(const char *str);
 int		ms_strcmp(const char *s1, const char *s2);
 char	*ms_strdup(const char *str);
 int		ms_is_alpha(const char *str);
-char	*ms_strjoin(char const *s1, char const *s2);
+char	*ms_strnstr(const char *haystack, const char *needle, size_t len);
+
 
 /* utils 2
- * split
+ * split and join
  */
 char	**ms_split(const char *s, char c);
+char	*ms_strjoin(char const *s1, char const *s2);
 
 /* utils 3
  * array count
@@ -30,4 +32,9 @@ int		array_size(char **arr);
  */
 void	free_tab(char **arr);
 
+
+/* utils 5
+ * env handler
+ */
+char	*get_env_val(char *to_find, char **env);
 #endif

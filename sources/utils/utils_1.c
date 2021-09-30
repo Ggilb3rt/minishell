@@ -73,31 +73,29 @@ int	ms_is_alpha(const char *str)
 	return (1);
 }
 
-char	*ms_strjoin(char const *s1, char const *s2)
+char	*ms_strnstr(const char *haystack, const char *needle, size_t len)
 {
-	char	*c;
-	size_t	s1l;
-	size_t	s2l;
+	char	*start;
+	char	*pattern;
+	size_t	c;
 
-	if (s1 == NULL || s2 == NULL)
-		return (0);
-	s1l = ms_strlen(s1);
-	s2l = ms_strlen(s2);
-	c = malloc((s1l + s2l + 1) * sizeof(*c));
-	if (c == NULL)
-		return (0);
-	while (*s1)
+	while (*haystack && len)
 	{
-		*c = *s1;
-		c++;
-		s1++;
+		start = (char *)haystack;
+		pattern = (char *)needle;
+		c = len;
+		while (*haystack && *pattern && *haystack == *pattern && c)
+		{
+			haystack++;
+			pattern++;
+			c--;
+		}
+		if (!*pattern)
+			return (start);
+		haystack = start + 1;
+		len--;
 	}
-	while (*s2)
-	{
-		*c = *s2;
-		c++;
-		s2++;
-	}
-	*c = '\0';
-	return (c - s1l - s2l);
+	if (!*needle)
+		return ((char *)haystack);
+	return (0);
 }

@@ -53,7 +53,6 @@ int	cmd_echo(char *str)
 		return (1);
 	flag = is_flag(words[0]);
 	print_words(words, flag);
-	//printf("USE OF THE ECHO COMMAND : %s", str);
 	free_tab(words);
 	return (0);
 }
