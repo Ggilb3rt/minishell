@@ -9,9 +9,9 @@
  * buffer pointed by 'buf'.
  */
 
-size_t ms_strlen(const char *str)
+size_t	ms_strlen(const char *str)
 {
-	int 	i;
+	int	i;
 
 	i = 0;
 	while (*str++)
@@ -19,28 +19,28 @@ size_t ms_strlen(const char *str)
 	return (i);
 }
 
-int ms_strcmp(const char *s1, const char *s2)
+int	ms_strcmp(const char *s1, const char *s2)
 {
-    const unsigned char *p1;
-    const unsigned char *p2;
-    unsigned char       c1;
-    unsigned char       c2;
+	const unsigned char	*p1;
+	const unsigned char	*p2;
+	unsigned char		c1;
+	unsigned char		c2;
 
-    p1 = (const unsigned char *)s1;
-    p2 = (const unsigned char *)s2;
-    c1 = *p1;
-    c2 = *p2;
-    while (c1 == c2)
-    {
-        c1 = (unsigned char)*p1++;
-        c2 = (unsigned char)*p2++;
-        if (c1 == '\0')
-            return (c1 - c2);
-    }
-    return (c1 - c2);
+	p1 = (const unsigned char *)s1;
+	p2 = (const unsigned char *)s2;
+	c1 = *p1;
+	c2 = *p2;
+	while (c1 == c2)
+	{
+		c1 = (unsigned char)*p1++;
+		c2 = (unsigned char)*p2++;
+		if (c1 == '\0')
+			return (c1 - c2);
+	}
+	return (c1 - c2);
 }
 
-char 	*ms_strdup(const char *s)
+char	*ms_strdup(const char *s)
 {
 	char	*str;
 	int		len;
@@ -60,13 +60,44 @@ char 	*ms_strdup(const char *s)
 	return (str);
 }
 
-int 	ms_is_alpha(const char *str)
+int	ms_is_alpha(const char *str)
 {
 	while (*str)
 	{
-		if ((*str < 'a' || *str > 'z') && (*str < 'A' || *str > 'Z') && (*str != '-'))
+		if ((*str < 'a' || *str > 'z')
+			&& (*str < 'A' || *str > 'Z')
+			&& (*str != '-'))
 			return (0);
 		str++;
 	}
 	return (1);
+}
+
+char	*ms_strjoin(char const *s1, char const *s2)
+{
+	char	*c;
+	size_t	s1l;
+	size_t	s2l;
+
+	if (s1 == NULL || s2 == NULL)
+		return (0);
+	s1l = ms_strlen(s1);
+	s2l = ms_strlen(s2);
+	c = malloc((s1l + s2l + 1) * sizeof(*c));
+	if (c == NULL)
+		return (0);
+	while (*s1)
+	{
+		*c = *s1;
+		c++;
+		s1++;
+	}
+	while (*s2)
+	{
+		*c = *s2;
+		c++;
+		s2++;
+	}
+	*c = '\0';
+	return (c - s1l - s2l);
 }

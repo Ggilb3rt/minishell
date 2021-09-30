@@ -23,7 +23,7 @@
 
 int	cmd_echo(char *str);
 int	builtin_env(void);
-int	builtin_cd(void);
+int	cmd_cd(char *path, char **env);
 int	cmd_pwd(void);
 int builtin_export(void);
 int	builtin_unset(void);

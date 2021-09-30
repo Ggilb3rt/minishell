@@ -33,7 +33,7 @@ int	cmd_pwd(void)
 		perror("BUILTIN PWD ERROR");
 		return (errno);
 	}
-	printf("USE OF THE PWD COMMAND : %s\n", buf);
+	printf("%s\n", buf);
 	free(buf);
 	return (0);
 }

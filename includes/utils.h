@@ -10,23 +10,24 @@
 /* utils 1 (some libft functions) */
 size_t	ms_strlen(const char *str);
 int		ms_strcmp(const char *s1, const char *s2);
-char 	*ms_strdup(const char *str);
-int 	ms_is_alpha(const char *str);
+char	*ms_strdup(const char *str);
+int		ms_is_alpha(const char *str);
+char	*ms_strjoin(char const *s1, char const *s2);
 
 /* utils 2
  * split
  */
-char 	**ms_split(const char *s, char c);
+char	**ms_split(const char *s, char c);
 
 /* utils 3
  * array count
  */
-int 	array_size(char **arr);
+int		array_size(char **arr);
 
 /* utils 4
  * handling errors
  * frees
  */
-void 	free_tab(char **arr);
+void	free_tab(char **arr);
 
 #endif

@@ -18,8 +18,53 @@
  * specified in path.
  */
 
-int		cmd_cd(void)
+/*
+return 0 if ok, 1 otherwise (permission denied, No such file or directory)
+
+need to interpret ~ and -
+~ = $HOME
+- = $OLDPWD ; - can't be -/something ? he must be alone ?
+
+- print pwd
+*/
+
+char	*go_old_path(char *path, char **env)
 {
-	printf("USE OF THE CD COMMAND\n");
-	return (1);
+	int		len;
+	int		env_old_pwd;
+
+	if (!path)
+		return (NULL);
+	len = 0;
+	env_old_pwd = 0;
+	if (path[0] == '-')
+	{
+		while (path[len] == ' ')
+			len++;
+		if (len == 1)
+			return (path);
+		//free(path)
+		path = ms_strdup(get_env_val("OLDPWD"));
+	}
+	return (path);
+}
+
+int	cmd_cd(char *path, char **env)
+{
+	int		err;
+	char	*msg;
+
+	msg = NULL;
+	(void)env;
+	path = go_old_path(path, **env);
+	err = chdir(path);
+	if (err == -1)
+	{
+		msg = ms_strjoin("cd: ", path);
+		perror(msg);
+		free(msg);
+		return (1);
+	}
+	printf("USE OF THE CD COMMAND : %s\n", path);
+	return (0);
 }
