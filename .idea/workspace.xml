@@ -9,14 +9,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="38a0a9c6-b4c1-4eeb-8f08-36be4f12c2db" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/minishell.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/minishell.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/parsing.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/parsing.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/debug/debug.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/debug/debug.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_command.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_command.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_main.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_main.c" afterDir="false" />
-    </list>
+    <list default="true" id="38a0a9c6-b4c1-4eeb-8f08-36be4f12c2db" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,13 +43,7 @@
     <property name="cf.first.check.clang-format" value="false" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="cmake.loaded.for.project" value="true" />
-  </component>
-  <component name="RunManager">
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
+    <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -67,7 +54,10 @@
       <option name="presentableId" value="Default" />
       <updated>1632820825431</updated>
       <workItem from="1632820827372" duration="6139000" />
-      <workItem from="1632861989928" duration="1000" />
+      <workItem from="1632861989928" duration="65000" />
+      <workItem from="1632998876289" duration="526000" />
+      <workItem from="1633003384349" duration="5299000" />
+      <workItem from="1633010499189" duration="1000" />
     </task>
     <servers />
   </component>

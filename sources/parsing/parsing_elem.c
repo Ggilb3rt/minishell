@@ -13,7 +13,7 @@ static void	*list_last(t_simple_command *list)
 	return (list);
 }
 
-void 	insert_command(t_simple_command *new, t_simple_command **list)
+void 	add_elem(t_simple_command *new, t_simple_command **list)
 {
 	t_simple_command *cur;
 
@@ -33,12 +33,10 @@ void 	insert_command(t_simple_command *new, t_simple_command **list)
 	}
 }
 
-t_simple_command	*alloc_command(char **str)
+t_simple_command	*alloc_elem(char **str)
 {
 	t_simple_command *new;
 
-	if (!str)
-		return (NULL);
 	new = malloc(sizeof(t_simple_command));
 	if (!new)
 		return (NULL);

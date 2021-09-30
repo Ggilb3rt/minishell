@@ -53,10 +53,11 @@ typedef struct s_command
 /* parsing main */
 int 	parse_line(char *str);
 char	**create_token(char **str);
+int		convert(t_simple_command **list, char **arg, int i, int cur);
 
 /* parsing command */
-void 	insert_command(t_simple_command *new, t_simple_command **list_arg);
-t_simple_command	*alloc_command(char **str);
+void 				add_elem(t_simple_command *new, t_simple_command **list_arg);
+t_simple_command	*alloc_elem(char **str);
 
 /* debug */
 int print_simple_command(t_simple_command **sc);
