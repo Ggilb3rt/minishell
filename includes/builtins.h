@@ -21,6 +21,14 @@
 
 /* exit with no options : exit 'n' */
 
+typedef struct s_ms_envp
+{
+	char		*content;
+	t_ms_envp	*next;
+}	t_ms_envp;
+
+t_ms_envp	init_ms_envp(char **env);
+
 int	cmd_echo(char *str);
 int	builtin_env(void);
 int	cmd_cd(char *path, char **env);
