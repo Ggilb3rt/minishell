@@ -23,7 +23,7 @@ return 0 if ok, 1 otherwise (permission denied, No such file or directory)
 
 need to interpret ~ and -
 ~ = $HOME
-- = $OLDPWD ; - can't be -/something ? he must be alone ?
+- = $OLDPWD ; working, need parsing to see if I must free(path)
 
 - print pwd
 */
@@ -68,10 +68,8 @@ int	cmd_cd(char *path, char **env)
 		msg = ms_strjoin("cd: ", path);
 		perror(msg);
 		free(msg);
-		// ? free(path)
 		return (1);
 	}
-	// ? free(path)
 	printf("USE OF THE CD COMMAND : %s\n", path);
 	return (0);
 }
