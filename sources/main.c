@@ -3,14 +3,14 @@
 /* create the loop that will run minishell
  */
 
-int	main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **envp)
 {
 	char		*line;
 	t_ms_envp	ms_envp;
 
 	(void)ac;
 	(void)av;
-	ms_envp = init_ms_envp(env);
+	ms_envp = init_ms_envp(envp);
 	while (1)
 	{
 		line = readline("user@root > ");
