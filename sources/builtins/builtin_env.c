@@ -17,12 +17,13 @@
  * env NAME=pouet | echo $NAME	==> \n (env don't affect echo)
  */
 
-t_ms_envp	init_ms_envp(char **env)
+/*t_ms_envp	init_ms_envp(char **env)
 {
 	t_ms_envp	new;
 
+	(void)new;
 	return (new);
-}
+}*/
 
 int	cmd_env(void)
 {

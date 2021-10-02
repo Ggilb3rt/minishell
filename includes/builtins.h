@@ -23,8 +23,8 @@
 
 typedef struct s_ms_envp
 {
-	char		*content;
-	t_ms_envp	*next;
+	char				*content;
+	struct s_ms_envp	*next;
 }	t_ms_envp;
 
 t_ms_envp	init_ms_envp(char **env);

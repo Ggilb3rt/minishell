@@ -6,11 +6,11 @@
 int	main(int ac, char **av, char **envp)
 {
 	char		*line;
-	t_ms_envp	ms_envp;
 
 	(void)ac;
 	(void)av;
-	ms_envp = init_ms_envp(envp);
+	(void)envp;
+	envp_test();
 	while (1)
 	{
 		line = readline("user@root > ");

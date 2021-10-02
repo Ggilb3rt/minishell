@@ -8,3 +8,12 @@
 # include "minishell.h"
 
 #endif //MINISHELL_ENV_H
+
+typedef struct s_list_envp
+{
+	char				*content;
+	struct s_list_envp	*next;
+}	t_list_envp;
+
+
+void envp_test();

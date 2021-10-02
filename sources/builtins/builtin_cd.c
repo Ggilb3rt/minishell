@@ -30,13 +30,8 @@ need to interpret ~ and -
 
 char	*get_old_path(char *path, char **env)
 {
-	int		len;
-	int		env_old_pwd;
-
 	if (!path)
 		return (NULL);
-	len = 0;
-	env_old_pwd = 0;
 	if (path[0] == '-')
 	{
 		if (ms_strlen(path) > 1)
