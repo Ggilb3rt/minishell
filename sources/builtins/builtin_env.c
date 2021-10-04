@@ -25,8 +25,8 @@
 	return (new);
 }*/
 
-int	cmd_env(void)
+int	cmd_env(t_list_envp *ms_envp)
 {
-	printf("USE OF THE ENV COMMAND\n");
-	return (1);
+	print_envp(ms_envp);
+	return (0);
 }

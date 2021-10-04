@@ -11,7 +11,7 @@ void	print_envp(t_list_envp *head)
 	current = head;
 	while (current != NULL)
 	{
-		printf("%s | %p\n", current->content, current->next);
+		printf("%s\n", current->content);
 		current = current->next;
 	}
 }
@@ -86,19 +86,27 @@ int	ms_lst_pop_end(t_list_envp *head)
 	return (1);
 }
 
-void envp_test()
+void	ms_lst_free_all(t_list_envp *head)
 {
-	t_list_envp *new;
+	while (head->next != NULL)
+		ms_lst_pop_end(head);
+	remove_lst_content(head->content);
+	free(head);
+	head = NULL; // inutil
+}
 
-	new = new_char_list("poeut");
-	ms_lst_push_end(&new, new_char_list("tropic"));
-	//ms_lst_push_end(&new, new_char_list("cancer"));
-	print_envp(new);
-	ms_lst_pop_end(new);
-	//ms_lst_push_end(&new, new_char_list("capricorne"));
-	print_envp(new);
-	while (new != NULL)
+t_list_envp	*create_msenvp_lst(char **envp)
+{
+	t_list_envp	*ms_envp;
+	int	i;
+
+	i = 0;
+	ms_envp = new_char_list(envp[i]);
+	i++;
+	while (envp[i] != NULL)
 	{
-		printf("p : %p\nd: %d\n", new, ms_lst_pop_end(new));
+		ms_lst_push_end(&ms_envp, new_char_list(envp[i]));
+		i++;
 	}
+	return (ms_envp);
 }

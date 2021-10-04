@@ -6,12 +6,74 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 14:36:36 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/09/30 17:18:51 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/10/04 16:10:08 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
+
+/*
+* this two functions was use to find **envp value
+* but now we use ms_envp (list)
+! need to recreate them with list
+*/
+size_t	get_ms_env_len(t_list_envp *ms_env)
+{
+	size_t		i;
+	t_list_envp	*tmp;
+
+	i = 0;
+	tmp = ms_env;
+	while (tmp->next != NULL)
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	i++;
+	printf("env len = %lu\n", i);
+	return (i);
+}
+
+int	get_ms_env_index(char *to_find, t_list_envp *ms_env)
+{
+	int			index;
+	size_t		len_to_find;
+	t_list_envp	*tmp;
+	size_t		len_ms_env;
+
+	index = 0;
+	tmp = ms_env;
+	len_ms_env = get_ms_env_len(tmp);
+	len_to_find = ms_strlen(to_find);
+	while (index < (int)len_ms_env)
+	{
+		if (ms_strnstr(tmp->content, to_find, len_to_find))
+			break;
+		index++;
+		tmp = tmp->next;
+	}
+	if (index == (int)len_ms_env)
+		return (-1);
+	return (index);
+}
+
+char	*get_ms_env_val(char *to_find, t_list_envp *ms_env)
+{
+	int			i;
+	t_list_envp	*tmp;
+	
+	tmp = ms_env;
+	i = get_ms_env_index(to_find, tmp);
+	if (i < 0)
+		return (NULL);
+	while (i-- > 0)
+		tmp = tmp->next;
+	return (tmp->content);
+}
+
+// LEGACY
+/*
 char	*get_env_val(char *to_find, char **env)
 {
 	int		i;
@@ -35,3 +97,4 @@ int	get_env_index(char *to_find, char **env)
 		i++;
 	return (i);
 }
+*/

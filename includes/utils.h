@@ -35,7 +35,10 @@ void	free_tab(char **arr);
 /* utils 5
  * env handler
  */
-char	*get_env_val(char *to_find, char **env);
-int		get_env_index(char *to_find, char **env);
+//char	*get_env_val(char *to_find, char **env);
+//int		get_env_index(char *to_find, char **env);
+char	*get_ms_env_val(char *to_find, t_list_envp *ms_env);
+int		get_ms_env_index(char *to_find, t_list_envp *ms_env);
+
 
 #endif

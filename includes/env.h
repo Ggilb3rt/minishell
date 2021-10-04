@@ -15,5 +15,6 @@ typedef struct s_list_envp
 	struct s_list_envp	*next;
 }	t_list_envp;
 
-
-void envp_test();
+void		print_envp(t_list_envp *head);
+t_list_envp	*create_msenvp_lst(char **envp);
+void		ms_lst_free_all(t_list_envp *head);

@@ -21,17 +21,9 @@
 
 /* exit with no options : exit 'n' */
 
-typedef struct s_ms_envp
-{
-	char				*content;
-	struct s_ms_envp	*next;
-}	t_ms_envp;
-
-t_ms_envp	init_ms_envp(char **env);
-
 int	cmd_echo(char *str);
-int	builtin_env(void);
-int	cmd_cd(char *path, char **env);
+int	cmd_env(t_list_envp *ms_envp);
+int	cmd_cd(char *path, t_list_envp *env);
 int	cmd_pwd(void);
 int builtin_export(void);
 int	builtin_unset(void);
