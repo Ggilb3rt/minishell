@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 14:36:36 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/10/04 16:10:08 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/10/04 17:12:51 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ size_t	get_ms_env_len(t_list_envp *ms_env)
 		tmp = tmp->next;
 	}
 	i++;
-	printf("env len = %lu\n", i);
 	return (i);
 }
 
@@ -72,8 +71,6 @@ char	*get_ms_env_val(char *to_find, t_list_envp *ms_env)
 	return (tmp->content);
 }
 
-// LEGACY
-/*
 char	*get_env_val(char *to_find, char **env)
 {
 	int		i;
@@ -97,4 +94,4 @@ int	get_env_index(char *to_find, char **env)
 		i++;
 	return (i);
 }
-*/
+

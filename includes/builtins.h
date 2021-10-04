@@ -23,9 +23,9 @@
 
 int	cmd_echo(char *str);
 int	cmd_env(t_list_envp *ms_envp);
-int	cmd_cd(char *path, t_list_envp *env);
-int	cmd_pwd(void);
-int builtin_export(void);
+int	cmd_cd(char *path, t_list_envp *env, char **envp);
+int	cmd_pwd(char *ms_pwd_val, int print);
+int	builtin_export(void);
 int	builtin_unset(void);
 int	builtin_exit(void);
 
