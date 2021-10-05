@@ -6,12 +6,11 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 14:36:36 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/10/04 17:12:51 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/10/05 15:32:37 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
-
 
 /*
 * this two functions was use to find **envp value
@@ -48,7 +47,7 @@ int	get_ms_env_index(char *to_find, t_list_envp *ms_env)
 	while (index < (int)len_ms_env)
 	{
 		if (ms_strnstr(tmp->content, to_find, len_to_find))
-			break;
+			break ;
 		index++;
 		tmp = tmp->next;
 	}
@@ -61,7 +60,7 @@ char	*get_ms_env_val(char *to_find, t_list_envp *ms_env)
 {
 	int			i;
 	t_list_envp	*tmp;
-	
+
 	tmp = ms_env;
 	i = get_ms_env_index(to_find, tmp);
 	if (i < 0)
@@ -94,4 +93,3 @@ int	get_env_index(char *to_find, char **env)
 		i++;
 	return (i);
 }
-

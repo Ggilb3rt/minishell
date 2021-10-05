@@ -4,6 +4,7 @@ SOURCES = \
 		parsing/parsing_elem.c \
 		history/history.c \
 		env/env.c \
+		env/env_edit.c \
 		exec/exec.c \
 		flux/flux_append.c \
 		flux/flux_heredoc.c \

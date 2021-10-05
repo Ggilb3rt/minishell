@@ -22,14 +22,10 @@
 
 // ! need to print in the good fd, do I need to manage it here or with pipe ?
 
-/* return int or char * ?
-	nothing in the man (linux)
-	when echo $? after pwd got 0 in bash
-*/
-
-int	cmd_pwd(char *ms_pwd, int print)
+int	cmd_pwd(t_list_envp *env, int print)
 {
 	char	*buf;
+	char	*new_pdw;
 
 	buf = NULL;
 	buf = getcwd(buf, 0);
@@ -38,14 +34,11 @@ int	cmd_pwd(char *ms_pwd, int print)
 		perror("BUILTIN PWD ERROR");
 		return (errno);
 	}
-	(void)ms_pwd;
-	/*printf("before %s | %p\n", ms_pwd, ms_pwd);
-	free(ms_pwd);
-	printf("freed %p\n", ms_pwd);
-	ms_pwd = ms_strdup("poeut");
-	printf("after %s | %p\n", ms_pwd, ms_pwd);*/
+	new_pdw = ms_strjoin(PWD, buf);
+	edit_lst_content(env, get_ms_env_index(PWD, env), new_pdw);
 	if (print)
 		printf("%s\n", buf);
+	free(new_pdw);
 	free(buf);
 	return (0);
 }

@@ -32,6 +32,8 @@ char	*select_path_dash_op(char *path, t_list_envp *ms_env)
 {
 	if (!path)
 		return (NULL);
+	if (get_ms_env_index(OLDPWD, ms_env) == -1)
+		return (path);
 	if (path[0] == '-')
 	{
 		if (ms_strlen(path) > 1)
@@ -41,60 +43,41 @@ char	*select_path_dash_op(char *path, t_list_envp *ms_env)
 				return (path);
 			}
 		}
-		//free(path);
-		path = get_ms_env_val("OLDPWD", ms_env);
+		free(path);
+		path = get_ms_env_val(OLDPWD, ms_env);
+		path += ms_strlen(OLDPWD);
 	}
 	return (path);
 }
 
-char	*update_ms_env_value(char *new_val, int	ms_index, t_list_envp *ms_env)
+void	update_old_pwd(t_list_envp *env)
 {
-	// free ms_env[index]->content
-	// ms_env[index]->content = strdup new_val
-	int			i;
+	char		*current_pwd;
+	int			index_old_pwd;
+	char		*next_old_pwd;
 	t_list_envp	*tmp;
 
-	i = 0;
-	tmp = ms_env;
-	printf("start update val tmp %p\n", tmp);
-	while (i++ < ms_index)
-		tmp = tmp->next;
-	free(tmp->content);
-	tmp->content = ms_strdup(new_val);
-	printf("strdup res %p | %s\n", tmp, tmp->content);
-	return (tmp->content);
-}
-
-char	*update_pwds(t_list_envp *ms_env, char **env)
-{
-	t_list_envp	*tmp;
-	char		*pwd;
-
-	tmp = ms_env;
-	printf("start update pwd tmp %p\n", tmp);
-	pwd = get_env_val("PWD", env);
-	pwd = update_ms_env_value(pwd, get_ms_env_index("PWD", ms_env), tmp);
-	// free env[PWD]->content
-	// env[PWD]->content = strdup(env[PWD])
-
-	// free env[OLDPWD]->content
-	// env[OLDPWD]->content = strdup(env[OLDPWD])
-	return (pwd);
+	tmp = env;
+	index_old_pwd = get_ms_env_index(OLDPWD, tmp);
+	if (index_old_pwd == -1)
+		return ;
+	current_pwd = get_ms_env_val(PWD, tmp);
+	current_pwd += ms_strlen(PWD);
+	next_old_pwd = ms_strjoin(OLDPWD, current_pwd);
+	edit_lst_content(tmp, index_old_pwd, next_old_pwd);
+	free(next_old_pwd);
 }
 
 /*
 dont use path because must free (with path maybe need free)
 
-! need to update pwd and oldpwd
 */
-int	cmd_cd(char *path, t_list_envp *ms_env, char **env)
+int	cmd_cd(char *path, t_list_envp *ms_env)
 {
 	int		err;
 	char	*msg;
-	//char	*next_old_path;
 
 	msg = NULL;
-	//next_old_path = get_ms_env_val("PWD", ms_env);
 	path = select_path_dash_op(path, ms_env);
 	err = chdir(path);
 	if (err == -1)
@@ -104,8 +87,8 @@ int	cmd_cd(char *path, t_list_envp *ms_env, char **env)
 		free(msg);
 		return (1);
 	}
-	//next_old_path = update_pwds(ms_env, env);
-	printf("USE OF THE CD COMMAND : %s\nNEWPWD %s\n", path,
-			get_env_val("PWD", env));
+	update_old_pwd(ms_env);
+	cmd_pwd(ms_env, 0);
+	printf("USE OF THE CD COMMAND : %s\n", path);
 	return (0);
 }
