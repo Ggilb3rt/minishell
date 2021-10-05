@@ -29,7 +29,7 @@ int	cmd_echo(char *str);
 int	cmd_env(t_list_envp *ms_envp);
 int	cmd_cd(char *path, t_list_envp *env);
 int	cmd_pwd(t_list_envp *env, int print);
-int	builtin_export(void);
+int	cmd_export(t_list_envp *env, char *arg);
 int	builtin_unset(void);
 int	builtin_exit(void);
 

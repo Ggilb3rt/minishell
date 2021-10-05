@@ -36,7 +36,7 @@ t_list_envp	*new_char_list(char *str)
 t_list_envp	*create_msenvp_lst(char **envp)
 {
 	t_list_envp	*ms_envp;
-	int	i;
+	int			i;
 
 	i = 0;
 	ms_envp = new_char_list(envp[i]);
