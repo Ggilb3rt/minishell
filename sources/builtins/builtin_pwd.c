@@ -38,11 +38,12 @@ int	cmd_pwd(char *ms_pwd, int print)
 		perror("BUILTIN PWD ERROR");
 		return (errno);
 	}
-	printf("before %s | %p\n", ms_pwd, ms_pwd);
+	(void)ms_pwd;
+	/*printf("before %s | %p\n", ms_pwd, ms_pwd);
 	free(ms_pwd);
 	printf("freed %p\n", ms_pwd);
 	ms_pwd = ms_strdup("poeut");
-	printf("after %s | %p\n", ms_pwd, ms_pwd);
+	printf("after %s | %p\n", ms_pwd, ms_pwd);*/
 	if (print)
 		printf("%s\n", buf);
 	free(buf);

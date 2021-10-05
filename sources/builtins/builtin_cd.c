@@ -47,7 +47,7 @@ char	*select_path_dash_op(char *path, t_list_envp *ms_env)
 	return (path);
 }
 
-void	update_ms_env_value(char *new_val, int	ms_index, t_list_envp *ms_env)
+char	*update_ms_env_value(char *new_val, int	ms_index, t_list_envp *ms_env)
 {
 	// free ms_env[index]->content
 	// ms_env[index]->content = strdup new_val
@@ -62,21 +62,24 @@ void	update_ms_env_value(char *new_val, int	ms_index, t_list_envp *ms_env)
 	free(tmp->content);
 	tmp->content = ms_strdup(new_val);
 	printf("strdup res %p | %s\n", tmp, tmp->content);
+	return (tmp->content);
 }
 
-void	update_pwds(t_list_envp *ms_env, char **env)
+char	*update_pwds(t_list_envp *ms_env, char **env)
 {
 	t_list_envp	*tmp;
+	char		*pwd;
 
 	tmp = ms_env;
 	printf("start update pwd tmp %p\n", tmp);
-	update_ms_env_value(get_env_val("PWD", env),
-					get_ms_env_index("PWD", ms_env), tmp);
+	pwd = get_env_val("PWD", env);
+	pwd = update_ms_env_value(pwd, get_ms_env_index("PWD", ms_env), tmp);
 	// free env[PWD]->content
 	// env[PWD]->content = strdup(env[PWD])
 
 	// free env[OLDPWD]->content
 	// env[OLDPWD]->content = strdup(env[OLDPWD])
+	return (pwd);
 }
 
 /*
@@ -88,10 +91,10 @@ int	cmd_cd(char *path, t_list_envp *ms_env, char **env)
 {
 	int		err;
 	char	*msg;
-//	char	*next_old_path;
+	//char	*next_old_path;
 
 	msg = NULL;
-//	next_old_path = get_ms_env_val("PWD", ms_env);
+	//next_old_path = get_ms_env_val("PWD", ms_env);
 	path = select_path_dash_op(path, ms_env);
 	err = chdir(path);
 	if (err == -1)
@@ -101,7 +104,7 @@ int	cmd_cd(char *path, t_list_envp *ms_env, char **env)
 		free(msg);
 		return (1);
 	}
-	update_pwds(ms_env, env);
+	//next_old_path = update_pwds(ms_env, env);
 	printf("USE OF THE CD COMMAND : %s\nNEWPWD %s\n", path,
 			get_env_val("PWD", env));
 	return (0);
