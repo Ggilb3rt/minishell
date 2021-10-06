@@ -6,17 +6,12 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 14:36:36 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/10/05 15:32:37 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/10/06 15:13:36 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-/*
-* this two functions was use to find **envp value
-* but now we use ms_envp (list)
-! need to recreate them with list
-*/
 size_t	get_ms_env_len(t_list_envp *ms_env)
 {
 	size_t		i;

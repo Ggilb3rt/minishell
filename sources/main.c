@@ -31,7 +31,9 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	ms_envp = create_msenvp_lst(envp);
-	cmd_export(ms_envp, "POUET=lol BIP=Boup err");
+	cmd_export(ms_envp, "POUET=lol err BIP=Boup PWD=/");
+	cmd_env(ms_envp);
+	//cmd_export(ms_envp, "");
 	/*while (1)
 	{
 		line = readline("user@root > ");

@@ -31,3 +31,10 @@ cmd_cd("- ", env);					==>	go $OLDPWD									ok
 cmd_cd("-     sdf", env);			==>	go $OLDPWD (ignore rest)					ok
 cmd_cd("-ldf", env);				==> cd: -l: invalid option						cd: -ldf: No such file or directory
 ```
+
+
+### export
+```
+cmd_export(ms_envp, "POUET=lol err BIP=Boup PWD=/");	==> print error with "err", others are add to ms_env
+cmd_export(ms_envp, "");								==> ??
+```

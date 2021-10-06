@@ -88,34 +88,59 @@ int	check_valide_identifier(char *arg)
 	return (i);
 }
 
-// char *arg must be change by char ** after
+char	*get_identifier(char *arg, int equal_pos)
+{
+	char	*identifier;
+	int		i;
+
+	i = 0;
+	identifier = malloc(sizeof(char) * (equal_pos + 2));
+	if (!identifier)
+		return (NULL);
+	while (i <= equal_pos)
+	{
+		identifier[i] = arg[i];
+		i++;
+	}
+	identifier[i] = '\0';
+	return (identifier);
+}
+
+// char *arg must be change by char ** after (remove split and free_tab)
 int	cmd_export(t_list_envp *env, char *arg)
 {
 	char	**args;
 	int		i;
+	int		has_err;
 	int		equal_pos;
+	char	*identifier;
 
 	args = ms_split(arg, ' ');
 	if (args == NULL)
 		return (0);
 	i = 0;
+	has_err = 0;
 	while (args[i] != NULL)
 	{
-		printf("arg = %s\n", args[i]);
-		//check if = present, get his position
 		equal_pos = check_valide_identifier(args[i]);
 		if (equal_pos > 0)
 		{
-			printf("Identifier is alnum and equal pos is %d\n", equal_pos);
-			// check in lst if identifier exist
+			identifier = get_identifier(args[i], equal_pos);
+			if (!identifier)
+				return (0);
+			if (get_ms_env_index(identifier, env) != -1)
+				edit_lst_content(env, get_ms_env_index(identifier, env), args[i]);
+			else
+				ms_lst_push_end(&env, new_char_list(args[i]));
+			free(identifier);
 		}
-		// upadte if before = exist
-		// create othewise
+		else
+		{
+			printf("export: not valid in this context: %s\n", args[i]);
+			has_err = 1;
+		}
 		i++;
 	}
-	ms_lst_push_end(&env, new_char_list("POUET=lol"));
-	printf("\nADD POUET\n");
-	cmd_env(env);
-	printf("USE OF THE EXPORT COMMAND\n");
-	return (0);
+	free_tab(args);
+	return (has_err);
 }
