@@ -23,7 +23,7 @@ int			ms_lst_pop_end(t_list_envp *head);
 void		ms_lst_free_all(t_list_envp *head);
 
 void		ms_lst_pop_inside(t_list_envp *current, t_list_envp *prev);
-t_list_envp	*ms_lst_point(int index, t_list_envp *ms_env);
+t_list_envp	*ms_lst_pop_first(t_list_envp *head);
 
 
 void		print_envp(t_list_envp *head);

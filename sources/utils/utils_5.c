@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 14:36:36 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/10/07 14:46:10 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/10/07 18:15:02 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,20 @@
 		POUETPOUET=pouet
 		POUET=lol
 	get_ms_env_index("POUET", ms_env) will return the first one but it's an error
+
+	cf to_find_sanitize
 */
+
+char	*to_find_sanitize(char *to_find)
+{
+	int		len;
+
+	len = ms_strlen(to_find);
+	if (to_find[--len] == '=')
+		return (ms_strjoin(to_find, ""));
+	else
+		return (ms_strjoin(to_find, "="));
+}
 
 size_t	get_ms_env_len(t_list_envp *ms_env)
 {
@@ -46,17 +59,20 @@ int	get_ms_env_index(char *to_find, t_list_envp *ms_env)
 	t_list_envp	*tmp;
 	size_t		len_ms_env;
 
-	index = 0;
+	index = -1;
 	tmp = ms_env;
+	to_find = to_find_sanitize(to_find);
+	if (!to_find)
+		return (-1);
 	len_ms_env = get_ms_env_len(tmp);
 	len_to_find = ms_strlen(to_find);
-	while (index < (int)len_ms_env)
+	while (++index < (int)len_ms_env)
 	{
 		if (ms_strnstr(tmp->content, to_find, len_to_find))
 			break ;
-		index++;
 		tmp = tmp->next;
 	}
+	free(to_find);
 	if (index == (int)len_ms_env)
 		return (-1);
 	return (index);
@@ -76,6 +92,19 @@ char	*get_ms_env_val(char *to_find, t_list_envp *ms_env)
 	return (tmp->content);
 }
 
+t_list_envp	*ms_lst_point(int index, t_list_envp *ms_env)
+{
+	t_list_envp	*tmp;
+
+	tmp = ms_env;
+	if (index < 0)
+		return (NULL);
+	while (index-- > 0)
+		tmp = tmp->next;
+	return (tmp);
+}
+
+/*
 char	*get_env_val(char *to_find, char **env)
 {
 	int		i;
@@ -99,3 +128,4 @@ int	get_env_index(char *to_find, char **env)
 		i++;
 	return (i);
 }
+*/

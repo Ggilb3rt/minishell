@@ -35,6 +35,14 @@ cmd_cd("-ldf", env);				==> cd: -l: invalid option						cd: -ldf: No such file o
 
 ### export
 ```
-cmd_export(ms_envp, "POUET=lol err BIP=Boup PWD=/");	==> print error with "err", others are add to ms_env
+cmd_export(ms_envp, "POUET=lol err BIP=Boup PWD=/ POUET=bip");	==> print error with "err", others are add to ms_env, pouet is add then update
 cmd_export(ms_envp, "");								==> ??
+```
+
+### unset
+Test to remove the first, the last
+```
+cmd_unset(&ms_envp, "ROBERT");	==> Remove ROBERT if exist, otherwise do nothing
+cmd_unset(&ms_envp, NULL);		==> Do nothing
+cmd_unset(&ms_envp, ms_split("TERM_PROGRAM PLOP POUET @sdf PWD ROBERT TERM"));	==> Remove if exist, otherwise do nothing, non valid print error
 ```

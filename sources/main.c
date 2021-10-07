@@ -31,9 +31,17 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	ms_envp = create_msenvp_lst(envp);
-	cmd_export(ms_envp, "POUET=lol err BIP=Boup PWD=/ PLOP=plop");
+	cmd_export(ms_envp, ms_split("POUET=lol err BIP=Boup PWD=/ PLOP=plop POUET=bip", ' '));
 	cmd_env(ms_envp);
-	printf("Pouet : %s | Pouet_prev : %s\n", pouet->content, pouet_prev->content);
+
+	char **pouet;
+	pouet = ms_split("TERM_PROGRAM PLOP POUET @sdf PWD ROBERT TERM", ' ');
+	cmd_unset(&ms_envp, pouet);
+	free_tab(pouet);
+
+	printf("%p\n\n\n", ms_envp);
+	cmd_env(ms_envp);
+
 	//cmd_export(ms_envp, "");
 	/*while (1)
 	{

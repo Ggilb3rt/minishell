@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 13:43:29 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/10/07 13:43:51 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/10/07 18:53:15 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,22 @@ int	ft_isalnum(int c)
 		return (1);
 	else
 		return (0);
+}
+
+int	ms_str_isalnum_under(char *s)
+{
+	int	i;
+
+	if (!s)
+		return (-1);
+	i = 0;
+	while (s[i] != '\0')
+	{
+		if (!ft_isalnum(s[i]) && s[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 char	*ms_strchr(const char *s, int c)

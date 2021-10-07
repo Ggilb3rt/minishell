@@ -38,7 +38,7 @@ int	check_valide_identifier(char *arg)
 	i = 0;
 	while (arg[i] != '\0' || arg[i] != '=')
 	{
-		if (!ft_isalnum(arg[i]))
+		if (!ft_isalnum(arg[i]) && arg[i] != '_')
 			break ;
 		i++;
 	}
@@ -81,15 +81,12 @@ int	export_update_env(t_list_envp *env, int equal_pos, char *arg)
 	return (1);
 }
 
-// char *arg must be change by char ** after (remove split and free_tab)
-int	cmd_export(t_list_envp *env, char *arg)
+int	cmd_export(t_list_envp *env, char **args)
 {
-	char	**args;
 	int		i;
 	int		has_err;
 	int		equal_pos;
 
-	args = ms_split(arg, ' ');
 	if (args == NULL)
 		return (0);
 	i = -1;
@@ -104,10 +101,10 @@ int	cmd_export(t_list_envp *env, char *arg)
 		}
 		else
 		{
-			printf("export: not valid in this context: %s\n", args[i]);
+			printf("minishell: export: not valid in this context: %s\n",
+				args[i]);
 			has_err = 1;
 		}
 	}
-	free_tab(args);
 	return (has_err);
 }
