@@ -47,3 +47,17 @@ t_simple_command	*alloc_elem(char **str)
 	new->next = NULL;
 	return (new);
 }
+
+void 		add_newline(t_simple_command **list, char **arg, int i)
+{
+	t_simple_command	*new;
+	char 				**arr;
+
+	arr = malloc(sizeof(char *));
+	arr[0] = "/";
+	if (arg[i] == NULL)
+	{
+		new = alloc_elem(arr);
+		add_elem(new, list);
+	}
+}

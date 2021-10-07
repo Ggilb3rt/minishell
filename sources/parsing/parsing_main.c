@@ -30,7 +30,6 @@ char	**create_token(char **str)
 		return (NULL);
 	while (str[i])
 	{
-		printf("\t%s ", str[i]);
 		if (!ms_strcmp(str[i], ">"))
 			new[i] = ms_strdup("GREAT");
 		else if (!ms_strcmp(str[i], "<"))
@@ -43,11 +42,12 @@ char	**create_token(char **str)
 			new[i] = ms_strdup("PIPE");
 		else if (ms_is_alpha(str[i]))
 			new[i] = ms_strdup("WORD");
+		else if (!ms_strcmp(str[i], "/"))
+			new[i] = ms_strdup("NEWLINE");
 		else
 			new[i] = ms_strdup("ERROR");
 		i++;
 	}
-	printf("\n");
 	new[i] = NULL;
 	return (new);
 }
@@ -92,7 +92,7 @@ int	convert(t_simple_command **list, char **arg, int i, int cur)
 	return (cur);
 }
 
-int lexer(char **arg)
+t_simple_command **lexer(char **arg)
 {
 	t_simple_command	**list;
 	int					i;
@@ -102,7 +102,7 @@ int lexer(char **arg)
 	cur = 0;
 	list = malloc(sizeof(t_simple_command *));
 	if (!list)
-		return (0);
+		return (NULL);
 	while (arg[i])
 	{
 		if (!ms_strcmp(arg[i], "<") || !ms_strcmp(arg[i], ">") || !ms_strcmp(arg[i], "|")
@@ -112,15 +112,18 @@ int lexer(char **arg)
 	}
 	if (i - cur > 0)
 		cur = convert(list, arg, i, cur);
-	//print_simple_command(list);
-	return (0);
+	add_newline(list, arg, i);
+	print_simple_command(list);
+	return (list);
 }
 
-int		parse_line(char *str)
+int		get_line(char *str)
 {
-	char	**arg;
+	t_simple_command	**list;
+	char				**arg;
 
 	arg = ms_split(str, ' ');
-	lexer(arg);
+	list = lexer(arg);
+	parser(list);
 	return (1);
 }

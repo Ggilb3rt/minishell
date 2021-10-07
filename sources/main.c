@@ -9,12 +9,14 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
+	(void)env;
 	while (1)
 	{
 		line = readline("user@root > ");
-		if (!parse_line(line))
+		if (!get_line(line))
 			break ;
 		add_history(line);
+		/*
 		printf("\ntests cd echo pwd\n");
 		cmd_pwd();
 		cmd_echo("-n");
@@ -37,6 +39,7 @@ int	main(int ac, char **av, char **env)
 		cmd_pwd();
 		cmd_cd("-   sdf", env);	// work
 		cmd_pwd();
+		 */
 	}
 	return (1);
 }
