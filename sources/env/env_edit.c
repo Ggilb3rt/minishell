@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 16:17:57 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/10/05 17:36:58 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/10/07 14:40:45 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,32 @@ void	edit_lst_content(t_list_envp *env, int index, char *new_val)
 	tmp = tmp->next;
 	free(tmp->content);
 	tmp->content = ms_strdup(new_val);
+}
+
+t_list_envp	*ms_lst_point(int index, t_list_envp *ms_env)
+{
+	t_list_envp	*tmp;
+
+	tmp = ms_env;
+	if (index <= 0)
+		return (ms_env);
+	while (index-- > 0)
+		tmp = tmp->next;
+	return (tmp);
+}
+
+void	ms_lst_pop_inside(t_list_envp *current, t_list_envp *prev)
+{
+	t_list_envp *tmp;
+
+	if (!current)
+		return ;
+	if (!prev)
+		return ;
+	if (current == prev)
+		return ;
+	tmp = current;
+	prev->next = current->next;
+	remove_lst_content(tmp->content);
+	free(tmp);
 }

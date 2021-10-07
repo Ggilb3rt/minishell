@@ -22,6 +22,10 @@ void		remove_lst_content(char *content);
 int			ms_lst_pop_end(t_list_envp *head);
 void		ms_lst_free_all(t_list_envp *head);
 
+void		ms_lst_pop_inside(t_list_envp *current, t_list_envp *prev);
+t_list_envp	*ms_lst_point(int index, t_list_envp *ms_env);
+
+
 void		print_envp(t_list_envp *head);
 t_list_envp	*new_char_list(char *str);
 t_list_envp	*create_msenvp_lst(char **envp);

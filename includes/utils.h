@@ -40,5 +40,11 @@ int		get_env_index(char *to_find, char **env);
 char	*get_ms_env_val(char *to_find, t_list_envp *ms_env);
 int		get_ms_env_index(char *to_find, t_list_envp *ms_env);
 
+/* utils_chr
+ */
+int		ft_isdigit(int c);
+int		ft_isalpha(int c);
+int		ft_isalnum(int c);
+char	*ms_strchr(const char *s, int c);
 
 #endif

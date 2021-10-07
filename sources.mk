@@ -23,4 +23,5 @@ SOURCES = \
 		utils/utils_3.c \
 		utils/utils_4.c \
 		utils/utils_5.c \
+		utils/utils_chr.c \
 		debug/debug.c

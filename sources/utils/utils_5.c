@@ -6,11 +6,22 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 14:36:36 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/10/06 15:13:36 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/10/07 14:46:10 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+
+/*
+! To avoid errors maybe to add function to check if "to_find"
+! has '=' at the end (if he don't add it ?)
+
+* ex :
+	if I add 
+		POUETPOUET=pouet
+		POUET=lol
+	get_ms_env_index("POUET", ms_env) will return the first one but it's an error
+*/
 
 size_t	get_ms_env_len(t_list_envp *ms_env)
 {

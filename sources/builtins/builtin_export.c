@@ -30,47 +30,6 @@ foreach item check if exist
 	if exist ==> update
 	if !exist ==> create
 */
-int	ft_isdigit(int c)
-{
-	if (c >= '0' && c <= '9')
-		return (1);
-	else
-		return (0);
-}
-
-int	ft_isalpha(int c)
-{
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (1);
-	else
-		return (0);
-}
-
-int	ft_isalnum(int c)
-{
-	if (ft_isalpha(c) || ft_isdigit(c))
-		return (1);
-	else
-		return (0);
-}
-
-char	*ms_strchr(const char *s, int c)
-{
-	while (*s)
-	{
-		if (*s != (char)c)
-			s++;
-		else
-			return ((char *)s);
-	}
-	if ((char)c == '\0')
-		return ((char *)s);
-	return (0);
-}
-
-
-
-
 
 int	check_valide_identifier(char *arg)
 {
@@ -106,6 +65,22 @@ char	*get_identifier(char *arg, int equal_pos)
 	return (identifier);
 }
 
+int	export_update_env(t_list_envp *env, int equal_pos, char *arg)
+{
+	char	*identifier;
+
+	identifier = get_identifier(arg, equal_pos);
+	if (!identifier)
+		return (0);
+	if (get_ms_env_index(identifier, env) != -1)
+		edit_lst_content(env, get_ms_env_index(identifier, env),
+			arg);
+	else
+		ms_lst_push_end(&env, new_char_list(arg));
+	free(identifier);
+	return (1);
+}
+
 // char *arg must be change by char ** after (remove split and free_tab)
 int	cmd_export(t_list_envp *env, char *arg)
 {
@@ -113,33 +88,25 @@ int	cmd_export(t_list_envp *env, char *arg)
 	int		i;
 	int		has_err;
 	int		equal_pos;
-	char	*identifier;
 
 	args = ms_split(arg, ' ');
 	if (args == NULL)
 		return (0);
-	i = 0;
+	i = -1;
 	has_err = 0;
-	while (args[i] != NULL)
+	while (args[++i] != NULL)
 	{
 		equal_pos = check_valide_identifier(args[i]);
 		if (equal_pos > 0)
 		{
-			identifier = get_identifier(args[i], equal_pos);
-			if (!identifier)
+			if (!export_update_env(env, equal_pos, args[i]))
 				return (0);
-			if (get_ms_env_index(identifier, env) != -1)
-				edit_lst_content(env, get_ms_env_index(identifier, env), args[i]);
-			else
-				ms_lst_push_end(&env, new_char_list(args[i]));
-			free(identifier);
 		}
 		else
 		{
 			printf("export: not valid in this context: %s\n", args[i]);
 			has_err = 1;
 		}
-		i++;
 	}
 	free_tab(args);
 	return (has_err);

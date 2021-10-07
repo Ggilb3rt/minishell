@@ -31,8 +31,9 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	ms_envp = create_msenvp_lst(envp);
-	cmd_export(ms_envp, "POUET=lol err BIP=Boup PWD=/");
+	cmd_export(ms_envp, "POUET=lol err BIP=Boup PWD=/ PLOP=plop");
 	cmd_env(ms_envp);
+	printf("Pouet : %s | Pouet_prev : %s\n", pouet->content, pouet_prev->content);
 	//cmd_export(ms_envp, "");
 	/*while (1)
 	{
