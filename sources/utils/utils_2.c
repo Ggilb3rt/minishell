@@ -42,8 +42,8 @@ char	**ms_split(char const *s, char c)
 {
 	size_t	i;
 	size_t	j;
-	int 	count;
-	char 	**arr;
+	int		count;
+	char	**arr;
 
 	i = 0;
 	j = 0;

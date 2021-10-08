@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 16:17:57 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/10/07 18:35:03 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/10/08 08:46:56 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,6 @@ void	ms_lst_push_end(t_list_envp **alst, t_list_envp *new)
 	}
 }
 
-void	remove_lst_content(char *content)
-{
-	if (content != NULL)
-		free(content);
-	content = NULL;
-}
-
 int	ms_lst_pop_end(t_list_envp *head)
 {
 	t_list_envp	*current;
@@ -48,7 +41,7 @@ int	ms_lst_pop_end(t_list_envp *head)
 	{
 		remove_lst_content(head->content);
 		free(head);
-		head = NULL; // inutil
+		head = NULL;
 		return (0);
 	}
 	current = head;
@@ -60,17 +53,6 @@ int	ms_lst_pop_end(t_list_envp *head)
 	free(current);
 	tmp->next = NULL;
 	return (1);
-}
-
-void	ms_lst_free_all(t_list_envp *head)
-{
-	if (!head)
-		return ;
-	while (head->next != NULL)
-		ms_lst_pop_end(head);
-	remove_lst_content(head->content);
-	free(head);
-	head = NULL; // inutil
 }
 
 void	edit_lst_content(t_list_envp *env, int index, char *new_val)
@@ -100,7 +82,7 @@ t_list_envp	*ms_lst_pop_first(t_list_envp *head)
 
 void	ms_lst_pop_inside(t_list_envp *current, t_list_envp *prev)
 {
-	t_list_envp *tmp;
+	t_list_envp	*tmp;
 
 	if (!current)
 		return ;
@@ -108,7 +90,6 @@ void	ms_lst_pop_inside(t_list_envp *current, t_list_envp *prev)
 		return ;
 	if (current == prev)
 	{
-		// do something clever
 		current = ms_lst_pop_first(current);
 		return ;
 	}

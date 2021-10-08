@@ -4,9 +4,9 @@
 
 #include "minishell.h"
 
-int 	array_size(char **arr)
+int	array_size(char **arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!arr || !*arr)

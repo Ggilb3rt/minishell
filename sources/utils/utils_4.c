@@ -4,9 +4,9 @@
 
 #include "minishell.h"
 
-void 	free_tab(char **arr)
+void	free_tab(char **arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (arr[i])

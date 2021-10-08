@@ -2,8 +2,8 @@
 // Created by Antoine LANGLOIS on 22/09/2021.
 //
 
-#ifndef MINISHELL_COMMANDS_H
-# define MINISHELL_COMMANDS_H
+#ifndef BUILTINS_H
+# define BUILTINS_H
 
 # include "minishell.h"
 

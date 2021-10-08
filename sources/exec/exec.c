@@ -36,3 +36,26 @@ fork
 
 	execve
 */
+
+// some trouble with free
+char	**convert_envplst_to_tab(t_list_envp *ms_env)
+{
+	char	**tmp_env;
+	size_t	len_ms_env;
+	size_t	i;
+
+	len_ms_env = get_ms_env_len(ms_env);
+	tmp_env = malloc(sizeof(char *) + (len_ms_env + 1));
+	if (!tmp_env)
+		return (NULL);
+	printf("malloc %p\n", tmp_env);
+	i = 0;
+	while (i < len_ms_env)
+	{
+		tmp_env[i] = ms_env->content;
+		ms_env = ms_env->next;
+		i++;
+	}
+	tmp_env[i] = NULL;
+	return (tmp_env);
+}

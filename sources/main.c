@@ -31,18 +31,28 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	ms_envp = create_msenvp_lst(envp);
-	cmd_export(ms_envp, ms_split("POUET=lol err BIP=Boup PWD=/ PLOP=plop POUET=bip", ' '));
+
+	char	**export = ms_split("POUET=lol err BIP=Boup PWD=/ PLOP=plop POUET=bip", ' ');
+	cmd_export(ms_envp, export);
 	cmd_env(ms_envp);
+	free_tab(export);
 
 	char **pouet;
 	pouet = ms_split("TERM_PROGRAM PLOP POUET @sdf PWD ROBERT TERM", ' ');
 	cmd_unset(&ms_envp, pouet);
 	free_tab(pouet);
+	pouet = NULL;
 
 	printf("%p\n\n\n", ms_envp);
 	cmd_env(ms_envp);
 
-	//cmd_export(ms_envp, "");
+	printf("\nChar ** point to lst (need with execve)\n\n");
+	char **pouet2 = convert_envplst_to_tab(ms_envp);
+	printf("Pouet : %p | %p\n", pouet2, ms_envp);
+	int	i = 0;
+	while (pouet2[i] != NULL)
+		printf("char **%s\n", pouet2[i++]);
+	//free(pouet2);
 	/*while (1)
 	{
 		line = readline("user@root > ");

@@ -5,6 +5,7 @@ SOURCES = \
 		history/history.c \
 		env/env.c \
 		env/env_edit.c \
+		env/env_free.c \
 		exec/exec.c \
 		flux/flux_append.c \
 		flux/flux_heredoc.c \
