@@ -4,8 +4,6 @@
 
 #include "parsing.h"
 
-
-
 t_command parse_simple_command(t_simple_command **list)
 {
 	t_simple_command *cur;
@@ -13,14 +11,13 @@ t_command parse_simple_command(t_simple_command **list)
 
 	if (!list)
 		return (NULL);
-	root = new_node(root, list);
+	*root = new_node(root, list);
 	if (!node)
 		return (NULL);
 	cur = *list;
 	while (ms_strcmp(cur->token[0], "NEWLINE") || cur->next != NULL)
 	{
-		//set_node_val_str(word, tok->text);
-		//add_child_node(node, word);
+		new_node(root, cur);
 		cur = cur->next;
 	}
 	return (node);

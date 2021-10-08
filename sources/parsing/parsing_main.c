@@ -94,7 +94,7 @@ int	convert(t_simple_command **list, char **arg, int i, int cur)
 
 t_simple_command **lexer(char **arg)
 {
-	t_simple_command	**list;
+	t_simple_command	*cmd;
 	int					i;
 	int 				cur;
 
@@ -119,11 +119,11 @@ t_simple_command **lexer(char **arg)
 
 int		get_line(char *str)
 {
-	t_simple_command	**list;
-	char				**arg;
+	t_command	*cmd;
+	char		**arg;
 
 	arg = ms_split(str, ' ');
-	list = lexer(arg);
-	parser(list);
+	cmd->list = lexer(arg);
+	parser(cmd->list);
 	return (1);
 }

@@ -35,7 +35,7 @@ typedef struct s_command
 {
 	int 					numb_avail_simple_commands;
 	int 					numb_simple_commands;
-	t_simple_command		**simple_command;
+	t_simple_command		**list;
 	char 					*out_file;
 	char 					*in_file;
 	char 					*err_file;
@@ -56,7 +56,7 @@ typedef struct s_node
 	struct s_node	*first_child;
 	struct s_node	*next_sibling;
 	struct s_node	*prev_sibling;
-};
+}				t_node;
 
 /* parsing main */
 int					get_line(char *str);
@@ -73,6 +73,7 @@ int					parser(t_simple_command **list);
 
 /* parsing node */
 t_node				new_node(t_node **root, t_simple_command **list);
+void				add_child_node(t_node *parent, t_node *child);
 
 /* debug */
 int print_simple_command(t_simple_command **sc);
