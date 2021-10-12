@@ -2,8 +2,8 @@ SOURCES = \
 		main.c \
 		parsing/parsing_main.c \
 		parsing/parsing_elem.c \
-		parsing/parsing_cmd.c \
-		parsing/parsing_node.c \
+		parsing/parsing_grammar.c \
+		parsing/parsing_token.c \
 		history/history.c \
 		env/env.c \
 		exec/exec.c \

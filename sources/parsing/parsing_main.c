@@ -17,40 +17,7 @@
  * new[i], the first value of the array gives a strange output. Problem to solve
  */
 
-char	**create_token(char **str)
-{
-	char	**new;
-	int		size;
-	int		i;
 
-	i = 0;
-	size = array_size(str);
-	new = malloc(sizeof(char *) * size + 1);
-	if (!new)
-		return (NULL);
-	while (str[i])
-	{
-		if (!ms_strcmp(str[i], ">"))
-			new[i] = ms_strdup("GREAT");
-		else if (!ms_strcmp(str[i], "<"))
-			new[i] = ms_strdup("LESS");
-		else if (!ms_strcmp(str[i], ">>"))
-			new[i] = ms_strdup("DGREAT");
-		else if (!ms_strcmp(str[i], "<<"))
-			new[i] = ms_strdup("DLESS");
-		else if (!ms_strcmp(str[i], "|"))
-			new[i] = ms_strdup("PIPE");
-		else if (ms_is_alpha(str[i]))
-			new[i] = ms_strdup("WORD");
-		else if (!ms_strcmp(str[i], "/"))
-			new[i] = ms_strdup("NEWLINE");
-		else
-			new[i] = ms_strdup("ERROR");
-		i++;
-	}
-	new[i] = NULL;
-	return (new);
-}
 
 static char	**get_arg(char **str, int i, int last)
 {
@@ -77,6 +44,7 @@ int	convert(t_simple_command **list, char **arg, int i, int cur)
 	char 				**new;
 	t_simple_command	*elem;
 
+
 	if (cur != 0)
 		cur++;
 	new = get_arg(arg, i, cur);
@@ -94,7 +62,7 @@ int	convert(t_simple_command **list, char **arg, int i, int cur)
 
 t_simple_command **lexer(char **arg)
 {
-	t_simple_command	*cmd;
+	t_simple_command	**list;
 	int					i;
 	int 				cur;
 
@@ -117,13 +85,12 @@ t_simple_command **lexer(char **arg)
 	return (list);
 }
 
-int		get_line(char *str)
+int		lexer_and_parser(char *str, t_command *cmd)
 {
-	t_command	*cmd;
 	char		**arg;
 
 	arg = ms_split(str, ' ');
 	cmd->list = lexer(arg);
-	parser(cmd->list);
+	parser(cmd);
 	return (1);
 }

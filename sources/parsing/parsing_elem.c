@@ -41,8 +41,7 @@ t_simple_command	*alloc_elem(char **str)
 	if (!new)
 		return (NULL);
 	new->arg = str;
-	new->token = create_token(new->arg);
-
+	new->token = create_token(new->arg[0]);
 	new->numb_avail = 0;
 	new->numb = 0;
 	new->next = NULL;

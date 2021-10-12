@@ -15,12 +15,22 @@
  * arg = array of arguments
  */
 
+# define ERROR 0
+# define WORD 1
+# define LESS 2
+# define GREAT 3
+# define DLESS 4
+# define DGREAT 5
+# define PIPE 6
+# define NWLINE 7
+
+
 typedef struct s_simple_command
 {
 	int 					numb_avail;
 	int 					numb;
 	char 					**arg;
-	char					**token;
+	int						token;
 	struct s_simple_command	*next;
 	//simple_command();
 	//void insert_argument(char *argument);
@@ -59,23 +69,26 @@ typedef struct s_node
 }				t_node;
 
 /* parsing main */
-int					get_line(char *str);
-char				**create_token(char **str);
+int					lexer_and_parser(char *str, t_command *cmd);
 int					convert(t_simple_command **list, char **arg, int i, int cur);
+
+/* parsing tokens */
+int					create_token(char *str);
 
 /* parsing element */
 void 				add_elem(t_simple_command *new, t_simple_command **list_arg);
 t_simple_command	*alloc_elem(char **str);
 void 				add_newline(t_simple_command **list, char **arg, int i);
 
-/* parsing command */
-int					parser(t_simple_command **list);
+/* parsing grammar */
+int					parser(t_command *cmd);
 
 /* parsing node */
 t_node				new_node(t_node **root, t_simple_command **list);
 void				add_child_node(t_node *parent, t_node *child);
 
 /* debug */
-int print_simple_command(t_simple_command **sc);
+int					print_simple_command(t_simple_command **sc);
+int					print_command(t_command *cmd);
 
 #endif
