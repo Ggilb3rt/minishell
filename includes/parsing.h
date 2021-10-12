@@ -59,6 +59,7 @@ typedef struct s_command
 	//static t_simple_command	*cur_simple_command;
 }				t_command;
 
+/*
 typedef struct s_node
 {
 	char 			**type;
@@ -67,10 +68,11 @@ typedef struct s_node
 	struct s_node	*next_sibling;
 	struct s_node	*prev_sibling;
 }				t_node;
+*/
 
 /* parsing main */
 int					lexer_and_parser(char *str, t_command *cmd);
-int					convert(t_simple_command **list, char **arg, int i, int cur);
+//int					convert(t_simple_command **list, char **arg, int i, int cur);
 
 /* parsing tokens */
 int					create_token(char *str);
@@ -83,9 +85,8 @@ void 				add_newline(t_simple_command **list, char **arg, int i);
 /* parsing grammar */
 int					parser(t_command *cmd);
 
-/* parsing node */
-t_node				new_node(t_node **root, t_simple_command **list);
-void				add_child_node(t_node *parent, t_node *child);
+/* parsing lexer */
+t_simple_command	**lexer(char **new);
 
 /* debug */
 int					print_simple_command(t_simple_command **sc);

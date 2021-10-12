@@ -4,6 +4,8 @@ SOURCES = \
 		parsing/parsing_elem.c \
 		parsing/parsing_grammar.c \
 		parsing/parsing_token.c \
+		parsing/parsing_error.c \
+		parsing/parsing_lexer.c \
 		history/history.c \
 		env/env.c \
 		exec/exec.c \

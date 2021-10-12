@@ -17,80 +17,77 @@
  * new[i], the first value of the array gives a strange output. Problem to solve
  */
 
-
-
-static char	**get_arg(char **str, int i, int last)
+static int  go_next_quote(char *str, int i)
 {
-	char	**new;
-	int		diff;
-	int		j;
-
-	j = 0;
-	diff = i - last;
-	new = malloc(sizeof(char *) * diff + 1);
-	if (!new)
-		return (0);
-	while (j < diff)
+	while (str[i] != '\"')
 	{
-		new[j] = ms_strdup(str[last + j]);
-		j++;
-	}
-	new[j] = NULL;
-	return (new);
-}
-
-int	convert(t_simple_command **list, char **arg, int i, int cur)
-{
-	char 				**new;
-	t_simple_command	*elem;
-
-
-	if (cur != 0)
-		cur++;
-	new = get_arg(arg, i, cur);
-	elem = alloc_elem(new);
-	add_elem(elem, list);
-	if (arg[i] != NULL)
-	{
-		cur = i;
-		new = get_arg(arg, i + 1, cur);
-		elem = alloc_elem(new);
-		add_elem(elem, list);
-	}
-	return (cur);
-}
-
-t_simple_command **lexer(char **arg)
-{
-	t_simple_command	**list;
-	int					i;
-	int 				cur;
-
-	i = 0;
-	cur = 0;
-	list = malloc(sizeof(t_simple_command *));
-	if (!list)
-		return (NULL);
-	while (arg[i])
-	{
-		if (!ms_strcmp(arg[i], "<") || !ms_strcmp(arg[i], ">") || !ms_strcmp(arg[i], "|")
-			|| !ms_strcmp(arg[i], "<<") || !ms_strcmp(arg[i], ">>"))
-			cur = convert(list, arg, i, cur);
+		if (str[i] == '\0')
+			return (0);
 		i++;
 	}
-	if (i - cur > 0)
-		cur = convert(list, arg, i, cur);
-	add_newline(list, arg, i);
-	print_simple_command(list);
-	return (list);
+	return (i);
+}
+
+static int 	word_count(char *str)
+{
+	int	nb_words;
+	int	trig;
+
+	nb_words = 0;
+	trig = 0;
+	while (str[i])
+	{
+		if (str[i] == '\"')
+		{
+			i += go_next_quote(str, i);
+		}
+		if (str[i] != ' ' && trig == 0)
+		{
+			trig = 1;
+			nb_words++;
+		}
+		else if (str[i] == ' ')
+			trig = 0;
+		str++;
+	}
+	printf("NBWORD = %d\n", nb_words);
+	return (nb_words);
+}
+
+static char **ms_split_quote(char *str)
+{
+	printf("STR = %s\n", str);
+	int	i;
+	char 	**new;
+	int 	size;
+
+	size = word_count(str);
+	(void)i;
+	(void)size;
+	new = NULL;
+	return (new);
 }
 
 int		lexer_and_parser(char *str, t_command *cmd)
 {
 	char		**arg;
+	//int 		ret;
 
-	arg = ms_split(str, ' ');
+	(void)cmd;
+	arg = ms_split_quote(str);
+	/*
 	cmd->list = lexer(arg);
-	parser(cmd);
+	if (!cmd->list)
+	{
+		printf("Error input string\n");
+		exit (0);
+	}
+	ret = parser(cmd);
+	if (!ret)
+	{
+		printf("Error synthax\n");
+		exit (0);
+	}
+	 */
 	return (1);
 }
