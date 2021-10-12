@@ -30,4 +30,6 @@
 # include "exec.h"
 # include "flux.h"
 
+# define UINT_MAX 4294967294
+
 #endif

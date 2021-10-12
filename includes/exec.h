@@ -9,5 +9,6 @@
 
 /* theses function will allow minishell to look for and run programs */
 char		**convert_envplst_to_tab(t_list_envp *ms_env);
+char		*init_cmd_path(char *cmd, char *paths);
 
 #endif

@@ -37,7 +37,7 @@ fork
 	execve
 */
 
-// some trouble with free
+// some trouble with free (I don't change anything, it's works on 42's Mac...)
 char	**convert_envplst_to_tab(t_list_envp *ms_env)
 {
 	char	**tmp_env;

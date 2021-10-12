@@ -22,8 +22,10 @@
 /* exit with no options : exit 'n' */
 
 // Usually used env var
+# define USER "USER="
 # define PWD "PWD="
 # define OLDPWD "OLDPWD="
+# define PATH "PATH="
 
 int	cmd_echo(char *str);
 int	cmd_env(t_list_envp *ms_envp);

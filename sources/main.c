@@ -27,39 +27,29 @@ int	main(int ac, char **av, char **envp)
 {
 	t_list_envp	*ms_envp;
 	//char		*line;
+	//char		*msg_prompt;
 
 	(void)ac;
 	(void)av;
 	ms_envp = create_msenvp_lst(envp);
 
-	char	**export = ms_split("POUET=lol err BIP=Boup PWD=/ PLOP=plop POUET=bip", ' ');
-	cmd_export(ms_envp, export);
-	cmd_env(ms_envp);
-	free_tab(export);
-
-	char **pouet;
-	pouet = ms_split("TERM_PROGRAM PLOP POUET @sdf PWD ROBERT TERM", ' ');
-	cmd_unset(&ms_envp, pouet);
-	free_tab(pouet);
-	pouet = NULL;
-
-	printf("%p\n\n\n", ms_envp);
-	cmd_env(ms_envp);
-
-	printf("\nChar ** point to lst (need with execve)\n\n");
-	char **pouet2 = convert_envplst_to_tab(ms_envp);
-	printf("Pouet : %p | %p\n", pouet2, ms_envp);
-	int	i = 0;
-	while (pouet2[i] != NULL)
-		printf("char **%s\n", pouet2[i++]);
-	//free(pouet2);
-	/*while (1)
+	/*
+	char **cmd = ms_split("/bin/ls -l", ' ');
+	cmd[0] = init_cmd_path(cmd[0], get_ms_env_val(PATH, ms_envp));
+	printf("pouet %s\n", cmd[0]);
+	int ret = execve(cmd[0], cmd, convert_envplst_to_tab(ms_envp));
+	printf("%d\n", ret);
+	strerror(errno);
+	*/
+	/*msg_prompt = ms_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
+	while (1)
 	{
-		line = readline("user@root > ");
+		line = readline(msg_prompt);
 		if (!parse_line(line))
 			break ;
 		add_history(line);
-	}*/
+	}
+	free(msg_prompt);*/
 	ms_lst_free_all(ms_envp);
 	return (1);
 }

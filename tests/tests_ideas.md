@@ -46,3 +46,11 @@ cmd_unset(&ms_envp, "ROBERT");	==> Remove ROBERT if exist, otherwise do nothing
 cmd_unset(&ms_envp, NULL);		==> Do nothing
 cmd_unset(&ms_envp, ms_split("TERM_PROGRAM PLOP POUET @sdf PWD ROBERT TERM"));	==> Remove if exist, otherwise do nothing, non valid print error
 ```
+
+## Parsing
+```
+cat < Makefile | grep c | wc < test_file	==>	print wc < text_file result
+```
+
+## No way !
+In bash if you unset PATH, nothing will works after. Think about checking path before run builtins functions ?
