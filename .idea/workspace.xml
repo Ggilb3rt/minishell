@@ -10,20 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="38a0a9c6-b4c1-4eeb-8f08-36be4f12c2db" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/sources/parsing/parsing_token.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/parsing.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/parsing.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/utils.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/utils.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources.mk" beforeDir="false" afterPath="$PROJECT_DIR$/sources.mk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/debug/debug.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/debug/debug.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_cmd.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_grammar.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_elem.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_elem.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_main.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_node.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/utils/utils_1.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/utils/utils_1.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/utils/utils_3.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/utils/utils_3.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_grammar.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_grammar.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +79,7 @@
       <workItem from="1633705757393" duration="3667000" />
       <workItem from="1634030453803" duration="131000" />
       <workItem from="1634032552260" duration="4464000" />
-      <workItem from="1634042653724" duration="3587000" />
+      <workItem from="1634042653724" duration="5006000" />
     </task>
     <servers />
   </component>
