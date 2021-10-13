@@ -37,6 +37,41 @@ fork
 	execve
 */
 
+int	**create_pipes_fd(int nb_pipe)
+{
+	int	**fds;
+	int	i;
+	int	pipe_ret;
+
+	i = 0;
+	if (nb_pipe + 2 > 256 - 3)
+		return (NULL);
+	fds = malloc(sizeof(int *) * (nb_pipe + 2 + 1));
+	if (fds == NULL)
+		return (NULL);
+	while (i < (nb_pipe + 2))
+	{
+		fds[i] = malloc(sizeof(int) * 2);
+		if (fds[i] == NULL)
+		{
+			//close_pipes((nb_pipe + 2), fds);
+			//free_tab(fds);
+			return (NULL);
+		}
+		pipe_ret = pipe(fds[i]);
+		if (pipe_ret < 0)
+		{
+			//close_pipes((nb_pipe + 2), fds);
+			//free_tab(fds);
+			return (NULL);
+		}
+		printf("pipe[%d] fd read = %d | write = %d\n", i, fds[i][0], fds[i][1]);
+		i++;
+	}
+	fds[i] = NULL;
+	return (fds);
+}
+
 // some trouble with free (I don't change anything, it's works on 42's Mac...)
 char	**convert_envplst_to_tab(t_list_envp *ms_env)
 {
