@@ -72,7 +72,7 @@ typedef struct s_node
 
 /* parsing main */
 int					lexer_and_parser(char *str, t_command *cmd);
-//int					convert(t_simple_command **list, char **arg, int i, int cur);
+//int				convert(t_simple_command **list, char **arg, int i, int cur);
 
 /* parsing tokens */
 int					create_token(char *str);
@@ -87,6 +87,9 @@ int					parser(t_command *cmd);
 
 /* parsing lexer */
 t_simple_command	**lexer(char **new);
+
+/* parsing split */
+char				**split_quote(char *str);
 
 /* debug */
 int					print_simple_command(t_simple_command **sc);

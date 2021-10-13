@@ -17,64 +17,18 @@
  * new[i], the first value of the array gives a strange output. Problem to solve
  */
 
-static int  go_next_quote(char *str, int i)
-{
-	while (str[i] != '\"')
-	{
-		if (str[i] == '\0')
-			return (0);
-		i++;
-	}
-	return (i);
-}
-
-static int 	word_count(char *str)
-{
-	int	nb_words;
-	int	trig;
-
-	nb_words = 0;
-	trig = 0;
-	while (str[i])
-	{
-		if (str[i] == '\"')
-		{
-			i += go_next_quote(str, i);
-		}
-		if (str[i] != ' ' && trig == 0)
-		{
-			trig = 1;
-			nb_words++;
-		}
-		else if (str[i] == ' ')
-			trig = 0;
-		str++;
-	}
-	printf("NBWORD = %d\n", nb_words);
-	return (nb_words);
-}
-
-static char **ms_split_quote(char *str)
-{
-	printf("STR = %s\n", str);
-	int	i;
-	char 	**new;
-	int 	size;
-
-	size = word_count(str);
-	(void)i;
-	(void)size;
-	new = NULL;
-	return (new);
-}
-
 int		lexer_and_parser(char *str, t_command *cmd)
 {
 	char		**arg;
 	//int 		ret;
 
 	(void)cmd;
-	arg = ms_split_quote(str);
+	arg = split_quote(str);
+	int i = 0;
+	while(arg[i]) {
+		printf("\t|%s|\n", arg[i]);
+		i++;
+	}
 	/*
 	cmd->list = lexer(arg);
 	if (!cmd->list)
