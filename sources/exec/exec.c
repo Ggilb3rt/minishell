@@ -37,6 +37,10 @@ fork
 	execve
 */
 
+// priorities pipe (|) then redirect (< > >> <<) then others
+
+/*
+// !I must use only one pipe, this function is useless
 int	**create_pipes_fd(int nb_pipe)
 {
 	int	**fds;
@@ -71,8 +75,103 @@ int	**create_pipes_fd(int nb_pipe)
 	fds[i] = NULL;
 	return (fds);
 }
+*/
 
-// some trouble with free (I don't change anything, it's works on 42's Mac...)
+/*
+ * loop over commands by sharing
+ * pipes.
+ */
+/*
+static void	pipeline(char ***cmd)
+{
+	int		fd[2];
+	pid_t	pid;
+	int		fdd;
+
+	fdd = 0; //Backup
+	while (*cmd != NULL)
+	{
+		pipe(fd);
+		if ((pid = fork()) == -1)
+		{
+			perror("fork");
+			exit(1);
+		}
+		else if (pid == 0)
+		{
+			dup2(fdd, 0);
+			if (*(cmd + 1) != NULL)
+			{
+				dup2(fd[1], 1);
+			}
+			close(fd[0]);
+			execvp((*cmd)[0], *cmd);
+			exit(1);
+		}
+		else
+		{
+			wait(NULL); //Collect childs
+			close(fd[1]);
+			fdd = fd[0];
+			cmd++;
+		}
+	}
+}
+*/
+
+void	put_err(char *str)
+{
+	write(STDERR_FILENO, str, ms_strlen(str));
+}
+
+void	close_unneeded(unsigned int *c, int *from, int *to)
+{
+	if (*c == UINT_MAX)
+		*c = 2;
+	if (*c % 2 == 1)
+	{
+		close(from[0]);
+		close(from[1]);
+		close(to[0]);
+	}
+	else
+	{
+		close(to[0]);
+		close(to[1]);
+		close(from[1]);
+	}
+}
+
+pid_t	exec_from_to(int from[2], int to[2], char **cmd, char **envp)
+{
+	pid_t				pid;
+	static unsigned int	count = 1;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		dup2(from[0], STDIN_FILENO);
+		dup2(to[1], STDOUT_FILENO);
+		close_unneeded(&count, from, to);
+		count++;
+		execve(cmd[0], cmd, envp);
+		if (errno == 2)
+		{
+			put_err(cmd[0]);
+			put_err(": command not found\n");
+			exit(EXIT_FAILURE);
+		}
+		else
+		{
+			perror(cmd[0]);
+			exit(EXIT_FAILURE);
+		}
+	}
+	return (pid);
+}
+
+// some troubles with free ; I don't change anything, it's works on 42's Mac... ;
+// troubles with free came from forks (maybe ?)
 char	**convert_envplst_to_tab(t_list_envp *ms_env)
 {
 	char	**tmp_env;
