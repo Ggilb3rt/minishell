@@ -371,3 +371,8 @@ Console ======= master pty ======== termios ====== slave pty ======== shell
                                 output
 
 https://blog.nelhage.com/2009/12/a-brief-introduction-to-termios/
+
+_s(s[i], set) && !in_s(s[i + 1], set) && k > 0) && (k = 0) == 0)
+			j++;
+	}
+	tab[count_words(s, set)] = NULL;

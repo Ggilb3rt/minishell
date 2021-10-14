@@ -20,16 +20,16 @@
 int		lexer_and_parser(char *str, t_command *cmd)
 {
 	char		**arg;
-	//int 		ret;
+	int 		ret;
 
-	(void)cmd;
 	arg = split_quote(str);
+	/*
 	int i = 0;
 	while(arg[i]) {
 		printf("\t|%s|\n", arg[i]);
 		i++;
 	}
-	/*
+	 */
 	cmd->list = lexer(arg);
 	if (!cmd->list)
 	{
@@ -42,6 +42,5 @@ int		lexer_and_parser(char *str, t_command *cmd)
 		printf("Error synthax\n");
 		exit (0);
 	}
-	 */
 	return (1);
 }

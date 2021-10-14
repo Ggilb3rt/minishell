@@ -4,11 +4,29 @@
 
 #include "minishell.h"
 
-static int  go_next_quote(char *str, int i)
+static int check_quote(char c)
 {
-	while (str[i] != '\"')
+	if (c == '\'')
+		return (1);
+	else if (c == '\"')
+		return (2);
+	else
+		return (0);
+}
+
+static int  go_next_quote(char *str, int i, int open)
+{
+	char c;
+
+	if (open == 1)
+		c = '\'';
+	else if (open == 2)
+		c = '\"';
+	else
+		return (0);
+	while (str[i] != c)
 	{
-		printf("[%i][%c]\n", i, str[i]);
+		//printf("\t%i> %c\n", i, str[i]);
 		if (str[i] == '\0')
 			return (0);
 		i++;
@@ -16,55 +34,53 @@ static int  go_next_quote(char *str, int i)
 	return (i);
 }
 
-static int 	meet_quote(char *str, int i, int open)
+static int 	meet_quote(char *str, int i, int *open)
 {
 	int jmp;
 
-	jmp = 0;
 	i++;
-	if (open && ((jmp = go_next_quote(str, i)) > 0))
+	jmp = go_next_quote(str, i, *open);
+	if (jmp > 0)
 	{
 		i = jmp;
-		open = 0;
+		*open = 0;
 	}
 	else
-	{
 		printf("error next quote\n");
-	}
 	return (i);
 }
 
 static int 	word_count(char *str)
 {
-	int	nb_words;
+	int	words;
 	int	trig;
 	int i;
 	int open;
 
 	open = 0;
 	i = 0;
-	nb_words = 0;
+	words = 0;
 	trig = 0;
 	while (str[i])
 	{
-		if (str[i] == '\"')
+		open = check_quote(str[i]);
+		if (open)
 		{
-			if (open == 0 )
-				open = 1;
-			i = meet_quote(str, i, open);
+			i = meet_quote(str, i, &open);
+			words++;
 			if (ms_is_alpha(&str[i + 1]))
-				nb_words++;
+				trig = 0;
 		}
-		if ((str[i] != ' ' && str[i] != '\"') && trig == 0)
+		else if ((str[i] != ' ' && !open) && trig == 0)
 		{
 			trig = 1;
-			nb_words++;
+			words++;
 		}
-		else if (str[i] == ' ' || str[i] == '\"')
+		else if (str[i] == ' ')
 			trig = 0;
-		i++;
+	 	i++;
 	}
-	return (nb_words);
+	return (words);
 }
 
 static char *split_words(char *str, int strt, int fnsh)
@@ -73,7 +89,7 @@ static char *split_words(char *str, int strt, int fnsh)
 	int i;
 
 	i = 0;
-	word = malloc((fnsh - strt + 1) * sizeof(char));
+	word = malloc(sizeof(char) * (fnsh - strt + 1));
 	while (strt < fnsh)
 	{
 		word[i] = str[strt];
@@ -91,85 +107,88 @@ char **split_quote(char *str)
 	char 	**new;
 	int 	size;
 	int		count;
+	int 	count_s;
+	int 	count_d;
 	int		len;
 	int		open;
-	char	*temp;
 
-	temp = NULL;
 	open = 0;
 	i = 0;
 	j = 0;
-	(void)j;
 	if (!str)
 		return (NULL);
 	size = word_count(str);
 	len = ms_strlen(str);
-	printf("SIZE = %i\n", size);
+	//printf("SIZE = %i\n", size);
+	count = -1;
+	count_s = -1;
+	count_d = -1;
 	new = malloc(sizeof(char *) * size + 1);
 	if (!new)
 		return (NULL);
-	count = -1;
 	while (i <= len)
 	{
-		printf("%c %i", str[i], (str[i] != ' ') && count < 0 && !open);
-		printf(" %i", (str[i] == ' ' || str[i] == '\"' || i == len) && count >= 0 && open);
-		if ((str[i] != ' ') && count < 0 && !open)
+		/*
+		printf("%i(%i)> %c", i, count, str[i]);
+		printf(" %i", str[i] == '\"' && open == 0 && count != -2);
+		printf(" %i", open == 0 && str[i] != ' ' && count < 0);
+		printf(" %i", str[i] == '\"' && open == 1 && count >= 0);
+		printf(" %i\n", (str[i] == ' ' || i == len || str[i] == '\"')
+						&& open == 0 && count >= 0);
+		*/
+		if ((str[i] == '\"' || str[i] == '\'') && open == 0 && count < 0)
 		{
-			open = 1;
+			if (str[i] == '\'')
+			{
+				count_s = i;
+				open = 1;
+			}
+			else if (str[i] == '\"')
+			{
+				count_d = i;
+				open = 2;
+			}
+		}
+		else if (open == 0 && str[i] != ' ' && count < 0)
+		{
 			count = i;
 		}
-		else if ((str[i] == ' ' || str[i] == '\"' || i == len) && count >= 0 && open)
+		else if (((str[i] == '\"' && count_d >= 0)
+			|| (str[i] == '\'' && count_s >= 0))
+			&& open)
+		{
+			if (count_s > 0)
+			{
+				new[j] = split_words(str, count_s, i + 1);
+				count_s = -1;
+			}
+			else if (count_d > 0)
+			{
+				new[j] = split_words(str, count_d, i + 1);
+				count_d = -1;
+			}
+			j++;
+			open = 0;
+		}
+		else if ((str[i] == ' ' || i == len || str[i] == '\"')
+				 && open == 0 && count >= 0)
 		{
 			new[j] = split_words(str, count, i);
-			if (!ms_strcmp(new[j], " "))
-			{
-				temp = ms_strjoin(new[j - 1], new[j]);
-				free(new[j]);
-				free(new[j - 1]);
-				new[j - 1] = temp;
-				j--;
-			}
 			count = -1;
 			j++;
-			if (str[i] == '\"' && open == 1)
+			if ((str[i] == '\"' || str[i] == '\'') && open == 0 && count < 0)
 			{
-				open = 1;
-				count = i;
+				if (str[i] == '\'')
+				{
+					count_s = i;
+					open = 1;
+				}
+				else if (str[i] == '\"')
+				{
+					count_d = i;
+					open = 2;
+				}
 			}
-			else
-				open = 0;
-		}
-		printf(" %i",(str[i] != '\"') && count < 0 && !open);
-		printf(" %i\n",(str[i] == '\"') && count >= 0 && open);
-		if ((str[i] != '\"') && count < 0 && !open)
-		{
-			open = 1;
-			count = i;
-		}
-		else if ((str[i] == '\"') && count >= 0 && open) {
-			i++;
-			i = go_next_quote(str, i);
-			printf("I = %i, COUNT = %i\n", i, count);
-			new[j] = split_words(str, count, i + 1);
-			if (ms_strcmp(new[j], "\"") || ms_strcmp(new[j], ""))
-			{
-				free(new[j]);
-				j--;
-			}
-			count = -1;
-			j++;
-			if (ms_is_alpha(&str[i + 1]))
-			{
-				i++;
-				open = 1;
-				count = i;
-			}
-			else if (str[i + 1] == ' ')
-			{
-				open = 1;
-				count = i;
-			}
-
 		}
 		i++;
 	}

@@ -10,13 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="38a0a9c6-b4c1-4eeb-8f08-36be4f12c2db" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/sources/parsing/parsing_split.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/parsing.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/parsing.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources.mk" beforeDir="false" afterPath="$PROJECT_DIR$/sources.mk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_main.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_squote.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/notes.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_split.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_split.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,9 +50,9 @@
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
     <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
@@ -86,7 +82,8 @@
       <workItem from="1634032552260" duration="4464000" />
       <workItem from="1634042653724" duration="14890000" />
       <workItem from="1634116503926" duration="2931000" />
-      <workItem from="1634121471769" duration="15010000" />
+      <workItem from="1634121471769" duration="15183000" />
+      <workItem from="1634203284419" duration="16895000" />
     </task>
     <servers />
   </component>
