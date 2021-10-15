@@ -38,8 +38,9 @@ $(OBJS): | $(OBJ)
 
 $(NAME): $(OBJS)
 	@$(CC) $(FLAGS) -o $@ $^ $(LIB)
-	printf "Ready to go !\n"
-	#make letest
+	@printf "Ready to go !\n"
+	#make leak_test
+	#./$(NAME)
 
 $(OBJ)/%.o: $(SRC)/%.c | $(OBJ)
 	@printf "Création des objets en cours : $@ ...\n"
@@ -53,7 +54,7 @@ fclean: clean
 
 re: fclean all
 
-letest:
+leak_test:
 	valgrind --leak-check=full ./$(NAME)
 
 .PHONY: all fclean clean re letest

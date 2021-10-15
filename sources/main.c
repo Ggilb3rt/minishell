@@ -23,16 +23,32 @@ autant garder la lst et creer un char ** temporaire pour execve
 j'ai deja creer mon propre getenv()
 */
 
+
+
 int	main(int ac, char **av, char **envp)
 {
 	t_list_envp	*ms_envp;
-	char		*line;
-	char		*msg_prompt;
+	//char		*line;
+	//char		*msg_prompt;
 
 	(void)ac;
 	(void)av;
 	ms_envp = create_msenvp_lst(envp);
-	msg_prompt = ms_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
+
+	char	*path = get_ms_env_val(PATH, ms_envp);
+	char	**cmd1 = ms_split("ls -la", ' ');
+	char	**cmd2 = ms_split("wc -l", ' ');
+	char	**cmd3 = ms_split("nl", ' ');
+	char	**cmd4 = ms_split("cat -e", ' ');
+	cmd1[0] = init_cmd_path(cmd1[0], path);
+	cmd2[0] = init_cmd_path(cmd2[0], path);
+	cmd3[0] = init_cmd_path(cmd3[0], path);
+	cmd4[0] = init_cmd_path(cmd4[0], path);
+	char	**cmds[] = {cmd1, cmd2, cmd3, cmd4, NULL};
+	//char	**env = convert_envplst_to_tab(ms_envp);
+	pipeline(cmds, envp);
+	//(void)env;
+	/*msg_prompt = ms_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
 	while (1)
 	{
 		line = readline(msg_prompt);
@@ -41,6 +57,7 @@ int	main(int ac, char **av, char **envp)
 		add_history(line);
 	}
 	free(msg_prompt);
+	*/
 	ms_lst_free_all(ms_envp);
-	return (1);
+	return (0); // return 0 or 1 ?
 }

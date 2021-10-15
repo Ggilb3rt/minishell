@@ -52,6 +52,11 @@ cmd_unset(&ms_envp, ms_split("TERM_PROGRAM PLOP POUET @sdf PWD ROBERT TERM"));	=
 cat < Makefile | grep c | wc < test_file	==>	print wc < text_file result
 ```
 
+## "" and ''
+```
+echo '$USER' "$USER '$USER'"			==> '$USER' ggilbert 'ggilbert'
+```
+
 ## No way !
 In bash if you unset PATH, nothing will works after. Think about checking path before run builtins functions ?
 

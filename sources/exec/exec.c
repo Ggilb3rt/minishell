@@ -81,8 +81,7 @@ int	**create_pipes_fd(int nb_pipe)
  * loop over commands by sharing
  * pipes.
  */
-/*
-static void	pipeline(char ***cmd)
+void	pipeline(char ***cmd, char **env)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -91,8 +90,13 @@ static void	pipeline(char ***cmd)
 	fdd = 0; //Backup
 	while (*cmd != NULL)
 	{
-		pipe(fd);
-		if ((pid = fork()) == -1)
+		if (pipe(fd) == -1)
+		{
+			perror("pipe");
+			exit(1);
+		}
+		pid = fork();
+		if (pid == -1)
 		{
 			perror("fork");
 			exit(1);
@@ -105,19 +109,19 @@ static void	pipeline(char ***cmd)
 				dup2(fd[1], 1);
 			}
 			close(fd[0]);
-			execvp((*cmd)[0], *cmd);
+			if (execve((*cmd)[0], *cmd, env) == -1)
+				perror("execve");
 			exit(1);
 		}
 		else
 		{
-			wait(NULL); //Collect childs
+			waitpid(pid, NULL, 0);
 			close(fd[1]);
 			fdd = fd[0];
 			cmd++;
 		}
 	}
 }
-*/
 
 void	put_err(char *str)
 {
@@ -182,7 +186,7 @@ char	**convert_envplst_to_tab(t_list_envp *ms_env)
 	tmp_env = malloc(sizeof(char *) + (len_ms_env + 1));
 	if (!tmp_env)
 		return (NULL);
-	printf("malloc %p\n", tmp_env);
+	//printf("malloc %p\n", tmp_env);
 	i = 0;
 	while (i < len_ms_env)
 	{
