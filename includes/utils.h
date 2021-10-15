@@ -25,6 +25,7 @@ char	*ms_strjoin(char const *s1, char const *s2);
  * array count
  */
 int		array_size(char **arr);
+int 	arr_int_size(int *arr);
 
 /* utils 4
  * handling errors

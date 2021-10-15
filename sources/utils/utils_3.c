@@ -15,3 +15,15 @@ int 	array_size(char **arr)
 		i++;
 	return (i);
 }
+
+int 	arr_int_size(int *arr)
+{
+	int i;
+
+	i = 0;
+	if (!arr || !*arr)
+		return (0);
+	while (arr[i])
+		i++;
+	return (i);
+}

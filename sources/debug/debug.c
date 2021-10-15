@@ -4,6 +4,14 @@
 
 #include "minishell.h"
 
+int print_command(t_command *cmd)
+{
+	printf("out file = %s\n", cmd->out_file);
+	printf("in file = %s\n", cmd->in_file);
+	printf("err file = %s\n", cmd->err_file);
+	return (0);
+}
+
 int print_simple_command(t_simple_command **sc)
 {
 	t_simple_command	*cur;
@@ -21,7 +29,7 @@ int print_simple_command(t_simple_command **sc)
 		arr_size = array_size(cur->arg) + 1;
 		while (i < arr_size)
 		{
-			printf("%i %s = %s \n", count, cur->arg[i], cur->token[i]);
+			printf("%i %s = %i\n", count, cur->arg[i], cur->token);
 			i++;
 		}
 		cur = cur->next;

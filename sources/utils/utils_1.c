@@ -66,7 +66,7 @@ int	ms_is_alpha(const char *str)
 	{
 		if ((*str < 'a' || *str > 'z')
 			&& (*str < 'A' || *str > 'Z')
-			&& (*str != '-'))
+			&& (*str != '-') && (*str != '/'))
 			return (0);
 		str++;
 	}

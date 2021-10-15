@@ -9,7 +9,11 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="38a0a9c6-b4c1-4eeb-8f08-36be4f12c2db" name="Changes" comment="" />
+    <list default="true" id="38a0a9c6-b4c1-4eeb-8f08-36be4f12c2db" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/notes.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_split.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_split.c" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,6 +49,18 @@
     <property name="cmake.loaded.for.project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
+  <component name="RunManager">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -57,7 +73,17 @@
       <workItem from="1632861989928" duration="65000" />
       <workItem from="1632998876289" duration="526000" />
       <workItem from="1633003384349" duration="5299000" />
-      <workItem from="1633010499189" duration="1000" />
+      <workItem from="1633010499189" duration="7738000" />
+      <workItem from="1633439479151" duration="7549000" />
+      <workItem from="1633621866813" duration="31000" />
+      <workItem from="1633622753293" duration="638000" />
+      <workItem from="1633705757393" duration="3667000" />
+      <workItem from="1634030453803" duration="131000" />
+      <workItem from="1634032552260" duration="4464000" />
+      <workItem from="1634042653724" duration="14890000" />
+      <workItem from="1634116503926" duration="2931000" />
+      <workItem from="1634121471769" duration="15183000" />
+      <workItem from="1634203284419" duration="16895000" />
     </task>
     <servers />
   </component>
