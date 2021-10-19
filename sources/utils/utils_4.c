@@ -1,12 +1,20 @@
-//
-// Created by Antoine LANGLOIS on 23/09/2021.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_4.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alangloi <alangloi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/19 14:09:16 by alangloi          #+#    #+#             */
+/*   Updated: 2021/10/19 14:10:03 by alangloi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-void 	free_tab(char **arr)
+void	free_tab(char **arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (arr[i])

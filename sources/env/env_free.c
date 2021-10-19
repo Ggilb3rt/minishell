@@ -1,37 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_3.c                                          :+:      :+:    :+:   */
+/*   env_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alangloi <alangloi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/19 14:08:51 by alangloi          #+#    #+#             */
-/*   Updated: 2021/10/19 14:08:53 by alangloi         ###   ########.fr       */
+/*   Created: 2021/10/08 08:43:21 by ggilbert          #+#    #+#             */
+/*   Updated: 2021/10/08 08:44:16 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	array_size(char **arr)
+void	remove_lst_content(char *content)
 {
-	int	i;
-
-	i = 0;
-	if (!arr || !*arr)
-		return (0);
-	while (arr[i])
-		i++;
-	return (i);
+	if (content != NULL)
+		free(content);
+	content = NULL;
 }
 
-int	arr_int_size(int *arr)
+void	ms_lst_free_all(t_list_envp *head)
 {
-	int	i;
-
-	i = 0;
-	if (!arr || !*arr)
-		return (0);
-	while (arr[i])
-		i++;
-	return (i);
+	if (!head)
+		return ;
+	while (head->next != NULL)
+		ms_lst_pop_end(head);
+	remove_lst_content(head->content);
+	free(head);
+	head = NULL;
 }

@@ -1,6 +1,14 @@
-//
-// Created by Antoine LANGLOIS on 13/10/2021.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_split.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alangloi <alangloi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/19 14:15:14 by alangloi          #+#    #+#             */
+/*   Updated: 2021/10/19 14:15:48 by alangloi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -26,7 +34,6 @@ static int  go_next_quote(char *str, int i, int open)
 		return (0);
 	while (str[i] != c)
 	{
-		//printf("\t%i> %c\n", i, str[i]);
 		if (str[i] == '\0')
 			return (0);
 		i++;
@@ -119,7 +126,6 @@ char **split_quote(char *str)
 		return (NULL);
 	size = word_count(str);
 	len = ms_strlen(str);
-	//printf("SIZE = %i\n", size);
 	count = -1;
 	count_s = -1;
 	count_d = -1;
@@ -128,14 +134,6 @@ char **split_quote(char *str)
 		return (NULL);
 	while (i <= len)
 	{
-		/*
-		printf("%i(%i)> %c", i, count, str[i]);
-		printf(" %i", str[i] == '\"' && open == 0 && count != -2);
-		printf(" %i", open == 0 && str[i] != ' ' && count < 0);
-		printf(" %i", str[i] == '\"' && open == 1 && count >= 0);
-		printf(" %i\n", (str[i] == ' ' || i == len || str[i] == '\"')
-						&& open == 0 && count >= 0);
-		*/
 		if ((str[i] == '\"' || str[i] == '\'') && open == 0 && count < 0)
 		{
 			if (str[i] == '\'')
