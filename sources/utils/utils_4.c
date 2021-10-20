@@ -1,6 +1,14 @@
-//
-// Created by Antoine LANGLOIS on 23/09/2021.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_4.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alangloi <alangloi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/19 14:09:16 by alangloi          #+#    #+#             */
+/*   Updated: 2021/10/19 14:10:03 by alangloi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -18,3 +26,37 @@ void	free_tab(char **arr)
 	free(arr);
 	arr = NULL;
 }
+
+/*
+void	free_command(t_command *cmd)
+{
+	while (cmd->list != NULL)
+	{
+		free_simple_command(cmd->list);
+		free(cmd->list);
+		cmd->list = NULL;
+		cmd->list = cmd->list->next;
+	}
+}
+
+void 	free_simple_command(t_simple_command **list)
+{
+	int 				i;
+	int 				size;
+
+	while (list != NULL)
+	{
+		size = array_size(list->arg);
+		i = 0;
+		while (i < size)
+		{
+			free(cur->arg[i]);
+			cur->arg[i] = NULL;
+			i++;
+		}
+		free(cur->arg);
+		cur->arg = NULL;
+		list = list->next;
+	}
+}
+ */

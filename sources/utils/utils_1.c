@@ -1,11 +1,21 @@
-//
-// Created by Antoine LANGLOIS on 22/09/2021.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_1.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alangloi <alangloi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/19 13:43:09 by alangloi          #+#    #+#             */
+/*   Updated: 2021/10/19 13:46:25 by alangloi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "utils.h"
 
-/* external functions that we may use :
- * - ssize_t write(int fd, const void *buf, size_t count) : writes until 'count' bytes in the file descriptor from the
+/*
+ * external functions that we may use :
+ * - ssize_t write(int fd, const void *buf, size_t count) : writes until 'count'
+ *   bytes in the file descriptor from the
  * buffer pointed by 'buf'.
  */
 
@@ -68,7 +78,7 @@ int	ms_is_alpha(const char *str)
 	{
 		if ((*str < 'a' || *str > 'z')
 			&& (*str < 'A' || *str > 'Z')
-			&& (*str != '-'))
+			&& (*str != '-') && (*str != '/'))
 			return (0);
 		str++;
 	}

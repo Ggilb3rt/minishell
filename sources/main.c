@@ -1,38 +1,17 @@
 #include "minishell.h"
 
-/* create the loop that will run minishell
- */
-
 /*
-
-*Utiliser la lst et creer a partir d'elle un char ** temporaire
-*qui sera utilise uniquement pour execve
-+ en parti fonctionnel
-- il faut creer la fonction du char ** temporaire
-+ l'ajout de var est moins gourement en ressources
-- beaucoup de traitement pour peu de choses, beaucoup de doublons de contenu
-
-*Ou mettre a jour envp ?
-- puis-je mettre a jour envp ?
-- l'ajout d'une var demande de recreer le char **
-+ mise en place plus simple a mon gout
-
-free envp n'est pas possible,
-il faudra recreer un char ** quoi qu'il arrive
-autant garder la lst et creer un char ** temporaire pour execve
-j'ai deja creer mon propre getenv()
-*/
-
-
-
 int	main(int ac, char **av, char **envp)
 {
 	t_list_envp	*ms_envp;
-	//char		*line;
-	//char		*msg_prompt;
+	char		*line;
+	char		*msg_prompt;
+	t_command *cmd;
 
 	(void)ac;
 	(void)av;
+	cmd = malloc(sizeof(t_command));
+	init_cmd(cmd);
 	ms_envp = create_msenvp_lst(envp);
 
 	char	*path = get_ms_env_val(PATH, ms_envp);
@@ -48,17 +27,55 @@ int	main(int ac, char **av, char **envp)
 	//char	**env = convert_envplst_to_tab(ms_envp);
 	pipeline(cmds, envp);
 	//(void)env;
-	/*msg_prompt = ms_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
+	ms_lst_free_all(ms_envp);
+	//free_tab(env);
+	return (0); // return 0 or 1 ?
+}
+*/
+
+/*
+ * create the loop that will run minishell
+ */
+
+/*
+ * create the loop that will run minishell
+ */
+
+/*
+ * Utiliser variable globale pour CTRL-D CTRL-C CTRL-\
+ */
+
+static void init_cmd(t_command *cmd)
+{
+	cmd->numb_avail_simple_commands = 0;
+	cmd->numb_simple_commands = 0;
+	cmd->list = NULL;
+	cmd->out_file = ms_strdup("dflt");
+	cmd->in_file = ms_strdup("dflt");
+	cmd->err_file = ms_strdup("dflt");
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	t_list_envp	*ms_envp;
+	char		*line;
+	char		*msg_prompt;
+	t_command	*cmd;
+
+	(void)ac;
+	(void)av;
+	cmd = malloc(sizeof(t_command));
+	init_cmd(cmd);
+	ms_envp = create_msenvp_lst(envp);
+	msg_prompt = ms_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
 	while (1)
 	{
 		line = readline(msg_prompt);
-		if (!parse_line(line))
+		if (!lexer_and_parser(line, cmd))
 			break ;
 		add_history(line);
 	}
 	free(msg_prompt);
-	*/
 	ms_lst_free_all(ms_envp);
-	//free_tab(env);
-	return (0); // return 0 or 1 ?
+	return (1);
 }

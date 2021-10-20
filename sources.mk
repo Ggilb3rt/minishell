@@ -2,6 +2,12 @@ SOURCES = \
 		main.c \
 		parsing/parsing_main.c \
 		parsing/parsing_elem.c \
+		parsing/parsing_grammar.c \
+		parsing/parsing_token.c \
+		parsing/parsing_error.c \
+		parsing/parsing_lexer.c \
+		parsing/parsing_split_1.c \
+		parsing/parsing_split_2.c \
 		history/history.c \
 		env/env.c \
 		env/env_edit.c \
