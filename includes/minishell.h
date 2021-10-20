@@ -24,10 +24,12 @@
 
 # include "history.h"
 # include "parsing.h"
+# include "ms_env.h"
 # include "builtins.h"
 # include "utils.h"
 # include "exec.h"
 # include "flux.h"
-# include "env.h"
+
+# define UINT_MAX 4294967294
 
 #endif

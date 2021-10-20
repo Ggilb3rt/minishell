@@ -10,9 +10,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="38a0a9c6-b4c1-4eeb-8f08-36be4f12c2db" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/includes/ms_env.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sources/env/env_edit.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sources/env/env_free.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sources/exec/exec_cmd_path.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sources/utils/utils_chr.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/minishell.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/minishell.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/notes.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/builtins.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/builtins.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/env.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/exec.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/exec.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/minishell.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/minishell.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/utils.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/utils.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources.mk" beforeDir="false" afterPath="$PROJECT_DIR$/sources.mk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/builtins/builtin_cd.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/builtins/builtin_cd.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/builtins/builtin_env.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/builtins/builtin_env.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/builtins/builtin_export.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/builtins/builtin_export.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/builtins/builtin_pwd.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/builtins/builtin_pwd.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/builtins/builtin_unset.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/builtins/builtin_unset.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/env/env.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/env/env.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/exec/exec.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/exec/exec.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_elem.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_elem.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_error.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_error.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_grammar.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_grammar.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_lexer.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_lexer.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_main.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_main.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_split.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_split.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_token.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_token.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/utils/utils_1.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/utils/utils_1.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/utils/utils_2.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/utils/utils_2.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/utils/utils_3.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/utils/utils_3.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/utils/utils_4.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/utils/utils_4.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/utils/utils_5.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/utils/utils_5.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/tests_ideas.md" beforeDir="false" afterPath="$PROJECT_DIR$/tests/tests_ideas.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,11 +83,6 @@
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -83,7 +111,9 @@
       <workItem from="1634042653724" duration="14890000" />
       <workItem from="1634116503926" duration="2931000" />
       <workItem from="1634121471769" duration="15183000" />
-      <workItem from="1634203284419" duration="16895000" />
+      <workItem from="1634203284419" duration="19210000" />
+      <workItem from="1634643165946" duration="303000" />
+      <workItem from="1634643541601" duration="1323000" />
     </task>
     <servers />
   </component>

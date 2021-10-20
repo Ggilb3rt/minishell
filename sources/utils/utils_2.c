@@ -1,6 +1,14 @@
-//
-// Created by Antoine LANGLOIS on 23/09/2021.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_2.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alangloi <alangloi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/19 14:05:41 by alangloi          #+#    #+#             */
+/*   Updated: 2021/10/19 14:08:35 by alangloi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -38,30 +46,35 @@ static char	*sep_words(const char *str, int start, int finish)
 	return (word);
 }
 
+char	*fill_array(const char *s, int *count, int i, char c)
+{
+	if (s[i] != c && *count < 0)
+		*count = i;
+	else if ((s[i] == c || i == (int)ms_strlen(s)) && *count >= 0)
+	{
+		return (sep_words(s, *count, i));
+	}
+	return (NULL);
+}
+
 char	**ms_split(char const *s, char c)
 {
 	size_t	i;
 	size_t	j;
-	int 	count;
-	char 	**arr;
+	int		count;
+	char	**arr;
 
 	i = 0;
 	j = 0;
-	if (!s)
-		return (0);
 	arr = malloc(sizeof(char *) * (numb_words(s, c) + 1));
 	if (!arr)
 		return (0);
 	count = -1;
 	while (i <= ms_strlen(s))
 	{
-		if (s[i] != c && count < 0)
-			count = i;
-		else if ((s[i] == c || i == ms_strlen(s)) && count >= 0)
-		{
-			arr[j++] = sep_words(s, count, i);
+		arr[j++] = fill_array(s, &count, i, c);
+		if (arr[j])
 			count = -1;
-		}
 		i++;
 	}
 	arr[j] = 0;

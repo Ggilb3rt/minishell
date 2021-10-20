@@ -1,10 +1,7 @@
 #include "minishell.h"
 
-/* create the loop that will run minishell
- */
-
 /*
- * username = getenv("USER")
+ * create the loop that will run minishell
  */
 
 static void init_cmd(t_command *cmd)
@@ -17,47 +14,27 @@ static void init_cmd(t_command *cmd)
 	cmd->err_file = ms_strdup("dflt");
 }
 
-int	main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **envp)
 {
-	char *line;
+	t_list_envp	*ms_envp;
+	char		*line;
+	char		*msg_prompt;
 	t_command *cmd;
 
-	(void) ac;
-	(void) av;
-	(void) env;
+	(void)ac;
+	(void)av;
 	cmd = malloc(sizeof(t_command));
 	init_cmd(cmd);
+	ms_envp = create_msenvp_lst(envp);
+	msg_prompt = ms_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
 	while (1)
 	{
-		line = readline("user@root > ");
+		line = readline(msg_prompt);
 		if (!lexer_and_parser(line, cmd))
 			break;
 		add_history(line);
 	}
+	free(msg_prompt);
+	ms_lst_free_all(ms_envp);
 	return (1);
 }
-
-/*
-		printf("\ntests cd echo pwd\n");
-		cmd_pwd();
-		cmd_echo("-n");
-		cmd_cd("tests/no_perm", env);
-		cmd_cd("sldfkh", env);
-		cmd_cd("../", env);
-		cmd_pwd();
-		cmd_cd("~", env);
-		cmd_cd("/", env);
-		cmd_pwd();
-		cmd_cd("-sdf", env);	//err
-		cmd_pwd();
-		cmd_cd("-pwd", env);	//err
-		cmd_pwd();
-		cmd_cd("- ", env);		// work
-		cmd_pwd();
-		cmd_cd("-pouet", env);		// err
-		cmd_pwd();
-		cmd_cd("-", env);		// work // segfault
-		cmd_pwd();
-		cmd_cd("-   sdf", env);	// work
-		cmd_pwd();
-*/

@@ -22,9 +22,10 @@
 
 // ! need to print in the good fd, do I need to manage it here or with pipe ?
 
-int	cmd_pwd(void)
+int	cmd_pwd(t_list_envp *env, int print)
 {
 	char	*buf;
+	char	*new_pdw;
 
 	buf = NULL;
 	buf = getcwd(buf, 0);
@@ -33,7 +34,11 @@ int	cmd_pwd(void)
 		perror("BUILTIN PWD ERROR");
 		return (errno);
 	}
-	printf("%s\n", buf);
+	new_pdw = ms_strjoin(PWD, buf);
+	edit_lst_content(env, get_ms_env_index(PWD, env), new_pdw);
+	if (print)
+		printf("%s\n", buf);
+	free(new_pdw);
 	free(buf);
 	return (0);
 }

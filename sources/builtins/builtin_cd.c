@@ -28,15 +28,12 @@ need to interpret ~ and -
 - print pwd
 */
 
-char	*get_old_path(char *path, char **env)
+char	*select_path_dash_op(char *path, t_list_envp *ms_env)
 {
-	int		len;
-	int		env_old_pwd;
-
 	if (!path)
 		return (NULL);
-	len = 0;
-	env_old_pwd = 0;
+	if (get_ms_env_index(OLDPWD, ms_env) == -1)
+		return (path);
 	if (path[0] == '-')
 	{
 		if (ms_strlen(path) > 1)
@@ -46,22 +43,42 @@ char	*get_old_path(char *path, char **env)
 				return (path);
 			}
 		}
-		//free(path);
-		path = get_env_val("OLDPWD", env);
+		free(path);
+		path = get_ms_env_val(OLDPWD, ms_env);
+		path += ms_strlen(OLDPWD);
 	}
 	return (path);
 }
 
+void	update_old_pwd(t_list_envp *env)
+{
+	char		*current_pwd;
+	int			index_old_pwd;
+	char		*next_old_pwd;
+	t_list_envp	*tmp;
+
+	tmp = env;
+	index_old_pwd = get_ms_env_index(OLDPWD, tmp);
+	if (index_old_pwd == -1)
+		return ;
+	current_pwd = get_ms_env_val(PWD, tmp);
+	current_pwd += ms_strlen(PWD);
+	next_old_pwd = ms_strjoin(OLDPWD, current_pwd);
+	edit_lst_content(tmp, index_old_pwd, next_old_pwd);
+	free(next_old_pwd);
+}
+
 /*
 dont use path because must free (with path maybe need free)
+
 */
-int	cmd_cd(char *path, char **env)
+int	cmd_cd(char *path, t_list_envp *ms_env)
 {
 	int		err;
 	char	*msg;
 
 	msg = NULL;
-	path = get_old_path(path, env);
+	path = select_path_dash_op(path, ms_env);
 	err = chdir(path);
 	if (err == -1)
 	{
@@ -70,6 +87,8 @@ int	cmd_cd(char *path, char **env)
 		free(msg);
 		return (1);
 	}
+	update_old_pwd(ms_env);
+	cmd_pwd(ms_env, 0);
 	printf("USE OF THE CD COMMAND : %s\n", path);
 	return (0);
 }
