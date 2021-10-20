@@ -33,6 +33,7 @@ $(OBJ):
 	cd objects && mkdir -p env
 	cd objects && mkdir -p flux
 	cd objects && mkdir -p debug
+	cd objects && mkdir -p signals
 
 $(OBJS): | $(OBJ)
 

@@ -8,6 +8,7 @@ SOURCES = \
 		parsing/parsing_lexer.c \
 		parsing/parsing_split_1.c \
 		parsing/parsing_split_2.c \
+		signals/signals.c \
 		history/history.c \
 		env/env.c \
 		env/env_edit.c \

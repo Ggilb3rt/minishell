@@ -304,6 +304,56 @@ How to communicate between processes?
 
 https://www.youtube.com/watch?v=Mqb2dVRe0uo&list=PLfqABt5AS4FkW5mOn2Tn9ZZLLDwA3kZUY&index=6
 ------------------------------------------------------------------------------------------------------------------------
+What are signals?
+
+When driving, one looks out for traffic signals, red or green and takes a decision based on it: to stop or to keep
+driving. But the traffic signals only come up after some intervals at crossroads and is not present continuously along
+the road.
+We can somewhat apply this analogy to signals in the context of computers as well. A signal is a software interrupt that
+is sent out from an external event to a process. It may be sent to the process by the kernel, by another process or by
+itself. A very common example is SIGINT, which is the signal that is sent out when you hit CTRL-C to exit a program.
+Before going any further, let us take a look at the following diagram :
+
+                                    Process
+                                       |
+                                       V
+                                  instruction 1
+                                       |
+                                       V
+                                  instruction 2
+                                       |
+                                       V
+                 signal--------------> X ----------------
+                                                        |
+                                                        V
+                                                   signal handler
+                                                        |
+                                   instruction 3 <-------
+                                        |
+                                        V
+                                        O
+
+The process executes three instructions and terminates. However, after the second instruction, it receives a signal. At
+this point the regular execution of the program is interrupted and is passed on to the signal handler. The signal
+handler is a pre-defined function which is invoked when the signal is received. It returns the process to its normal
+execution flow, where it goes on to execute the third instruction and exits. However, depending on the code in the
+signal handler itself, instruction 3 might not be executed at all. For eg: If the signal being sent is SIGINT (CTRL-C),
+the program exits. Also it is not guaranteed that a signal interrupt will only occur when a program is between
+instructions. It may occur when an instruction is executing and in such a case the instruction will get interrupted.
+
+    Because a signal handler may asynchronously interrupt the execution of a program at anny point in time,
+    the main program and the signal handler in effect form two independent (althought not concurrent) threads
+    of execution within the same process.
+
+https://indradhanush.github.io/blog/writing-a-unix-shell-part-3/
+------------------------------------------------------------------------------------------------------------------------
+Signal Handling
+
+Now that we
+
+
+https://indradhanush.github.io/blog/writing-a-unix-shell-part-3/
+------------------------------------------------------------------------------------------------------------------------
 What allows us the stat functions (stat(), fstat(), lstat()) to do?
 
 Every file stores different types of information about themselves :
