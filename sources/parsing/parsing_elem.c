@@ -1,6 +1,14 @@
-//
-// Created by Antoine LANGLOIS on 28/09/2021.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_elem.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alangloi <alangloi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/19 14:16:40 by alangloi          #+#    #+#             */
+/*   Updated: 2021/10/19 14:29:39 by alangloi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -13,12 +21,12 @@ static void	*list_last(t_simple_command *list)
 	return (list);
 }
 
-void 	add_elem(t_simple_command *new, t_simple_command **list)
+void	add_elem(t_simple_command *new, t_simple_command **list)
 {
-	t_simple_command *cur;
+	t_simple_command	*cur;
 
 	if (!new)
-		return;
+		return ;
 	new->next = NULL;
 	if (!*list)
 	{
@@ -35,7 +43,7 @@ void 	add_elem(t_simple_command *new, t_simple_command **list)
 
 t_simple_command	*alloc_elem(char **str)
 {
-	t_simple_command *new;
+	t_simple_command	*new;
 
 	new = malloc(sizeof(t_simple_command));
 	if (!new)
@@ -48,10 +56,10 @@ t_simple_command	*alloc_elem(char **str)
 	return (new);
 }
 
-void 		add_newline(t_simple_command **list, char **arg, int i)
+void	add_newline(t_simple_command **list, char **arg, int i)
 {
 	t_simple_command	*new;
-	char 				**arr;
+	char				**arr;
 
 	arr = malloc(sizeof(char *));
 	arr[0] = "/";

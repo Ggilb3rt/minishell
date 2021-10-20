@@ -2,8 +2,8 @@
 // Created by Antoine LANGLOIS on 22/09/2021.
 //
 
-#ifndef MINISHELL_COMMANDS_H
-# define MINISHELL_COMMANDS_H
+#ifndef BUILTINS_H
+# define BUILTINS_H
 
 # include "minishell.h"
 
@@ -21,12 +21,18 @@
 
 /* exit with no options : exit 'n' */
 
+// Usually used env var
+# define USER "USER="
+# define PWD "PWD="
+# define OLDPWD "OLDPWD="
+# define PATH "PATH="
+
 int	cmd_echo(char *str);
-int	builtin_env(void);
-int	cmd_cd(char *path, char **env);
-int	cmd_pwd(void);
-int builtin_export(void);
-int	builtin_unset(void);
+int	cmd_env(t_list_envp *ms_envp);
+int	cmd_cd(char *path, t_list_envp *env);
+int	cmd_pwd(t_list_envp *env, int print);
+int	cmd_export(t_list_envp *env, char **args);
+int	cmd_unset(t_list_envp **env, char **to_find);
 int	builtin_exit(void);
 
 #endif

@@ -10,7 +10,10 @@ SOURCES = \
 		parsing/parsing_split_2.c \
 		history/history.c \
 		env/env.c \
+		env/env_edit.c \
+		env/env_free.c \
 		exec/exec.c \
+		exec/exec_cmd_path.c \
 		flux/flux_append.c \
 		flux/flux_heredoc.c \
 		flux/flux_pipe.c \
@@ -28,4 +31,5 @@ SOURCES = \
 		utils/utils_3.c \
 		utils/utils_4.c \
 		utils/utils_5.c \
+		utils/utils_chr.c \
 		debug/debug.c

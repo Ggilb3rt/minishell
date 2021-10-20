@@ -37,10 +37,13 @@ $(OBJ):
 $(OBJS): | $(OBJ)
 
 $(NAME): $(OBJS)
-	$(CC) $(FLAGS) -o $@ $^ $(LIB)
+	@$(CC) $(FLAGS) -o $@ $^ $(LIB)
+	printf "Ready to go !\n"
+	#make letest
 
 $(OBJ)/%.o: $(SRC)/%.c | $(OBJ)
-	$(CC) $(FLAGS) -o $@ -c $^ -I$(HEADER) $(INCLUDE)
+	@printf "Création des objets en cours : $@ ...\n"
+	@$(CC) $(FLAGS) -o $@ -c $^ -I$(HEADER) $(INCLUDE)
 
 clean:
 	$(RM) $(OBJ)
@@ -50,4 +53,7 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all fclean clean re
+letest:
+	valgrind --leak-check=full ./$(NAME)
+
+.PHONY: all fclean clean re letest
