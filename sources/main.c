@@ -1,10 +1,15 @@
 #include "minishell.h"
 
-/* create the loop that will run minishell
+/*
+ * create the loop that will run minishell
  */
 
 /*
  * username = getenv("USER")
+ */
+
+/*
+ * Utiliser variable globale pour CTRL-D CTRL-C CTRL-\
  */
 
 static void init_cmd(t_command *cmd)

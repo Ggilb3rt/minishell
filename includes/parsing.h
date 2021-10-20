@@ -59,6 +59,16 @@ typedef struct s_command
 	//static t_simple_command	*cur_simple_command;
 }				t_command;
 
+typedef struct s_split
+{
+	int 	size;
+	int		count;
+	int 	count_s;
+	int 	count_d;
+	int		len;
+	int		open;
+}				t_split;
+
 /*
 typedef struct s_node
 {
@@ -88,8 +98,12 @@ int					parser(t_command *cmd);
 /* parsing lexer */
 t_simple_command	**lexer(char **new);
 
-/* parsing split */
+/* parsing split 1 */
 char				**split_quote(char *str);
+
+/* parsing split 2 */
+int					word_count(char *str);
+char				*split_words(char *str, int strt, int fnsh);
 
 /* debug */
 int					print_simple_command(t_simple_command **sc);

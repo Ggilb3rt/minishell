@@ -47,5 +47,6 @@ void io_redirections(t_command *cmd)
 int	parser(t_command *cmd)
 {
 	io_redirections(cmd);
+	print_command(cmd);
 	return (1);
 }

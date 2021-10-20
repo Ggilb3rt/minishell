@@ -6,7 +6,8 @@ SOURCES = \
 		parsing/parsing_token.c \
 		parsing/parsing_error.c \
 		parsing/parsing_lexer.c \
-		parsing/parsing_split.c \
+		parsing/parsing_split_1.c \
+		parsing/parsing_split_2.c \
 		history/history.c \
 		env/env.c \
 		exec/exec.c \

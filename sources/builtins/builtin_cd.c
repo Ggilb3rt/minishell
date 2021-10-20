@@ -28,6 +28,7 @@ need to interpret ~ and -
 - print pwd
 */
 
+/*
 char	*get_old_path(char *path, char **env)
 {
 	int		len;
@@ -51,10 +52,13 @@ char	*get_old_path(char *path, char **env)
 	}
 	return (path);
 }
+ */
 
 /*
 dont use path because must free (with path maybe need free)
 */
+
+/*
 int	cmd_cd(char *path, char **env)
 {
 	int		err;
@@ -73,3 +77,4 @@ int	cmd_cd(char *path, char **env)
 	printf("USE OF THE CD COMMAND : %s\n", path);
 	return (0);
 }
+ */
