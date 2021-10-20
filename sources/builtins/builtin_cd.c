@@ -28,7 +28,7 @@ need to interpret ~ and -
 - print pwd
 */
 
-<<<<<<< HEAD
+
 /*
 char	*get_old_path(char *path, char **env)
 =======
@@ -78,7 +78,6 @@ void	update_old_pwd(t_list_envp *env)
 dont use path because must free (with path maybe need free)
 
 */
-<<<<<<< HEAD
 
 /*
 int	cmd_cd(char *path, char **env)

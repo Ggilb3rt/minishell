@@ -1,10 +1,18 @@
-//
-// Created by antoine on 15/10/2021.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_split_2.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alangloi <alangloi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/20 16:09:29 by alangloi          #+#    #+#             */
+/*   Updated: 2021/10/20 16:09:32 by alangloi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-static int check_quote(char c)
+static int	check_quote(char c)
 {
 	if (c == '\'')
 		return (1);
@@ -14,10 +22,11 @@ static int check_quote(char c)
 		return (0);
 }
 
-static int  go_next_quote(char *str, int i, int open)
+static int	go_next_quote(char *str, int i, int open)
 {
-	char c;
+	char	c;
 
+	c = 0;
 	if (open == 1)
 		c = '\'';
 	else if (open == 2)
@@ -31,9 +40,9 @@ static int  go_next_quote(char *str, int i, int open)
 	return (i);
 }
 
-static int 	meet_quote(char *str, int i, int *open)
+static int	meet_quote(char *str, int i, int *open)
 {
-	int jmp;
+	int	jmp;
 
 	i++;
 	jmp = go_next_quote(str, i, *open);
@@ -46,13 +55,32 @@ static int 	meet_quote(char *str, int i, int *open)
 		printf("error next quote\n");
 	return (i);
 }
-
-int 	word_count(char *str)
+/*
+static int	check_open(int *open, int *trig, char *str, int i)
+{
+	if (*open)
+	{
+		i = meet_quote(str, i, open);
+		if (ms_is_alpha(&str[i + 1]))
+			*trig = 0;
+		return (1);
+	}
+	else if ((str[i] != ' ' && !*open) && *trig == 0)
+	{
+		*trig = 1;
+		return (1);
+	}
+	else if (str[i] == ' ')
+		*trig = 0;
+	return (0);
+}
+*/
+int	word_count(char *str)
 {
 	int	words;
 	int	trig;
-	int i;
-	int open;
+	int	i;
+	int	open;
 
 	open = 0;
 	i = 0;
@@ -60,6 +88,7 @@ int 	word_count(char *str)
 	trig = 0;
 	while (str[i])
 	{
+
 		open = check_quote(str[i]);
 		if (open)
 		{
@@ -75,24 +104,12 @@ int 	word_count(char *str)
 		}
 		else if (str[i] == ' ')
 			trig = 0;
+
+		/*
+		open = check_quote(str[i]);
+		words += check_open(&open, &trig, str, i);
+		 */
 		i++;
 	}
 	return (words);
-}
-
-char *split_words(char *str, int strt, int fnsh)
-{
-	char *word;
-	int i;
-
-	i = 0;
-	word = malloc(sizeof(char) * (fnsh - strt + 1));
-	while (strt < fnsh)
-	{
-		word[i] = str[strt];
-		i++;
-		strt++;
-	}
-	word[i] = '\0';
-	return (word);
 }
