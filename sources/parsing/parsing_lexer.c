@@ -74,5 +74,6 @@ t_simple_command	**lexer(char **arg)
 	if (i - cur > 0)
 		cur = convert(list, arg, i, cur);
 	add_newline(list, arg, i);
+	print_simple_command(list);
 	return (list);
 }

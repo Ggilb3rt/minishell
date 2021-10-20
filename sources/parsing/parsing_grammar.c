@@ -56,7 +56,7 @@ static void	io_redirections(t_command *cmd)
 			if ((*lst)->next->token == PIPE)
 				*lst = (*lst)->next;
 			redir_less(lst, cmd);
-			redit_great(lst, cmd);
+			redir_great(lst, cmd);
 		}
 		*lst = (*lst)->next;
 	}
@@ -65,5 +65,6 @@ static void	io_redirections(t_command *cmd)
 int	parser(t_command *cmd)
 {
 	io_redirections(cmd);
+	print_command(cmd);
 	return (1);
 }

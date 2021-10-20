@@ -4,6 +4,14 @@
  * create the loop that will run minishell
  */
 
+/*
+ * create the loop that will run minishell
+ */
+
+/*
+ * Utiliser variable globale pour CTRL-D CTRL-C CTRL-\
+ */
+
 static void init_cmd(t_command *cmd)
 {
 	cmd->numb_avail_simple_commands = 0;

@@ -10,6 +10,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="38a0a9c6-b4c1-4eeb-8f08-36be4f12c2db" name="Changes" comment="">
+<<<<<<< HEAD
+      <change afterPath="$PROJECT_DIR$/sources/parsing/parsing_split_1.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sources/parsing/parsing_split_2.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.20.2/CMakeCCompiler.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.20.2/CMakeCCompiler.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.20.2/CMakeDetermineCompilerABI_C.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.20.2/CMakeDetermineCompilerABI_C.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.20.2/CMakeSystem.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.20.2/CMakeSystem.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.20.2/CompilerIdC/a.out" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.20.2/CompilerIdC/a.out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/parsing.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/parsing.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/utils.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/utils.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources.mk" beforeDir="false" afterPath="$PROJECT_DIR$/sources.mk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/builtins/builtin_cd.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/builtins/builtin_cd.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_grammar.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_grammar.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_lexer.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_lexer.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_split.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/utils/utils_4.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/utils/utils_4.c" afterDir="false" />
+=======
       <change afterPath="$PROJECT_DIR$/includes/ms_env.h" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/sources/env/env_edit.c" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/sources/env/env_free.c" afterDir="false" />
@@ -46,6 +68,7 @@
       <change beforePath="$PROJECT_DIR$/sources/utils/utils_4.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/utils/utils_4.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/utils/utils_5.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/utils/utils_5.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/tests_ideas.md" beforeDir="false" afterPath="$PROJECT_DIR$/tests/tests_ideas.md" afterDir="false" />
+>>>>>>> 16766e4605d626bf9cd20657315ce2d7816370f3
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,9 +106,15 @@
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RunManager">
+<<<<<<< HEAD
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+=======
     <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+>>>>>>> 16766e4605d626bf9cd20657315ce2d7816370f3
       </method>
     </configuration>
   </component>
@@ -111,9 +140,16 @@
       <workItem from="1634042653724" duration="14890000" />
       <workItem from="1634116503926" duration="2931000" />
       <workItem from="1634121471769" duration="15183000" />
+<<<<<<< HEAD
+      <workItem from="1634203284419" duration="16895000" />
+      <workItem from="1634314500805" duration="848000" />
+      <workItem from="1634435990608" duration="5000" />
+      <workItem from="1634663857075" duration="2622000" />
+=======
       <workItem from="1634203284419" duration="19210000" />
       <workItem from="1634643165946" duration="303000" />
       <workItem from="1634643541601" duration="1323000" />
+>>>>>>> 16766e4605d626bf9cd20657315ce2d7816370f3
     </task>
     <servers />
   </component>
