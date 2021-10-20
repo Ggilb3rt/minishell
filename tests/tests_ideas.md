@@ -61,7 +61,10 @@ echo '$USER' "$USER '$USER'"			==> '$USER' ggilbert 'ggilbert'
 In bash if you unset PATH, nothing will works after. Think about checking path before run builtins functions ?
 
 
-
+## Subject
+```
+cat | cat | ls		==> must print ls then you can "cat" two times
+```
 
 ## Find on discord
 fd leaks

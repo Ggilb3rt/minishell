@@ -39,49 +39,66 @@ fork
 
 // priorities pipe (|) then redirect (< > >> <<) then others
 
-/*
-// !I must use only one pipe, this function is useless
-int	**create_pipes_fd(int nb_pipe)
+void	ms_pipe(int *fd)
 {
-	int	**fds;
-	int	i;
-	int	pipe_ret;
-
-	i = 0;
-	if (nb_pipe + 2 > 256 - 3)
-		return (NULL);
-	fds = malloc(sizeof(int *) * (nb_pipe + 2 + 1));
-	if (fds == NULL)
-		return (NULL);
-	while (i < (nb_pipe + 2))
+	if (pipe(fd) != 0)
 	{
-		fds[i] = malloc(sizeof(int) * 2);
-		if (fds[i] == NULL)
-		{
-			//close_pipes((nb_pipe + 2), fds);
-			//free_tab(fds);
-			return (NULL);
-		}
-		pipe_ret = pipe(fds[i]);
-		if (pipe_ret < 0)
-		{
-			//close_pipes((nb_pipe + 2), fds);
-			//free_tab(fds);
-			return (NULL);
-		}
-		printf("pipe[%d] fd read = %d | write = %d\n", i, fds[i][0], fds[i][1]);
-		i++;
+		perror("pipe");
+		exit(errno);
 	}
-	fds[i] = NULL;
-	return (fds);
 }
-*/
+
+void	parent_exec(char ***cmd, char **env, int *fd)
+{
+	// Parent execute cmd and send output to child
+	dup2(fd[1], 1);
+	close(fd[0]);
+	close(fd[1]);
+	execve((*cmd)[0], *cmd, env);
+}
+
+void	child_exec(int *fd)
+{
+	dup2(fd[0], 0);
+	close(fd[1]);
+	close(fd[0]);
+	ms_pipe(fd);
+}
+
+// ! pipeline working well, some trouble when cat -e at the end (no it's probably cat /dev/urandom)
+void	pipeline(char ***cmd, char **env)
+{
+	int		fd[2];
+	int		pid;
+
+	ms_pipe(fd);
+	while (*cmd != NULL)
+	{
+		if (*(cmd + 1) != NULL)
+		{
+			pid = fork();
+			if (pid == -1)
+			{
+				perror("fork");
+				exit(errno);
+			}
+			else if (pid > 0)
+				parent_exec(cmd, env, fd);
+			else
+				child_exec(fd);
+		}
+		else
+			execve((*cmd)[0], *cmd, env);
+		cmd++;
+	}
+}
 
 /*
  * loop over commands by sharing
  * pipes.
  */
-void	pipeline(char ***cmd, char **env)
+/*
+void	pipeline2(char ***cmd, char **env)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -98,6 +115,8 @@ void	pipeline(char ***cmd, char **env)
 		pid = fork();
 		if (pid == -1)
 		{
+			close(fd[0]);
+			close(fd[1]);
 			perror("fork");
 			exit(1);
 		}
@@ -105,9 +124,7 @@ void	pipeline(char ***cmd, char **env)
 		{
 			dup2(fdd, 0);
 			if (*(cmd + 1) != NULL)
-			{
 				dup2(fd[1], 1);
-			}
 			close(fd[0]);
 			if (execve((*cmd)[0], *cmd, env) == -1)
 				perror("execve");
@@ -122,7 +139,8 @@ void	pipeline(char ***cmd, char **env)
 		}
 	}
 }
-
+*/
+/*
 void	put_err(char *str)
 {
 	write(STDERR_FILENO, str, ms_strlen(str));
@@ -173,6 +191,7 @@ pid_t	exec_from_to(int from[2], int to[2], char **cmd, char **envp)
 	}
 	return (pid);
 }
+*/
 
 // some troubles with free ; I don't change anything, it's works on 42's Mac... ;
 // troubles with free came from forks (maybe ?)
@@ -186,7 +205,6 @@ char	**convert_envplst_to_tab(t_list_envp *ms_env)
 	tmp_env = malloc(sizeof(char *) + (len_ms_env + 1));
 	if (!tmp_env)
 		return (NULL);
-	//printf("malloc %p\n", tmp_env);
 	i = 0;
 	while (i < len_ms_env)
 	{

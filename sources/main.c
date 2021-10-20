@@ -36,10 +36,10 @@ int	main(int ac, char **av, char **envp)
 	ms_envp = create_msenvp_lst(envp);
 
 	char	*path = get_ms_env_val(PATH, ms_envp);
-	char	**cmd1 = ms_split("ls -la", ' ');
-	char	**cmd2 = ms_split("wc -l", ' ');
-	char	**cmd3 = ms_split("nl", ' ');
-	char	**cmd4 = ms_split("cat -e", ' ');
+	char	**cmd1 = ms_split("cat", ' ');
+	char	**cmd2 = ms_split("cat", ' ');
+	char	**cmd3 = ms_split("cat", ' ');
+	char	**cmd4 = ms_split("ls", ' ');
 	cmd1[0] = init_cmd_path(cmd1[0], path);
 	cmd2[0] = init_cmd_path(cmd2[0], path);
 	cmd3[0] = init_cmd_path(cmd3[0], path);
@@ -59,5 +59,6 @@ int	main(int ac, char **av, char **envp)
 	free(msg_prompt);
 	*/
 	ms_lst_free_all(ms_envp);
+	//free_tab(env);
 	return (0); // return 0 or 1 ?
 }
