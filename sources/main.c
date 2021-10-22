@@ -22,6 +22,10 @@ void sig_handler(int n)
 		printf("\n");
 		g_ret = 2;
 	}
+	if (n == SIGQUIT)
+	{
+		printf("CTRL-slash detected\n");
+	}
 }
 
 void ms_signal(void)
