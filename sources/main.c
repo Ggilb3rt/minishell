@@ -55,6 +55,38 @@ static void init_cmd(t_command *cmd)
 	cmd->err_file = ms_strdup("dflt");
 }
 
+//ret = {{"ls", "la"}, {"cd"}, {"grep", "poeut"}}
+//char ** == {"ls", "la"}
+// char * == "ls"
+char	***pass_cmds_to_exec(t_command *cmds)
+{
+	t_simple_command	*cur;
+	int					i;
+	int					count;
+	int					arr_size;
+	char				***ret;
+
+	arr_size = 0;
+	count = 0;
+	cur = *cmds->list;
+	ret = malloc(sizeof(ret) * (cmds->numb_simple_commands));
+	while (cur != NULL)
+	{
+		i = 0;
+		arr_size = array_size(cur->arg) + 1;
+		printf("arr_size %d\n", arr_size);
+		while (i < arr_size)
+		{
+			printf("%d, %s ; ", i, cur->arg[i]);
+			i++;
+		}
+		printf("\n");
+		cur = cur->next;
+		count++;
+	}
+	return (ret);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_list_envp	*ms_envp;
@@ -74,6 +106,9 @@ int	main(int ac, char **av, char **envp)
 		if (!lexer_and_parser(line, cmd))
 			break ;
 		add_history(line);
+		//check_file(cmd->in_file);
+		print_simple_command(cmd->list);
+		//pass_cmds_to_exec(cmd->list);
 	}
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);

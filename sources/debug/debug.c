@@ -4,7 +4,7 @@
 
 #include "minishell.h"
 
-int print_command(t_command *cmd)
+int	print_command(t_command *cmd)
 {
 	printf("out file = %s\n", cmd->out_file);
 	printf("in file = %s\n", cmd->in_file);
@@ -12,12 +12,12 @@ int print_command(t_command *cmd)
 	return (0);
 }
 
-int print_simple_command(t_simple_command **sc)
+int	print_simple_command(t_simple_command **sc)
 {
 	t_simple_command	*cur;
 	int					i;
-	int 				count;
-	int 				arr_size;
+	int					count;
+	int					arr_size;
 
 	arr_size = 0;
 	count = 0;
