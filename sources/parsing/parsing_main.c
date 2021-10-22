@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:16:21 by alangloi          #+#    #+#             */
-/*   Updated: 2021/10/22 14:58:18 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/10/22 17:36:13 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	lexer_and_parser(char *str, t_command *cmd)
 
 	arg = split_quote(str);
 	cmd->list = lexer(arg);
-	printf("BBIIIB %s\n", cmd->list[0]->arg[0]);
 	if (!cmd->list)
 	{
 		printf("Error input string\n");

@@ -33,6 +33,6 @@ int	cmd_cd(char *path, t_list_envp *env);
 int	cmd_pwd(t_list_envp *env, int print);
 int	cmd_export(t_list_envp *env, char **args);
 int	cmd_unset(t_list_envp **env, char **to_find);
-int	builtin_exit(void);
+int	cmd_exit(char *line);
 
 #endif

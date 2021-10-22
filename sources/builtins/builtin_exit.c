@@ -18,8 +18,9 @@
  * involving key pressed (CTRL-C, CTRL-\)
  */
 
-int    cmd_exit(void)
+int	cmd_exit(char *line)
 {
-	printf("USE OF THE EXIT COMMAND\n");
-	return (0);
+	if (!ms_strcmp(line, "exit"))
+		return (0);
+	return (1);
 }
