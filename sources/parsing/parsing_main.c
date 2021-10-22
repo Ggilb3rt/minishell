@@ -34,6 +34,7 @@ int	lexer_and_parser(char *str, t_command *cmd)
 
 	arg = split_quote(str);
 	cmd->list = lexer(arg);
+
 	if (!cmd->list)
 	{
 		printf("Error input string\n");
