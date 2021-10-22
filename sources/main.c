@@ -52,6 +52,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		g_sig.ret = cmd_exit(line);
 		add_history(line);
+		//print_simple_command(cmd->list);
 	}
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);

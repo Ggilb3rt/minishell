@@ -12,59 +12,60 @@
 
 #include "parsing.h"
 
-static void	redir_great(t_simple_command **lst, t_command *cmd)
+static void	redir_great(t_simple_command *cur, t_command *cmd)
 {
-	if ((*lst)->next->token == GREAT)
+	if (cur->next->token == GREAT && cur->next->next->token == WORD)
 	{
 		free(cmd->out_file);
 		cmd->out_file = NULL;
-		cmd->out_file = ms_strdup((*lst)->next->next->arg[0]);
+		cmd->out_file = ms_strdup(cur->next->next->arg[0]);
 	}
-	if ((*lst)->next->token == DGREAT)
+	if (cur->next->token == DGREAT && cur->next->next->token == WORD)
 	{
 		free(cmd->out_file);
 		cmd->out_file = NULL;
-		cmd->out_file = ms_strdup((*lst)->next->next->arg[0]);
+		cmd->out_file = ms_strdup(cur->next->next->arg[0]);
 	}
 }
 
-static void	redir_less(t_simple_command **lst, t_command *cmd)
+static void	redir_less(t_simple_command *cur, t_command *cmd)
 {
-	if ((*lst)->next->token == LESS)
+	if (cur->next->token == LESS && cur->next->next->token == WORD)
 	{
 		free(cmd->in_file);
 		cmd->in_file = NULL;
-		cmd->in_file = ms_strdup((*lst)->next->next->arg[0]);
+		cmd->in_file = ms_strdup(cur->next->next->arg[0]);
 	}
-	if ((*lst)->next->token == DLESS)
+	if (cur->next->token == DLESS && cur->next->next->token == WORD)
 	{
 		free(cmd->in_file);
 		cmd->in_file = NULL;
-		cmd->in_file = ms_strdup((*lst)->next->next->arg[0]);
+		cmd->in_file = ms_strdup(cur->next->next->arg[0]);
 	}
 }
 
 static void	io_redirections(t_command *cmd)
 {
-	t_simple_command	**lst;
+	t_simple_command	*cur;
 
-	lst = cmd->list;
-	while (*lst != NULL)
+	cur = (*cmd->list);
+	while (cur != NULL)
 	{
-		if ((*lst)->token == WORD)
+		if (cur->token == WORD)
 		{
-			if ((*lst)->next->token == PIPE)
-				*lst = (*lst)->next;
-			redir_less(lst, cmd);
-			redir_great(lst, cmd);
+			if (cur->next->token == PIPE)
+				cur = cur->next;
+			redir_less(cur, cmd);
+			redir_great(cur, cmd);
 		}
-		*lst = (*lst)->next;
+		cur = cur->next;
 	}
 }
 
 int	parser(t_command *cmd)
 {
+
 	io_redirections(cmd);
-	print_command(cmd);
+	//print_command(cmd);
 	return (1);
 }
