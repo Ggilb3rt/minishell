@@ -29,7 +29,6 @@
 # include "utils.h"
 # include "exec.h"
 # include "flux.h"
-# include "signals.h"
 
 # define UINT_MAX 4294967294
 
