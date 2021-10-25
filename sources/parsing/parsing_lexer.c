@@ -40,30 +40,30 @@ static int	convert(t_simple_command **list, char **arg, int i, int cur)
 	if (cur != 0)
 		cur++;
 	new = get_arg(arg, i, cur);
-	elem = alloc_elem(new);
-	add_elem(elem, list);
+	elem = alloc_simple(new);
+	add_simple(elem, list);
 	if (arg[i] != NULL)
 	{
 		cur = i;
 		new = get_arg(arg, i + 1, cur);
-		elem = alloc_elem(new);
-		add_elem(elem, list);
+		elem = alloc_simple(new);
+		add_simple(elem, list);
 	}
 	return (cur);
 }
 
-t_simple_command	**lexer(char **arg)
+t_simple_command	**lexer_2(char **arg, int begin, int end)
 {
 	t_simple_command	**list;
 	int					i;
 	int					cur;
 
-	i = 0;
+	i = begin;
 	cur = 0;
 	list = malloc(sizeof(t_simple_command *));
 	if (!list)
 		return (NULL);
-	while (arg[i])
+	while (i < end)
 	{
 		if (!ms_strcmp(arg[i], "<") || !ms_strcmp(arg[i], ">")
 			|| !ms_strcmp(arg[i], "|") || !ms_strcmp(arg[i], "<<")
@@ -73,7 +73,37 @@ t_simple_command	**lexer(char **arg)
 	}
 	if (i - cur > 0)
 		cur = convert(list, arg, i, cur);
-	add_newline(list, arg, i);
-	//print_simple_command(list);
+	//add_newline
 	return (list);
+}
+
+t_command	**lexer(char **arg, t_command **cmd)
+{
+	t_command	*cur;
+	int 		begin;
+	int 		i;
+
+	*cmd = malloc(sizeof(t_command));
+	cur = *cmd;
+	i = 0;
+	begin = 0;
+	while (arg[i])
+	{
+		printf("kuku %s\n", arg[i]);
+		if (!ms_strcmp(arg[i], ">"))
+		{
+			printf("koko %s\n", arg[i]);
+			cur = cur->next;
+			if (!ms_strcmp(arg[i], "|"))
+			{
+				cur = alloc_command(arg, begin, i);
+				add_command(cur, cmd);
+			}
+		}
+		cur = cur->next;
+		i++;
+	}
+	printf("keke\n");
+	add_newline(&cur, arg, i);
+	return (cmd);
 }

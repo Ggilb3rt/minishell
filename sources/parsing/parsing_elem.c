@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	*list_last(t_simple_command *list)
+static void	*command_last(t_command *list)
 {
 	if (!list)
 		return (NULL);
@@ -21,7 +21,16 @@ static void	*list_last(t_simple_command *list)
 	return (list);
 }
 
-void	add_elem(t_simple_command *new, t_simple_command **list)
+static void	*simple_last(t_simple_command *list)
+{
+	if (!list)
+		return (NULL);
+	while (list->next != NULL)
+		list = list->next;
+	return (list);
+}
+
+void	add_simple(t_simple_command *new, t_simple_command **list)
 {
 	t_simple_command	*cur;
 
@@ -35,13 +44,13 @@ void	add_elem(t_simple_command *new, t_simple_command **list)
 	}
 	else
 	{
-		cur = list_last(*list);
+		cur = simple_last(*list);
 		cur->next = new;
 		cur->next->next = NULL;
 	}
 }
 
-t_simple_command	*alloc_elem(char **str)
+t_simple_command	*alloc_simple(char **str)
 {
 	t_simple_command	*new;
 
@@ -56,16 +65,53 @@ t_simple_command	*alloc_elem(char **str)
 	return (new);
 }
 
-void	add_newline(t_simple_command **list, char **arg, int i)
+void 	add_command(t_command *new, t_command **list)
 {
-	t_simple_command	*new;
+	t_command	*cur;
+
+	if (!new)
+		return ;
+	new->next = NULL;
+	if (!*list)
+	{
+		new->next = *list;
+		*list = new;
+	}
+	else
+	{
+		cur = command_last(*list);
+		cur->next = new;
+		cur->next->next = NULL;
+	}
+}
+
+t_command	*alloc_command(char **arg, int begin, int end)
+{
+	t_command *cmd;
+
+	cmd = malloc(sizeof(t_command *));
+	if (!cmd)
+		return (NULL);
+	cmd->numb_avail_simple_commands = 0;
+	cmd->numb_simple_commands = 0;
+	cmd->list = lexer_2(arg, begin, end);
+	cmd->out_file = ms_strdup("dflt");
+	cmd->in_file = ms_strdup("dflt");
+	cmd->err_file = ms_strdup("dflt");
+	cmd->next = NULL;
+	return (cmd);
+}
+
+void	add_newline(t_command **list, char **arg, int i)
+{
+	t_command	*new;
 	char				**arr;
 
 	arr = malloc(sizeof(char *));
 	arr[0] = "/";
 	if (arg[i] == NULL)
 	{
-		new = alloc_elem(arr);
-		add_elem(new, list);
+		new = alloc_command(arr, 0, 1);
+		add_command(new, list);
 	}
 }

@@ -27,14 +27,14 @@
  * array gives a strange output. Problem to solve
  */
 
-int	lexer_and_parser(char *str, t_command *cmd)
+int	lexer_and_parser(char *str, t_command **cmd)
 {
 	char	**arg;
 	int		ret;
 
 	arg = split_quote(str);
-	cmd->list = lexer(arg);
-	if (!cmd->list)
+	cmd = lexer(arg, cmd);
+	if (!cmd)
 	{
 		printf("Error input string\n");
 		exit (0);

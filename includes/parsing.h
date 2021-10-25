@@ -17,6 +17,8 @@
 
 
 // ? ajouter un define FILE qui correspond a un WORD mais apres un LESS GREAT etc
+// reponse : pour moi il n'y a pas besoin psq c'est a la fin du parsing qu'on choppe
+// le nom du fichier et qu'on le stock dans une variable
 # define ERROR 0
 # define WORD 1
 # define LESS 2
@@ -30,6 +32,7 @@
 * Add in_file_fd and out_file_fd
 * ls > out > out2 > out3 est valide, tout les fichiers sont créés
 * mais seulement out3 contient le retour de ls
+ * reponse : je vais y jeter un oeil
 */
 typedef struct s_to_exec_cmd
 {
@@ -59,9 +62,11 @@ typedef struct s_command
 	int 					numb_avail_simple_commands;
 	int 					numb_simple_commands;
 	t_simple_command		**list;	//? pourquoi pas seulement un simple pointeur sur liste ?
+	// reponse : psq c'est un pointeur sur le premier element de la liste,
 	char 					*out_file;
 	char 					*in_file;
 	char 					*err_file;
+	struct s_command		*next;
 	//void prompt();
 	//void print();
 	//void execute();
@@ -94,22 +99,25 @@ typedef struct s_node
 */
 
 /* parsing main */
-int					lexer_and_parser(char *str, t_command *cmd);
+int					lexer_and_parser(char *str, t_command **cmd);
 //int				convert(t_simple_command **list, char **arg, int i, int cur);
 
 /* parsing tokens */
 int					create_token(char *str);
 
 /* parsing element */
-void 				add_elem(t_simple_command *new, t_simple_command **list_arg);
-t_simple_command	*alloc_elem(char **str);
-void 				add_newline(t_simple_command **list, char **arg, int i);
+void 				add_simple(t_simple_command *new, t_simple_command **list_arg);
+t_simple_command	*alloc_simple(char **str);
+t_command			*alloc_command(char **arg, int begin, int end);
+void				add_command(t_command *new, t_command **list);
+void				add_newline(t_command **list, char **arg, int i);
 
 /* parsing grammar */
-int					parser(t_command *cmd);
+int					parser(t_command **cmd);
 
 /* parsing lexer */
-t_simple_command	**lexer(char **new);
+t_command			**lexer(char **new, t_command **cmd);
+t_simple_command	**lexer_2(char **arg, int begin, int end);
 
 /* parsing split 1 */
 char				**split_quote(char *str);
@@ -119,7 +127,7 @@ int					word_count(char *str);
 char				*split_words(char *str, int strt, int fnsh);
 
 /* debug */
-int					print_simple_command(t_simple_command **sc);
+int					print_simple_command(t_command **sc);
 int					print_command(t_command *cmd);
 
 /* prepare_cmds */

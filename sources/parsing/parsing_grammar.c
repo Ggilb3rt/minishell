@@ -12,43 +12,43 @@
 
 #include "parsing.h"
 
-static void	redir_great(t_simple_command *cur, t_command *cmd)
+static void	redir_great(t_simple_command *cur, t_command **cmd)
 {
 	if (cur->next->token == GREAT && cur->next->next->token == WORD)
 	{
-		free(cmd->out_file);
-		cmd->out_file = NULL;
-		cmd->out_file = ms_strdup(cur->next->next->arg[0]);
+		free((*cmd)->out_file);
+		(*cmd)->out_file = NULL;
+		(*cmd)->out_file = ms_strdup(cur->next->next->arg[0]);
 	}
 	if (cur->next->token == DGREAT && cur->next->next->token == WORD)
 	{
-		free(cmd->out_file);
-		cmd->out_file = NULL;
-		cmd->out_file = ms_strdup(cur->next->next->arg[0]);
+		free((*cmd)->out_file);
+		(*cmd)->out_file = NULL;
+		(*cmd)->out_file = ms_strdup(cur->next->next->arg[0]);
 	}
 }
 
-static void	redir_less(t_simple_command *cur, t_command *cmd)
+static void	redir_less(t_simple_command *cur, t_command **cmd)
 {
 	if (cur->next->token == LESS && cur->next->next->token == WORD)
 	{
-		free(cmd->in_file);
-		cmd->in_file = NULL;
-		cmd->in_file = ms_strdup(cur->next->next->arg[0]);
+		free((*cmd)->in_file);
+		(*cmd)->in_file = NULL;
+		(*cmd)->in_file = ms_strdup(cur->next->next->arg[0]);
 	}
 	if (cur->next->token == DLESS && cur->next->next->token == WORD)
 	{
-		free(cmd->in_file);
-		cmd->in_file = NULL;
-		cmd->in_file = ms_strdup(cur->next->next->arg[0]);
+		free((*cmd)->in_file);
+		(*cmd)->in_file = NULL;
+		(*cmd)->in_file = ms_strdup(cur->next->next->arg[0]);
 	}
 }
 
-static void	io_redirections(t_command *cmd)
+static void	io_redirections(t_command **cmd)
 {
 	t_simple_command	*cur;
 
-	cur = (*cmd->list);
+	cur = (*(*cmd)->list);
 	while (cur != NULL)
 	{
 		if (cur->token == WORD)
@@ -62,7 +62,7 @@ static void	io_redirections(t_command *cmd)
 	}
 }
 
-int	parser(t_command *cmd)
+int	parser(t_command **cmd)
 {
 
 	io_redirections(cmd);
