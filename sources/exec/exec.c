@@ -93,6 +93,42 @@ void	pipeline(char ***cmd, char **env)
 	}
 }
 
+void	new_pipeline(void)
+{
+	int		fd[2];
+	//int		pid;
+	int		i;
+	
+	// init cmds
+	t_to_exec_cmd *cmds;
+	cmds = malloc(sizeof(cmds) * 4);
+	printf("new pipeline %lu\n", sizeof(cmds));
+	i = 0;
+	cmds = malloc(sizeof(cmds) * 4);
+	while (i < 4)
+	{
+		cmds[i]->arg = malloc(sizeof(char **) * 2);
+		cmds[i]->arg[0] = "mais lol";
+		cmds[i]->arg[1] = NULL;
+		cmds[i]->in_file_fd = -1;
+		cmds[i]->out_file_fd = -1;
+		printf("%d, %s %s\n", i, cmds[i]->arg[0], cmds[i]->arg[1]);
+		i++;
+	}
+	cmds[i] = NULL;
+
+	ms_pipe(fd);
+	i = 0;
+	printf("before\n");
+	printf("lollllll %s\n", cmds[i]->arg[0]);
+	while (i < 4)
+	{
+		printf("i in %d\n", i);
+		printf("cmd1 %s\nin %d\nout %d\n\n", cmds[i]->arg[0],
+			cmds[i]->in_file_fd, cmds[i]->out_file_fd);
+		i++;
+	}
+}
 /*
  * loop over commands by sharing
  * pipes.

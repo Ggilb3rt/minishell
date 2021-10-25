@@ -13,6 +13,7 @@ SOURCES = \
 		env/env_edit.c \
 		env/env_free.c \
 		exec/exec.c \
+		exec/prepare_cmds.c \
 		exec/exec_cmd_path.c \
 		flux/flux_append.c \
 		flux/flux_heredoc.c \

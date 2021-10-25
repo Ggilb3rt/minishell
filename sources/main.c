@@ -83,36 +83,39 @@ static void init_cmd(t_command *cmd)
 	cmd->err_file = ms_strdup("dflt");
 }
 
-//ret = {{"ls", "la"}, {"cd"}, {"grep", "poeut"}}
-//char ** == {"ls", "la"}
-// char * == "ls"
-char	***pass_cmds_to_exec(t_command *cmds)
+int		count_until_pipe(t_simple_command **list)
 {
 	t_simple_command	*cur;
-	int					i;
 	int					count;
-	int					arr_size;
-	char				***ret;
 
-	arr_size = 0;
+	cur = *list;
 	count = 0;
-	cur = *cmds->list;
-	ret = malloc(sizeof(ret) * (cmds->numb_simple_commands));
 	while (cur != NULL)
 	{
-		i = 0;
-		arr_size = array_size(cur->arg) + 1;
-		printf("arr_size %d\n", arr_size);
-		while (i < arr_size)
-		{
-			printf("%d, %s ; ", i, cur->arg[i]);
-			i++;
-		}
-		printf("\n");
-		cur = cur->next;
+		if (cur->token == PIPE)
+			return (count);
 		count++;
+		cur = cur->next;
 	}
-	return (ret);
+	return (-1);
+}
+
+void	split_pipe(t_simple_command **list)
+{
+	int					count;
+	t_simple_command	*cur;
+
+	cur = *list;
+	count = count_until_pipe(list);
+	printf("count until pipe %d\n", count);
+	while(count > 0)
+	{
+		for (int i = 0; cur->arg[i] != NULL; i++)
+			printf("%s ", cur->arg[i]);
+		cur = cur->next;
+		count--;
+	}
+	printf("\n");
 }
 
 int	main(int ac, char **av, char **envp)
@@ -143,6 +146,9 @@ int	main(int ac, char **av, char **envp)
 		if (line)
 			add_history(line);
 		print_simple_command(cmd->list);
+		//split_pipe(cmd->list);
+		associate_file_to_cmd(cmd->list);
+		new_pipeline();
 	}
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);

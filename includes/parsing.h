@@ -15,6 +15,8 @@
  * arg = array of arguments
  */
 
+
+// ? ajouter un define FILE qui correspond a un WORD mais apres un LESS GREAT etc
 # define ERROR 0
 # define WORD 1
 # define LESS 2
@@ -24,6 +26,17 @@
 # define PIPE 6
 # define NWLINE 7
 
+/*
+* Add in_file_fd and out_file_fd
+* ls > out > out2 > out3 est valide, tout les fichiers sont créés
+* mais seulement out3 contient le retour de ls
+*/
+typedef struct s_to_exec_cmd
+{
+	char		**arg;
+	int			in_file_fd;
+	int			out_file_fd;
+}				t_to_exec_cmd;
 
 typedef struct s_simple_command
 {
@@ -45,7 +58,7 @@ typedef struct s_command
 {
 	int 					numb_avail_simple_commands;
 	int 					numb_simple_commands;
-	t_simple_command		**list;
+	t_simple_command		**list;	//? pourquoi pas seulement un simple pointeur sur liste ?
 	char 					*out_file;
 	char 					*in_file;
 	char 					*err_file;
@@ -109,4 +122,6 @@ char				*split_words(char *str, int strt, int fnsh);
 int					print_simple_command(t_simple_command **sc);
 int					print_command(t_command *cmd);
 
+/* prepare_cmds */
+int					associate_file_to_cmd(t_simple_command **list);
 #endif

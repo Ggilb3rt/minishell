@@ -22,8 +22,8 @@
 # include <readline/history.h>
 # include <errno.h>
 
-# include "history.h"
 # include "parsing.h"
+# include "history.h"
 # include "ms_env.h"
 # include "builtins.h"
 # include "utils.h"

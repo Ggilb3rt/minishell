@@ -50,8 +50,26 @@ cmd_unset(&ms_envp, ms_split("TERM_PROGRAM PLOP POUET @sdf PWD ROBERT TERM"));	=
 ## Parsing
 ```
 cat < Makefile | grep c | wc < test_file	==>	print wc < text_file result
+ls -la > out | grep source > out2			==> out gets ls -la return and out2 is create butls empty
+ls -la | grep source | cat -e > out | ls	==> return ls -la | grep source | cat -e in out then print ls
+```
+!Send results in pipes while there is no outfile
+```
+ls > out1 > out2 > out3						==> créé trois fichiers mais seul out3 contient le resultat
+cat < sources.mk < Makefile					==> utilise Makefile comme entrée de cat (error si sources.mk n'existe pas)
+grep CC > out < Makefile					==> working well, out gets the result of grep CC with Makefile infile
+```
+Utilise toujour le dernier fichier, créé les autres si nécessaire.
+
+```
+cat > out -e sources.mk						==> cree et ecrit le contenu de sources.mk dans out, l'option -e fonctionne
 ```
 
+
+Le killer
+```
+cat << eof < README.md > toto >> yolo | > poto < Makefile grep s>> moto << eof2
+```
 ## "" and ''
 ```
 echo '$USER' "$USER '$USER'"			==> '$USER' ggilbert 'ggilbert'
