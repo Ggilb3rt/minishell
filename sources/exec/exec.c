@@ -93,39 +93,42 @@ void	pipeline(char ***cmd, char **env)
 	}
 }
 
-void	new_pipeline(void)
+void	new_pipeline(t_command **cmds)
 {
-	int		fd[2];
-	//int		pid;
-	int		i;
-	
-	// init cmds
-	t_to_exec_cmd *cmds;
-	cmds = malloc(sizeof(cmds) * 4);
-	printf("new pipeline %lu\n", sizeof(cmds));
-	i = 0;
-	cmds = malloc(sizeof(cmds) * 4);
-	while (i < 4)
-	{
-		cmds[i]->arg = malloc(sizeof(char **) * 2);
-		cmds[i]->arg[0] = "mais lol";
-		cmds[i]->arg[1] = NULL;
-		cmds[i]->in_file_fd = -1;
-		cmds[i]->out_file_fd = -1;
-		printf("%d, %s %s\n", i, cmds[i]->arg[0], cmds[i]->arg[1]);
-		i++;
-	}
-	cmds[i] = NULL;
+	int					fd[2];
+	//int				pid;
+	int					i;
+	t_simple_command	*cur;
 
 	ms_pipe(fd);
 	i = 0;
-	printf("before\n");
-	printf("lollllll %s\n", cmds[i]->arg[0]);
-	while (i < 4)
+	while (i < 1) // while (cmds[i] != NULL)
 	{
 		printf("i in %d\n", i);
-		printf("cmd1 %s\nin %d\nout %d\n\n", cmds[i]->arg[0],
-			cmds[i]->in_file_fd, cmds[i]->out_file_fd);
+		cur = cmds[i]->list[0];
+		while (cur != NULL)
+		{
+			// while to get each arg (but no need for pipeline)
+			printf("cmd %d %s\nin %s\nout %s\n\n", i, cur->arg[0],
+				cmds[i]->in_file, cmds[i]->out_file);
+			if (!ms_strcmp(cmds[i]->in_file, "dflt"))
+			{
+				/*
+				dup2(fd[0], cmds[i]->in_file);
+				close(fd[0]);
+				close[fd[1]];
+				*/
+			}
+			if (!ms_strcmp(cmds[i]->out_file, "dflt"))
+			{
+				/*
+				dup2(fd[1], cmds[i]->out_file);
+				close(fd[0]);
+				close[fd[1]];
+				*/
+			}
+			cur = cur->next;
+		}
 		i++;
 	}
 }

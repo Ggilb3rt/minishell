@@ -148,7 +148,7 @@ int	main(int ac, char **av, char **envp)
 		print_simple_command(cmd->list);
 		//split_pipe(cmd->list);
 		associate_file_to_cmd(cmd->list);
-		new_pipeline();
+		new_pipeline(&cmd);
 	}
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);

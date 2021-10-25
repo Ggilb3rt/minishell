@@ -22,6 +22,40 @@
 # include <readline/history.h>
 # include <errno.h>
 
+typedef struct s_simple_command
+{
+	int 					numb_avail;
+	int 					numb;
+	char 					**arg;
+	int						token;
+	struct s_simple_command	*next;
+	//simple_command();
+	//void insert_argument(char *argument);
+}				t_simple_command;
+
+/*
+ * Describes a complete command with the multiple pipes if any and
+ * input/output redirection if any.
+ */
+
+typedef struct s_command
+{
+	int 					numb_avail_simple_commands;
+	int 					numb_simple_commands;
+	t_simple_command		**list;	//? pourquoi pas seulement un simple pointeur sur liste ?
+	char 					*out_file;
+	char 					*in_file;
+	char 					*err_file;
+	//void prompt();
+	//void print();
+	//void execute();
+	//void clear();
+	//command();
+	//void insert_simple_command(simple_command * simple_command);
+	//static t_command		cur_command;
+	//static t_simple_command	*cur_simple_command;
+}				t_command;
+
 # include "parsing.h"
 # include "history.h"
 # include "ms_env.h"

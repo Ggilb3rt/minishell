@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/10/25 12:01:12 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/10/25 18:39:38 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,18 @@ char	***pass_cmds_to_exec(t_command *cmds)
 	return (ret);
 }
 
+int	check_access(char *path, int *fd)
+{
+	if (access(path, F_OK | R_OK) == -1)
+	{
+		perror("access");
+		return (0);
+	}
+	*fd = open(path, O_RDONLY);
+	printf("can access\n");
+	return (1);
+}
+
 int	associate_file_to_cmd(t_simple_command **list)
 {
 	/*
@@ -69,13 +81,15 @@ int	associate_file_to_cmd(t_simple_command **list)
 				return (errno);
 			if (cur_token == LESS)
 			{
-				if (access(cur->arg[0], F_OK | R_OK) == -1)
+				if (!check_access(cur->arg[0], &tmp_fd))
+					return (-1);
+				/*if (access(cur->arg[0], F_OK | R_OK) == -1)
 				{
 					perror("access");
 					return (errno);
 				}
 				tmp_fd = open(cur->arg[0], O_RDONLY);
-				printf("can access\n");
+				printf("can access\n");*/
 			}
 			else if (cur_token == GREAT)
 				tmp_fd = open(cur->arg[0], O_CREAT | O_WRONLY, 0666);

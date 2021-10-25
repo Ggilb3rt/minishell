@@ -38,39 +38,7 @@ typedef struct s_to_exec_cmd
 	int			out_file_fd;
 }				t_to_exec_cmd;
 
-typedef struct s_simple_command
-{
-	int 					numb_avail;
-	int 					numb;
-	char 					**arg;
-	int						token;
-	struct s_simple_command	*next;
-	//simple_command();
-	//void insert_argument(char *argument);
-}				t_simple_command;
 
-/*
- * Describes a complete command with the multiple pipes if any and
- * input/output redirection if any.
- */
-
-typedef struct s_command
-{
-	int 					numb_avail_simple_commands;
-	int 					numb_simple_commands;
-	t_simple_command		**list;	//? pourquoi pas seulement un simple pointeur sur liste ?
-	char 					*out_file;
-	char 					*in_file;
-	char 					*err_file;
-	//void prompt();
-	//void print();
-	//void execute();
-	//void clear();
-	//command();
-	//void insert_simple_command(simple_command * simple_command);
-	//static t_command		cur_command;
-	//static t_simple_command	*cur_simple_command;
-}				t_command;
 
 typedef struct s_split
 {
@@ -122,6 +90,4 @@ char				*split_words(char *str, int strt, int fnsh);
 int					print_simple_command(t_simple_command **sc);
 int					print_command(t_command *cmd);
 
-/* prepare_cmds */
-int					associate_file_to_cmd(t_simple_command **list);
 #endif

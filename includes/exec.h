@@ -9,10 +9,16 @@
 
 /* theses function will allow minishell to look for and run programs */
 
-char		**convert_envplst_to_tab(t_list_envp *ms_env);
+/* exec_cmd_path */
 char		*init_cmd_path(char *cmd, char *paths);
+
+/* exec */
+char		**convert_envplst_to_tab(t_list_envp *ms_env);
 int			**create_pipes_fd(int nb_pipe);
 void		pipeline(char ***cmd, char **env);
+void		new_pipeline(t_command **cmds);
 
-void		new_pipeline(void);
+/* prepare_cmds */
+int			associate_file_to_cmd(t_simple_command **list);
+
 #endif
