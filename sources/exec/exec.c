@@ -76,6 +76,7 @@ void	pipeline(char ***cmd, char **env)
 	{
 		if (*(cmd + 1) != NULL)
 		{
+			printf("bonjour\n");
 			pid = fork();
 			if (pid == -1)
 			{

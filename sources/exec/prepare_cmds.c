@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/10/26 13:53:35 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/10/26 15:18:26 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,9 @@ int	associate_file_to_cmd(t_simple_command **list)
 				perror("open");
 				return (errno);
 			}
-			//if (tmp_fd > 0)
-			//	write(tmp_fd, "Loeut\n", 7);
-			//printf("tmp fd : %d\n", tmp_fd);
+			if (tmp_fd > 0)
+				write(tmp_fd, "Loeut\n", 7);
+			printf("tmp fd : %d\n", tmp_fd);
 		}
 		cur = cur->next;
 	}
