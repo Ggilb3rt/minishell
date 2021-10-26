@@ -46,6 +46,8 @@ typedef struct s_command
 	char 					*out_file;
 	char 					*in_file;
 	char 					*err_file;
+	int						fd_in;
+	int						fd_out;
 	//void prompt();
 	//void print();
 	//void execute();
