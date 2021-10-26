@@ -51,7 +51,11 @@ void	ms_pipe(int *fd)
 void	parent_exec(char ***cmd, char **env, int *fd)
 {
 	// Parent execute cmd and send output to child
+	static int i = 0;
+
+	fprintf(stderr, "execute parent %d | %d %d\n", i++, *fd, *(fd + 1));
 	dup2(fd[1], 1);
+	fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
 	close(fd[0]);
 	close(fd[1]);
 	execve((*cmd)[0], *cmd, env);
@@ -59,24 +63,27 @@ void	parent_exec(char ***cmd, char **env, int *fd)
 
 void	child_exec(int *fd)
 {
+	static int i = 0;
+
+	fprintf(stderr, "execute child %d | %d %d\n", i++, *fd, *(fd + 1));
 	dup2(fd[0], 0);
+	fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
 	close(fd[1]);
 	close(fd[0]);
 	ms_pipe(fd);
 }
 
 // ! pipeline working well, some trouble when cat -e at the end (no it's probably cat /dev/urandom)
-void	pipeline(char ***cmd, char **env)
+int	pipeline2(char ***cmd, char **env)
 {
-	int		fd[2];
-	int		pid;
+	int	fd[2];
+	int	pid;
 
 	ms_pipe(fd);
 	while (*cmd != NULL)
 	{
 		if (*(cmd + 1) != NULL)
 		{
-			printf("bonjour\n");
 			pid = fork();
 			if (pid == -1)
 			{
@@ -89,10 +96,53 @@ void	pipeline(char ***cmd, char **env)
 				child_exec(fd);
 		}
 		else
-			execve((*cmd)[0], *cmd, env);
+		{
+			//pid = fork();
+			//if (pid == 0)
+				execve((*cmd)[0], *cmd, env);
+		}
 		cmd++;
 	}
+	return (pid);
 }
+
+int	pipeline(char ***cmd, char **env)
+{
+	int		fd[2];
+	int		pid;
+	int		i;
+
+	i = 0;
+	ms_pipe(fd);
+	while (*cmd != NULL)
+	{
+		if (*(cmd + 1) != NULL)
+		{
+			pid = fork();
+			if (pid == -1)
+			{
+				perror("fork");
+				exit(errno);
+			}
+			else if (pid == 0)
+				parent_exec(cmd, env, fd);
+			else
+				child_exec(fd);
+		}
+		else
+		{
+			//pid = fork();
+			//if (pid == 0)
+				execve((*cmd)[0], *cmd, env);
+		}
+		cmd++;
+		i++;
+	}
+	while (i-- > 0)
+		waitpid(pid, NULL, 0);
+	return (pid);
+}
+
 
 void	new_pipeline(t_command **cmds)
 {
@@ -248,7 +298,7 @@ char	**convert_envplst_to_tab(t_list_envp *ms_env)
 	i = 0;
 	while (i < len_ms_env)
 	{
-		tmp_env[i] = ms_env->content;
+		tmp_env[i] = ms_strdup(ms_env->content);
 		ms_env = ms_env->next;
 		i++;
 	}

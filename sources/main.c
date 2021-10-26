@@ -130,7 +130,7 @@ int	main(int ac, char **av, char **envp)
 int	main(int ac, char **av, char **envp)
 {
 	t_list_envp	*ms_envp;
-	//char		*line;
+	char		*line;
 	//char		*msg_prompt;
 	//t_command *cmd;
 
@@ -139,6 +139,8 @@ int	main(int ac, char **av, char **envp)
 	//cmd = malloc(sizeof(t_command));
 	//init_cmd(cmd);
 	ms_envp = create_msenvp_lst(envp);
+	char	**env = convert_envplst_to_tab(ms_envp);
+	(void)env;
 
 	char	*path = get_ms_env_val(PATH, ms_envp);
 	char	**cmd1 = ms_split("cat", ' ');
@@ -150,11 +152,13 @@ int	main(int ac, char **av, char **envp)
 	cmd3[0] = init_cmd_path(cmd3[0], path);
 	cmd4[0] = init_cmd_path(cmd4[0], path);
 	char	**cmds[] = {cmd1, cmd2, cmd3, cmd4, NULL};
-	//char	**env = convert_envplst_to_tab(ms_envp);
-	pipeline(cmds, envp);
-	printf("pouet\n");
-	//(void)env;
-	ms_lst_free_all(ms_envp);
+	int pid = pipeline(cmds, env);
+	//ms_lst_free_all(ms_envp);
 	//free_tab(env);
+	//while (1)
+	//{
+		waitpid(pid, NULL, 0);
+		line = readline("pouet | ");
+	//}
 	return (0); // return 0 or 1 ?
 }

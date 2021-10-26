@@ -33,4 +33,6 @@ SOURCES = \
 		utils/utils_4.c \
 		utils/utils_5.c \
 		utils/utils_chr.c \
+		utils/ft_strlcpy.c \
+		utils/ft_strtrim.c \
 		debug/debug.c
