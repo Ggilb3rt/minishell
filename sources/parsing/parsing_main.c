@@ -33,7 +33,7 @@ int	lexer_and_parser(char *str, t_command **cmd)
 	int		ret;
 
 	arg = split_quote(str);
-	cmd = lexer(arg, cmd);
+	lexer(arg, cmd);
 	if (!cmd)
 	{
 		printf("Error input string\n");

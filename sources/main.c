@@ -120,7 +120,7 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
-	cmd = malloc(sizeof(t_command));
+	cmd = malloc(sizeof(t_command *));
 	//init_cmd(cmd);
 	ms_signal();
 	ms_envp = create_msenvp_lst(envp);
@@ -133,7 +133,9 @@ int	main(int ac, char **av, char **envp)
 		if (!lexer_and_parser(line, cmd))
 			break;
 		ms_signal();
-		if (line == NULL) {
+		print_all(cmd);
+		if (line == NULL)
+		{
 			printf("\n");
 			break ;
 		}
@@ -144,7 +146,7 @@ int	main(int ac, char **av, char **envp)
 		if (line)
 			add_history(line);
 		ms_signal();
-		print_simple_command(cmd);
+		//print_simple_command(cmd);
 		//print_command(cmd);
 		//split_pipe(cmd->list);
 		//associate_file_to_cmd(cmd->list);

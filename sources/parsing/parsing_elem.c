@@ -12,16 +12,16 @@
 
 #include "minishell.h"
 
-static void	*command_last(t_command *list)
+static t_command	*command_last(t_command *cmd)
 {
-	if (!list)
+	if (!cmd)
 		return (NULL);
-	while (list->next != NULL)
-		list = list->next;
-	return (list);
+	while (cmd->next != NULL)
+		cmd = cmd->next;
+	return (cmd);
 }
 
-static void	*simple_last(t_simple_command *list)
+static t_simple_command	*simple_last(t_simple_command *list)
 {
 	if (!list)
 		return (NULL);
@@ -50,6 +50,26 @@ void	add_simple(t_simple_command *new, t_simple_command **list)
 	}
 }
 
+void	add_command(t_command *new, t_command **cmd)
+{
+	t_command	*cur;
+
+	if (!new)
+		return ;
+	new->next = NULL;
+	if (!*cmd)
+	{
+		new->next = *cmd;
+		*cmd = new;
+	}
+	else
+	{
+		cur = command_last(*cmd);
+		cur->next = new;
+		cur->next->next = NULL;
+	}
+}
+
 t_simple_command	*alloc_simple(char **str)
 {
 	t_simple_command	*new;
@@ -65,31 +85,11 @@ t_simple_command	*alloc_simple(char **str)
 	return (new);
 }
 
-void 	add_command(t_command *new, t_command **list)
-{
-	t_command	*cur;
-
-	if (!new)
-		return ;
-	new->next = NULL;
-	if (!*list)
-	{
-		new->next = *list;
-		*list = new;
-	}
-	else
-	{
-		cur = command_last(*list);
-		cur->next = new;
-		cur->next->next = NULL;
-	}
-}
-
 t_command	*alloc_command(char **arg, int begin, int end)
 {
 	t_command *cmd;
 
-	cmd = malloc(sizeof(t_command *));
+	cmd = malloc(sizeof(t_command));
 	if (!cmd)
 		return (NULL);
 	cmd->numb_avail_simple_commands = 0;
@@ -105,7 +105,7 @@ t_command	*alloc_command(char **arg, int begin, int end)
 void	add_newline(t_command **list, char **arg, int i)
 {
 	t_command	*new;
-	char				**arr;
+	char		**arr;
 
 	arr = malloc(sizeof(char *));
 	arr[0] = "/";

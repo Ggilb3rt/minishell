@@ -32,8 +32,8 @@
 
 # define UINT_MAX 4294967294
 
-# define PRMPT_NEWLINE
-# define PRMPT_QUIT
-# define PRMPT_ERROR
+# define PRMPT_NEWLINE 1
+# define PRMPT_QUIT 2
+# define PRMPT_ERROR 3
 
 #endif

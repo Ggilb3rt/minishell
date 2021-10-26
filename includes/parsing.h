@@ -34,6 +34,7 @@
 * mais seulement out3 contient le retour de ls
  * reponse : je vais y jeter un oeil
 */
+
 typedef struct s_to_exec_cmd
 {
 	char		**arg;
@@ -61,11 +62,12 @@ typedef struct s_command
 {
 	int 					numb_avail_simple_commands;
 	int 					numb_simple_commands;
-	t_simple_command		**list;	//? pourquoi pas seulement un simple pointeur sur liste ?
-	// reponse : psq c'est un pointeur sur le premier element de la liste,
+	t_simple_command		**list;
 	char 					*out_file;
 	char 					*in_file;
 	char 					*err_file;
+	struct s_command 		*pipe_out;
+	struct s_command 		*pipe_in;
 	struct s_command		*next;
 	//void prompt();
 	//void print();
@@ -106,17 +108,17 @@ int					lexer_and_parser(char *str, t_command **cmd);
 int					create_token(char *str);
 
 /* parsing element */
-void 				add_simple(t_simple_command *new, t_simple_command **list_arg);
+void				add_simple(t_simple_command *new, t_simple_command **list);
+void				add_command(t_command *new, t_command **list);
 t_simple_command	*alloc_simple(char **str);
 t_command			*alloc_command(char **arg, int begin, int end);
-void				add_command(t_command *new, t_command **list);
 void				add_newline(t_command **list, char **arg, int i);
 
 /* parsing grammar */
 int					parser(t_command **cmd);
 
 /* parsing lexer */
-t_command			**lexer(char **new, t_command **cmd);
+t_command			**lexer(char **arg, t_command **cmd);
 t_simple_command	**lexer_2(char **arg, int begin, int end);
 
 /* parsing split 1 */
@@ -127,8 +129,9 @@ int					word_count(char *str);
 char				*split_words(char *str, int strt, int fnsh);
 
 /* debug */
-int					print_simple_command(t_command **sc);
+int					print_simple_command(t_simple_command **sc);
 int					print_command(t_command *cmd);
+int					print_all(t_command **cmd);
 
 /* prepare_cmds */
 int					associate_file_to_cmd(t_simple_command **list);
