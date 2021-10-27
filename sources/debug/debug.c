@@ -64,6 +64,8 @@ int print_all(t_command **cmd)
 		}
 		else
 			printf("--nopipeout--\n");
+		printf("\n");
+		printf("\n");
 		cur = cur->next;
 	}
 	return (0);
