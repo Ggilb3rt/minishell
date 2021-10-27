@@ -3,81 +3,91 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alangloi <alangloi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:05:41 by alangloi          #+#    #+#             */
-/*   Updated: 2021/10/19 14:08:35 by alangloi         ###   ########.fr       */
+/*   Updated: 2021/10/26 16:07:56 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	numb_words(const char *str, char c)
+int	ft_countc(char const *s, char c)
 {
 	int	i;
-	int	trig;
 
 	i = 0;
-	trig = 0;
-	while (*str)
+	while (*s)
 	{
-		if (*str != c && trig == 0)
+		if (*s == c)
 		{
-			trig = 1;
 			i++;
+			while (*s && *s == c)
+				s++;
 		}
-		else if (*str == c)
-			trig = 0;
-		str++;
+		if (*s != '\0')
+			s++;
 	}
 	return (i);
 }
 
-static char	*sep_words(const char *str, int start, int finish)
+char	*w_malloc(char *s, char c)
 {
 	char	*word;
 	int		i;
 
 	i = 0;
-	word = malloc((finish - start + 1) * sizeof(char));
-	while (start < finish)
-		word[i++] = str[start++];
+	while (s[i] != '\0' && s[i] != c)
+		i++;
+	word = (char *)malloc(sizeof(char) * (i + 1));
+	if (word == NULL)
+		return (NULL);
+	i = 0;
+	while (s[i] != '\0' && s[i] != c)
+	{
+		word[i] = s[i];
+		i++;
+	}
 	word[i] = '\0';
 	return (word);
 }
 
-char	*fill_array(const char *s, int *count, int i, char c)
+char	*process(char *sn, char c, char **arr)
 {
-	if (s[i] != c && *count < 0)
-		*count = i;
-	else if ((s[i] == c || i == (int)ms_strlen(s)) && *count >= 0)
+	int	i;
+
+	i = 0;
+	while (*sn)
 	{
-		return (sep_words(s, *count, i));
+		if (*sn != c && *sn)
+		{
+			arr[i] = w_malloc(sn, c);
+			if (arr[i] == NULL)
+				return (NULL);
+			i++;
+			while (*sn && *sn != c)
+				sn++;
+		}
+		if (*sn != '\0')
+			sn++;
 	}
-	return (NULL);
+	arr[i] = NULL;
+	return (sn);
 }
 
 char	**ms_split(char const *s, char c)
 {
-	size_t	i;
-	size_t	j;
-	int		count;
 	char	**arr;
+	char	*sn;
 
-	i = 0;
-	j = 0;
-	arr = malloc(sizeof(char *) * (numb_words(s, c) + 1));
-	if (!arr)
-		return (0);
-	count = -1;
-	while (i <= ms_strlen(s))
-	{
-		arr[j++] = fill_array(s, &count, i, c);
-		if (arr[j])
-			count = -1;
-		i++;
-	}
-	arr[j] = 0;
+	sn = ft_strtrim(s, &c);
+	if (!sn)
+		return (NULL);
+	arr = (char **)malloc(sizeof(s) * (ft_countc(sn, c) + 2));
+	if (arr == NULL)
+		return (NULL);
+	process(sn, c, arr);
+	free(sn);
 	return (arr);
 }
 

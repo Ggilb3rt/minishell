@@ -51,7 +51,11 @@ void	ms_pipe(int *fd)
 void	parent_exec(char ***cmd, char **env, int *fd)
 {
 	// Parent execute cmd and send output to child
+	static int i = 0;
+
+	fprintf(stderr, "execute parent %d | %d %d\n", i++, *fd, *(fd + 1));
 	dup2(fd[1], 1);
+	fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
 	close(fd[0]);
 	close(fd[1]);
 	execve((*cmd)[0], *cmd, env);
@@ -59,17 +63,21 @@ void	parent_exec(char ***cmd, char **env, int *fd)
 
 void	child_exec(int *fd)
 {
+	static int i = 0;
+
+	fprintf(stderr, "execute child %d | %d %d\n", i++, *fd, *(fd + 1));
 	dup2(fd[0], 0);
+	fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
 	close(fd[1]);
 	close(fd[0]);
 	ms_pipe(fd);
 }
 
 // ! pipeline working well, some trouble when cat -e at the end (no it's probably cat /dev/urandom)
-void	pipeline(char ***cmd, char **env)
+int	pipeline(char ***cmd, char **env)
 {
-	int		fd[2];
-	int		pid;
+	int	fd[2];
+	int	pid;
 
 	ms_pipe(fd);
 	while (*cmd != NULL)
@@ -88,150 +96,16 @@ void	pipeline(char ***cmd, char **env)
 				child_exec(fd);
 		}
 		else
-			execve((*cmd)[0], *cmd, env);
+		{
+			//pid = fork();
+			//if (pid == 0)
+				execve((*cmd)[0], *cmd, env);
+		}
 		cmd++;
-	}
-}
-
-void	new_pipeline(void)
-{
-	int		fd[2];
-	//int		pid;
-	int		i;
-	
-	// init cmds
-	t_to_exec_cmd *cmds;
-	cmds = malloc(sizeof(cmds) * 4);
-	//printf("new pipeline %lu\n", sizeof(cmds));
-	i = 0;
-	cmds = malloc(sizeof(cmds) * 4);
-	while (i < 4)
-	{
-		cmds[i].arg = malloc(sizeof(char **) * 2);
-		cmds[i].arg[0] = "mais lol";
-		cmds[i].arg[1] = NULL;
-		cmds[i].in_file_fd = -1;
-		cmds[i].out_file_fd = -1;
-		//printf("%d, %s %s\n", i, cmds[i].arg[0], cmds[i].arg[1]);
-		i++;
-	}
-	cmds[i].arg = NULL;
-	cmds[i].arg[0] = NULL;
-	cmds[i].arg[1] = NULL;
-	cmds[i].in_file_fd = -1;
-	cmds[i].out_file_fd = -1;
-
-	ms_pipe(fd);
-	i = 0;
-	//printf("before\n");
-	//printf("lollllll %s\n", cmds[i].arg[0]);
-	while (i < 4)
-	{
-		//printf("i in %d\n", i);
-		//printf("cmd1 %s\nin %d\nout %d\n\n", cmds[i].arg[0],
-			//cmds[i].in_file_fd, cmds[i].out_file_fd);
-		i++;
-	}
-}
-/*
- * loop over commands by sharing
- * pipes.
- */
-/*
-void	pipeline2(char ***cmd, char **env)
-{
-	int		fd[2];
-	pid_t	pid;
-	int		fdd;
-
-	fdd = 0; //Backup
-	while (*cmd != NULL)
-	{
-		if (pipe(fd) == -1)
-		{
-			perror("pipe");
-			exit(1);
-		}
-		pid = fork();
-		if (pid == -1)
-		{
-			close(fd[0]);
-			close(fd[1]);
-			perror("fork");
-			exit(1);
-		}
-		else if (pid == 0)
-		{
-			dup2(fdd, 0);
-			if (*(cmd + 1) != NULL)
-				dup2(fd[1], 1);
-			close(fd[0]);
-			if (execve((*cmd)[0], *cmd, env) == -1)
-				perror("execve");
-			exit(1);
-		}
-		else
-		{
-			waitpid(pid, NULL, 0);
-			close(fd[1]);
-			fdd = fd[0];
-			cmd++;
-		}
-	}
-}
-*/
-/*
-void	put_err(char *str)
-{
-	write(STDERR_FILENO, str, ms_strlen(str));
-}
-
-void	close_unneeded(unsigned int *c, int *from, int *to)
-{
-	if (*c == UINT_MAX)
-		*c = 2;
-	if (*c % 2 == 1)
-	{
-		close(from[0]);
-		close(from[1]);
-		close(to[0]);
-	}
-	else
-	{
-		close(to[0]);
-		close(to[1]);
-		close(from[1]);
-	}
-}
-
-pid_t	exec_from_to(int from[2], int to[2], char **cmd, char **envp)
-{
-	pid_t				pid;
-	static unsigned int	count = 1;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		dup2(from[0], STDIN_FILENO);
-		dup2(to[1], STDOUT_FILENO);
-		close_unneeded(&count, from, to);
-		count++;
-		execve(cmd[0], cmd, envp);
-		if (errno == 2)
-		{
-			put_err(cmd[0]);
-			put_err(": command not found\n");
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			perror(cmd[0]);
-			exit(EXIT_FAILURE);
-		}
 	}
 	return (pid);
 }
-*/
+
 
 // some troubles with free ; I don't change anything, it's works on 42's Mac... ;
 // troubles with free came from forks (maybe ?)
@@ -248,7 +122,7 @@ char	**convert_envplst_to_tab(t_list_envp *ms_env)
 	i = 0;
 	while (i < len_ms_env)
 	{
-		tmp_env[i] = ms_env->content;
+		tmp_env[i] = ms_strdup(ms_env->content);
 		ms_env = ms_env->next;
 		i++;
 	}

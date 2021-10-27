@@ -55,26 +55,7 @@ static int	meet_quote(char *str, int i, int *open)
 		printf("error next quote\n");
 	return (i);
 }
-/*
-static int	check_open(int *open, int *trig, char *str, int i)
-{
-	if (*open)
-	{
-		i = meet_quote(str, i, open);
-		if (ms_is_alpha(&str[i + 1]))
-			*trig = 0;
-		return (1);
-	}
-	else if ((str[i] != ' ' && !*open) && *trig == 0)
-	{
-		*trig = 1;
-		return (1);
-	}
-	else if (str[i] == ' ')
-		*trig = 0;
-	return (0);
-}
-*/
+
 int	word_count(char *str)
 {
 	int	words;
@@ -88,7 +69,6 @@ int	word_count(char *str)
 	trig = 0;
 	while (str[i])
 	{
-
 		open = check_quote(str[i]);
 		if (open)
 		{
@@ -104,11 +84,6 @@ int	word_count(char *str)
 		}
 		else if (str[i] == ' ')
 			trig = 0;
-
-		/*
-		open = check_quote(str[i]);
-		words += check_open(&open, &trig, str, i);
-		 */
 		i++;
 	}
 	return (words);

@@ -65,11 +65,6 @@ t_simple_command	**lexer_2(char **arg, int begin, int end)
 		return (NULL);
 	while (i < end)
 	{
-		/*
-		if (!ms_strcmp(arg[i], "<") || !ms_strcmp(arg[i], ">")
-			|| !ms_strcmp(arg[i], "|") || !ms_strcmp(arg[i], "<<")
-			|| !ms_strcmp(arg[i], ">>"))
-		 */
 		if (!ms_strcmp(arg[i], "<") || !ms_strcmp(arg[i], ">")
 			|| !ms_strcmp(arg[i], "<<") || !ms_strcmp(arg[i], ">>"))
 			cur = convert(list, arg, i, cur);
@@ -77,15 +72,14 @@ t_simple_command	**lexer_2(char **arg, int begin, int end)
 	}
 	if (i - cur > 0)
 		cur = convert(list, arg, i, cur);
-	//add_newline
 	return (list);
 }
 
 t_command	**lexer(char **arg, t_command **cmd)
 {
 	t_command	*cur;
-	int 		begin;
-	int 		i;
+	int			begin;
+	int			i;
 
 	*cmd = NULL;
 	cur = *cmd;

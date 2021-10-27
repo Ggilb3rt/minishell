@@ -27,11 +27,10 @@ $(OBJ):
 	mkdir -p $@
 	cd objects && mkdir -p parsing
 	cd objects && mkdir -p builtins
-	cd objects && mkdir -p history
 	cd objects && mkdir -p utils
 	cd objects && mkdir -p exec
 	cd objects && mkdir -p env
-	cd objects && mkdir -p flux
+	cd objects && mkdir -p heredoc
 	cd objects && mkdir -p debug
 
 $(OBJS): | $(OBJ)

@@ -2,8 +2,8 @@
 // Created by Antoine LANGLOIS on 22/09/2021.
 //
 
-#ifndef MINISHELL_PARSING_H
-# define MINISHELL_PARSING_H
+#ifndef PARSING_H
+# define PARSING_H
 
 # include "minishell.h"
 
@@ -14,7 +14,6 @@
  * numb_arg = number of arguments
  * arg = array of arguments
  */
-
 
 // ? ajouter un define FILE qui correspond a un WORD mais apres un LESS GREAT etc
 // reponse : pour moi il n'y a pas besoin psq c'est a la fin du parsing qu'on choppe
@@ -42,43 +41,6 @@ typedef struct s_to_exec_cmd
 	int			out_file_fd;
 }				t_to_exec_cmd;
 
-typedef struct s_simple_command
-{
-	int 					numb_avail;
-	int 					numb;
-	char 					**arg;
-	int						token;
-	struct s_simple_command	*next;
-	//simple_command();
-	//void insert_argument(char *argument);
-}				t_simple_command;
-
-/*
- * Describes a complete command with the multiple pipes if any and
- * input/output redirection if any.
- */
-
-typedef struct s_command
-{
-	int 					numb_avail_simple_commands;
-	int 					numb_simple_commands;
-	t_simple_command		**list;
-	char 					*out_file;
-	char 					*in_file;
-	char 					*err_file;
-	struct s_command 		*pipe_out;
-	struct s_command 		*pipe_in;
-	struct s_command		*next;
-	//void prompt();
-	//void print();
-	//void execute();
-	//void clear();
-	//command();
-	//void insert_simple_command(simple_command * simple_command);
-	//static t_command		cur_command;
-	//static t_simple_command	*cur_simple_command;
-}				t_command;
-
 typedef struct s_split
 {
 	int 	size;
@@ -87,35 +49,29 @@ typedef struct s_split
 	int 	count_d;
 	int		len;
 	int		open;
+	char 	**new;
+	int 	j;
 }				t_split;
 
-/*
-typedef struct s_node
-{
-	char 			**type;
-	int				children;
-	struct s_node	*first_child;
-	struct s_node	*next_sibling;
-	struct s_node	*prev_sibling;
-}				t_node;
-*/
-
 /* parsing main */
-int					lexer_and_parser(char *str, t_command **cmd);
+int					lexer_and_parser(char *str, t_command **cmd, int *g_ret);
 //int				convert(t_simple_command **list, char **arg, int i, int cur);
 
 /* parsing tokens */
 int					create_token(char *str);
 
-/* parsing element */
+/* parsing add */
 void				add_simple(t_simple_command *new, t_simple_command **list);
 void				add_command(t_command *new, t_command **list);
-t_simple_command	*alloc_simple(char **str);
-t_command			*alloc_command(char **arg, int begin, int end);
 void				add_newline(t_command **list, char **arg, int i);
 
+/* parsing alloc */
+t_simple_command	*alloc_simple(char **str);
+t_command			*alloc_command(char **arg, int begin, int end);
+
+
 /* parsing grammar */
-int					parser(t_command **cmd);
+int					parser(t_command **cmd, int *g_ret);
 
 /* parsing lexer */
 t_command			**lexer(char **arg, t_command **cmd);
@@ -133,6 +89,4 @@ int					print_simple_command(t_simple_command **sc);
 int					print_command(t_command *cmd);
 int					print_all(t_command **cmd);
 
-/* prepare_cmds */
-int					associate_file_to_cmd(t_simple_command **list);
 #endif

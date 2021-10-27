@@ -27,7 +27,7 @@
  * array gives a strange output. Problem to solve
  */
 
-int	lexer_and_parser(char *str, t_command **cmd)
+int	lexer_and_parser(char *str, t_command **cmd, int *g_ret)
 {
 	char	**arg;
 	int		ret;
@@ -39,11 +39,11 @@ int	lexer_and_parser(char *str, t_command **cmd)
 		printf("Error input string\n");
 		exit (0);
 	}
-	ret = parser(cmd);
+	ret = parser(cmd, g_ret);
 	if (!ret)
 	{
 		printf("Error synthax\n");
 		exit (0);
 	}
-	return (1);
+	return (ret);
 }
