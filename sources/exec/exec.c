@@ -76,8 +76,8 @@ void	child_exec(int *fd)
 // ! pipeline working well, some trouble when cat -e at the end (no it's probably cat /dev/urandom)
 int	pipeline2(char ***cmd, char **env)
 {
-	int	fd[2];
-	int	pid;
+	int		fd[2];
+	pid_t	pid;
 
 	ms_pipe(fd);
 	while (*cmd != NULL)
@@ -88,59 +88,66 @@ int	pipeline2(char ***cmd, char **env)
 			if (pid == -1)
 			{
 				perror("fork");
-				exit(errno);
+				return (errno);
 			}
 			else if (pid > 0)
+			{
 				parent_exec(cmd, env, fd);
+				wait(NULL);
+			}
 			else
 				child_exec(fd);
 		}
-		else
+		else // last cmd
 		{
 			//pid = fork();
 			//if (pid == 0)
 				execve((*cmd)[0], *cmd, env);
+			//else if (pid > 0)
+			//	wait(NULL);
 		}
 		cmd++;
 	}
-	return (pid);
+	return (0);
 }
 
 int	pipeline(char ***cmd, char **env)
 {
 	int		fd[2];
-	int		pid;
+	pid_t	*pid;
 	int		i;
+	int		nb_cmd = 4; // replace i
 
 	i = 0;
+	pid = malloc(sizeof(pid_t) * nb_cmd);
 	ms_pipe(fd);
 	while (*cmd != NULL)
 	{
 		if (*(cmd + 1) != NULL)
 		{
-			pid = fork();
-			if (pid == -1)
+			pid[i] = fork();
+			if (pid[i] == -1)
 			{
 				perror("fork");
 				exit(errno);
 			}
-			else if (pid == 0)
+			else if (pid[i] > 0)
 				parent_exec(cmd, env, fd);
 			else
 				child_exec(fd);
 		}
 		else
 		{
-			//pid = fork();
-			//if (pid == 0)
+			pid[i] = fork();
+			if (pid[i] == 0)
 				execve((*cmd)[0], *cmd, env);
 		}
 		cmd++;
 		i++;
 	}
 	while (i-- > 0)
-		waitpid(pid, NULL, 0);
-	return (pid);
+		waitpid(pid[i], NULL, 0);
+	return (0);
 }
 
 

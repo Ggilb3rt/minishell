@@ -152,13 +152,14 @@ int	main(int ac, char **av, char **envp)
 	cmd3[0] = init_cmd_path(cmd3[0], path);
 	cmd4[0] = init_cmd_path(cmd4[0], path);
 	char	**cmds[] = {cmd1, cmd2, cmd3, cmd4, NULL};
-	int pid = pipeline(cmds, env);
+	pipeline(cmds, env);
 	//ms_lst_free_all(ms_envp);
 	//free_tab(env);
-	//while (1)
-	//{
-		waitpid(pid, NULL, 0);
-		line = readline("pouet | ");
-	//}
+	while (1)
+	{
+		line = readline("====> ");
+		if (line[0] == 'Q')
+			return (1);
+	}
 	return (0); // return 0 or 1 ?
 }
