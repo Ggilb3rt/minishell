@@ -169,5 +169,7 @@ int	main(int ac, char **av, char **envp)
 			pipeline(cmds, env);
 		printf("==");
 	}
+	free_tab(env);
+	ms_lst_free_all(ms_envp);
 	return (0); // return 0 or 1 ?
 }
