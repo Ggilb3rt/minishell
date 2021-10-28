@@ -32,7 +32,7 @@
  * The parsing is not perfect and will still need some improvements.
  */
 
-int	lexer_and_parser(char *str, t_command **cmd, int *g_ret)
+int	lexer_and_parser(char *str, t_command **cmd)
 {
 	char	**arg;
 	int		ret;
@@ -44,7 +44,7 @@ int	lexer_and_parser(char *str, t_command **cmd, int *g_ret)
 		printf("Error input string\n");
 		exit (0);
 	}
-	ret = parser(cmd, g_ret);
+	ret = parser(cmd);
 	if (!ret)
 	{
 		printf("Error synthax\n");

@@ -62,7 +62,7 @@ typedef struct s_count
 }				t_count;
 
 /* parsing main */
-int					lexer_and_parser(char *str, t_command **cmd, int *g_ret);
+int					lexer_and_parser(char *str, t_command **cmd);
 
 /* parsing tokens */
 int					create_token(char *str);
@@ -77,7 +77,7 @@ t_simple_command	*alloc_simple(char **str);
 t_command			*alloc_command(char **arg, int begin, int end);
 
 /* parsing grammar */
-int					parser(t_command **cmd, int *g_ret);
+int					parser(t_command **cmd);
 
 /* parsing lexer */
 t_command			**lexer(char **arg, t_command **cmd);

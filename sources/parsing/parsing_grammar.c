@@ -12,7 +12,7 @@
 
 #include "parsing.h"
 
-static void	redir_great(t_simple_command *cur, t_command *cmd, int *g_ret)
+static void	redir_great(t_simple_command *cur, t_command *cmd)
 {
 	(void)g_ret;
 	if (cur->next->token == GREAT && cur->next->next->token == WORD)
@@ -29,7 +29,7 @@ static void	redir_great(t_simple_command *cur, t_command *cmd, int *g_ret)
 	}
 }
 
-static void	redir_less(t_simple_command *cur, t_command *cmd, int *g_ret)
+static void	redir_less(t_simple_command *cur, t_command *cmd)
 {
 	if (cur->next->token == LESS && cur->next->next->token == WORD)
 	{
@@ -42,11 +42,11 @@ static void	redir_less(t_simple_command *cur, t_command *cmd, int *g_ret)
 		free(cmd->in_file);
 		cmd->in_file = NULL;
 		cmd->heredoc = cur->next->next->arg[0];
-		*g_ret = 2;
+		g_ret = 2;
 	}
 }
 
-static void	io_redirections(t_command *cmd, int *g_ret)
+static void	io_redirections(t_command *cmd)
 {
 	t_simple_command	*cur;
 
@@ -56,15 +56,15 @@ static void	io_redirections(t_command *cmd, int *g_ret)
 		if (cur->token == WORD)
 		{
 			if (cur->next->token == GREAT || cur->next->token == DGREAT)
-				redir_great(cur, cmd, g_ret);
+				redir_great(cur, cmd);
 			else if (cur->next->token == LESS || cur->next->token == DLESS)
-				redir_less(cur, cmd, g_ret);
+				redir_less(cur, cmd);
 		}
 		cur = cur->next;
 	}
 }
 
-int	parser(t_command **cmd, int *g_ret)
+int	parser(t_command **cmd)
 {
 	t_command	*cur;
 
@@ -73,7 +73,7 @@ int	parser(t_command **cmd, int *g_ret)
 	while (cur != NULL)
 	{
 		cur->pipe_out = NULL;
-		io_redirections(cur, g_ret);
+		io_redirections(cur);
 		if (cur->next != NULL && (*cur->next->list)->token != NWLINE)
 		{
 			cur->pipe_out = cur->next;

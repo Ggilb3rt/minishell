@@ -34,14 +34,7 @@ typedef struct s_simple_command
 	char 					**arg;
 	int						token;
 	struct s_simple_command	*next;
-	//simple_command();
-	//void insert_argument(char *argument);
 }				t_simple_command;
-
-/*
- * Describes a complete command with the multiple pipes if any and
- * input/output redirection if any.
- */
 
 typedef struct s_command
 {
@@ -56,15 +49,9 @@ typedef struct s_command
 	struct s_command 		*pipe_out;
 	struct s_command 		*pipe_in;
 	struct s_command		*next;
-	//void prompt();
-	//void print();
-	//void execute();
-	//void clear();
-	//command();
-	//void insert_simple_command(simple_command * simple_command);
-	//static t_command		cur_command;
-	//static t_simple_command	*cur_simple_command;
 }				t_command;
+
+extern int	g_ret;
 
 # include "parsing.h"
 # include "history.h"

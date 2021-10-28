@@ -12,22 +12,20 @@
  * Utiliser variable globale pour CTRL-D CTRL-C CTRL-\
  */
 
-int g_ret = QEXIT;
+int g_ret = 0;
 
 void sig_handler(int n)
 {
 	if (n == SIGINT)
 	{
-		if (g_ret == 2)
-			g_ret = 0;
-		else
+		if (g_ret != 2)
 		{
 			printf("\n");
-			rl_replace_line("", 0);
 			rl_on_new_line();
+			rl_replace_line("", 0);
 			rl_redisplay();
-			g_ret = 0;
 		}
+		g_ret = 0;
 	}
 }
 
@@ -56,15 +54,17 @@ int	main(int ac, char **av, char **envp)
 	cmd = malloc(sizeof(t_command *));
 	//init_cmd(cmd);
 	ms_signal();
+
 	ms_envp = create_msenvp_lst(envp);
-	msg_prompt = ms_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
+	//msg_prompt = ms_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
 	while (1)
 	{
+		msg_prompt = ms_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
 		line = readline(msg_prompt);
-		if (!lexer_and_parser(line, cmd, &g_ret))
+		if (!lexer_and_parser(line, cmd))
 			break ;
 		if (g_ret == 2)
-			heredoc_func(line, cmd, &g_ret);
+			heredoc_func(line, cmd);
 		if (!line)
 			cmd_exit(line);
 		else if (ms_strlen(line) > 0)
