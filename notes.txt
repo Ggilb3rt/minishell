@@ -347,12 +347,27 @@ instructions. It may occur when an instruction is executing and in such a case t
 
 https://indradhanush.github.io/blog/writing-a-unix-shell-part-3/
 ------------------------------------------------------------------------------------------------------------------------
-Signal Handling
+Here Documents
 
-Now that we
+A 'here document' is a special-purpose code block. It uses a form of I/O redirction to feed a command list to an
+interactive program or a command, such as ftp, cat or the ex text editor.
 
+    COMMAND <<InputComesFromHERE
+    ...
+    ...
+    ...
+    InputComesFromHERE
 
-https://indradhanush.github.io/blog/writing-a-unix-shell-part-3/
+A limit string delineates (frames) the command list. The special symbol << precedes the limit string. This has the
+effect of redirecting the output of a command block into the stdin of the program or command. It is similar to
+'interactive-program < command-file', where command-file contains
+
+    command #1
+    command #2
+    ...
+    LimitString
+
+https://tldp.org/LDP/abs/html/here-docs.html
 ------------------------------------------------------------------------------------------------------------------------
 What allows us the stat functions (stat(), fstat(), lstat()) to do?
 

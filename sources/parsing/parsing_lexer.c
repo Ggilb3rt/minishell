@@ -75,6 +75,12 @@ t_simple_command	**lexer_2(char **arg, int begin, int end)
 	return (list);
 }
 
+/*
+ * The lexing part is processed into 2 differents step :
+ * - First step, we are handling all the pipes
+ * - Second step, we are handling the chevrons.
+ */
+
 t_command	**lexer(char **arg, t_command **cmd)
 {
 	t_command	*cur;

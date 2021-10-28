@@ -3,7 +3,7 @@
 CMake Error at CMakeLists.txt:6 (add_executable):
   Cannot find source file:
 
-    sources/pipes/pipes.c
+    sources/history/history.c
 
 
 CMake Error at CMakeLists.txt:6 (add_executable):

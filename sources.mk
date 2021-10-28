@@ -9,6 +9,7 @@ SOURCES = \
 		parsing/parsing_lexer.c \
 		parsing/parsing_split_1.c \
 		parsing/parsing_split_2.c \
+		parsing/parsing_split_3.c \
 		env/env.c \
 		env/env_edit.c \
 		env/env_free.c \

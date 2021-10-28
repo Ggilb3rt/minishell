@@ -53,9 +53,16 @@ typedef struct s_split
 	int 	j;
 }				t_split;
 
+typedef struct s_count
+{
+	int		open;
+	int 	words;
+	int 	i;
+	int 	trig;
+}				t_count;
+
 /* parsing main */
 int					lexer_and_parser(char *str, t_command **cmd, int *g_ret);
-//int				convert(t_simple_command **list, char **arg, int i, int cur);
 
 /* parsing tokens */
 int					create_token(char *str);
@@ -68,7 +75,6 @@ void				add_newline(t_command **list, char **arg, int i);
 /* parsing alloc */
 t_simple_command	*alloc_simple(char **str);
 t_command			*alloc_command(char **arg, int begin, int end);
-
 
 /* parsing grammar */
 int					parser(t_command **cmd, int *g_ret);
@@ -83,6 +89,12 @@ char				**split_quote(char *str);
 /* parsing split 2 */
 int					word_count(char *str);
 char				*split_words(char *str, int strt, int fnsh);
+
+/* parsing split 3 */
+void				open_quote(char *str, int i, t_split *splt);
+char				*split_words(char *str, int strt, int fnsh);
+void 				count_quote(char *str, int i, t_split *splt);
+void 				count_spaces(char *str, int i, t_split *splt);
 
 /* debug */
 int					print_simple_command(t_simple_command **sc);

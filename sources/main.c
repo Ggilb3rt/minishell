@@ -12,17 +12,22 @@
  * Utiliser variable globale pour CTRL-D CTRL-C CTRL-\
  */
 
-int g_ret = PRMPT_EXIT;
+int g_ret = QEXIT;
 
 void sig_handler(int n)
 {
 	if (n == SIGINT)
 	{
-		printf("\n");
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-		g_ret = 0;
+		if (g_ret == 2)
+			g_ret = 0;
+		else
+		{
+			printf("\n");
+			rl_replace_line("", 0);
+			rl_on_new_line();
+			rl_redisplay();
+			g_ret = 0;
+		}
 	}
 }
 
