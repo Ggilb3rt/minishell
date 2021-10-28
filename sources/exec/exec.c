@@ -54,10 +54,11 @@ void	parent_exec(char ***cmd, char **env, int *fd)
 	static int i = 0;
 
 	fprintf(stderr, "execute parent %d | %d %d\n", i++, *fd, *(fd + 1));
+	//close(1);
 	dup2(fd[1], 1);
 	fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
-	close(fd[0]);
 	close(fd[1]);
+	close(fd[0]);
 	execve((*cmd)[0], *cmd, env);
 }
 
@@ -66,10 +67,11 @@ void	child_exec(int *fd)
 	static int i = 0;
 
 	fprintf(stderr, "execute child %d | %d %d\n", i++, *fd, *(fd + 1));
+	//close(0);
 	dup2(fd[0], 0);
 	fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
-	close(fd[1]);
 	close(fd[0]);
+	close(fd[1]);
 	ms_pipe(fd);
 }
 
@@ -93,7 +95,7 @@ int	pipeline2(char ***cmd, char **env)
 			else if (pid > 0)
 			{
 				parent_exec(cmd, env, fd);
-				wait(NULL);
+				//wait(NULL);
 			}
 			else
 				child_exec(fd);
@@ -117,36 +119,65 @@ int	pipeline(char ***cmd, char **env)
 	pid_t	*pid;
 	int		i;
 	int		nb_cmd = 4; // replace i
+	pid_t	global_pid;
+	int		status;
 
 	i = 0;
+	status = 0;
 	pid = malloc(sizeof(pid_t) * nb_cmd);
 	ms_pipe(fd);
-	while (*cmd != NULL)
+	global_pid = fork();
+	printf("\n\nglobal1 %d\n\n", global_pid);
+	if (global_pid == -1)
 	{
-		if (*(cmd + 1) != NULL)
-		{
-			pid[i] = fork();
-			if (pid[i] == -1)
-			{
-				perror("fork");
-				exit(errno);
-			}
-			else if (pid[i] > 0)
-				parent_exec(cmd, env, fd);
-			else
-				child_exec(fd);
-		}
-		else
-		{
-			pid[i] = fork();
-			if (pid[i] == 0)
-				execve((*cmd)[0], *cmd, env);
-		}
-		cmd++;
-		i++;
+		perror("global fork");
+		return (errno);
 	}
-	while (i-- > 0)
-		waitpid(pid[i], NULL, 0);
+	else if (global_pid == 0)
+	{
+		while (*cmd != NULL)
+		{
+			printf("\tcmd[%d]\n", i);
+			if (*(cmd + 1) != NULL)
+			{
+				pid[i] = fork();
+				if (pid[i] == -1)
+				{
+					perror("fork");
+					exit(errno);
+				}
+				else if (pid[i] > 0)
+					parent_exec(cmd, env, fd);
+				else
+				{
+					child_exec(fd);
+				}
+			}
+			else
+			{
+				//pid[i] = fork();
+				//if (pid[i] == 0)
+					execve((*cmd)[0], *cmd, env);
+			}
+			cmd++;
+			i++;
+		}
+		while (i-- > 0)
+		{
+			printf("waitiiiiing\n");
+			//pid_t childpid = waitpid(pid[i], NULL, 0);
+			//printf("childpid %d\n", childpid);
+		}
+		return (0);
+	}
+	else if (global_pid > 0)
+	{
+		printf("global_pid %d\n", global_pid);
+		//waitpid(global_pid, &status, 0);
+		wait(&status);
+		printf("after parent wait\n");
+	}
+	printf("qui es tu ? %d\n", status);
 	return (0);
 }
 
