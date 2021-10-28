@@ -54,11 +54,10 @@ void	parent_exec(char ***cmd, char **env, int *fd)
 	static int i = 0;
 
 	fprintf(stderr, "execute parent %d | %d %d\n", i++, *fd, *(fd + 1));
-	//close(1);
+	close(fd[0]);
 	dup2(fd[1], 1);
 	fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
 	close(fd[1]);
-	close(fd[0]);
 	execve((*cmd)[0], *cmd, env);
 }
 
@@ -67,16 +66,15 @@ void	child_exec(int *fd)
 	static int i = 0;
 
 	fprintf(stderr, "execute child %d | %d %d\n", i++, *fd, *(fd + 1));
-	//close(0);
+	close(fd[1]);
 	dup2(fd[0], 0);
 	fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
 	close(fd[0]);
-	close(fd[1]);
 	ms_pipe(fd);
 }
 
 // ! pipeline working well, some trouble when cat -e at the end (no it's probably cat /dev/urandom)
-int	pipeline2(char ***cmd, char **env)
+int	pipelineb(char ***cmd, char **env)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -116,6 +114,120 @@ int	pipeline2(char ***cmd, char **env)
 int	pipeline(char ***cmd, char **env)
 {
 	int		fd[2];
+	pid_t	pid;
+	pid_t	global_pid;
+
+	ms_pipe(fd);
+	global_pid = fork();
+	if (global_pid == -1)
+	{
+		perror("global fork");
+		return (errno);
+	}
+	else if (global_pid == 0)
+	{
+		while (*cmd != NULL)
+		{
+			if (*(cmd + 1) != NULL)
+			{
+				pid = fork();
+				if (pid == -1)
+				{
+					perror("fork");
+					return (errno);
+				}
+				else if (pid > 0)
+				{
+					parent_exec(cmd, env, fd);
+				}
+				else
+					child_exec(fd);
+			}
+			else // last cmd
+			{
+				execve((*cmd)[0], *cmd, env);
+			}
+			cmd++;
+		}
+	}
+	else if (global_pid > 0)
+	{
+		close(fd[0]);
+		close(fd[1]);
+		waitpid(global_pid, NULL, 0);
+	}
+	return (0);
+}
+
+int	pipeline2(char ***cmd, char **env)
+{
+	int		fd[2];
+	pid_t	global_pid;
+	pid_t	pid[4];
+	int		i;
+
+	ms_pipe(fd);
+	i = 0;
+	global_pid = fork();
+	if (global_pid == -1)
+	{
+		perror("global fork");
+		return (errno);
+	}
+	else if (global_pid == 0)
+	{
+		//child
+		printf("child\n");
+		while (i < 4)
+		{
+			pid[i] = fork();
+			printf("\ncmd %s | pid[%d] = %d\n", cmd[i][0], i, pid[i]);
+			if (pid[i] == -1)
+			{
+				perror("child fork");
+				return (errno);
+			}
+			else if (pid[i] == 0)
+			{
+				// grand child
+				printf("grand child\n\n");
+				if (i < 3)
+				execve(cmd[i][0], cmd[i], env);
+			}
+			else
+			{
+				// child parent
+				printf("child parent %d\n", pid[i]);
+				//waitpid(pid[i], NULL, 0);
+				printf("\nnow child cmd %s\n", cmd[i][0]);
+				if (i == 3)
+					execve(cmd[i][0], cmd[i], env);
+			}
+			i++;
+		}
+		i = 0;
+		waitpid(global_pid, NULL, 0);
+		while (i < 4)
+		{
+			printf("pid[%d] = %d\n", i, pid[i]);
+			waitpid(pid[i], NULL, 0);
+			i++;
+		}
+	}
+	else
+	{
+		//parent
+		printf("parent\n");
+		printf("\nclose global pipe %d %d\n", close(fd[0]), close(fd[1]));
+		printf("\nafter wait\n");
+	}
+	printf("both from %d\n", global_pid);
+	return (global_pid);
+}
+
+int	pipeline3(char ***cmd, char **env)
+{
+	int		fd[2];
 	pid_t	*pid;
 	int		i;
 	int		nb_cmd = 4; // replace i
@@ -146,7 +258,7 @@ int	pipeline(char ***cmd, char **env)
 					perror("fork");
 					exit(errno);
 				}
-				else if (pid[i] > 0)
+				else if (pid[i] == 0)
 					parent_exec(cmd, env, fd);
 				else
 				{
@@ -157,6 +269,7 @@ int	pipeline(char ***cmd, char **env)
 			{
 				//pid[i] = fork();
 				//if (pid[i] == 0)
+					printf("\nclose exec pipe %d %d\n", close(fd[0]), close(fd[1]));
 					execve((*cmd)[0], *cmd, env);
 			}
 			cmd++;
@@ -164,23 +277,26 @@ int	pipeline(char ***cmd, char **env)
 		}
 		while (i-- > 0)
 		{
+			printf("\nclose petit enfant pipe %d %d\n", close(fd[0]), close(fd[1]));
 			printf("waitiiiiing\n");
 			//pid_t childpid = waitpid(pid[i], NULL, 0);
 			//printf("childpid %d\n", childpid);
 		}
-		return (0);
+		return (global_pid);
 	}
 	else if (global_pid > 0)
 	{
 		printf("global_pid %d\n", global_pid);
-		//waitpid(global_pid, &status, 0);
-		wait(&status);
+		waitpid(global_pid, &status, 0);
+		printf("\nclose global pipe %d %d\n", close(fd[0]), close(fd[1]));
+		//wait(&status);
 		printf("after parent wait\n");
 	}
 	printf("qui es tu ? %d\n", status);
-	return (0);
-}
+	printf("\nclose main pipe %d %d\n", close(fd[0]), close(fd[1]));
 
+	return (global_pid);
+}
 
 void	new_pipeline(t_command **cmds)
 {

@@ -139,32 +139,25 @@ int	main(int ac, char **av, char **envp)
 	//cmd = malloc(sizeof(t_command));
 	//init_cmd(cmd);
 	ms_envp = create_msenvp_lst(envp);
-	print_envp(ms_envp);
-	char *pouet[] = {"POUET=lol", NULL};
-	cmd_export(ms_envp, pouet);
-	printf("\n\n\n");
-	cmd_pwd(ms_envp, 1);
-	cmd_cd("../", ms_envp);
-	cmd_pwd(ms_envp, 1);
 	char	**env = convert_envplst_to_tab(ms_envp);
 	(void)env;
 
 	char	*path = get_ms_env_val(PATH, ms_envp);
-	/*char	**cmd1 = ms_split("cat", ' ');
+	char	**cmd1 = ms_split("cat", ' ');
 	char	**cmd2 = ms_split("cat", ' ');
 	char	**cmd3 = ms_split("cat", ' ');
-	char	**cmd4 = ms_split("ls", ' ');*/
-	char	**cmd1 = ms_split("ls -la", ' ');
+	char	**cmd4 = ms_split("ls", ' ');
+	/*char	**cmd1 = ms_split("ls -la", ' ');
 	char	**cmd2 = ms_split("grep 26", ' ');
 	char	**cmd3 = ms_split("tr 20 @", ' ');
-	char	**cmd4 = ms_split("tr @ !", ' ');
+	char	**cmd4 = ms_split("tr @ !", ' ');*/
 	cmd1[0] = init_cmd_path(cmd1[0], path);
 	cmd2[0] = init_cmd_path(cmd2[0], path);
 	cmd3[0] = init_cmd_path(cmd3[0], path);
 	cmd4[0] = init_cmd_path(cmd4[0], path);
 	char	**cmds[] = {cmd1, cmd2, cmd3, cmd4, NULL};
-	for (int i = 0; cmds[i] != NULL; i++)
-		printf("%s %s %s\n", cmds[i][0], cmds[i][1], cmds[i][2]);
+	//for (int i = 0; cmds[i] != NULL; i++)
+	//	printf("%s %s %s\n", cmds[i][0], cmds[i][1], cmds[i][2]);
 	//ms_lst_free_all(ms_envp);
 	//free_tab(env);
 	while (1)
@@ -174,7 +167,7 @@ int	main(int ac, char **av, char **envp)
 			return (1);
 		if (line[0] == 'c')
 			pipeline(cmds, env);
-		printf("out");
+		printf("==");
 	}
 	return (0); // return 0 or 1 ?
 }
