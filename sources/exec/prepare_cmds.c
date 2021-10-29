@@ -117,6 +117,7 @@ int	associate_file_to_cmd2(t_command *cmds)
 			cur = cur->next;
 			if (cur->token != WORD)
 				return (-1);
+			/*
 			if (cur_token == LESS)
 			{
 				if (!check_access(cur->arg[0], &cmds->pipe_in->fd))
@@ -128,7 +129,8 @@ int	associate_file_to_cmd2(t_command *cmds)
 				cmds->pipe_out->fd = open(cur->arg[0], O_CREAT | O_WRONLY | O_APPEND, 0666);
 			else if (cur_token == DLESS)
 				tmp_fd = 1;
-			if (tmp_fd == -1)
+			*/
+			 if (tmp_fd == -1)
 			{
 				perror("open");
 				return (errno);

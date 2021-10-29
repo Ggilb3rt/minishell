@@ -12,16 +12,15 @@
  * Utiliser variable globale pour CTRL-D CTRL-C CTRL-\
  */
 
-int g_ret = 1;
+int g_ret = 0;
 
 void sig_handler(int n)
 {
 	if (n == SIGINT)
 	{
-		if (g_ret == 1)
+		if (g_ret == EHERE)
 		{
-			//rl_done = 1;
-			g_ret = 2;
+			g_ret = QHERE;
 		}
 		else
 		{
@@ -64,21 +63,27 @@ int	main(int ac, char **av, char **envp)
 		line = readline(msg_prompt);
 		if (!lexer_and_parser(line, cmd))
 			break ;
-		if (g_ret == 1) {
+		if (g_ret == EHERE) {
 			heredoc_func(line, cmd);
 		}
+		printf("hehehehe\n");
 		if (!line)
+		{
 			cmd_exit(line);
+			exit(0);
+		}
 		else if (ms_strlen(line) > 0)
 			add_history(line);
 		else
 			free(line);
-		if ((g_ret = cmd_exit(line)) == 0)
+		printf("huhuhuhu\n");
+		if ((g_ret = cmd_exit(line)) == 1)
 			exit(0);
-		//print_simple_command(cmd);
-		//print_command(cmd);
+		//print_all(cmd);
 	}
+	printf("hohohoho\n");
 	free(msg_prompt);
+	printf("hihihihi\n");
 	ms_lst_free_all(ms_envp);
 	return (g_ret);
 }

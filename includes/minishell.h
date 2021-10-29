@@ -24,8 +24,8 @@
 
 # define UINT_MAX 4294967294
 # define QEXIT 0
-# define QERROR 1
-# define HERE 2
+# define EHERE 1
+# define QHERE 2
 
 typedef struct s_simple_command
 {
@@ -44,10 +44,9 @@ typedef struct s_command
 	char 					*out_file;
 	char 					*in_file;
 	char 					*err_file;
-	int 					fd;
-	char 					*heredoc;
-	struct s_command 		*pipe_out;
-	struct s_command 		*pipe_in;
+	int 					fd_in;
+	int 					fd_out;
+	char 					*end;
 	struct s_command		*next;
 }				t_command;
 

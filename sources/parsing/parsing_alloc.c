@@ -37,9 +37,11 @@ t_command	*alloc_command(char **arg, int begin, int end)
 	cmd->numb_avail_simple_commands = 0;
 	cmd->numb_simple_commands = 0;
 	cmd->list = lexer_2(arg, begin, end);
-	cmd->out_file = ms_strdup("dflt");
-	cmd->in_file = ms_strdup("dflt");
-	cmd->err_file = ms_strdup("dflt");
+	cmd->out_file = NULL;
+	cmd->in_file = NULL;
+	cmd->err_file = NULL;
+	cmd->fd_out = -1;
+	cmd->fd_in = -1;
 	cmd->next = NULL;
 	return (cmd);
 }
