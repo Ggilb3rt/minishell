@@ -92,13 +92,12 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 		if ((g_ret = cmd_exit(line)) == 0)
 			exit(0);
+		if (set_cmd_ready_to_exec(cmd) < 0)
+			exit(1);
 		//print_simple_command(cmd);
 		//print_command(cmd);
 		//print_all(cmd);
-
-		if (set_cmd_ready_to_exec(cmd) < 0)
-			exit(1);
-		base_pour_exec(cmd);
+		//base_pour_exec(cmd);
 
 	}
 	free(msg_prompt);
