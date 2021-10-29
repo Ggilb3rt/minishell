@@ -22,12 +22,11 @@ void 	heredoc_func(char *arg, t_command **cmd)
 	rl_event_hook = &event_hook;
 	while (g_ret != QHERE)
 	{
-		printf("g_ret3 = %i\n", g_ret);
 		line = readline("> ");
 		if (line == NULL)
 			break ;
-		if (line[0] == '\1') {
-			printf("g_ret4 = %i\n", g_ret);
+		if (line[0] == '\1')
+		{
 			break;
 		}
 		else if (!ms_strcmp(line, (*cmd)->end))

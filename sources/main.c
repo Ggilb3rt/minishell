@@ -82,30 +82,28 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		line = readline(msg_prompt);
+		if (!line)
+			break ;
+		else if (ms_strlen(line) > 0)
+			add_history(line);
+		else if (!ms_strcmp(line, ""))
+			continue ;
+		else
+			free(line);
 		if (!lexer_and_parser(line, cmd))
 			break ;
 		if (g_ret == EHERE) {
 			heredoc_func(line, cmd);
 		}
-		if (!line)
-		{
-			cmd_exit(line);
-			exit(0);
-		}
-		else if (ms_strlen(line) > 0)
-			add_history(line);
-		else
-			free(line);
 		if ((g_ret = cmd_exit(line)) == 1)
 			exit(0);
-		print_all(cmd);
-		letest(cmd);
+		//print_all(cmd);
+		//letest(cmd);
 	}
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
 	return (g_ret);
 }
-
 
 /*
 int	main(int ac, char **av, char **envp)
