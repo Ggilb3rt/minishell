@@ -22,41 +22,39 @@
 # include <readline/history.h>
 # include <errno.h>
 
+# define UINT_MAX 4294967294
+# define QEXIT 0
+# define QERROR 1
+# define HERE 2
+
+# define IN 0
+# define OUT 1
+
 typedef struct s_simple_command
 {
-	int 					numb_avail;
-	int 					numb;
-	char 					**arg;
+	int						numb_avail;
+	int						numb;
+	char					**arg;
 	int						token;
 	struct s_simple_command	*next;
-	//simple_command();
-	//void insert_argument(char *argument);
 }				t_simple_command;
-
-/*
- * Describes a complete command with the multiple pipes if any and
- * input/output redirection if any.
- */
 
 typedef struct s_command
 {
-	int 					numb_avail_simple_commands;
-	int 					numb_simple_commands;
-	t_simple_command		**list;	//? pourquoi pas seulement un simple pointeur sur liste ?
-	char 					*out_file;
-	char 					*in_file;
-	char 					*err_file;
-	int						fd_in;
-	int						fd_out;
-	//void prompt();
-	//void print();
-	//void execute();
-	//void clear();
-	//command();
-	//void insert_simple_command(simple_command * simple_command);
-	//static t_command		cur_command;
-	//static t_simple_command	*cur_simple_command;
+	int						numb_avail_simple_commands;
+	int						numb_simple_commands;
+	t_simple_command		**list;
+	char					*out_file;
+	char					*in_file;
+	char					*err_file;
+	int						fd;
+	char					*heredoc;
+	struct s_command		*pipe_out;
+	struct s_command		*pipe_in;
+	struct s_command		*next;
 }				t_command;
+
+extern int	g_ret;
 
 # include "parsing.h"
 # include "history.h"
@@ -65,7 +63,6 @@ typedef struct s_command
 # include "utils.h"
 # include "exec.h"
 # include "flux.h"
-
-# define UINT_MAX 4294967294
+# include "heredoc.h"
 
 #endif

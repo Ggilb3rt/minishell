@@ -119,13 +119,13 @@ int	associate_file_to_cmd2(t_command *cmds)
 				return (-1);
 			if (cur_token == LESS)
 			{
-				if (!check_access(cur->arg[0], &cmds->fd_in))
+				if (!check_access(cur->arg[0], &cmds->pipe_in->fd))
 					return (-1);
 			}
 			else if (cur_token == GREAT)
-				cmds->fd_out = open(cur->arg[0], O_CREAT | O_WRONLY, 0666);
+				cmds->pipe_out->fd = open(cur->arg[0], O_CREAT | O_WRONLY, 0666);
 			else if (cur_token == DGREAT)
-				cmds->fd_out = open(cur->arg[0], O_CREAT | O_WRONLY | O_APPEND, 0666);
+				cmds->pipe_out->fd = open(cur->arg[0], O_CREAT | O_WRONLY | O_APPEND, 0666);
 			else if (cur_token == DLESS)
 				tmp_fd = 1;
 			if (tmp_fd == -1)

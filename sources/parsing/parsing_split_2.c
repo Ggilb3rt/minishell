@@ -12,104 +12,87 @@
 
 #include "minishell.h"
 
-static int	check_quote(char c)
+/*
+ * Theses function (and the other functions of the file) will count the
+ * different parts of the parsing for allocating the right amount of space
+ * before the storage into a new array of words.
+ */
+
+static void	check_quote(char c, t_count *cnt)
 {
 	if (c == '\'')
-		return (1);
+		cnt->open = 1;
 	else if (c == '\"')
-		return (2);
+		cnt->open = 2;
 	else
-		return (0);
+		cnt->open = 0;
 }
 
-static int	go_next_quote(char *str, int i, int open)
+static int	go_next_quote(char *str, t_count *cnt)
 {
 	char	c;
 
 	c = 0;
-	if (open == 1)
+	if (cnt->open == 1)
 		c = '\'';
-	else if (open == 2)
+	else if (cnt->open == 2)
 		c = '\"';
-	while (str[i] != c)
+	while (str[cnt->i] != c)
 	{
-		if (str[i] == '\0')
+		if (str[cnt->i] == '\0')
 			return (0);
-		i++;
+		cnt->i++;
 	}
-	return (i);
+	return (cnt->i);
 }
 
-static int	meet_quote(char *str, int i, int *open)
+static void	meet_quote(char *str, t_count *cnt)
 {
 	int	jmp;
 
-	i++;
-	jmp = go_next_quote(str, i, *open);
+	cnt->i++;
+	jmp = go_next_quote(str, cnt);
 	if (jmp > 0)
 	{
-		i = jmp;
-		*open = 0;
+		cnt->i = jmp;
+		cnt->open = 0;
 	}
 	else
 		printf("error next quote\n");
-	return (i);
 }
-/*
-static int	check_open(int *open, int *trig, char *str, int i)
+
+static void	trig_words(char *str, t_count *cnt)
 {
-	if (*open)
+	check_quote(str[cnt->i], cnt);
+	if (cnt->open)
 	{
-		i = meet_quote(str, i, open);
-		if (ms_is_alpha(&str[i + 1]))
-			*trig = 0;
-		return (1);
+		meet_quote(str, cnt);
+		cnt->words++;
+		if (ms_is_alpha(&str[cnt->i + 1]))
+			cnt->trig = 0;
 	}
-	else if ((str[i] != ' ' && !*open) && *trig == 0)
+	else if ((str[cnt->i] != ' ' && !cnt->open) && cnt->trig == 0)
 	{
-		*trig = 1;
-		return (1);
+		cnt->trig = 1;
+		cnt->words++;
 	}
-	else if (str[i] == ' ')
-		*trig = 0;
-	return (0);
+	else if (str[cnt->i] == ' ')
+		cnt->trig = 0;
+	cnt->i++;
 }
-*/
+
 int	word_count(char *str)
 {
-	int	words;
-	int	trig;
-	int	i;
-	int	open;
+	t_count	*cnt;
 
-	open = 0;
-	i = 0;
-	words = 0;
-	trig = 0;
-	while (str[i])
-	{
-
-		open = check_quote(str[i]);
-		if (open)
-		{
-			i = meet_quote(str, i, &open);
-			words++;
-			if (ms_is_alpha(&str[i + 1]))
-				trig = 0;
-		}
-		else if ((str[i] != ' ' && !open) && trig == 0)
-		{
-			trig = 1;
-			words++;
-		}
-		else if (str[i] == ' ')
-			trig = 0;
-
-		/*
-		open = check_quote(str[i]);
-		words += check_open(&open, &trig, str, i);
-		 */
-		i++;
-	}
-	return (words);
+	cnt = malloc(sizeof(t_count));
+	if (!cnt)
+		return (0);
+	cnt->open = 0;
+	cnt->i = 0;
+	cnt->words = 0;
+	cnt->trig = 0;
+	while (str[cnt->i])
+		trig_words(str, cnt);
+	return (cnt->words);
 }

@@ -14,13 +14,14 @@
 
 static void	redir_great(t_simple_command *cur, t_command *cmd)
 {
+	(void)g_ret;
 	if (cur->next->token == GREAT && cur->next->next->token == WORD)
 	{
 		free(cmd->out_file);
 		cmd->out_file = NULL;
 		cmd->out_file = ms_strdup(cur->next->next->arg[0]);
 	}
-	if (cur->next->token == DGREAT && cur->next->next->token == WORD)
+	else if (cur->next->token == DGREAT && cur->next->next->token == WORD)
 	{
 		free(cmd->out_file);
 		cmd->out_file = NULL;
@@ -36,11 +37,12 @@ static void	redir_less(t_simple_command *cur, t_command *cmd)
 		cmd->in_file = NULL;
 		cmd->in_file = ms_strdup(cur->next->next->arg[0]);
 	}
-	if (cur->next->token == DLESS && cur->next->next->token == WORD)
+	else if (cur->next->token == DLESS && cur->next->next->token == WORD)
 	{
 		free(cmd->in_file);
 		cmd->in_file = NULL;
-		cmd->in_file = ms_strdup(cur->next->next->arg[0]);
+		cmd->heredoc = cur->next->next->arg[0];
+		g_ret = 2;
 	}
 }
 
@@ -49,23 +51,35 @@ static void	io_redirections(t_command *cmd)
 	t_simple_command	*cur;
 
 	cur = (*cmd->list);
-	while (cur != NULL)
+	while (cur->next != NULL)
 	{
 		if (cur->token == WORD)
 		{
-			if (cur->next->token == PIPE)
-				cur = cur->next;
-			redir_less(cur, cmd);
-			redir_great(cur, cmd);
+			if (cur->next->token == GREAT || cur->next->token == DGREAT)
+				redir_great(cur, cmd);
+			else if (cur->next->token == LESS || cur->next->token == DLESS)
+				redir_less(cur, cmd);
 		}
 		cur = cur->next;
 	}
 }
 
-int	parser(t_command *cmd)
+int	parser(t_command **cmd)
 {
+	t_command	*cur;
 
-	io_redirections(cmd);
-	//print_command(cmd);
+	cur = *cmd;
+	cur->pipe_in = NULL;
+	while (cur != NULL)
+	{
+		cur->pipe_out = NULL;
+		io_redirections(cur);
+		if (cur->next != NULL && (*cur->next->list)->token != NWLINE)
+		{
+			cur->pipe_out = cur->next;
+			cur->next->pipe_in = cur;
+		}
+		cur = cur->next;
+	}
 	return (1);
 }
