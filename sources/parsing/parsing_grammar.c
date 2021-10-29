@@ -42,7 +42,7 @@ static void	redir_less(t_simple_command *cur, t_command *cmd)
 		free(cmd->in_file);
 		cmd->in_file = NULL;
 		cmd->heredoc = cur->next->next->arg[0];
-		g_ret = 2;
+		g_ret = 1;
 	}
 }
 

@@ -62,4 +62,6 @@ extern int	g_ret;
 # include "flux.h"
 # include "heredoc.h"
 
+void sig_handler(int n);
+
 #endif
