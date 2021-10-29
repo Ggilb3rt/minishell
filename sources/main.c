@@ -41,6 +41,26 @@ void ms_signal(void)
 	}
 }
 
+void letest(t_command **cmd)
+{
+	char	**options;
+	int		fd[2];
+	int		ret_file;
+
+	fd[0] = -1;
+	fd[1] = -1;
+	while (*cmd != NULL)
+	{
+		ret_file = associate_file_to_cmd2(*cmd);
+		options = (*cmd)->list[0]->arg;
+		fd[0] = (*cmd)->fd_in;
+		fd[1] = (*cmd)->fd_out;
+		for (int i = 0; options[i] != NULL; i++)
+			printf("option[%d] : %s | fd_in : %d | fd_out : %d\n", i, options[i], fd[0], fd[1]);
+		printf("ret_file = %d\n", ret_file);
+		*cmd = (*cmd)->next;
+	}
+}
 
 int	main(int ac, char **av, char **envp)
 {
@@ -77,19 +97,8 @@ int	main(int ac, char **av, char **envp)
 		//print_command(cmd);
 		print_all(cmd);
 
+		letest(cmd);
 
-		char	**options;
-		int		fd;
-
-		fd = 0;
-		while (*cmd != NULL)
-		{
-			options = (*cmd)->list[0]->arg;
-			fd = (*cmd)->fd;
-			for (int i = 0; options[i] != NULL; i++)
-				printf("option[%d] : %s | fd : %d\n", i, options[i], fd);
-			*cmd = (*cmd)->next;
-		}
 	}
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);

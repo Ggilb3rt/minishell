@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/10/26 15:18:26 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/10/29 14:04:18 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,12 @@ int	check_access(char *path, int *fd)
 {
 	if (access(path, F_OK | R_OK) == -1)
 	{
+		*fd = -1;
 		perror("access");
 		return (0);
 	}
 	*fd = open(path, O_RDONLY);
+	printf("check fd in access in file %d\n", *fd);
 	return (1);
 }
 
@@ -119,13 +121,13 @@ int	associate_file_to_cmd2(t_command *cmds)
 				return (-1);
 			if (cur_token == LESS)
 			{
-				if (!check_access(cur->arg[0], &cmds->pipe_in->fd))
+				if (!check_access(cur->arg[0], &cmds->fd_in))
 					return (-1);
 			}
 			else if (cur_token == GREAT)
-				cmds->pipe_out->fd = open(cur->arg[0], O_CREAT | O_WRONLY, 0666);
+				cmds->fd_out = open(cur->arg[0], O_CREAT | O_WRONLY, 0666);
 			else if (cur_token == DGREAT)
-				cmds->pipe_out->fd = open(cur->arg[0], O_CREAT | O_WRONLY | O_APPEND, 0666);
+				cmds->fd_out = open(cur->arg[0], O_CREAT | O_WRONLY | O_APPEND, 0666);
 			else if (cur_token == DLESS)
 				tmp_fd = 1;
 			if (tmp_fd == -1)

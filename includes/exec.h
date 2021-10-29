@@ -20,5 +20,6 @@ void		new_pipeline(t_command **cmds);
 
 /* prepare_cmds */
 int			associate_file_to_cmd(t_simple_command **list);
+int			associate_file_to_cmd2(t_command *cmds);
 
 #endif

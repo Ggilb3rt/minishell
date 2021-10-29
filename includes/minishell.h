@@ -47,10 +47,9 @@ typedef struct s_command
 	char					*out_file;
 	char					*in_file;
 	char					*err_file;
-	int						fd;
+	int						fd_in;
+	int						fd_out;
 	char					*heredoc;
-	struct s_command		*pipe_out;
-	struct s_command		*pipe_in;
 	struct s_command		*next;
 }				t_command;
 
