@@ -28,15 +28,6 @@
  * - The child's parent process ID is the same as the parent's process ID.
  */
 
-/*
-fork
-	perror
-
-	waitpid
-
-	execve
-*/
-
 // priorities pipe (|) then redirect (< > >> <<) then others
 
 void	ms_pipe(int *fd)
@@ -51,35 +42,32 @@ void	ms_pipe(int *fd)
 void	parent_exec(char ***cmd, char **env, int *fd)
 {
 	// Parent execute cmd and send output to child
-	static int i = 0;
+	//static int i = 0;
 
-	fprintf(stderr, "execute parent %d | %d %d\n", i++, *fd, *(fd + 1));
+	//fprintf(stderr, "execute parent %d | %d %d\n", i++, *fd, *(fd + 1));
 	close(fd[0]);
 	dup2(fd[1], 1);
-	fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
+	//fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
 	close(fd[1]);
 	execve((*cmd)[0], *cmd, env);
 }
 
 void	child_exec(int *fd)
 {
-	static int i = 0;
+	//static int i = 0;
 
-	fprintf(stderr, "execute child %d | %d %d\n", i++, *fd, *(fd + 1));
+	//fprintf(stderr, "execute child %d | %d %d\n", i++, *fd, *(fd + 1));
 	close(fd[1]);
 	dup2(fd[0], 0);
-	fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
+	//fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
 	close(fd[0]);
 	ms_pipe(fd);
 }
 
-// ! pipeline working well, some trouble when cat -e at the end (no it's probably cat /dev/urandom)
-int	pipelineb(char ***cmd, char **env)
+pid_t	execute_pipeline_cmds(char ***cmd, char **env, int fd[2])
 {
-	int		fd[2];
 	pid_t	pid;
 
-	ms_pipe(fd);
 	while (*cmd != NULL)
 	{
 		if (*(cmd + 1) != NULL)
@@ -91,30 +79,20 @@ int	pipelineb(char ***cmd, char **env)
 				return (errno);
 			}
 			else if (pid > 0)
-			{
 				parent_exec(cmd, env, fd);
-				//wait(NULL);
-			}
 			else
 				child_exec(fd);
 		}
-		else // last cmd
-		{
-			//pid = fork();
-			//if (pid == 0)
-				execve((*cmd)[0], *cmd, env);
-			//else if (pid > 0)
-			//	wait(NULL);
-		}
+		else
+			execve((*cmd)[0], *cmd, env);
 		cmd++;
 	}
-	return (0);
+	return (pid);
 }
 
-int	pipeline(char ***cmd, char **env)
+int	ms_pipeline(char ***cmd, char **env)
 {
 	int		fd[2];
-	pid_t	pid;
 	pid_t	global_pid;
 
 	ms_pipe(fd);
@@ -125,31 +103,7 @@ int	pipeline(char ***cmd, char **env)
 		return (errno);
 	}
 	else if (global_pid == 0)
-	{
-		while (*cmd != NULL)
-		{
-			if (*(cmd + 1) != NULL)
-			{
-				pid = fork();
-				if (pid == -1)
-				{
-					perror("fork");
-					return (errno);
-				}
-				else if (pid > 0)
-				{
-					parent_exec(cmd, env, fd);
-				}
-				else
-					child_exec(fd);
-			}
-			else
-			{
-				execve((*cmd)[0], *cmd, env);
-			}
-			cmd++;
-		}
-	}
+		execute_pipeline_cmds(cmd, env, fd);
 	else if (global_pid > 0)
 	{
 		close(fd[0]);
@@ -157,46 +111,6 @@ int	pipeline(char ***cmd, char **env)
 		waitpid(global_pid, NULL, 0);
 	}
 	return (0);
-}
-
-void	new_pipeline(t_command **cmds)
-{
-	int					fd[2];
-	//int				pid;
-	int					i;
-	t_simple_command	*cur;
-
-	ms_pipe(fd);
-	i = 0;
-	while (i < 1) // while (cmds[i] != NULL)
-	{
-		printf("i in %d\n", i);
-		cur = cmds[i]->list[0];
-		while (cur != NULL)
-		{
-			// while to get each arg (but no need for pipeline)
-			printf("cmd %d %s\nin %s\nout %s\n\n", i, cur->arg[0],
-				cmds[i]->in_file, cmds[i]->out_file);
-			if (!ms_strcmp(cmds[i]->in_file, "dflt"))
-			{
-				/*
-				dup2(fd[0], cmds[i]->in_file);
-				close(fd[0]);
-				close[fd[1]];
-				*/
-			}
-			if (!ms_strcmp(cmds[i]->out_file, "dflt"))
-			{
-				/*
-				dup2(fd[1], cmds[i]->out_file);
-				close(fd[0]);
-				close[fd[1]];
-				*/
-			}
-			cur = cur->next;
-		}
-		i++;
-	}
 }
 
 char	**convert_envplst_to_tab(t_list_envp *ms_env)

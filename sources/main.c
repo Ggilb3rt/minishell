@@ -166,7 +166,7 @@ int	main(int ac, char **av, char **envp)
 		if (line[0] == 'q')
 			return (1);
 		if (line[0] == 'c')
-			pipeline(cmds, env);
+			ms_pipeline(cmds, env);
 		printf("==");
 	}
 	free_tab(env);
