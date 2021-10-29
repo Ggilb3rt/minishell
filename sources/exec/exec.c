@@ -28,15 +28,6 @@
  * - The child's parent process ID is the same as the parent's process ID.
  */
 
-/*
-fork
-	perror
-
-	waitpid
-
-	execve
-*/
-
 // priorities pipe (|) then redirect (< > >> <<) then others
 
 void	ms_pipe(int *fd)
@@ -51,35 +42,32 @@ void	ms_pipe(int *fd)
 void	parent_exec(char ***cmd, char **env, int *fd)
 {
 	// Parent execute cmd and send output to child
-	static int i = 0;
+	//static int i = 0;
 
-	fprintf(stderr, "execute parent %d | %d %d\n", i++, *fd, *(fd + 1));
-	dup2(fd[1], 1);
-	fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
+	//fprintf(stderr, "execute parent %d | %d %d\n", i++, *fd, *(fd + 1));
 	close(fd[0]);
+	dup2(fd[1], 1);
+	//fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
 	close(fd[1]);
 	execve((*cmd)[0], *cmd, env);
 }
 
 void	child_exec(int *fd)
 {
-	static int i = 0;
+	//static int i = 0;
 
-	fprintf(stderr, "execute child %d | %d %d\n", i++, *fd, *(fd + 1));
-	dup2(fd[0], 0);
-	fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
+	//fprintf(stderr, "execute child %d | %d %d\n", i++, *fd, *(fd + 1));
 	close(fd[1]);
+	dup2(fd[0], 0);
+	//fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
 	close(fd[0]);
 	ms_pipe(fd);
 }
 
-// ! pipeline working well, some trouble when cat -e at the end (no it's probably cat /dev/urandom)
-int	pipeline(char ***cmd, char **env)
+pid_t	execute_pipeline_cmds(char ***cmd, char **env, int fd[2])
 {
-	int	fd[2];
-	int	pid;
+	pid_t	pid;
 
-	ms_pipe(fd);
 	while (*cmd != NULL)
 	{
 		if (*(cmd + 1) != NULL)
@@ -88,7 +76,7 @@ int	pipeline(char ***cmd, char **env)
 			if (pid == -1)
 			{
 				perror("fork");
-				exit(errno);
+				return (errno);
 			}
 			else if (pid > 0)
 				parent_exec(cmd, env, fd);
@@ -96,19 +84,35 @@ int	pipeline(char ***cmd, char **env)
 				child_exec(fd);
 		}
 		else
-		{
-			//pid = fork();
-			//if (pid == 0)
-				execve((*cmd)[0], *cmd, env);
-		}
+			execve((*cmd)[0], *cmd, env);
 		cmd++;
 	}
 	return (pid);
 }
 
+int	ms_pipeline(char ***cmd, char **env)
+{
+	int		fd[2];
+	pid_t	global_pid;
 
-// some troubles with free ; I don't change anything, it's works on 42's Mac... ;
-// troubles with free came from forks (maybe ?)
+	ms_pipe(fd);
+	global_pid = fork();
+	if (global_pid == -1)
+	{
+		perror("global fork");
+		return (errno);
+	}
+	else if (global_pid == 0)
+		execute_pipeline_cmds(cmd, env, fd);
+	else if (global_pid > 0)
+	{
+		close(fd[0]);
+		close(fd[1]);
+		waitpid(global_pid, NULL, 0);
+	}
+	return (0);
+}
+
 char	**convert_envplst_to_tab(t_list_envp *ms_env)
 {
 	char	**tmp_env;

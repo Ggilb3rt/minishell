@@ -27,19 +27,22 @@
 # define EHERE 1
 # define QHERE 2
 
+# define IN 0
+# define OUT 1
+
 typedef struct s_simple_command
 {
-	int 					numb_avail;
-	int 					numb;
-	char 					**arg;
+	int						numb_avail;
+	int						numb;
+	char					**arg;
 	int						token;
 	struct s_simple_command	*next;
 }				t_simple_command;
 
 typedef struct s_command
 {
-	int 					numb_avail_simple_commands;
-	int 					numb_simple_commands;
+	int						numb_avail_simple_commands;
+	int						numb_simple_commands;
 	t_simple_command		**list;
 	char 					*out_file;
 	char 					*in_file;

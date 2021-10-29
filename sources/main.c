@@ -45,6 +45,27 @@ void ms_signal(void)
 	}
 }
 
+void letest(t_command **cmd)
+{
+	char	**options;
+	int		fd[2];
+	int		ret_file;
+
+	fd[0] = -1;
+	fd[1] = -1;
+	while (*cmd != NULL)
+	{
+		ret_file = associate_file_to_cmd2(*cmd);
+		options = (*cmd)->list[0]->arg;
+		fd[0] = (*cmd)->fd_in;
+		fd[1] = (*cmd)->fd_out;
+		for (int i = 0; options[i] != NULL; i++)
+			printf("option[%d] : %s | fd_in : %d | fd_out : %d\n", i, options[i], fd[0], fd[1]);
+		printf("ret_file = %d\n", ret_file);
+		*cmd = (*cmd)->next;
+	}
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_list_envp	*ms_envp;
@@ -66,7 +87,6 @@ int	main(int ac, char **av, char **envp)
 		if (g_ret == EHERE) {
 			heredoc_func(line, cmd);
 		}
-		printf("hehehehe\n");
 		if (!line)
 		{
 			cmd_exit(line);
@@ -76,14 +96,12 @@ int	main(int ac, char **av, char **envp)
 			add_history(line);
 		else
 			free(line);
-		printf("huhuhuhu\n");
 		if ((g_ret = cmd_exit(line)) == 1)
 			exit(0);
-		//print_all(cmd);
+		print_all(cmd);
+		letest(cmd);
 	}
-	printf("hohohoho\n");
 	free(msg_prompt);
-	printf("hihihihi\n");
 	ms_lst_free_all(ms_envp);
 	return (g_ret);
 }
@@ -110,19 +128,30 @@ int	main(int ac, char **av, char **envp)
 	char	**cmd2 = ms_split("cat", ' ');
 	char	**cmd3 = ms_split("cat", ' ');
 	char	**cmd4 = ms_split("ls", ' ');
+	char	**cmd1 = ms_split("ls -la", ' ');
+	char	**cmd2 = ms_split("grep 26", ' ');
+	char	**cmd3 = ms_split("tr 20 @", ' ');
+	char	**cmd4 = ms_split("tr @ !", ' ');
 	cmd1[0] = init_cmd_path(cmd1[0], path);
 	cmd2[0] = init_cmd_path(cmd2[0], path);
 	cmd3[0] = init_cmd_path(cmd3[0], path);
 	cmd4[0] = init_cmd_path(cmd4[0], path);
 	char	**cmds[] = {cmd1, cmd2, cmd3, cmd4, NULL};
-	int pid = pipeline(cmds, env);
+	//for (int i = 0; cmds[i] != NULL; i++)
+	//	printf("%s %s %s\n", cmds[i][0], cmds[i][1], cmds[i][2]);
 	//ms_lst_free_all(ms_envp);
 	//free_tab(env);
-	//while (1)
-	//{
-		waitpid(pid, NULL, 0);
-		line = readline("pouet | ");
-	//}
+	while (1)
+	{
+		line = readline("====> ");
+		if (line[0] == 'q')
+			return (1);
+		if (line[0] == 'c')
+			ms_pipeline(cmds, env);
+		printf("==");
+	}
+	free_tab(env);
+	ms_lst_free_all(ms_envp);
 	return (0); // return 0 or 1 ?
 }
 */

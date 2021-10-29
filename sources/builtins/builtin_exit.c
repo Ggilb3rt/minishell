@@ -20,6 +20,8 @@
 
 int	cmd_exit(char *line)
 {
+	if (!line)
+		return (0);
 	if (!ms_strcmp(line, "exit")) {
 		printf("exit\n");
 		return (1);
