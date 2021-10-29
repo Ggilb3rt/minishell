@@ -24,8 +24,8 @@
 
 # define UINT_MAX 4294967294
 # define QEXIT 0
-# define QERROR 1
-# define HERE 2
+# define EHERE 1
+# define QHERE 2
 
 # define IN 0
 # define OUT 1
@@ -44,12 +44,12 @@ typedef struct s_command
 	int						numb_avail_simple_commands;
 	int						numb_simple_commands;
 	t_simple_command		**list;
-	char					*out_file;
-	char					*in_file;
-	char					*err_file;
-	int						fd_in;
-	int						fd_out;
-	char					*heredoc;
+	char 					*out_file;
+	char 					*in_file;
+	char 					*err_file;
+	int 					fd_in;
+	int 					fd_out;
+	char 					*end;
 	struct s_command		*next;
 }				t_command;
 
@@ -63,5 +63,7 @@ extern int	g_ret;
 # include "exec.h"
 # include "flux.h"
 # include "heredoc.h"
+
+void sig_handler(int n);
 
 #endif

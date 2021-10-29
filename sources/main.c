@@ -18,14 +18,18 @@ void sig_handler(int n)
 {
 	if (n == SIGINT)
 	{
-		if (g_ret != 2)
+		if (g_ret == EHERE)
+		{
+			g_ret = QHERE;
+		}
+		else
 		{
 			printf("\n");
 			rl_on_new_line();
 			rl_replace_line("", 0);
 			rl_redisplay();
+			g_ret = 0;
 		}
-		g_ret = 0;
 	}
 }
 
@@ -71,33 +75,33 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	cmd = malloc(sizeof(t_command *));
-	//init_cmd(cmd);
 	ms_signal();
-
 	ms_envp = create_msenvp_lst(envp);
-	//msg_prompt = ms_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
+	msg_prompt = ms_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
 	while (1)
 	{
-		msg_prompt = ms_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
 		line = readline(msg_prompt);
 		if (!lexer_and_parser(line, cmd))
 			break ;
-		if (g_ret == 2)
+		if (g_ret == EHERE) {
 			heredoc_func(line, cmd);
+		}
 		if (!line)
+		{
 			cmd_exit(line);
+			exit(0);
+		}
 		else if (ms_strlen(line) > 0)
 			add_history(line);
 		else
 			free(line);
-		if ((g_ret = cmd_exit(line)) == 0)
+		if ((g_ret = cmd_exit(line)) == 1)
 			exit(0);
-		if (set_cmd_ready_to_exec(cmd) < 0)
-			exit(1);
+		set_cmd_ready_to_exec(cmd);
 		//print_simple_command(cmd);
 		//print_command(cmd);
-		//print_all(cmd);
-		//base_pour_exec(cmd);
+		print_all(cmd);
+		base_pour_exec(cmd);
 
 	}
 	free(msg_prompt);

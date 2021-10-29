@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:16:40 by alangloi          #+#    #+#             */
-/*   Updated: 2021/10/29 15:03:35 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/10/29 16:51:03 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ t_command	*alloc_command(char **arg, int begin, int end)
 	cmd->out_file = NULL;
 	cmd->in_file = NULL;
 	cmd->err_file = NULL;
+	cmd->fd_out = -1;
+	cmd->fd_in = -1;
 	cmd->next = NULL;
 	return (cmd);
 }

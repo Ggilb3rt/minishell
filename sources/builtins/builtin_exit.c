@@ -20,7 +20,11 @@
 
 int	cmd_exit(char *line)
 {
-	if (!ms_strcmp(line, "exit"))
+	if (!line)
 		return (0);
-	return (1);
+	if (!ms_strcmp(line, "exit")) {
+		printf("exit\n");
+		return (1);
+	}
+	return (0);
 }

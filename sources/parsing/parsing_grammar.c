@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:22:04 by alangloi          #+#    #+#             */
-/*   Updated: 2021/10/29 15:21:00 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/10/29 16:51:27 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ static void	redir_less(t_simple_command *cur, t_command *cmd)
 	{
 		free(cmd->in_file);
 		cmd->in_file = NULL;
-		cmd->heredoc = cur->next->next->arg[0];
-		g_ret = 2;
+		cmd->end = cur->next->next->arg[0];
+		g_ret = EHERE;
 	}
 }
 
@@ -69,15 +69,13 @@ int	parser(t_command **cmd)
 	t_command	*cur;
 
 	cur = *cmd;
-	//cur->pipe_in = NULL;
 	while (cur != NULL)
 	{
-	//	cur->pipe_out = NULL;
 		io_redirections(cur);
 		if (cur->next != NULL && (*cur->next->list)->token != NWLINE)
 		{
-	//		cur->pipe_out = cur->next;
-	//		cur->next->pipe_in = cur;
+			//cur->fd_out = open(cur->out_file, );
+			//cur->next->fd_in = cur;
 		}
 		cur = cur->next;
 	}
