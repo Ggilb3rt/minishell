@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_grammar.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alangloi <alangloi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:22:04 by alangloi          #+#    #+#             */
-/*   Updated: 2021/10/19 14:28:02 by alangloi         ###   ########.fr       */
+/*   Updated: 2021/10/29 15:21:00 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,15 @@ int	parser(t_command **cmd)
 	t_command	*cur;
 
 	cur = *cmd;
-	cur->pipe_in = NULL;
+	//cur->pipe_in = NULL;
 	while (cur != NULL)
 	{
-		cur->pipe_out = NULL;
+	//	cur->pipe_out = NULL;
 		io_redirections(cur);
 		if (cur->next != NULL && (*cur->next->list)->token != NWLINE)
 		{
-			cur->pipe_out = cur->next;
-			cur->next->pipe_in = cur;
+	//		cur->pipe_out = cur->next;
+	//		cur->next->pipe_in = cur;
 		}
 		cur = cur->next;
 	}

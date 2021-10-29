@@ -40,35 +40,36 @@ int	print_simple_command(t_simple_command **sc)
 
 int	print_all(t_command **cmd)
 {
-	t_command	*cur;
+	(void)cmd;
+	//t_command	*cur;
 
-	cur = *cmd;
-	while (cur != NULL)
-	{
-		if (cur->pipe_in)
-		{
-			printf("---pipein---\n");
-			print_simple_command(cur->pipe_in->list);
-			print_command(cur->pipe_in);
-		}
-		else
-		{
-			printf("--nopipein--\n");
-		}
-		printf("---cur---\n");
-		print_simple_command(cur->list);
-		print_command(cur);
-		if (cur->pipe_out)
-		{
-			printf("---pipeout---\n");
-			print_simple_command(cur->pipe_out->list);
-			print_command(cur->pipe_out);
-		}
-		else
-			printf("--nopipeout--\n");
-		printf("\n");
-		printf("\n");
-		cur = cur->next;
-	}
+	//cur = *cmd;
+	// while (cur != NULL)
+	// {
+	// 	if (cur->pipe_in)
+	// 	{
+	// 		printf("---pipein---\n");
+	// 		print_simple_command(cur->pipe_in->list);
+	// 		print_command(cur->pipe_in);
+	// 	}
+	// 	else
+	// 	{
+	// 		printf("--nopipein--\n");
+	// 	}
+	// 	printf("---cur---\n");
+	// 	print_simple_command(cur->list);
+	// 	print_command(cur);
+	// 	if (cur->pipe_out)
+	// 	{
+	// 		printf("---pipeout---\n");
+	// 		print_simple_command(cur->pipe_out->list);
+	// 		print_command(cur->pipe_out);
+	// 	}
+	// 	else
+	// 		printf("--nopipeout--\n");
+	// 	printf("\n");
+	// 	printf("\n");
+	// 	cur = cur->next;
+	// }
 	return (0);
 }

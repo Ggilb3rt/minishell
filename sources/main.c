@@ -41,23 +41,22 @@ void ms_signal(void)
 	}
 }
 
-void letest(t_command **cmd)
+void base_pour_exec(t_command **cmd)
 {
 	char	**options;
 	int		fd[2];
-	int		ret_file;
+	//int		ret_file;
 
 	fd[0] = -1;
 	fd[1] = -1;
 	while (*cmd != NULL)
 	{
-		ret_file = associate_file_to_cmd2(*cmd);
+		//ret_file = associate_file_to_cmd(*cmd);
 		options = (*cmd)->list[0]->arg;
 		fd[0] = (*cmd)->fd_in;
 		fd[1] = (*cmd)->fd_out;
 		for (int i = 0; options[i] != NULL; i++)
 			printf("option[%d] : %s | fd_in : %d | fd_out : %d\n", i, options[i], fd[0], fd[1]);
-		printf("ret_file = %d\n", ret_file);
 		*cmd = (*cmd)->next;
 	}
 }
@@ -95,9 +94,11 @@ int	main(int ac, char **av, char **envp)
 			exit(0);
 		//print_simple_command(cmd);
 		//print_command(cmd);
-		print_all(cmd);
+		//print_all(cmd);
 
-		letest(cmd);
+		if (set_cmd_ready_to_exec(cmd) < 0)
+			exit(1);
+		base_pour_exec(cmd);
 
 	}
 	free(msg_prompt);

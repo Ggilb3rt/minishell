@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_elem.c                                     :+:      :+:    :+:   */
+/*   parsing_alloc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alangloi <alangloi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:16:40 by alangloi          #+#    #+#             */
-/*   Updated: 2021/10/19 14:29:39 by alangloi         ###   ########.fr       */
+/*   Updated: 2021/10/29 15:03:35 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ t_command	*alloc_command(char **arg, int begin, int end)
 	cmd->numb_avail_simple_commands = 0;
 	cmd->numb_simple_commands = 0;
 	cmd->list = lexer_2(arg, begin, end);
-	cmd->out_file = ms_strdup("dflt");
-	cmd->in_file = ms_strdup("dflt");
-	cmd->err_file = ms_strdup("dflt");
+	cmd->out_file = NULL;
+	cmd->in_file = NULL;
+	cmd->err_file = NULL;
 	cmd->next = NULL;
 	return (cmd);
 }

@@ -18,8 +18,8 @@ int			**create_pipes_fd(int nb_pipe);
 int			ms_pipeline(char ***cmd, char **env);
 void		new_pipeline(t_command **cmds);
 
-/* prepare_cmds */
-int			associate_file_to_cmd(t_simple_command **list);
-int			associate_file_to_cmd2(t_command *cmds);
+/* prepare_fds_cmds */
+int			associate_file_to_cmd(t_command *cmds);
+int			set_cmd_ready_to_exec(t_command **cmd);
 
 #endif
