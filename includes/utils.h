@@ -48,19 +48,6 @@ void		free_tab(char **arr);
 //void 	free_simple_command(t_simple_command **list);
 
 /*
- * utils 5
- * env handler
- */
-char		*get_env_val(char *to_find, char **env);
-
-//char		*get_env_val(char *to_find, char **env);
-//int		get_env_index(char *to_find, char **env);
-size_t		get_ms_env_len(t_list_envp *ms_env);
-char		*get_ms_env_val(char *to_find, t_list_envp *ms_env);
-int			get_ms_env_index(char *to_find, t_list_envp *ms_env);
-t_list_envp	*ms_lst_point(int index, t_list_envp *ms_env);
-
-/*
  * utils_chr
  */
 int			ft_isdigit(int c);

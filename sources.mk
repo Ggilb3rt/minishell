@@ -13,6 +13,7 @@ SOURCES = \
 		env/env.c \
 		env/env_edit.c \
 		env/env_free.c \
+		env/env_getter.c \
 		exec/exec.c \
 		exec/prepare_cmds.c \
 		exec/exec_cmd_path.c \
@@ -28,7 +29,6 @@ SOURCES = \
 		utils/utils_2.c \
 		utils/utils_3.c \
 		utils/utils_4.c \
-		utils/utils_5.c \
 		utils/utils_chr.c \
 		utils/ft_strlcpy.c \
 		utils/ft_strtrim.c \

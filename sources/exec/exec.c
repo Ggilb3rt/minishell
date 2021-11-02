@@ -96,6 +96,7 @@ int	ms_pipeline(char ***cmd, char **env)
 	pid_t	global_pid;
 
 	ms_pipe(fd);
+	printf("hi from pipeline\n");
 	global_pid = fork();
 	if (global_pid == -1)
 	{
