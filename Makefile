@@ -8,6 +8,9 @@ ifeq ($(UNAME_S),Linux)
 else
 	LIB = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
 	INCLUDE = -I /Users/$(USER)/.brew/opt/readline/include
+
+	LIB = -lreadline -L/usr/local/opt/readline/lib
+	INCLUDE = -I/usr/local/opt/readline/include
 endif
 
 include sources.mk

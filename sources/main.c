@@ -45,24 +45,63 @@ void ms_signal(void)
 	}
 }
 
-void base_pour_exec(t_command **cmd)
+int	get_nb_cmds(t_command **cmds)
 {
-	char	**options;
+	int	i;
+
+	i = 0;
+	if (!cmds)
+		return (-1);
+	while (*cmds != NULL)
+	{
+		if ((*cmds)->list[0]->token == WORD)
+			i++;
+		*cmds = (*cmds)->next;
+	}
+	return (i);
+}
+
+void base_pour_exec(t_command **cmd, char **env)
+{
+	char	***options;
+	int		nb_cmds;
+	int		i;
 	int		fd[2];
 	//int		ret_file;
 
 	fd[0] = -1;
 	fd[1] = -1;
+	i = 0;
+	nb_cmds = get_nb_cmds(cmd);
+	// ici cmd est sur le pointeur null à la fin ...
+	options = malloc(sizeof(options) * (nb_cmds + 1));
+	if (!options)
+		return ;
+	//! si ```ls < in | cqt > out | grep > out | ls``` return 3 (bug with cqt > out), ```cqt < out``` is ok...
+	//! le bug vient du parser en fait, si une cmd n'est pas detectée correctement
+	printf("nb %d\n", nb_cmds);
+	// malloc ***options with nb of cmds
+	// options = {{"lol", "internet", NULL}, {"ls", "-la", "oput", NULL}, NULL}
+	// replace "/" (= 7) by NULL
 	while (*cmd != NULL)
 	{
 		//ret_file = associate_file_to_cmd(*cmd);
-		options = (*cmd)->list[0]->arg;
+		options[i] = (*cmd)->list[0]->arg;
 		fd[0] = (*cmd)->fd_in;
 		fd[1] = (*cmd)->fd_out;
-		for (int i = 0; options[i] != NULL; i++)
-			printf("option[%d] : %s | fd_in : %d | fd_out : %d\n", i, options[i], fd[0], fd[1]);
 		*cmd = (*cmd)->next;
+		i++;
 	}
+	printf("i %d\n", i);
+	options[i] = NULL;
+	for (int i = 0; options[i] != NULL; i++)
+	{
+		for (int j = 0; options[j] != NULL; j++)
+			printf("option[%d] : %s | fd_in : %d | fd_out : %d\n", i, options[i][j], fd[0], fd[1]);
+	}
+	(void)env;
+	// infinit while
+	//ms_pipeline(&options, env);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -101,7 +140,8 @@ int	main(int ac, char **av, char **envp)
 		//print_simple_command(cmd);
 		//print_command(cmd);
 		print_all(cmd);
-		base_pour_exec(cmd);
+		char	**my_env = convert_envplst_to_tab(ms_envp);
+		base_pour_exec(cmd, my_env);
 
 	}
 	free(msg_prompt);
