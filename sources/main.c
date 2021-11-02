@@ -5,10 +5,6 @@
  */
 
 /*
- * create the loop that will run minishell
- */
-
-/*
  * Utiliser variable globale pour CTRL-D CTRL-C CTRL-\
  */
 
