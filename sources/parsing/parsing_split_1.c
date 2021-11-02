@@ -22,8 +22,9 @@ static void	init_split(t_split *splt, char *str)
 	splt->count_s = -1;
 	splt->count_d = -1;
 	splt->size = word_count(str);
-	splt->len = ft_strlen(str);
+	splt->len = (int)ft_strlen(str);
 	splt->j = 0;
+
 }
 
 /*

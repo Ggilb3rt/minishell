@@ -75,7 +75,7 @@ void base_pour_exec(t_command **cmd, char **env)
 		return ;
 	//! si ```ls < in | cqt > out | grep > out | ls``` return 3 (bug with cqt > out), ```cqt < out``` is ok...
 	//! le bug vient du parser en fait, si une cmd n'est pas detectée correctement
-	printf("nb %d\n", nb_cmds);
+	//printf("nb %d\n", nb_cmds);
 	// malloc ***options with nb of cmds
 	// options = {{"lol", "internet", NULL}, {"ls", "-la", "oput", NULL}, NULL}
 	// replace "/" (= 7) by NULL
@@ -88,7 +88,7 @@ void base_pour_exec(t_command **cmd, char **env)
 		*cmd = (*cmd)->next;
 		i++;
 	}
-	printf("i %d\n", i);
+	//printf("i %d\n", i);
 	options[i] = NULL;
 	for (int i = 0; options[i] != NULL; i++)
 	{
@@ -126,7 +126,8 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 		if (!lexer_and_parser(line, cmd))
 			break ;
-		if (g_ret == EHERE) {
+		if (g_ret == EHERE)
+		{
 			heredoc_func(line, cmd);
 		}
 		if ((g_ret = cmd_exit(line)) == 1)
@@ -134,7 +135,7 @@ int	main(int ac, char **av, char **envp)
 		set_cmd_ready_to_exec(cmd);
 		//print_simple_command(cmd);
 		//print_command(cmd);
-		print_all(cmd);
+		//print_all(cmd);
 		char	**my_env = convert_envplst_to_tab(ms_envp);
 		base_pour_exec(cmd, my_env);
 	}

@@ -13,7 +13,6 @@ void cleanup(char **str)
 	s = *str;
 	while (s[i])
 	{
-
 		i++;
 	}
 }
