@@ -7,6 +7,7 @@ SOURCES = \
 		parsing/parsing_token.c \
 		parsing/parsing_error.c \
 		parsing/parsing_lexer.c \
+		parsing/parsing_cleanup.c \
 		parsing/parsing_split_1.c \
 		parsing/parsing_split_2.c \
 		parsing/parsing_split_3.c \
@@ -26,10 +27,17 @@ SOURCES = \
 		builtins/builtin_unset.c \
 		utils/utils_1.c \
 		utils/utils_2.c \
-		utils/utils_3.c \
-		utils/utils_4.c \
 		utils/utils_5.c \
-		utils/utils_chr.c \
-		utils/ft_strlcpy.c \
-		utils/ft_strtrim.c \
+		libft/ft_isalnum.c \
+		libft/ft_isalpha.c \
+		libft/ft_isdigit.c \
+		libft/ft_split.c \
+		libft/ft_strchr.c \
+		libft/ft_strcmp.c \
+		libft/ft_strdup.c \
+		libft/ft_strjoin.c \
+		libft/ft_strlcpy.c \
+		libft/ft_strlen.c \
+		libft/ft_strnstr.c \
+		libft/ft_strtrim.c \
 		debug/debug.c

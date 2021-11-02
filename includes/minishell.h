@@ -56,13 +56,12 @@ typedef struct s_command
 extern int	g_ret;
 
 # include "parsing.h"
-# include "history.h"
-# include "ms_env.h"
+# include "env.h"
 # include "builtins.h"
 # include "utils.h"
 # include "exec.h"
-# include "flux.h"
 # include "heredoc.h"
+# include "libft.h"
 
 void sig_handler(int n);
 

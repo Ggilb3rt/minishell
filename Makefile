@@ -32,6 +32,7 @@ $(OBJ):
 	cd objects && mkdir -p env
 	cd objects && mkdir -p heredoc
 	cd objects && mkdir -p debug
+	cd objects && mkdir -p libft
 
 $(OBJS): | $(OBJ)
 

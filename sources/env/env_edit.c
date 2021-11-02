@@ -66,7 +66,7 @@ void	edit_lst_content(t_list_envp *env, int index, char *new_val)
 		tmp = tmp->next;
 	tmp = tmp->next;
 	free(tmp->content);
-	tmp->content = ms_strdup(new_val);
+	tmp->content = ft_strdup(new_val);
 }
 
 t_list_envp	*ms_lst_pop_first(t_list_envp *head)

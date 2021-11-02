@@ -78,15 +78,15 @@ int	main(int ac, char **av, char **envp)
 	cmd = malloc(sizeof(t_command *));
 	ms_signal();
 	ms_envp = create_msenvp_lst(envp);
-	msg_prompt = ms_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
+	msg_prompt = ft_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
 	while (1)
 	{
 		line = readline(msg_prompt);
 		if (!line)
 			break ;
-		else if (ms_strlen(line) > 0)
+		else if (ft_strlen(line) > 0)
 			add_history(line);
-		else if (!ms_strcmp(line, ""))
+		else if (!ft_strcmp(line, ""))
 			continue ;
 		else
 			free(line);

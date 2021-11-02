@@ -25,7 +25,7 @@ static char	**get_arg(char **str, int i, int last)
 		return (0);
 	while (j < diff)
 	{
-		new[j] = ms_strdup(str[last + j]);
+		new[j] = ft_strdup(str[last + j]);
 		j++;
 	}
 	new[j] = NULL;
@@ -65,8 +65,8 @@ t_simple_command	**lexer_2(char **arg, int begin, int end)
 		return (NULL);
 	while (i < end)
 	{
-		if (!ms_strcmp(arg[i], "<") || !ms_strcmp(arg[i], ">")
-			|| !ms_strcmp(arg[i], "<<") || !ms_strcmp(arg[i], ">>"))
+		if (!ft_strcmp(arg[i], "<") || !ft_strcmp(arg[i], ">")
+			|| !ft_strcmp(arg[i], "<<") || !ft_strcmp(arg[i], ">>"))
 			cur = convert(list, arg, i, cur);
 		i++;
 	}
@@ -93,7 +93,7 @@ t_command	**lexer(char **arg, t_command **cmd)
 	begin = 0;
 	while (arg[i])
 	{
-		if (!ms_strcmp(arg[i], "|"))
+		if (!ft_strcmp(arg[i], "|"))
 		{
 			cur = alloc_command(arg, begin, i);
 			add_command(cur, cmd);

@@ -68,7 +68,7 @@ static void	trig_words(char *str, t_count *cnt)
 	{
 		meet_quote(str, cnt);
 		cnt->words++;
-		if (ms_is_alpha(&str[cnt->i + 1]))
+		if (ft_isalpha(str[cnt->i + 1]))
 			cnt->trig = 0;
 	}
 	else if ((str[cnt->i] != ' ' && !cnt->open) && cnt->trig == 0)

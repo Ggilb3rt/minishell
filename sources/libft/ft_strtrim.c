@@ -44,7 +44,7 @@ size_t	ft_get_last(char const *s1, char const *set)
 	char	*pattern;
 
 	i = 0;
-	s1l = ms_strlen(s1);
+	s1l = ft_strlen(s1);
 	pattern = (char *)set;
 	s1 += s1l - 1;
 	while (s1l--)
@@ -73,7 +73,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	size_t	final;
 	size_t	s1l;
 
-	s1l = ms_strlen(s1);
+	s1l = ft_strlen(s1);
 	first = ft_get_first(s1, set);
 	last = ft_get_last(s1, set);
 	final = s1l - first - last;

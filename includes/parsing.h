@@ -83,6 +83,9 @@ int					parser(t_command **cmd);
 t_command			**lexer(char **arg, t_command **cmd);
 t_simple_command	**lexer_2(char **arg, int begin, int end);
 
+/* parsing cleanup */
+void				cleanup(char **str);
+
 /* parsing split 1 */
 char				**split_quote(char *str);
 

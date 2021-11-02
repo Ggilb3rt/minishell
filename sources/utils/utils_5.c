@@ -29,11 +29,11 @@ char	*to_find_sanitize(char *to_find)
 {
 	int		len;
 
-	len = ms_strlen(to_find);
+	len = ft_strlen(to_find);
 	if (to_find[--len] == '=')
-		return (ms_strjoin(to_find, ""));
+		return (ft_strjoin(to_find, ""));
 	else
-		return (ms_strjoin(to_find, "="));
+		return (ft_strjoin(to_find, "="));
 }
 
 size_t	get_ms_env_len(t_list_envp *ms_env)
@@ -65,10 +65,10 @@ int	get_ms_env_index(char *to_find, t_list_envp *ms_env)
 	if (!to_find)
 		return (-1);
 	len_ms_env = get_ms_env_len(tmp);
-	len_to_find = ms_strlen(to_find);
+	len_to_find = ft_strlen(to_find);
 	while (++index < (int)len_ms_env)
 	{
-		if (ms_strnstr(tmp->content, to_find, len_to_find))
+		if (ft_strnstr(tmp->content, to_find, len_to_find))
 			break ;
 		tmp = tmp->next;
 	}
@@ -88,7 +88,7 @@ char	*get_ms_env_val(char *to_find, t_list_envp *ms_env)
 	i = get_ms_env_index(to_find, tmp);
 	if (i < 0)
 		return (NULL);
-	len_to_find = ms_strlen(to_find);
+	len_to_find = ft_strlen(to_find);
 	while (i-- > 0)
 		tmp = tmp->next;
 	return ((tmp->content) + len_to_find);
@@ -113,9 +113,9 @@ char	*get_env_val(char *to_find, char **env)
 	int		l_to_find;
 	char	*new;
 
-	l_to_find = ms_strlen(to_find);
+	l_to_find = ft_strlen(to_find);
 	i = get_env_index(to_find, env);
-	new = ms_strdup(env[i] + l_to_find + 1);
+	new = ft_strdup(env[i] + l_to_find + 1);
 	return (new);
 }
 
@@ -125,8 +125,8 @@ int	get_env_index(char *to_find, char **env)
 	int		l_to_find;
 
 	i = 0;
-	l_to_find = ms_strlen(to_find);
-	while (!ms_strnstr(env[i], to_find, l_to_find))
+	l_to_find = ft_strlen(to_find);
+	while (!ft_strnstr(env[i], to_find, l_to_find))
 		i++;
 	return (i);
 }

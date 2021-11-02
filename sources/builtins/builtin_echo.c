@@ -15,7 +15,7 @@ int	is_flag(char *str)
 {
 	if (!str)
 		return (0);
-	if (ms_strlen(str) == 2)
+	if (ft_strlen(str) == 2)
 	{
 		if (str[0] == '-' && str[1] == 'n')
 			return (1);
@@ -48,7 +48,7 @@ int	cmd_echo(char *str)
 	int		flag;
 	char	**words;
 
-	words = ms_split(str, ' ');
+	words = ft_split(str, ' ');
 	if (!words)
 		return (1);
 	flag = is_flag(words[0]);

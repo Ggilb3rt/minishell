@@ -126,7 +126,7 @@ char	**convert_envplst_to_tab(t_list_envp *ms_env)
 	i = 0;
 	while (i < len_ms_env)
 	{
-		tmp_env[i] = ms_strdup(ms_env->content);
+		tmp_env[i] = ft_strdup(ms_env->content);
 		ms_env = ms_env->next;
 		i++;
 	}

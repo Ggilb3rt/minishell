@@ -19,13 +19,13 @@ static void	redir_great(t_simple_command *cur, t_command *cmd)
 	{
 		free(cmd->out_file);
 		cmd->out_file = NULL;
-		cmd->out_file = ms_strdup(cur->next->next->arg[0]);
+		cmd->out_file = ft_strdup(cur->next->next->arg[0]);
 	}
 	else if (cur->next->token == DGREAT && cur->next->next->token == WORD)
 	{
 		free(cmd->out_file);
 		cmd->out_file = NULL;
-		cmd->out_file = ms_strdup(cur->next->next->arg[0]);
+		cmd->out_file = ft_strdup(cur->next->next->arg[0]);
 	}
 }
 
@@ -35,7 +35,7 @@ static void	redir_less(t_simple_command *cur, t_command *cmd)
 	{
 		free(cmd->in_file);
 		cmd->in_file = NULL;
-		cmd->in_file = ms_strdup(cur->next->next->arg[0]);
+		cmd->in_file = ft_strdup(cur->next->next->arg[0]);
 	}
 	else if (cur->next->token == DLESS && cur->next->next->token == WORD)
 	{

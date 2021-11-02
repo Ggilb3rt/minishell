@@ -38,7 +38,7 @@ char	*select_path_dash_op(char *path, t_list_envp *ms_env)
 		return (path);
 	if (path[0] == '-')
 	{
-		if (ms_strlen(path) > 1)
+		if (ft_strlen(path) > 1)
 		{
 			if (path[1] != ' ')
 			{
@@ -47,7 +47,7 @@ char	*select_path_dash_op(char *path, t_list_envp *ms_env)
 		}
 		free(path);
 		path = get_ms_env_val(OLDPWD, ms_env);
-		path += ms_strlen(OLDPWD);
+		path += ft_strlen(OLDPWD);
 	}
 	return (path);
 }
@@ -65,8 +65,8 @@ void	update_old_pwd(t_list_envp *env)
 	if (index_old_pwd == -1)
 		return ;
 	current_pwd = get_ms_env_val(PWD, tmp);
-	current_pwd += ms_strlen(PWD);
-	next_old_pwd = ms_strjoin(OLDPWD, current_pwd);
+	current_pwd += ft_strlen(PWD);
+	next_old_pwd = ft_strjoin(OLDPWD, current_pwd);
 	edit_lst_content(tmp, index_old_pwd, next_old_pwd);
 	free(next_old_pwd);
 }
@@ -86,7 +86,7 @@ int	cmd_cd(char *path, t_list_envp *ms_env)
 	err = chdir(path);
 	if (err == -1)
 	{
-		msg = ms_strjoin("cd: ", path);
+		msg = ft_strjoin("cd: ", path);
 		perror(msg);
 		free(msg);
 		return (1);

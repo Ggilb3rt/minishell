@@ -23,7 +23,7 @@ t_list_envp	*new_char_list(char *str)
 	head = malloc(sizeof(t_list_envp));
 	if (!head)
 		return (NULL);
-	head->content = ms_strdup(str);
+	head->content = ft_strdup(str);
 	if (head->content == NULL)
 	{
 		free(head);

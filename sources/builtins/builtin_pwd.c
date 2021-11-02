@@ -34,7 +34,7 @@ int	cmd_pwd(t_list_envp *env, int print)
 		perror("BUILTIN PWD ERROR");
 		return (errno);
 	}
-	new_pdw = ms_strjoin(PWD, buf);
+	new_pdw = ft_strjoin(PWD, buf);
 	edit_lst_content(env, get_ms_env_index(PWD, env), new_pdw);
 	if (print)
 		printf("%s\n", buf);

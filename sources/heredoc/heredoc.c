@@ -16,7 +16,8 @@ static int	event_hook(void)
 
 void 	heredoc_func(char *arg, t_command **cmd)
 {
-	char *line;
+	char	*line;
+	int 	ret;
 
 	(void)arg;
 	rl_event_hook = &event_hook;
@@ -29,14 +30,34 @@ void 	heredoc_func(char *arg, t_command **cmd)
 		{
 			break;
 		}
-		else if (!ms_strcmp(line, (*cmd)->end))
+		else if (!ft_strcmp(line, (*cmd)->end))
 		{
 			g_ret = 0;
 			break ;
 		}
 		else if (line)
 		{
-			//tmp_fd = open(cur->arg[0], O_CREAT | O_WRONLY | O_APPEND, 0666);
+			printf("out file = %s, fd out = %d\n", (*cmd)->out_file, (*cmd)->fd_out);
+			ret = open((*cmd)->out_file, O_WRONLY | O_RDONLY | O_APPEND, 0666);
+			if (!ret)
+				return ;
+			write((*cmd)->fd_out, line, ft_strlen(line));
+			close((*cmd)->fd_out);
+			//-------------------------------------------------
+			FILE *ptr = fopen((*cmd)->out_file, "r");
+			if (ptr == NULL)
+			{
+				printf("cant open file\n");
+				exit(0);
+			}
+			char c = fgetc(ptr);
+			while (c != EOF)
+			{
+				printf("%c", c);
+				c = fgetc(ptr);
+			}
+			fclose(ptr);
+			//-------------------------------------------------
 		}
 	}
 }

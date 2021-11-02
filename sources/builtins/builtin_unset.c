@@ -55,7 +55,7 @@ int	cmd_unset(t_list_envp **env, char **to_find)
 	i = 0;
 	while (to_find[i] != NULL)
 	{
-		if (!ms_str_isalnum_under(to_find[i]))
+		if (!ft_str_isalnum_under(to_find[i]))
 		{
 			printf("minishell: unset: `%s': not a valid identifier\n",
 				to_find[i]);
