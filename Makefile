@@ -3,7 +3,7 @@
 UNAME_S := $(shell uname -s)
 
 ifeq ($(UNAME_S),Linux)
-	LIB = -lreadline -Lusr/include
+	LIB = -lreadline -L/usr/include
 	INCLUDE =
 else
 	LIB = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
