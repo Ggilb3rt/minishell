@@ -111,10 +111,12 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	cmd = malloc(sizeof(t_command *));
 	ms_signal();
+	line = ft_strdup("");
 	ms_envp = create_msenvp_lst(envp);
 	msg_prompt = ft_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
 	while (1)
 	{
+		free(line);
 		line = readline(msg_prompt);
 		if (!line)
 			break ;

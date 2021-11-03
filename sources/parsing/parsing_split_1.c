@@ -14,9 +14,6 @@
 
 static void	init_split(t_split *splt, char *str)
 {
-	splt->new = malloc(sizeof(char *) * splt->size + 1);
-	if (!splt->new)
-		return ;
 	splt->open = 0;
 	splt->count = -1;
 	splt->count_s = -1;
@@ -24,7 +21,9 @@ static void	init_split(t_split *splt, char *str)
 	splt->size = word_count(str);
 	splt->len = (int)ft_strlen(str);
 	splt->j = 0;
-
+	splt->new = malloc(sizeof(char *) * splt->size + 1);
+	if (!splt->new)
+		return ;
 }
 
 /*

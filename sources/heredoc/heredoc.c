@@ -17,13 +17,14 @@ static int	event_hook(void)
 void 	heredoc_func(char *arg, t_command **cmd)
 {
 	char	*line;
-	int		tmp_fd;
 
 	(void)arg;
-	tmp_fd = -1;
 	rl_event_hook = &event_hook;
+	line = ft_strdup("");
+	(*cmd)->fd_out = open((*cmd)->end, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	while (g_ret != QHERE)
 	{
+		free(line);
 		line = readline("> ");
 		if (line == NULL)
 			break ;
@@ -36,54 +37,13 @@ void 	heredoc_func(char *arg, t_command **cmd)
 			g_ret = 0;
 			break ;
 		}
-		else if (line)
+		else if (line && ft_strlen(line) != ft_strlen((*cmd)->end))
 		{
-			t_simple_command *cur;
-			int fd_out;
-			char *out_file;
-
-			fd_out = -1;
-			out_file = (*cmd)->out_file;
-			cur = (*(*cmd)->list);
-			while (cur != NULL)
-			{
-				if (cur->token == DGREAT)
-				{
-					if (access(out_file, F_OK | R_OK) == -1)
-						fd_out = open(out_file, O_WRONLY | O_RDONLY | O_APPEND | O_CREAT, 0666);
-					else
-						fd_out = open(out_file, O_WRONLY | O_RDONLY | O_APPEND, 0666);
-				}
-				if (cur->token == GREAT)
-				{
-					if (access(out_file, F_OK | R_OK) == -1)
-					{
-						fd_out = open(out_file, O_WRONLY | O_RDONLY | O_CREAT, 0666);
-					}
-					else
-					{
-						if (tmp_fd == -1)
-						{
-							fd_out = open(out_file, O_WRONLY | O_RDONLY, 0666);
-							tmp_fd = fd_out;
-						}
-						else
-						{
-							fd_out = open(out_file, O_WRONLY | O_RDONLY | O_APPEND, 0666);
-							tmp_fd = fd_out;
-						}
-					}
-					printf("fd_out = %d\n", fd_out);
-				}
-				cur = cur->next;
-			}
-			(*cmd)->fd_out = fd_out;
-			(*cmd)->out_file = out_file;
 			if ((*cmd)->fd_out == -1)
 				perror("error");
 			write((*cmd)->fd_out, line, ft_strlen(line));
 			write((*cmd)->fd_out, "\n", 1);
-			close((*cmd)->fd_out);
 		}
 	}
+	close((*cmd)->fd_out);
 }
