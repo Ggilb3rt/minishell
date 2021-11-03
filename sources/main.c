@@ -123,6 +123,7 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		line = readline(msg_prompt);
+		printf("pouet\n");
 		if (!lexer_and_parser(line, cmd))
 			break ;
 		if (g_ret == EHERE) {
@@ -144,7 +145,7 @@ int	main(int ac, char **av, char **envp)
 		//print_command(cmd);
 		//print_all(cmd);
 		//char	**my_env = convert_envplst_to_tab(ms_envp);
-		//base_pour_exec(cmd, envp);
+		base_pour_exec(cmd, envp);
 
 	}
 	free(msg_prompt);
