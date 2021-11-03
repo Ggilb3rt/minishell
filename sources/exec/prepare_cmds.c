@@ -96,10 +96,10 @@ int	associate_file_to_cmd(t_command *cmds)
 {
 	t_simple_command	*cur;
 	int					current_token;
-	int					tmp_fd;
+	//int					tmp_fd;
 
 	cur = cmds->list[0];
-	tmp_fd = 0;
+	//tmp_fd = 0;
 	while (cur != NULL)
 	{
 		current_token = cur->token;

@@ -17,10 +17,10 @@ static int	event_hook(void)
 void 	heredoc_func(char *arg, t_command **cmd)
 {
 	char	*line;
-	int		i;
+	int		tmp_fd;
 
 	(void)arg;
-	i = 0;
+	tmp_fd = -1;
 	rl_event_hook = &event_hook;
 	while (g_ret != QHERE)
 	{
@@ -62,12 +62,18 @@ void 	heredoc_func(char *arg, t_command **cmd)
 					}
 					else
 					{
-						if (i == 0)
+						if (tmp_fd == -1)
+						{
 							fd_out = open(out_file, O_WRONLY | O_RDONLY, 0666);
-						if (i > 0)
+							tmp_fd = fd_out;
+						}
+						else
+						{
 							fd_out = open(out_file, O_WRONLY | O_RDONLY | O_APPEND, 0666);
+							tmp_fd = fd_out;
+						}
 					}
-					//printf("fd_out = %d\n")
+					printf("fd_out = %d\n", fd_out);
 				}
 				cur = cur->next;
 			}
@@ -78,7 +84,6 @@ void 	heredoc_func(char *arg, t_command **cmd)
 			write((*cmd)->fd_out, line, ft_strlen(line));
 			write((*cmd)->fd_out, "\n", 1);
 			close((*cmd)->fd_out);
-			i++;
 		}
 	}
 }

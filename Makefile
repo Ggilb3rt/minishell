@@ -4,7 +4,7 @@ UNAME_S := $(shell uname -s)
 
 ifeq ($(UNAME_S),Linux)
 	LIB = -lreadline
-	INCLUDE =
+	INCLUDE = -I/lib/x86_64-linux-gnu/readline
 else
 	LIB = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
 	INCLUDE = -I /Users/$(USER)/.brew/opt/readline/include
