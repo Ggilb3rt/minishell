@@ -104,7 +104,7 @@ void base_pour_exec(t_command **cmd, char **env)
 	char	**cmd4 = ms_split("/bin/ls", ' ');
 	char	**cmds[] = {cmd4, NULL};
 	(void)cmds;
-	ms_pipeline(options, env);
+	ms_pipeline(cmds, env);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -144,7 +144,7 @@ int	main(int ac, char **av, char **envp)
 		//print_command(cmd);
 		print_all(cmd);
 		//char	**my_env = convert_envplst_to_tab(ms_envp);
-		base_pour_exec(cmd, envp);
+		//base_pour_exec(cmd, envp);
 
 	}
 	free(msg_prompt);
