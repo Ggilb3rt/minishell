@@ -94,7 +94,9 @@ int	ms_pipeline(char ***cmd, char **env)
 {
 	int		fd[2];
 	pid_t	global_pid;
+	pid_t	ret_exec;
 
+	ret_exec = -1;
 	ms_pipe(fd);
 	printf("hi from pipeline\n");
 	global_pid = fork();
@@ -104,13 +106,18 @@ int	ms_pipeline(char ***cmd, char **env)
 		return (errno);
 	}
 	else if (global_pid == 0)
-		execute_pipeline_cmds(cmd, env, fd);
+	{
+		ret_exec = execute_pipeline_cmds(cmd, env, fd);
+	}
 	else if (global_pid > 0)
 	{
+		printf("hi parent\n");
 		close(fd[0]);
 		close(fd[1]);
 		waitpid(global_pid, NULL, 0);
 	}
+	printf("return exec %d\n", ret_exec);
+	printf("hi end\n");
 	return (0);
 }
 
@@ -132,5 +139,13 @@ char	**convert_envplst_to_tab(t_list_envp *ms_env)
 		i++;
 	}
 	tmp_env[i] = NULL;
+	
+	int j = 0;
+	while(tmp_env[j] != NULL)
+	{
+		printf("convertion envp %d %s\n", j, tmp_env[j]);
+		j++;
+	}
+	printf("len %ld, i %ld\n", len_ms_env, i);
 	return (tmp_env);
 }

@@ -63,9 +63,10 @@ int	get_nb_cmds(t_command **cmds)
 	return (i);
 }
 
-void base_pour_exec(t_command **cmd, char **env)
+void base_pour_exec(t_command **cmd, char **env, t_list_envp *ms_envp)
 {
 	char	***options;
+	char	*path;
 	int		nb_cmds;
 	int		i;
 	int		fd[2];
@@ -80,16 +81,12 @@ void base_pour_exec(t_command **cmd, char **env)
 	options = malloc(sizeof(options) * (nb_cmds + 1));
 	if (!options)
 		return ;
-	//! si ```ls < in | cqt > out | grep > out | ls``` return 3 (bug with cqt > out), ```cqt < out``` is ok...
-	//! le bug vient du parser en fait, si une cmd n'est pas detectée correctement
-	printf("nb %d\n", nb_cmds);
-	// malloc ***options with nb of cmds
-	// options = {{"lol", "internet", NULL}, {"ls", "-la", "oput", NULL}, NULL}
-	// replace "/" (= 7) by NULL
+	path = get_ms_env_val(PATH, ms_envp);
 	while (*cmd != NULL)
 	{
 		//ret_file = associate_file_to_cmd(*cmd);
 		options[i] = (*cmd)->list[0]->arg;
+		options[i][0] = init_cmd_path(options[i][0], path);
 		fd[0] = (*cmd)->fd_in;
 		fd[1] = (*cmd)->fd_out;
 		*cmd = (*cmd)->next;
@@ -101,10 +98,14 @@ void base_pour_exec(t_command **cmd, char **env)
 		for (int j = 0; options[k][j] != NULL; j++)
 			printf("option[%d][%d] : %s | fd_in : %d | fd_out : %d\n", k, j, options[k][j], fd[0], fd[1]);
 	
-	char	**cmd4 = ms_split("/bin/ls", ' ');
+	(void)env;
+	char	**cmd4 = ms_split("/bin/ls -la", ' ');
+	//char	**cmd3 = ms_split("/bin/grep 26", ' ');
 	char	**cmds[] = {cmd4, NULL};
 	(void)cmds;
-	ms_pipeline(cmds, env);
+	ms_pipeline(options, env);
+	//free(cmd4);
+	//free(cmd3);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -123,7 +124,6 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		line = readline(msg_prompt);
-		printf("pouet\n");
 		if (!lexer_and_parser(line, cmd))
 			break ;
 		if (g_ret == EHERE) {
@@ -145,7 +145,7 @@ int	main(int ac, char **av, char **envp)
 		//print_command(cmd);
 		//print_all(cmd);
 		//char	**my_env = convert_envplst_to_tab(ms_envp);
-		base_pour_exec(cmd, envp);
+		base_pour_exec(cmd, envp, ms_envp);
 
 	}
 	free(msg_prompt);
@@ -154,51 +154,52 @@ int	main(int ac, char **av, char **envp)
 }
 
 
-/*
-int	main(int ac, char **av, char **envp)
-{
-	t_list_envp	*ms_envp;
-	char		*line;
-	//char		*msg_prompt;
-	//t_command *cmd;
 
-	(void)ac;
-	(void)av;
-	//cmd = malloc(sizeof(t_command));
-	//init_cmd(cmd);
-	ms_envp = create_msenvp_lst(envp);
-	char	**env = convert_envplst_to_tab(ms_envp);
-	(void)env;
+// int	main(int ac, char **av, char **envp)
+// {
+// 	t_list_envp	*ms_envp;
+// 	char		*line;
+// 	char		**env;
+// 	//char		*msg_prompt;
+// 	//t_command *cmd;
 
-	char	*path = get_ms_env_val(PATH, ms_envp);
-	char	**cmd1 = ms_split("cat", ' ');
-	char	**cmd2 = ms_split("cat", ' ');
-	char	**cmd3 = ms_split("cat", ' ');
-	char	**cmd4 = ms_split("ls", ' ');
-	char	**cmd1 = ms_split("ls -la", ' ');
-	char	**cmd2 = ms_split("grep 26", ' ');
-	char	**cmd3 = ms_split("tr 20 @", ' ');
-	char	**cmd4 = ms_split("tr @ !", ' ');
-	cmd1[0] = init_cmd_path(cmd1[0], path);
-	cmd2[0] = init_cmd_path(cmd2[0], path);
-	cmd3[0] = init_cmd_path(cmd3[0], path);
-	cmd4[0] = init_cmd_path(cmd4[0], path);
-	char	**cmds[] = {cmd1, cmd2, cmd3, cmd4, NULL};
-	//for (int i = 0; cmds[i] != NULL; i++)
-	//	printf("%s %s %s\n", cmds[i][0], cmds[i][1], cmds[i][2]);
-	//ms_lst_free_all(ms_envp);
-	//free_tab(env);
-	while (1)
-	{
-		line = readline("====> ");
-		if (line[0] == 'q')
-			return (1);
-		if (line[0] == 'c')
-			ms_pipeline(cmds, env);
-		printf("==");
-	}
-	free_tab(env);
-	ms_lst_free_all(ms_envp);
-	return (0); // return 0 or 1 ?
-}
-*/
+// 	(void)ac;
+// 	(void)av;
+// 	//cmd = malloc(sizeof(t_command));
+// 	//init_cmd(cmd);
+// 	ms_envp = create_msenvp_lst(envp);
+// 	env = convert_envplst_to_tab(ms_envp);
+// 	(void)env;
+
+// 	char	*path = get_ms_env_val(PATH, ms_envp);
+// 	char	**cmd1 = ms_split("cat", ' ');
+// 	char	**cmd2 = ms_split("cat", ' ');
+// 	char	**cmd3 = ms_split("cat", ' ');
+// 	char	**cmd4 = ms_split("ls", ' ');
+// 	// char	**cmd1 = ms_split("ls -la", ' ');
+// 	// char	**cmd2 = ms_split("grep 26", ' ');
+// 	// char	**cmd3 = ms_split("tr 20 @", ' ');
+// 	// char	**cmd4 = ms_split("tr @ !", ' ');
+// 	cmd1[0] = init_cmd_path(cmd1[0], path);
+// 	cmd2[0] = init_cmd_path(cmd2[0], path);
+// 	cmd3[0] = init_cmd_path(cmd3[0], path);
+// 	cmd4[0] = init_cmd_path(cmd4[0], path);
+// 	char	**cmds[] = {cmd1, cmd2, cmd3, cmd4, NULL};
+// 	//for (int i = 0; cmds[i] != NULL; i++)
+// 	//	printf("%s %s %s\n", cmds[i][0], cmds[i][1], cmds[i][2]);
+// 	//ms_lst_free_all(ms_envp);
+// 	//free_tab(env);
+// 	cmd_env(ms_envp);
+// 	while (1)
+// 	{
+// 		line = readline("====> ");
+// 		if (line[0] == 'q')
+// 			return (1);
+// 		if (line[0] == 'c')
+// 			ms_pipeline(cmds, env);
+// 		printf("==");
+// 	}
+// 	free_tab(env);
+// 	ms_lst_free_all(ms_envp);
+// 	return (0); // return 0 or 1 ?
+// }
