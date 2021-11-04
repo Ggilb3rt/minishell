@@ -63,6 +63,14 @@ int	get_nb_cmds(t_command **cmds)
 	return (i);
 }
 
+typedef struct s_to_exec
+{
+	char	**cmd;
+	int		fd_in;
+	int		fd_out;
+}	t_to_exec;
+
+
 void base_pour_exec(t_command **cmd, char **env, t_list_envp *ms_envp)
 {
 	char	***options;

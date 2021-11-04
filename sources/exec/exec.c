@@ -164,7 +164,7 @@ void	parent_exec2(char **list, char **env, int *fd)
 	execve(list[0], list, env);
 }
 
-pid_t	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
+int	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
 {
 	pid_t	pid;
 	t_command	*cur;
@@ -172,34 +172,40 @@ pid_t	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
 	cur = *cmd;
 	if (!cur)
 		return (-1);
-	while (cur != NULL && cur->list[0]->token != NWLINE)
-	{
-		printf("pouet %d %s\n", cur->fd_in, cur->list[0]->arg[0]);
-		cur = cur->next;
-	}
-	pid = 0;
-	(void)env; (void)fd;
-	exit(0);
 	// while (cur != NULL && cur->list[0]->token != NWLINE)
 	// {
-	// 	if (cur->next != NULL)
-	// 	{
-	// 		pid = fork();
-	// 		if (pid == -1)
-	// 		{
-	// 			perror("fork");
-	// 			return (errno);
-	// 		}
-	// 		else if (pid > 0)
-	// 			parent_exec2(cur->list[0]->arg, env, fd);
-	// 		else
-	// 			child_exec(fd);
-	// 	}
-	// 	else
-	// 		execve(cur->list[0]->arg[0], cur->list[0]->arg, env);
+	// 	cur->list[0]->arg[0] = init_cmd_path(cur->list[0]->arg[0], "/app/bin:/app/bin:/usr/bin");
+	// 	printf("pouet %d %s\n", cur->fd_in, cur->list[0]->arg[0]);
+	// 	pid = 0;
+	// 	pid = execve(cur->list[0]->arg[0], cur->list[0]->arg, env);
+	// 	if (pid == -1)
+	// 		perror("execve");
 	// 	cur = cur->next;
 	// }
-	return (pid);
+	// (void)env; (void)fd;
+	// exit(9);
+	
+	pid = 1;
+	while (cur != NULL && cur->list[0]->token != NWLINE)
+	{
+		if (cur->next != NULL)
+		{
+			pid = fork();
+			if (pid == -1)
+			{
+				perror("fork");
+				return (errno);
+			}
+			else if (pid > 0)
+				parent_exec2(cur->list[0]->arg, env, fd);
+			else
+				child_exec(fd);
+		}
+		else
+			execve(cur->list[0]->arg[0], cur->list[0]->arg, env);
+		cur = cur->next;
+	}
+	return ((int)pid);
 }
 
 int	ms_pipeline2(t_command **cmd, char **env)
@@ -225,8 +231,8 @@ int	ms_pipeline2(t_command **cmd, char **env)
 		close(fd[0]);
 		close(fd[1]);
 		waitpid(global_pid, NULL, 0);
+		printf("hi end\n");
 	}
 	printf("return exec %d\n", ret_exec);
-	printf("hi end\n");
 	return (0);
 }
