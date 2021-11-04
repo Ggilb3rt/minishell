@@ -70,10 +70,10 @@ int					create_token(char *str);
 /* parsing add */
 void				add_simple(t_simple_command *new, t_simple_command **list);
 void				add_command(t_command *new, t_command **list);
-void				add_newline(t_command **list, char **arg, int i);
+int				    add_newline(t_command **list, char **arg, int i);
 
 /* parsing alloc */
-t_simple_command	*alloc_simple(char **str);
+t_simple_command	*alloc_simple(char **str, int end, int begin);
 t_command			*alloc_command(char **arg, int begin, int end);
 
 /* parsing grammar */
@@ -82,6 +82,7 @@ int					parser(t_command **cmd);
 /* parsing lexer */
 t_command			**lexer(char **arg, t_command **cmd);
 t_simple_command	**lexer_2(char **arg, int begin, int end);
+char                **get_arg(char **str, int i, int last);
 
 /* parsing cleanup */
 void				cleanup(char **str);

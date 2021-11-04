@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-t_simple_command	*alloc_simple(char **str)
+t_simple_command	*alloc_simple(char **str, int begin, int end)
 {
 	t_simple_command	*new;
 
 	new = malloc(sizeof(t_simple_command));
 	if (!new)
 		return (NULL);
-	new->arg = str;
+	new->arg = get_arg(str, begin, end);
 	new->token = create_token(new->arg[0]);
 	new->numb_avail = 0;
 	new->numb = 0;

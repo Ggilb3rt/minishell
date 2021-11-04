@@ -12,13 +12,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df373721-7ffe-4423-b427-5786852dbf98" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/minishell.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/heredoc/heredoc.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/heredoc/heredoc.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/parsing.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/parsing.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prout" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_add.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_add.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_alloc.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_alloc.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_cleanup.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_cleanup.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_grammar.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_grammar.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_lexer.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_lexer.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_main.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_split_1.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_split_1.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_split_3.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_split_3.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tarte" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,12 +54,12 @@
     <property name="cidr.known.project.marker" value="true" />
     <property name="cmake.loaded.for.project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C/C++" />
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="minishell" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="minishell" TARGET_NAME="minishell" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="minishell" RUN_TARGET_NAME="minishell">
@@ -75,7 +81,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1635948196507</updated>
-      <workItem from="1635948218497" duration="6963000" />
+      <workItem from="1635948218497" duration="7915000" />
+      <workItem from="1636021385095" duration="22530000" />
     </task>
     <servers />
   </component>
@@ -92,5 +99,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

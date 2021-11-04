@@ -134,13 +134,14 @@ int	main(int ac, char **av, char **envp)
 		}
 		if ((g_ret = cmd_exit(line)) == 1)
 			exit(0);
-		set_cmd_ready_to_exec(cmd);
+		//set_cmd_ready_to_exec(cmd);
 		//print_simple_command(cmd);
 		//print_command(cmd);
-		//print_all(cmd);
+		print_all(cmd);
 		char	**my_env = convert_envplst_to_tab(ms_envp);
 		base_pour_exec(cmd, my_env);
 	}
+
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
 	return (g_ret);

@@ -37,7 +37,6 @@ int	lexer_and_parser(char *str, t_command **cmd)
 	char	**arg;
 	int		ret;
 
-	//cleanup(&str);
 	arg = split_quote(str);
 	lexer(arg, cmd);
 	if (!cmd)

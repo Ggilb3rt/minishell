@@ -38,6 +38,8 @@ char	*split_words(char *str, int strt, int fnsh)
 
 	i = 0;
 	word = malloc(sizeof(char) * (fnsh - strt + 1));
+	if (!word)
+		return (NULL);
 	while (strt < fnsh)
 	{
 		word[i] = str[strt];

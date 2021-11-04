@@ -12,66 +12,73 @@
 
 #include "minishell.h"
 
-static char	**get_arg(char **str, int i, int last)
+char	**get_arg(char **str, int begin, int end)
 {
 	char	**new;
 	int		diff;
 	int		j;
 
 	j = 0;
-	diff = i - last;
+	diff = end - begin;
 	new = malloc(sizeof(char *) * diff + 1);
 	if (!new)
-		return (0);
+		return (NULL);
 	while (j < diff)
 	{
-		new[j] = ft_strdup(str[last + j]);
+		new[j] = ft_strdup(str[begin + j]);
+		//printf("%s\n", new[j]);
 		j++;
 	}
 	new[j] = NULL;
 	return (new);
 }
 
-static int	convert(t_simple_command **list, char **arg, int i, int cur)
+static void	new_simple_command(char **arg, t_simple_command **list,
+								  int end, int begin)
 {
-	char				**new;
-	t_simple_command	*elem;
+	t_simple_command	*cur;
 
-	if (cur != 0)
-		cur++;
-	new = get_arg(arg, i, cur);
-	elem = alloc_simple(new);
-	add_simple(elem, list);
-	if (arg[i] != NULL)
-	{
-		cur = i;
-		new = get_arg(arg, i + 1, cur);
-		elem = alloc_simple(new);
-		add_simple(elem, list);
-	}
-	return (cur);
+	cur = alloc_simple(arg, begin, end);
+	if (!cur)
+		return ;
+	add_simple(cur, list);
+}
+
+static void	new_command(char **arg, t_command **cmd, int end, int begin)
+{
+	t_command	*cur;
+
+	cur = alloc_command(arg, begin, end);
+	if (!cur)
+		return ;
+	add_command(cur, cmd);
 }
 
 t_simple_command	**lexer_2(char **arg, int begin, int end)
 {
 	t_simple_command	**list;
 	int					i;
-	int					cur;
 
 	i = begin;
-	cur = begin;
 	list = malloc(sizeof(t_simple_command *));
 	if (!list)
 		return (NULL);
+	//printf("x %d - %d\n", i, begin);
 	while (i < end)
 	{
 		if (!ft_strcmp(arg[i], "<") || !ft_strcmp(arg[i], ">")
 			|| !ft_strcmp(arg[i], "<<") || !ft_strcmp(arg[i], ">>"))
-			cur = convert(list, arg, i, cur);
+		{
+			//printf("\t%d - %d\n", i, begin);
+			if (i - begin == 0)
+				i++;
+			new_simple_command(arg, list, i, begin);
+			begin = i;
+		}
 		i++;
 	}
-	if (i - cur > 0)
-		cur = convert(list, arg, i, cur);
+	//printf("\t%d - %d\n", i, begin);
+	new_simple_command(arg, list, i, begin);
 	return (list);
 }
 
@@ -83,26 +90,24 @@ t_simple_command	**lexer_2(char **arg, int begin, int end)
 
 t_command	**lexer(char **arg, t_command **cmd)
 {
-	t_command	*cur;
 	int			begin;
 	int			i;
 
-	*cmd = NULL;
-	cur = *cmd;
 	i = 0;
 	begin = 0;
 	while (arg[i])
 	{
 		if (!ft_strcmp(arg[i], "|"))
 		{
-			cur = alloc_command(arg, begin, i);
-			add_command(cur, cmd);
+			//printf("%d - %d\n", i, begin);
+			new_command(arg, cmd, i, begin);
 			begin = i;
 		}
 		i++;
 	}
-	cur = alloc_command(arg, begin, i);
-	add_command(cur, cmd);
-	add_newline(&cur, arg, array_size(arg));
+	//printf("%d - %d\n", i, begin);
+	new_command(arg, cmd, i, begin);
+	if (!add_newline(cmd, arg, array_size(arg)))
+		return (NULL);
 	return (cmd);
 }

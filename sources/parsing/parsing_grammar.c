@@ -14,34 +14,47 @@
 
 static void	redir_great(t_simple_command *cur, t_command *cmd)
 {
-	(void)g_ret;
-	if (cur->next->token == GREAT && cur->next->next->token == WORD)
+	if (cur->token == GREAT)
 	{
+		printf("yep\n");
 		free(cmd->out_file);
 		cmd->out_file = NULL;
-		cmd->out_file = ft_strdup(cur->next->next->arg[0]);
+		if (ft_str_isalnum_under(cur->arg[1]))
+			cmd->out_file = ft_strdup(cur->arg[1]);
+		else
+			printf("unexpected syntax\n");
 	}
-	else if (cur->next->token == DGREAT && cur->next->next->token == WORD)
+	else if (cur->token == DGREAT)
 	{
+		printf("yep\n");
 		free(cmd->out_file);
 		cmd->out_file = NULL;
-		cmd->out_file = ft_strdup(cur->next->next->arg[0]);
+		if (ft_str_isalnum_under(cur->arg[1]))
+			cmd->out_file = ft_strdup(cur->arg[1]);
+		else
+			printf("unexpected syntax\n");
 	}
 }
 
 static void	redir_less(t_simple_command *cur, t_command *cmd)
 {
-	if (cur->next->token == LESS && cur->next->next->token == WORD)
+	if (cur->token == LESS)
 	{
 		free(cmd->in_file);
 		cmd->in_file = NULL;
-		cmd->in_file = ft_strdup(cur->next->next->arg[0]);
+		if (ft_str_isalnum_under(cur->arg[1]))
+			cmd->in_file = ft_strdup(cur->arg[1]);
+		else
+			printf("unexpected syntax\n");
 	}
-	else if (cur->next->token == DLESS && cur->next->next->token == WORD)
+	else if (cur->token == DLESS)
 	{
 		free(cmd->in_file);
 		cmd->in_file = NULL;
-		cmd->end = cur->next->next->arg[0];
+		if (ft_str_isalnum_under(cur->arg[1]))
+			cmd->end = cur->arg[1];
+		else
+			printf("unexpected syntax\n");
 		g_ret = EHERE;
 	}
 }
@@ -51,15 +64,12 @@ static void	io_redirections(t_command *cmd)
 	t_simple_command	*cur;
 
 	cur = (*cmd->list);
-	while (cur->next != NULL)
+	while (cur != NULL)
 	{
-		if (cur->token == WORD)
-		{
-			if (cur->next->token == GREAT || cur->next->token == DGREAT)
-				redir_great(cur, cmd);
-			else if (cur->next->token == LESS || cur->next->token == DLESS)
-				redir_less(cur, cmd);
-		}
+		if (cur->token == GREAT || cur->token == DGREAT)
+			redir_great(cur, cmd);
+		else if (cur->token == LESS || cur->token == DLESS)
+			redir_less(cur, cmd);
 		cur = cur->next;
 	}
 }
@@ -72,11 +82,6 @@ int	parser(t_command **cmd)
 	while (cur != NULL)
 	{
 		io_redirections(cur);
-		if (cur->next != NULL && (*cur->next->list)->token != NWLINE)
-		{
-			//cur->fd_out = open(cur->out_file, );
-			//cur->next->fd_in = cur;
-		}
 		cur = cur->next;
 	}
 	return (1);

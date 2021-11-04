@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	init_split(t_split *splt, char *str)
+static int	init_split(t_split *splt, char *str)
 {
 	splt->open = 0;
 	splt->count = -1;
@@ -23,7 +23,8 @@ static void	init_split(t_split *splt, char *str)
 	splt->j = 0;
 	splt->new = malloc(sizeof(char *) * splt->size + 1);
 	if (!splt->new)
-		return ;
+		return (0);
+	return (1);
 }
 
 /*
@@ -59,7 +60,10 @@ char	**split_quote(char *str)
 	t_split	*splt;
 
 	splt = malloc(sizeof(t_split));
-	init_split(splt, str);
+	if (!splt)
+		return (NULL);
+	if (!init_split(splt, str))
+		return (NULL);
 	i = 0;
 	while (i <= splt->len)
 	{

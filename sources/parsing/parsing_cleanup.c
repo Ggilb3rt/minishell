@@ -3,16 +3,3 @@
 //
 
 #include "minishell.h"
-
-void cleanup(char **str)
-{
-	char	*s;
-	int 	i;
-
-	i = 0;
-	s = *str;
-	while (s[i])
-	{
-		i++;
-	}
-}

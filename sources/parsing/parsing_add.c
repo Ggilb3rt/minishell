@@ -70,16 +70,19 @@ void	add_command(t_command *new, t_command **cmd)
 	}
 }
 
-void	add_newline(t_command **list, char **arg, int i)
+int	add_newline(t_command **list, char **arg, int i)
 {
 	t_command	*new;
 	char		**arr;
 
 	arr = malloc(sizeof(char *));
+	if (!arr)
+		return (0);
 	arr[0] = "/";
 	if (arg[i] == NULL)
 	{
 		new = alloc_command(arr, 0, 1);
 		add_command(new, list);
 	}
+	return (1);
 }
