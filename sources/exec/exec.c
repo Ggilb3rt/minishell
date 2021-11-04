@@ -106,9 +106,7 @@ int	ms_pipeline(char ***cmd, char **env)
 		return (errno);
 	}
 	else if (global_pid == 0)
-	{
 		ret_exec = execute_pipeline_cmds(cmd, env, fd);
-	}
 	else if (global_pid > 0)
 	{
 		printf("hi parent\n");
@@ -148,4 +146,87 @@ char	**convert_envplst_to_tab(t_list_envp *ms_env)
 	}
 	printf("len %ld, i %ld\n", len_ms_env, i);
 	return (tmp_env);
+}
+
+
+
+
+void	parent_exec2(char **list, char **env, int *fd)
+{
+	// Parent execute cmd and send output to child
+	//static int i = 0;
+
+	//fprintf(stderr, "execute parent %d | %d %d\n", i++, *fd, *(fd + 1));
+	close(fd[0]);
+	dup2(fd[1], 1);
+	//fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
+	close(fd[1]);
+	execve(list[0], list, env);
+}
+
+pid_t	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
+{
+	pid_t	pid;
+	t_command	*cur;
+
+	cur = *cmd;
+	if (!cur)
+		return (-1);
+	while (cur != NULL && cur->list[0]->token != NWLINE)
+	{
+		printf("pouet %d %s\n", cur->fd_in, cur->list[0]->arg[0]);
+		cur = cur->next;
+	}
+	pid = 0;
+	(void)env; (void)fd;
+	exit(0);
+	// while (cur != NULL && cur->list[0]->token != NWLINE)
+	// {
+	// 	if (cur->next != NULL)
+	// 	{
+	// 		pid = fork();
+	// 		if (pid == -1)
+	// 		{
+	// 			perror("fork");
+	// 			return (errno);
+	// 		}
+	// 		else if (pid > 0)
+	// 			parent_exec2(cur->list[0]->arg, env, fd);
+	// 		else
+	// 			child_exec(fd);
+	// 	}
+	// 	else
+	// 		execve(cur->list[0]->arg[0], cur->list[0]->arg, env);
+	// 	cur = cur->next;
+	// }
+	return (pid);
+}
+
+int	ms_pipeline2(t_command **cmd, char **env)
+{
+	int		fd[2];
+	pid_t	global_pid;
+	pid_t	ret_exec;
+
+	ret_exec = -1;
+	ms_pipe(fd);
+	printf("hi from pipeline\n");
+	global_pid = fork();
+	if (global_pid == -1)
+	{
+		perror("global fork");
+		return (errno);
+	}
+	else if (global_pid == 0)
+		ret_exec = execute_pipeline_cmds2(cmd, env, fd);
+	else if (global_pid > 0)
+	{
+		printf("hi parent\n");
+		close(fd[0]);
+		close(fd[1]);
+		waitpid(global_pid, NULL, 0);
+	}
+	printf("return exec %d\n", ret_exec);
+	printf("hi end\n");
+	return (0);
 }

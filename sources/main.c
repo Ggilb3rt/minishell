@@ -70,14 +70,11 @@ void base_pour_exec(t_command **cmd, char **env, t_list_envp *ms_envp)
 	int		nb_cmds;
 	int		i;
 	int		fd[2];
-	//int		ret_file;
 
 	fd[0] = -1;
 	fd[1] = -1;
 	i = 0;
 	nb_cmds = get_nb_cmds(cmd);
-	*cmd = cmd[0];
-	// ici cmd est sur le pointeur null à la fin ...
 	options = malloc(sizeof(options) * (nb_cmds + 1));
 	if (!options)
 		return ;
@@ -94,18 +91,11 @@ void base_pour_exec(t_command **cmd, char **env, t_list_envp *ms_envp)
 	}
 	printf("i %d\n", i);
 	options[i - 1] = NULL;
+	options[i] = NULL;
 	for (int k = 0; options[k] != NULL; k++)
 		for (int j = 0; options[k][j] != NULL; j++)
 			printf("option[%d][%d] : %s | fd_in : %d | fd_out : %d\n", k, j, options[k][j], fd[0], fd[1]);
-	
-	(void)env;
-	char	**cmd4 = ms_split("/bin/ls -la", ' ');
-	//char	**cmd3 = ms_split("/bin/grep 26", ' ');
-	char	**cmds[] = {cmd4, NULL};
-	(void)cmds;
 	ms_pipeline(options, env);
-	//free(cmd4);
-	//free(cmd3);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -145,8 +135,8 @@ int	main(int ac, char **av, char **envp)
 		//print_command(cmd);
 		//print_all(cmd);
 		//char	**my_env = convert_envplst_to_tab(ms_envp);
-		base_pour_exec(cmd, envp, ms_envp);
-
+		//base_pour_exec(cmd, envp, ms_envp);
+		ms_pipeline2(cmd, envp);
 	}
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
