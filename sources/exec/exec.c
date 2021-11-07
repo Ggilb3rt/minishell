@@ -172,39 +172,42 @@ int	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
 	cur = *cmd;
 	if (!cur)
 		return (-1);
-	// while (cur != NULL && cur->list[0]->token != NWLINE)
-	// {
-	// 	cur->list[0]->arg[0] = init_cmd_path(cur->list[0]->arg[0], "/app/bin:/app/bin:/usr/bin");
-	// 	printf("pouet %d %s\n", cur->fd_in, cur->list[0]->arg[0]);
-	// 	pid = 0;
-	// 	pid = execve(cur->list[0]->arg[0], cur->list[0]->arg, env);
-	// 	if (pid == -1)
-	// 		perror("execve");
-	// 	cur = cur->next;
-	// }
-	// (void)env; (void)fd;
-	// exit(9);
-	
-	pid = 1;
 	while (cur != NULL && cur->list[0]->token != NWLINE)
 	{
-		if (cur->next != NULL)
-		{
-			pid = fork();
-			if (pid == -1)
-			{
-				perror("fork");
-				return (errno);
-			}
-			else if (pid > 0)
-				parent_exec2(cur->list[0]->arg, env, fd);
-			else
-				child_exec(fd);
-		}
-		else
-			execve(cur->list[0]->arg[0], cur->list[0]->arg, env);
+		printf("%p whoos next ? %d\n", cur, cur->next->list[0]->token);
+		if (cur->next != NULL && cur->list[0]->token != NWLINE)
+			printf("il y a une suite\n");
+		cur->list[0]->arg[0] = init_cmd_path(cur->list[0]->arg[0], "/app/bin:/app/bin:/usr/bin");
+		printf("pouet %d %s\n", cur->fd_in, cur->list[0]->arg[0]);
+		pid = 0;
+		pid = execve(cur->list[0]->arg[0], cur->list[0]->arg, env);
+		if (pid == -1)
+			perror("execve");
 		cur = cur->next;
 	}
+	(void)env; (void)fd;
+	exit(9);
+	
+	pid = 1;
+	// while (cur != NULL && cur->list[0]->token != NWLINE)
+	// {
+	// 	if (cur->next != NULL)
+	// 	{
+	// 		pid = fork();
+	// 		if (pid == -1)
+	// 		{
+	// 			perror("fork");
+	// 			return (errno);
+	// 		}
+	// 		else if (pid > 0)
+	// 			parent_exec2(cur->list[0]->arg, env, fd);
+	// 		else
+	// 			child_exec(fd);
+	// 	}
+	// 	else
+	// 		execve(cur->list[0]->arg[0], cur->list[0]->arg, env);
+	// 	cur = cur->next;
+	// }
 	return ((int)pid);
 }
 
