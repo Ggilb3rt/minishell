@@ -151,14 +151,21 @@ char	**convert_envplst_to_tab(t_list_envp *ms_env)
 
 
 
-void	parent_exec2(char **list, char **env, int *fd)
+void	parent_exec2(char **list, char **env, int *fd, int fd_out)
 {
 	// Parent execute cmd and send output to child
 	//static int i = 0;
 
 	//fprintf(stderr, "execute parent %d | %d %d\n", i++, *fd, *(fd + 1));
+	write(fd_out, "aaaaaa\n", 8);
 	close(fd[0]);
-	dup2(fd[1], 1);
+	if (fd_out != -1)
+	{
+		dup2(fd_out, 1);
+		close(fd_out);
+	}
+	else
+		dup2(fd[1], 1);
 	//fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
 	close(fd[1]);
 	execve(list[0], list, env);
@@ -166,17 +173,18 @@ void	parent_exec2(char **list, char **env, int *fd)
 
 int	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
 {
-	pid_t	pid;
+	pid_t		pid;
 	t_command	*cur;
 
 	cur = *cmd;
 	if (!cur)
 		return (-1);
+	pid = 0;
 	while (cur != NULL && cur->list[0]->token != NWLINE)
 	{
 		//printf("%p whoos next ? %d\n", cur, cur->next->list[0]->token);
 		cur->list[0]->arg[0] = init_cmd_path(cur->list[0]->arg[0], "/app/bin:/app/bin:/usr/bin");
-		//printf("pouet %d %s\n", cur->fd_in, cur->list[0]->arg[0]);
+		printf("fd_in %d, fd_out %d, %s\n", cur->fd_in, cur->fd_out, cur->list[0]->arg[0]);
 		if (cur->next != NULL && cur->next->list[0]->token != NWLINE)
 		{
 		//	printf("il y a une suite\n");
@@ -189,50 +197,27 @@ int	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
 			else if (pid > 0)
 			{
 		//		printf("sup %d\n", pid);
-				parent_exec2(cur->list[0]->arg, env, fd);
+				parent_exec2(cur->list[0]->arg, env, fd, cur->fd_out);
 				return (pid);
 			}
 			else
 			{
 		//		printf("child\n");
 				child_exec(fd);
-				//exit (2);
 			}
 		}
 		else
 		{
 		//	printf("c'est la fin\n");
+			if (cur->fd_out != -1)
+			{
+				dup2(cur->fd_out, 1);
+				close(cur->fd_out);
+			}
 			execve(cur->list[0]->arg[0], cur->list[0]->arg, env);
 		}
-		//pid = 0;
-		//pid = execve(cur->list[0]->arg[0], cur->list[0]->arg, env);
-		//if (pid == -1)
-		//	perror("execve");
 		cur = cur->next;
 	}
-	(void)env; (void)fd;
-	// //exit(9);
-	
-	pid = 1;
-	// while (cur != NULL && cur->list[0]->token != NWLINE)
-	// {
-	// 	if (cur->next != NULL && cur->next->list[0]->token != NWLINE)
-	// 	{
-	// 		pid = fork();
-	// 		if (pid == -1)
-	// 		{
-	// 			perror("fork");
-	// 			return (errno);
-	// 		}
-	// 		else if (pid > 0)
-	// 			parent_exec2(cur->list[0]->arg, env, fd);
-	// 		else
-	// 			child_exec(fd);
-	// 	}
-	// 	else
-	// 		execve(cur->list[0]->arg[0], cur->list[0]->arg, env);
-	// 	cur = cur->next;
-	// }
 	return ((int)pid);
 }
 
