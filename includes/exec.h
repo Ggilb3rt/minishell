@@ -15,9 +15,9 @@ char		*init_cmd_path(char *cmd, char *paths);
 /* exec */
 char		**convert_envplst_to_tab(t_list_envp *ms_env);
 int			**create_pipes_fd(int nb_pipe);
-int			ms_pipeline(char ***cmd, char **env);
-int			ms_pipeline2(t_command **cmd, char **env);
-void		new_pipeline(t_command **cmds);
+//int			ms_pipeline2(char ***cmd, char **env);
+int			ms_pipeline(t_command **cmd, char **env);
+//void		new_pipeline(t_command **cmds);
 
 /* prepare_fds_cmds */
 int			associate_file_to_cmd(t_command *cmds);

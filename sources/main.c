@@ -103,7 +103,8 @@ void base_pour_exec(t_command **cmd, char **env, t_list_envp *ms_envp)
 	for (int k = 0; options[k] != NULL; k++)
 		for (int j = 0; options[k][j] != NULL; j++)
 			printf("option[%d][%d] : %s | fd_in : %d | fd_out : %d\n", k, j, options[k][j], fd[0], fd[1]);
-	ms_pipeline(options, env);
+	//ms_pipeline2(options, env);
+	(void)env;
 }
 
 void	close_cmds_fd(t_command **cmds)
@@ -164,7 +165,7 @@ int	main(int ac, char **av, char **envp)
 		//print_all(cmd);
 		//char	**my_env = convert_envplst_to_tab(ms_envp);
 		//base_pour_exec(cmd, envp, ms_envp);
-		ms_pipeline2(cmd, envp);
+		ms_pipeline(cmd, envp);
 	}
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
