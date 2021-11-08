@@ -19,7 +19,6 @@ size_t	ft_get_first(char const *s1, char const *set)
 
 	i = 0;
 	pattern = (char *)set;
-	*pattern = *set;
 	while (*s1)
 	{
 		if (*pattern == *s1)

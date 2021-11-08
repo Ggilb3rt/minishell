@@ -174,24 +174,49 @@ int	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
 		return (-1);
 	while (cur != NULL && cur->list[0]->token != NWLINE)
 	{
-		printf("%p whoos next ? %d\n", cur, cur->next->list[0]->token);
-		if (cur->next != NULL && cur->list[0]->token != NWLINE)
-			printf("il y a une suite\n");
+		//printf("%p whoos next ? %d\n", cur, cur->next->list[0]->token);
 		cur->list[0]->arg[0] = init_cmd_path(cur->list[0]->arg[0], "/app/bin:/app/bin:/usr/bin");
-		printf("pouet %d %s\n", cur->fd_in, cur->list[0]->arg[0]);
-		pid = 0;
-		pid = execve(cur->list[0]->arg[0], cur->list[0]->arg, env);
-		if (pid == -1)
-			perror("execve");
+		//printf("pouet %d %s\n", cur->fd_in, cur->list[0]->arg[0]);
+		if (cur->next != NULL && cur->next->list[0]->token != NWLINE)
+		{
+		//	printf("il y a une suite\n");
+			pid = fork();
+			if (pid == -1)
+			{
+				perror("fork");
+				return (errno);
+			}
+			else if (pid > 0)
+			{
+		//		printf("sup %d\n", pid);
+				parent_exec2(cur->list[0]->arg, env, fd);
+				return (pid);
+			}
+			else
+			{
+		//		printf("child\n");
+				child_exec(fd);
+				//exit (2);
+			}
+		}
+		else
+		{
+		//	printf("c'est la fin\n");
+			execve(cur->list[0]->arg[0], cur->list[0]->arg, env);
+		}
+		//pid = 0;
+		//pid = execve(cur->list[0]->arg[0], cur->list[0]->arg, env);
+		//if (pid == -1)
+		//	perror("execve");
 		cur = cur->next;
 	}
 	(void)env; (void)fd;
-	exit(9);
+	// //exit(9);
 	
 	pid = 1;
 	// while (cur != NULL && cur->list[0]->token != NWLINE)
 	// {
-	// 	if (cur->next != NULL)
+	// 	if (cur->next != NULL && cur->next->list[0]->token != NWLINE)
 	// 	{
 	// 		pid = fork();
 	// 		if (pid == -1)
