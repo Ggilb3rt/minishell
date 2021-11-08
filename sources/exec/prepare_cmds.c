@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/10/29 16:49:54 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/08 16:03:37 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,11 @@ int	associate_file_to_cmd(t_command *cmds)
 	return (0);
 }
 
-int	set_cmd_ready_to_exec(t_command **cmd)
+int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 {
 	t_command	*cur;
 	int			ret_file;
+	char		*env_path;
 
 	cur = *cmd;
 	while (cur != NULL)
@@ -127,6 +128,12 @@ int	set_cmd_ready_to_exec(t_command **cmd)
 		ret_file = associate_file_to_cmd(cur);
 		if (ret_file < 0)
 			return (ret_file);
+		if (cur->list[0]->token != NWLINE)
+		{
+			env_path = get_ms_env_val(PATH, env);
+			cur->list[0]->arg[0] = init_cmd_path(cur->list[0]->arg[0],
+					env_path);
+		}
 		cur = cur->next;
 	}
 	return (0);

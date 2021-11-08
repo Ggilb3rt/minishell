@@ -157,7 +157,6 @@ void	parent_exec2(char **list, char **env, int *fd, int fd_out)
 	//static int i = 0;
 
 	//fprintf(stderr, "execute parent %d | %d %d\n", i++, *fd, *(fd + 1));
-	write(fd_out, "aaaaaa\n", 8);
 	close(fd[0]);
 	if (fd_out != -1)
 	{
@@ -182,12 +181,9 @@ int	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
 	pid = 0;
 	while (cur != NULL && cur->list[0]->token != NWLINE)
 	{
-		//printf("%p whoos next ? %d\n", cur, cur->next->list[0]->token);
-		cur->list[0]->arg[0] = init_cmd_path(cur->list[0]->arg[0], "/app/bin:/app/bin:/usr/bin");
 		printf("fd_in %d, fd_out %d, %s\n", cur->fd_in, cur->fd_out, cur->list[0]->arg[0]);
 		if (cur->next != NULL && cur->next->list[0]->token != NWLINE)
 		{
-		//	printf("il y a une suite\n");
 			pid = fork();
 			if (pid == -1)
 			{
@@ -195,20 +191,12 @@ int	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
 				return (errno);
 			}
 			else if (pid > 0)
-			{
-		//		printf("sup %d\n", pid);
 				parent_exec2(cur->list[0]->arg, env, fd, cur->fd_out);
-				return (pid);
-			}
 			else
-			{
-		//		printf("child\n");
 				child_exec(fd);
-			}
 		}
 		else
 		{
-		//	printf("c'est la fin\n");
 			if (cur->fd_out != -1)
 			{
 				dup2(cur->fd_out, 1);
@@ -229,7 +217,7 @@ int	ms_pipeline2(t_command **cmd, char **env)
 
 	ret_exec = -1;
 	ms_pipe(fd);
-	printf("hi from pipeline\n");
+	//printf("hi from pipeline\n");
 	global_pid = fork();
 	if (global_pid == -1)
 	{
@@ -240,12 +228,12 @@ int	ms_pipeline2(t_command **cmd, char **env)
 		ret_exec = execute_pipeline_cmds2(cmd, env, fd);
 	else if (global_pid > 0)
 	{
-		printf("hi parent\n");
+	//	printf("hi parent\n");
 		close(fd[0]);
 		close(fd[1]);
 		waitpid(global_pid, NULL, 0);
-		printf("hi end\n");
+	//	printf("hi end\n");
 	}
-	printf("return exec %d\n", ret_exec);
-	return (0);
+	//printf("return exec %d\n", ret_exec);
+	return (ret_exec);
 }

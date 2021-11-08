@@ -63,12 +63,12 @@ int	get_nb_cmds(t_command **cmds)
 	return (i);
 }
 
-typedef struct s_to_exec
-{
-	char	**cmd;
-	int		fd_in;
-	int		fd_out;
-}	t_to_exec;
+// typedef struct s_to_exec
+// {
+// 	char	**cmd;
+// 	int		fd_in;
+// 	int		fd_out;
+// }	t_to_exec;
 
 
 void base_pour_exec(t_command **cmd, char **env, t_list_envp *ms_envp)
@@ -106,6 +106,26 @@ void base_pour_exec(t_command **cmd, char **env, t_list_envp *ms_envp)
 	ms_pipeline(options, env);
 }
 
+void	close_cmds_fd(t_command **cmds)
+{
+	t_command	*cmd;
+	int			ret_in;
+	int			ret_out;
+
+	cmd = *cmds;
+	ret_in = 199;
+	ret_out = 198;
+	while (cmd != NULL)
+	{
+		if (cmd->fd_in != -1)
+			ret_in = close(cmd->fd_in);
+		if (cmd->fd_out != -1)
+			ret_out = close(cmd->fd_out);
+		printf("fds_close %d, %d", ret_in, ret_out);
+		cmd = cmd->next;
+	}
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_list_envp	*ms_envp;
@@ -138,7 +158,7 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 		if ((g_ret = cmd_exit(line)) == 1)
 			exit(0);
-		set_cmd_ready_to_exec(cmd);
+		set_cmd_ready_to_exec(cmd, ms_envp);
 		//print_simple_command(cmd);
 		//print_command(cmd);
 		//print_all(cmd);
@@ -148,6 +168,7 @@ int	main(int ac, char **av, char **envp)
 	}
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
+	//close_cmds_fd(cmd);
 	return (g_ret);
 }
 
