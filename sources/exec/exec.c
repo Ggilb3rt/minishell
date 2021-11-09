@@ -148,38 +148,38 @@ void	ms_pipe(int *fd)
 	}
 }
 
-// void	child_exec(int *fd, int fd_in)
-// {
-// 	//static int i = 0;
-
-// 	//fprintf(stderr, "execute child %d | %d %d\n", i++, *fd, *(fd + 1));
-// 	close(fd[1]);
-// 	if (fd_in != -1)
-// 	{
-// 		dup2(fd_in, 0);
-// 		close(fd_in);
-// 	}
-// 	else
-// 	{
-// 		dup2(fd[0], 0);
-// 	//fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
-// 		close(fd[0]);
-// 		ms_pipe(fd);
-// 	}
-// }
-
 void	child_exec(int *fd, int fd_in)
 {
 	//static int i = 0;
 
 	//fprintf(stderr, "execute child %d | %d %d\n", i++, *fd, *(fd + 1));
 	close(fd[1]);
-	dup2(fd[0], 0);
+	if (fd_in != -1)
+	{
+		dup2(fd_in, 0);
+		close(fd_in);
+	}
+	else
+	{
+		dup2(fd[0], 0);
 	//fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
-	close(fd[0]);
+		close(fd[0]);
+	}
 	ms_pipe(fd);
-	(void)fd_in;
 }
+
+// void	child_exec(int *fd, int fd_in)
+// {
+// 	//static int i = 0;
+
+// 	//fprintf(stderr, "execute child %d | %d %d\n", i++, *fd, *(fd + 1));
+// 	close(fd[1]);
+// 	dup2(fd[0], 0);
+// 	//fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
+// 	close(fd[0]);
+// 	ms_pipe(fd);
+// 	(void)fd_in;
+// }
 
 
 void	parent_exec(char **list, char **env, int *fd, int fd_out)
@@ -232,6 +232,11 @@ int	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
 			{
 				dup2(cur->fd_out, 1);
 				close(cur->fd_out);
+			}
+			if (cur->fd_in != -1)
+			{
+				dup2(cur->fd_in, 0);
+				close(cur->fd_in);
 			}
 			execve(cur->list[0]->arg[0], cur->list[0]->arg, env);
 		}

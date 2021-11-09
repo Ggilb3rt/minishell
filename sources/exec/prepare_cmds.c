@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/08 16:03:37 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/09 16:19:58 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	init_files_fds(int prev_token, char *path, int *fd_in, int *fd_out)
 		*fd_out = open(path, O_CREAT | O_WRONLY | O_APPEND, 0666);
 	if (*fd_out == -1)
 	{
-		perror("open");
+		perror(path);
 		return (errno);
 	}
 	return (0);
