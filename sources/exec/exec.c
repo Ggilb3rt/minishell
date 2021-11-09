@@ -156,12 +156,12 @@ void	child_exec(int *fd, int fd_in)
 	close(fd[1]);
 	if (fd_in != -1)
 	{
-		dup2(fd_in, 0);
+		dup2(fd_in, STDIN_FILENO);
 		close(fd_in);
 	}
 	else
 	{
-		dup2(fd[0], 0);
+		dup2(fd[0], STDIN_FILENO);
 	//fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
 		close(fd[0]);
 	}
@@ -191,11 +191,11 @@ void	parent_exec(char **list, char **env, int *fd, int fd_out)
 	close(fd[0]);
 	if (fd_out != -1)
 	{
-		dup2(fd_out, 1);
+		dup2(fd_out, STDOUT_FILENO);
 		close(fd_out);
 	}
 	else
-		dup2(fd[1], 1);
+		dup2(fd[1], STDOUT_FILENO);
 	//fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
 	close(fd[1]);
 	execve(list[0], list, env);
@@ -230,12 +230,12 @@ int	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
 		{
 			if (cur->fd_out != -1)
 			{
-				dup2(cur->fd_out, 1);
+				dup2(cur->fd_out, STDOUT_FILENO);
 				close(cur->fd_out);
 			}
 			if (cur->fd_in != -1)
 			{
-				dup2(cur->fd_in, 0);
+				dup2(cur->fd_in, STDIN_FILENO);
 				close(cur->fd_in);
 			}
 			execve(cur->list[0]->arg[0], cur->list[0]->arg, env);

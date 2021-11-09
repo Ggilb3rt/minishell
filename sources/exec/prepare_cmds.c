@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/09 16:19:58 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/09 16:49:45 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,15 @@ int	check_read_access(char *path, int *fd)
 	if (access(path, F_OK | R_OK) == -1)
 	{
 		*fd = -2;
-		perror("access");
+		perror(path);
 		return (0);
 	}
 	*fd = open(path, O_RDONLY);
+	if (*fd == -1)
+	{
+		perror(path);
+		return (0);
+	}
 	//printf("check fd in access in file %d\n", *fd);
 	return (1);
 }
@@ -71,6 +76,21 @@ int	associate_file_to_cmd_b(t_simple_command **list)
 	return (0);
 }
 
+
+int	open_out_file(int prev_token, char *path, int *fd_out)
+{
+	if (prev_token == GREAT)
+		*fd_out = open(path, O_CREAT | O_WRONLY, 0666);
+	else if (prev_token == DGREAT)
+		*fd_out = open(path, O_CREAT | O_WRONLY | O_APPEND, 0666);
+	if (*fd_out == -1 && (prev_token == GREAT || prev_token == DGREAT))
+	{
+		perror(path);
+		return (-1);
+	}
+	return (0);
+}
+
 int	init_files_fds(int prev_token, char *path, int *fd_in, int *fd_out)
 {
 	if (prev_token == LESS)
@@ -84,11 +104,15 @@ int	init_files_fds(int prev_token, char *path, int *fd_in, int *fd_out)
 		*fd_out = open(path, O_CREAT | O_WRONLY, 0666);
 	else if (prev_token == DGREAT)
 		*fd_out = open(path, O_CREAT | O_WRONLY | O_APPEND, 0666);
-	if (*fd_out == -1)
+	if (*fd_out == -1 && (prev_token == GREAT || prev_token == DGREAT))
 	{
 		perror(path);
 		return (errno);
 	}
+	// int ret_open;
+	// ret_open = open_out_file(prev_token, path, fd_out);
+	// if (ret_open < 0)
+	// 	return (errno);
 	return (0);
 }
 
