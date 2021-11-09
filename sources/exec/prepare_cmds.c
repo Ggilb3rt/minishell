@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/09 16:49:45 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/09 17:59:57 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ int	init_files_fds(int prev_token, char *path, int *fd_in, int *fd_out)
 		if (!check_read_access(path, fd_in))
 			return (-1);
 	}
-	else if (prev_token == DLESS)
-		*fd_in = 1;
+	//else if (prev_token == DLESS)
+	//	*fd_in = 1;
 	else if (prev_token == GREAT)
 		*fd_out = open(path, O_CREAT | O_WRONLY, 0666);
 	else if (prev_token == DGREAT)
@@ -109,10 +109,6 @@ int	init_files_fds(int prev_token, char *path, int *fd_in, int *fd_out)
 		perror(path);
 		return (errno);
 	}
-	// int ret_open;
-	// ret_open = open_out_file(prev_token, path, fd_out);
-	// if (ret_open < 0)
-	// 	return (errno);
 	return (0);
 }
 
@@ -158,6 +154,10 @@ int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 			cur->list[0]->arg[0] = init_cmd_path(cur->list[0]->arg[0],
 					env_path);
 		}
+		//! il ne faut pas que j'exec si le programme n'existe pas (sinon besoin multi exit)
+		//! une solution serait de set une var a test avec d'exec pour chaque cmd
+		if (access(cur->list[0]->arg[0], X_OK) == -1)
+			perror(cur->list[0]->arg[0]);
 		cur = cur->next;
 	}
 	return (0);

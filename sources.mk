@@ -14,6 +14,7 @@ SOURCES = \
 		env/env_edit.c \
 		env/env_free.c \
 		env/env_getter.c \
+		env/env_exec.c \
 		exec/exec.c \
 		exec/prepare_cmds.c \
 		exec/exec_cmd_path.c \

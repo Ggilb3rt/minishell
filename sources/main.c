@@ -63,50 +63,6 @@ int	get_nb_cmds(t_command **cmds)
 	return (i);
 }
 
-// typedef struct s_to_exec
-// {
-// 	char	**cmd;
-// 	int		fd_in;
-// 	int		fd_out;
-// }	t_to_exec;
-
-
-void base_pour_exec(t_command **cmd, char **env, t_list_envp *ms_envp)
-{
-	char	***options;
-	char	*path;
-	int		nb_cmds;
-	int		i;
-	int		fd[2];
-
-	fd[0] = -1;
-	fd[1] = -1;
-	i = 0;
-	nb_cmds = get_nb_cmds(cmd);
-	options = malloc(sizeof(options) * (nb_cmds + 1));
-	if (!options)
-		return ;
-	path = get_ms_env_val(PATH, ms_envp);
-	while (*cmd != NULL)
-	{
-		//ret_file = associate_file_to_cmd(*cmd);
-		options[i] = (*cmd)->list[0]->arg;
-		options[i][0] = init_cmd_path(options[i][0], path);
-		fd[0] = (*cmd)->fd_in;
-		fd[1] = (*cmd)->fd_out;
-		*cmd = (*cmd)->next;
-		i++;
-	}
-	printf("i %d\n", i);
-	options[i - 1] = NULL;
-	options[i] = NULL;
-	for (int k = 0; options[k] != NULL; k++)
-		for (int j = 0; options[k][j] != NULL; j++)
-			printf("option[%d][%d] : %s | fd_in : %d | fd_out : %d\n", k, j, options[k][j], fd[0], fd[1]);
-	//ms_pipeline2(options, env);
-	(void)env;
-}
-
 void	close_cmds_fd(t_command **cmds)
 {
 	t_command	*cmd;
@@ -114,8 +70,8 @@ void	close_cmds_fd(t_command **cmds)
 	int			ret_out;
 
 	cmd = *cmds;
-	ret_in = 199;
-	ret_out = 198;
+	ret_in = 0;
+	ret_out = 0;
 	while (cmd != NULL)
 	{
 		if (cmd->fd_in != -1)
@@ -163,8 +119,6 @@ int	main(int ac, char **av, char **envp)
 		//print_simple_command(cmd);
 		//print_command(cmd);
 		//print_all(cmd);
-		//char	**my_env = convert_envplst_to_tab(ms_envp);
-		//base_pour_exec(cmd, envp, ms_envp);
 		ms_pipeline(cmd, envp);
 	}
 	free(msg_prompt);
