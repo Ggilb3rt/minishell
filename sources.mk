@@ -14,6 +14,7 @@ SOURCES = \
 		env/env.c \
 		env/env_edit.c \
 		env/env_free.c \
+		env/env_getter.c \
 		exec/exec.c \
 		exec/prepare_cmds.c \
 		exec/exec_cmd_path.c \
@@ -27,7 +28,6 @@ SOURCES = \
 		builtins/builtin_unset.c \
 		utils/utils_1.c \
 		utils/utils_2.c \
-		utils/utils_5.c \
 		libft/ft_isalnum.c \
 		libft/ft_isalpha.c \
 		libft/ft_isdigit.c \

@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:18:38 by alangloi          #+#    #+#             */
-/*   Updated: 2021/10/22 14:11:59 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/09 14:42:01 by alangloi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ char	**get_arg(char **str, int begin, int end)
 	while (j < diff)
 	{
 		new[j] = ft_strdup(str[begin + j]);
-		//printf("%s\n", new[j]);
 		j++;
 	}
 	new[j] = NULL;
@@ -63,13 +62,11 @@ t_simple_command	**lexer_2(char **arg, int begin, int end)
 	list = malloc(sizeof(t_simple_command *));
 	if (!list)
 		return (NULL);
-	//printf("x %d - %d\n", i, begin);
 	while (i < end)
 	{
 		if (!ft_strcmp(arg[i], "<") || !ft_strcmp(arg[i], ">")
 			|| !ft_strcmp(arg[i], "<<") || !ft_strcmp(arg[i], ">>"))
 		{
-			//printf("\t%d - %d\n", i, begin);
 			if (i - begin == 0)
 				i++;
 			new_simple_command(arg, list, i, begin);
@@ -77,7 +74,6 @@ t_simple_command	**lexer_2(char **arg, int begin, int end)
 		}
 		i++;
 	}
-	//printf("\t%d - %d\n", i, begin);
 	new_simple_command(arg, list, i, begin);
 	return (list);
 }
@@ -99,13 +95,11 @@ t_command	**lexer(char **arg, t_command **cmd)
 	{
 		if (!ft_strcmp(arg[i], "|"))
 		{
-			//printf("%d - %d\n", i, begin);
 			new_command(arg, cmd, i, begin);
 			begin = i;
 		}
 		i++;
 	}
-	//printf("%d - %d\n", i, begin);
 	new_command(arg, cmd, i, begin);
 	if (!add_newline(cmd, arg, array_size(arg)))
 		return (NULL);

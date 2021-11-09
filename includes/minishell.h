@@ -19,6 +19,7 @@
 # include <sys/wait.h>
 # include <sys/uio.h>
 # include <sys/ioctl.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <errno.h>
