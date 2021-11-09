@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:16:21 by alangloi          #+#    #+#             */
-/*   Updated: 2021/10/22 17:36:13 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/09 15:48:15 by alangloi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,23 @@ int	lexer_and_parser(char *str, t_command **cmd)
 	char	**arg;
 	int		ret;
 
+	printf("\t111\n");
 	arg = split_quote(str);
+	printf("\t222\n");
 	lexer(arg, cmd);
+	printf("\t333\n");
 	if (!cmd)
 	{
 		printf("Error input string\n");
 		exit (0);
 	}
 	ret = parser(cmd);
+	printf("\t444\n");
 	if (!ret)
 	{
 		printf("Error synthax\n");
 		exit (0);
 	}
+	printf("\t555\n");
 	return (ret);
 }

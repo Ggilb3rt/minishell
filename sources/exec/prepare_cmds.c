@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/09 15:05:56 by alangloi         ###   ########.fr       */
+/*   Updated: 2021/11/09 15:30:10 by alangloi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,7 @@ int	associate_file_to_cmd(t_command *cmds)
 {
 	t_simple_command	*cur;
 	int					current_token;
-	//int					tmp_fd;
 
-	//tmp_fd = 0;
 	cur = cmds->list[0];
 	while (cur != NULL)
 	{
@@ -140,3 +138,4 @@ int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 	}
 	return (0);
 }
+

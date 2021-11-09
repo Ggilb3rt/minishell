@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:18:38 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/09 14:42:01 by alangloi         ###   ########.fr       */
+/*   Updated: 2021/11/09 15:58:44 by alangloi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,12 @@ static void	new_command(char **arg, t_command **cmd, int end, int begin)
 {
 	t_command	*cur;
 
+	printf("coucou\n");
 	cur = alloc_command(arg, begin, end);
+	printf("kiki\n");
 	if (!cur)
 		return ;
+	printf("hello\n");
 	add_command(cur, cmd);
 }
 
@@ -64,6 +67,7 @@ t_simple_command	**lexer_2(char **arg, int begin, int end)
 		return (NULL);
 	while (i < end)
 	{
+		printf("%s\n", arg[i]);
 		if (!ft_strcmp(arg[i], "<") || !ft_strcmp(arg[i], ">")
 			|| !ft_strcmp(arg[i], "<<") || !ft_strcmp(arg[i], ">>"))
 		{
@@ -74,7 +78,9 @@ t_simple_command	**lexer_2(char **arg, int begin, int end)
 		}
 		i++;
 	}
+	printf("hello\n");
 	new_simple_command(arg, list, i, begin);
+	printf("ola\n");
 	return (list);
 }
 
@@ -91,8 +97,10 @@ t_command	**lexer(char **arg, t_command **cmd)
 
 	i = 0;
 	begin = 0;
+	printf("\t\t111\n");
 	while (arg[i])
 	{
+		printf("\t\t222\n");
 		if (!ft_strcmp(arg[i], "|"))
 		{
 			new_command(arg, cmd, i, begin);
@@ -100,8 +108,11 @@ t_command	**lexer(char **arg, t_command **cmd)
 		}
 		i++;
 	}
+	printf("\t\t333\n");
 	new_command(arg, cmd, i, begin);
+	printf("\t\t334\n");
 	if (!add_newline(cmd, arg, array_size(arg)))
 		return (NULL);
+	printf("\t\t444\n");
 	return (cmd);
 }

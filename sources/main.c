@@ -1,12 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alangloi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
+/*   Updated: 2021/11/09 15:46:48 by alangloi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-
-/*
- * create the loop that will run minishell
- */
-
-/*
- * Utiliser variable globale pour CTRL-D CTRL-C CTRL-\
- */
 
 int g_ret = 0;
 
@@ -82,12 +86,6 @@ void base_pour_exec(t_command **cmd, char **env, t_list_envp *ms_envp)
 	options = malloc(sizeof(options) * (nb_cmds + 1));
 	if (!options)
 		return ;
-	//! si ```ls < in | cqt > out | grep > out | ls``` return 3 (bug with cqt > out), ```cqt < out``` is ok...
-	//! le bug vient du parser en fait, si une cmd n'est pas detectée correctement
-	//printf("nb %d\n", nb_cmds);
-	// malloc ***options with nb of cmds
-	// options = {{"lol", "internet", NULL}, {"ls", "-la", "oput", NULL}, NULL}
-	// replace "/" (= 7) by NULL
 	path = get_ms_env_val(PATH, ms_envp);
 	while (*cmd != NULL)
 	{
@@ -99,8 +97,9 @@ void base_pour_exec(t_command **cmd, char **env, t_list_envp *ms_envp)
 		*cmd = (*cmd)->next;
 		i++;
 	}
-	//printf("i %d\n", i);
+	printf("i %d\n", i);
 	options[i - 1] = NULL;
+	options[i] = NULL;
 	for (int k = 0; options[k] != NULL; k++)
 		for (int j = 0; options[k][j] != NULL; j++)
 			printf("option[%d][%d] : %s | fd_in : %d | fd_out : %d\n", k, j, options[k][j], fd[0], fd[1]);
@@ -137,15 +136,16 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
+	line = ft_strdup("");
 	cmd = malloc(sizeof(t_command *));
 	ms_signal();
-	line = ft_strdup("");
 	ms_envp = create_msenvp_lst(envp);
 	msg_prompt = ft_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
 	while (1)
 	{
 		free(line);
 		line = readline(msg_prompt);
+		printf("111\n");
 		if (!line)
 			break ;
 		else if (ft_strlen(line) > 0)
@@ -154,12 +154,15 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		else
 			free(line);
+		printf("222\n");
 		if (!lexer_and_parser(line, cmd))
 			break ;
+		printf("333\n");
 		if (g_ret == EHERE)
 		{
 			heredoc_func(line, cmd);
 		}
+		printf("444\n");
 		if ((g_ret = cmd_exit(line)) == 1)
 			exit(0);
 		set_cmd_ready_to_exec(cmd, ms_envp);
@@ -176,22 +179,7 @@ int	main(int ac, char **av, char **envp)
 	return (g_ret);
 }
 
-/*
-int	main(int ac, char **av, char **envp)
-{
-	t_list_envp	*ms_envp;
-	char		*line;
-	//char		*msg_prompt;
-	//t_command *cmd;
 
-	(void)ac;
-	(void)av;
-	//cmd = malloc(sizeof(t_command));
-	//init_cmd(cmd);
-	ms_envp = create_msenvp_lst(envp);
-	char	**env = convert_envplst_to_tab(ms_envp);
-	(void)env;
-*/
 
 // int	main(int ac, char **av, char **envp)
 // {
@@ -241,3 +229,4 @@ int	main(int ac, char **av, char **envp)
 // 	ms_lst_free_all(ms_envp);
 // 	return (0); // return 0 or 1 ?
 // }
+
