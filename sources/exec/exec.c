@@ -118,35 +118,8 @@
 // 	printf("hi end\n");
 // 	return (0);
 // }
-/*
-char	**convert_envplst_to_tab(t_list_envp *ms_env)
-{
-	char	**tmp_env;
-	size_t	len_ms_env;
-	size_t	i;
 
-	len_ms_env = get_ms_env_len(ms_env);
-	tmp_env = malloc(sizeof(char *) + (len_ms_env + 1));
-	if (!tmp_env)
-		return (NULL);
-	i = 0;
-	while (i < len_ms_env)
-	{
-		tmp_env[i] = ft_strdup(ms_env->content);
-		ms_env = ms_env->next;
-		i++;
-	}
-	tmp_env[i] = NULL;
-	// int j = 0;
-	// while(tmp_env[j] != NULL)
-	// {
-	// 	printf("convertion envp %d %s\n", j, tmp_env[j]);
-	// 	j++;
-	// }
-	// printf("len %ld, i %ld\n", len_ms_env, i);
-	return (tmp_env);
-}
-*/
+
 void	ms_pipe(int *fd)
 {
 	if (pipe(fd) != 0)
@@ -156,39 +129,25 @@ void	ms_pipe(int *fd)
 	}
 }
 
-// void	child_exec(int *fd, int fd_in)
-// {
-// 	//static int i = 0;
-
-// 	//fprintf(stderr, "execute child %d | %d %d\n", i++, *fd, *(fd + 1));
-// 	close(fd[1]);
-// 	if (fd_in != -1)
-// 	{
-// 		dup2(fd_in, 0);
-// 		close(fd_in);
-// 	}
-// 	else
-// 	{
-// 		dup2(fd[0], 0);
-// 	//fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
-// 		close(fd[0]);
-// 		ms_pipe(fd);
-// 	}
-// }
-
 void	child_exec(int *fd, int fd_in)
 {
 	//static int i = 0;
 
 	//fprintf(stderr, "execute child %d | %d %d\n", i++, *fd, *(fd + 1));
 	close(fd[1]);
-	dup2(fd[0], 0);
-	//fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
-	close(fd[0]);
+	if (fd_in != -1)
+	{
+		dup2(fd_in, STDIN_FILENO);
+		close(fd_in);
+	}
+	else
+	{
+		dup2(fd[0], STDIN_FILENO);
+		//fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
+		close(fd[0]);
+	}
 	ms_pipe(fd);
-	(void)fd_in;
 }
-
 
 void	parent_exec(char **list, char **env, int *fd, int fd_out)
 {
@@ -199,11 +158,11 @@ void	parent_exec(char **list, char **env, int *fd, int fd_out)
 	close(fd[0]);
 	if (fd_out != -1)
 	{
-		dup2(fd_out, 1);
+		dup2(fd_out, STDOUT_FILENO);
 		close(fd_out);
 	}
 	else
-		dup2(fd[1], 1);
+		dup2(fd[1], STDOUT_FILENO);
 	//fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
 	close(fd[1]);
 	execve(list[0], list, env);
@@ -238,8 +197,13 @@ int	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
 		{
 			if (cur->fd_out != -1)
 			{
-				dup2(cur->fd_out, 1);
+				dup2(cur->fd_out, STDOUT_FILENO);
 				close(cur->fd_out);
+			}
+			if (cur->fd_in != -1)
+			{
+				dup2(cur->fd_in, STDIN_FILENO);
+				close(cur->fd_in);
 			}
 			execve(cur->list[0]->arg[0], cur->list[0]->arg, env);
 		}
@@ -267,32 +231,12 @@ int	ms_pipeline(t_command **cmd, char **env)
 		ret_exec = execute_pipeline_cmds2(cmd, env, fd);
 	else if (global_pid > 0)
 	{
-	//	printf("hi parent\n");
+		//	printf("hi parent\n");
 		close(fd[0]);
 		close(fd[1]);
 		waitpid(global_pid, NULL, 0);
-	//	printf("hi end\n");
+		//	printf("hi end\n");
 	}
-	return (0);
-}
-
-char	**convert_envplst_to_tab(t_list_envp *ms_env)
-{
-	char	**tmp_env;
-	size_t	len_ms_env;
-	size_t	i;
-
-	len_ms_env = get_ms_env_len(ms_env);
-	tmp_env = malloc(sizeof(char *) + (len_ms_env + 1));
-	if (!tmp_env)
-		return (NULL);
-	i = 0;
-	while (i < len_ms_env)
-	{
-		tmp_env[i] = ft_strdup(ms_env->content);
-		ms_env = ms_env->next;
-		i++;
-	}
-	tmp_env[i] = NULL;
-	return (tmp_env);
+	//printf("return exec %d\n", ret_exec);
+	return (ret_exec);
 }

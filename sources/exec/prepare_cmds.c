@@ -18,10 +18,15 @@ int	check_read_access(char *path, int *fd)
 	if (access(path, F_OK | R_OK) == -1)
 	{
 		*fd = -2;
-		perror("access");
+		perror(path);
 		return (0);
 	}
 	*fd = open(path, O_RDONLY);
+	if (*fd == -1)
+	{
+		perror(path);
+		return (0);
+	}
 	//printf("check fd in access in file %d\n", *fd);
 	return (1);
 }
@@ -71,6 +76,21 @@ int	associate_file_to_cmd_b(t_simple_command **list)
 	return (0);
 }
 
+
+int	open_out_file(int prev_token, char *path, int *fd_out)
+{
+	if (prev_token == GREAT)
+		*fd_out = open(path, O_CREAT | O_WRONLY, 0666);
+	else if (prev_token == DGREAT)
+		*fd_out = open(path, O_CREAT | O_WRONLY | O_APPEND, 0666);
+	if (*fd_out == -1 && (prev_token == GREAT || prev_token == DGREAT))
+	{
+		perror(path);
+		return (-1);
+	}
+	return (0);
+}
+
 int	init_files_fds(int prev_token, char *path, int *fd_in, int *fd_out)
 {
 	if (prev_token == LESS)
@@ -78,15 +98,15 @@ int	init_files_fds(int prev_token, char *path, int *fd_in, int *fd_out)
 		if (!check_read_access(path, fd_in))
 			return (-1);
 	}
-	else if (prev_token == DLESS)
-		*fd_in = 1;
+		//else if (prev_token == DLESS)
+		//	*fd_in = 1;
 	else if (prev_token == GREAT)
 		*fd_out = open(path, O_CREAT | O_WRONLY, 0666);
 	else if (prev_token == DGREAT)
 		*fd_out = open(path, O_CREAT | O_WRONLY | O_APPEND, 0666);
-	if (*fd_out == -1)
+	if (*fd_out == -1 && (prev_token == GREAT || prev_token == DGREAT))
 	{
-		perror("open");
+		perror(path);
 		return (errno);
 	}
 	return (0);
@@ -96,9 +116,7 @@ int	associate_file_to_cmd(t_command *cmds)
 {
 	t_simple_command	*cur;
 	int					current_token;
-	//int					tmp_fd;
 
-	//tmp_fd = 0;
 	cur = cmds->list[0];
 	while (cur != NULL)
 	{
@@ -110,7 +128,7 @@ int	associate_file_to_cmd(t_command *cmds)
 			if (cur->token != WORD)
 				return (-2);
 			if (init_files_fds(current_token, cur->arg[0],
-					&cmds->fd_in, &cmds->fd_out) < 0)
+							   &cmds->fd_in, &cmds->fd_out) < 0)
 				return (-1);
 		}
 		cur = cur->next;
@@ -134,8 +152,12 @@ int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 		{
 			env_path = get_ms_env_val(PATH, env);
 			cur->list[0]->arg[0] = init_cmd_path(cur->list[0]->arg[0],
-					env_path);
+												 env_path);
 		}
+		//! il ne faut pas que j'exec si le programme n'existe pas (sinon besoin multi exit)
+		//! une solution serait de set une var a test avec d'exec pour chaque cmd
+		if (access(cur->list[0]->arg[0], X_OK) == -1)
+			perror(cur->list[0]->arg[0]);
 		cur = cur->next;
 	}
 	return (0);
