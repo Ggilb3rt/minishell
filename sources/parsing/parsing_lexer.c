@@ -20,7 +20,7 @@ char	**get_arg(char **str, int begin, int end)
 
 	j = 0;
 	diff = end - begin;
-	new = malloc(sizeof(char *) * diff + 1);
+	new = malloc(sizeof(char *) * (diff + 1));
 	if (!new)
 		return (NULL);
 	while (j < diff)

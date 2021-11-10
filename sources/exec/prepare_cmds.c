@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/09 15:05:56 by alangloi         ###   ########.fr       */
+/*   Updated: 2021/11/09 17:59:57 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ int	init_files_fds(int prev_token, char *path, int *fd_in, int *fd_out)
 		if (!check_read_access(path, fd_in))
 			return (-1);
 	}
-		//else if (prev_token == DLESS)
-		//	*fd_in = 1;
+	//else if (prev_token == DLESS)
+	//	*fd_in = 1;
 	else if (prev_token == GREAT)
 		*fd_out = open(path, O_CREAT | O_WRONLY, 0666);
 	else if (prev_token == DGREAT)
