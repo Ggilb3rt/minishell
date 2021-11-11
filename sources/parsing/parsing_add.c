@@ -17,24 +17,21 @@ static t_command	*command_last(t_command **cmd)
 	t_command	*cur;
 
 	cur = *cmd;
-	printf("x\n");
 	if (!cur)
 		return (NULL);
-	printf("y\n");
-	while (cur != NULL)
-	{
-		printf("uuuuuuuuuu |%s|\n", cur->list[0]->arg[0]);
+	printf("yo\n");
+	print_all(cmd);
+	while (cur->next != NULL)
 		cur = cur->next;
-	}
-	printf("z\n");
+	printf("ya\n");
 	return (cur);
 }
 
-static t_simple_command	*simple_last(t_simple_command *list)
+static t_simple_command	*simple_last(t_simple_command **list)
 {
 	t_simple_command *cur;
 
-	cur = list;
+	cur = *list;
 	if (!cur)
 		return (NULL);
 	while (cur->next != NULL)
@@ -56,7 +53,7 @@ void	add_simple(t_simple_command *new, t_simple_command **list)
 	}
 	else
 	{
-		cur = simple_last(*list);
+		cur = simple_last(list);
 		cur->next = new;
 		cur->next->next = NULL;
 	}
@@ -69,7 +66,6 @@ void	add_command(t_command *new, t_command **cmd)
 	if (!new)
 		return ;
 	new->next = NULL;
-	printf("aaaaaaaaaaaaaa\n");
 	if (!*cmd)
 	{
 		new->next = *cmd;
@@ -77,13 +73,10 @@ void	add_command(t_command *new, t_command **cmd)
 	}
 	else
 	{
-		printf("cccccccccc\n");
 		cur = command_last(cmd);
-		printf("dddddddddd\n");
 		cur->next = new;
 		cur->next->next = NULL;
 	}
-	printf("bbbbbbbbbbbbbb\n");
 }
 
 int	add_newline(t_command **list, char **arg, int i)

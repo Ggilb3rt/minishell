@@ -13,7 +13,6 @@
 char		*init_cmd_path(char *cmd, char *paths);
 
 /* exec */
-char		**convert_envplst_to_tab(t_list_envp *ms_env);
 int			**create_pipes_fd(int nb_pipe);
 //int			ms_pipeline2(char ***cmd, char **env);
 int			ms_pipeline(t_command **cmd, char **env);

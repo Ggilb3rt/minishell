@@ -114,8 +114,8 @@ void	close_cmds_fd(t_command **cmds)
 	int			ret_out;
 
 	cmd = *cmds;
-	ret_in = 199;
-	ret_out = 198;
+	ret_in = 0;
+	ret_out = 0;
 	while (cmd != NULL)
 	{
 		if (cmd->fd_in != -1)
@@ -145,7 +145,6 @@ int	main(int ac, char **av, char **envp)
 	{
 		free(line);
 		line = readline(msg_prompt);
-		printf("111\n");
 		if (!line)
 			break ;
 		else if (ft_strlen(line) > 0)
@@ -154,24 +153,21 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		else
 			free(line);
-		printf("222\n");
 		if (!lexer_and_parser(line, cmd))
 			break ;
-		printf("333\n");
 		if (g_ret == EHERE)
 		{
 			heredoc_func(line, cmd);
 		}
-		printf("444\n");
 		if ((g_ret = cmd_exit(line)) == 1)
 			exit(0);
-		set_cmd_ready_to_exec(cmd, ms_envp);
+		//set_cmd_ready_to_exec(cmd, ms_envp);
 		//print_simple_command(cmd);
 		//print_command(cmd);
-		//print_all(cmd);
+		print_all(cmd);
 		//char	**my_env = convert_envplst_to_tab(ms_envp);
 		//base_pour_exec(cmd, envp, ms_envp);
-		ms_pipeline(cmd, envp);
+		//ms_pipeline(cmd, envp);
 	}
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);

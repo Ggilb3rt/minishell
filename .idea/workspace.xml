@@ -12,19 +12,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df373721-7ffe-4423-b427-5786852dbf98" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/sources/env/env_exec.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/parsing.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/parsing.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prout" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/env.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/env.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/exec.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/exec.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources.mk" beforeDir="false" afterPath="$PROJECT_DIR$/sources.mk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/exec/exec.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/exec/exec.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/exec/prepare_cmds.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/exec/prepare_cmds.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/.parsing_add.c.swp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/.parsing_alloc.c.swp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/.parsing_lexer.c.swp" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_add.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_add.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_alloc.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_alloc.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_cleanup.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_cleanup.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_error.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_quit.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_grammar.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_grammar.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_lexer.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_lexer.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_main.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_split_1.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_split_1.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_split_3.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_split_3.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tarte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_split_2.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_split_2.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

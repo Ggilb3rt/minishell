@@ -23,7 +23,7 @@ int	print_simple_command(t_simple_command **sc)
 	count = 0;
 	cur = *sc;
 	printf("COMMAND TABLE :\n");
-	while (cur != NULL)
+	while (cur->next != NULL)
 	{
 		i = 0;
 		arr_size = array_size(cur->arg) + 1;
@@ -43,7 +43,7 @@ int	print_all(t_command **cmd)
 	t_command	*cur;
 
 	cur = *cmd;
-	while (cur != NULL)
+	while (cur->next != NULL)
 	{
 		printf("---cur---\n");
 		print_simple_command(cur->list);

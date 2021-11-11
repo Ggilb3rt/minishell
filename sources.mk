@@ -5,7 +5,7 @@ SOURCES = \
 		parsing/parsing_add.c \
 		parsing/parsing_grammar.c \
 		parsing/parsing_token.c \
-		parsing/parsing_error.c \
+		parsing/parsing_quit.c \
 		parsing/parsing_lexer.c \
 		parsing/parsing_cleanup.c \
 		parsing/parsing_split_1.c \
@@ -15,6 +15,7 @@ SOURCES = \
 		env/env_edit.c \
 		env/env_free.c \
 		env/env_getter.c \
+		env/env_exec.c \
 		exec/exec.c \
 		exec/prepare_cmds.c \
 		exec/exec_cmd_path.c \

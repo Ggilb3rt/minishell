@@ -16,7 +16,6 @@ static void	redir_great(t_simple_command *cur, t_command *cmd)
 {
 	if (cur->token == GREAT)
 	{
-		printf("yep\n");
 		free(cmd->out_file);
 		cmd->out_file = NULL;
 		if (ft_str_isalnum_under(cur->arg[1]))
@@ -26,7 +25,6 @@ static void	redir_great(t_simple_command *cur, t_command *cmd)
 	}
 	else if (cur->token == DGREAT)
 	{
-		printf("yep\n");
 		free(cmd->out_file);
 		cmd->out_file = NULL;
 		if (ft_str_isalnum_under(cur->arg[1]))
