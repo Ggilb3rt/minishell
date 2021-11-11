@@ -181,9 +181,10 @@ int	main(int ac, char **av, char **envp)
 		//base_pour_exec(cmd, envp, ms_envp);
 		//ms_pipeline(cmd, envp);
 	}
+	printf("quit loop\n");
+	//close_cmds_fd(cmd);
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
-	//close_cmds_fd(cmd);
 	return (g_ret);
 }
 
