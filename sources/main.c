@@ -127,6 +127,17 @@ void	close_cmds_fd(t_command **cmds)
 	}
 }
 
+static t_command **init_cmd(void)
+{
+	t_command **cmd;
+
+	cmd = malloc(sizeof(t_command *));
+	if (!cmd)
+		return (NULL);
+	*cmd = NULL;
+	return (cmd);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_list_envp	*ms_envp;
@@ -137,7 +148,8 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	line = ft_strdup("");
-	cmd = malloc(sizeof(t_command *));
+	cmd = NULL;
+	cmd = init_cmd();
 	ms_signal();
 	ms_envp = create_msenvp_lst(envp);
 	msg_prompt = ft_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
@@ -164,7 +176,7 @@ int	main(int ac, char **av, char **envp)
 		//set_cmd_ready_to_exec(cmd, ms_envp);
 		//print_simple_command(cmd);
 		//print_command(cmd);
-		print_all(cmd);
+		//print_all(cmd);
 		//char	**my_env = convert_envplst_to_tab(ms_envp);
 		//base_pour_exec(cmd, envp, ms_envp);
 		//ms_pipeline(cmd, envp);

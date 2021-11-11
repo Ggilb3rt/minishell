@@ -53,15 +53,25 @@ static void	new_command(char **arg, t_command **cmd, int end, int begin)
 	add_command(cur, cmd);
 }
 
+static t_simple_command **init_list(void)
+{
+	t_simple_command **list;
+
+	list = malloc(sizeof(t_simple_command *));
+	if (!list)
+		return (NULL);
+	*list = NULL;
+	return (list);
+}
+
 t_simple_command	**lexer_2(char **arg, int begin, int end)
 {
 	t_simple_command	**list;
 	int					i;
 
 	i = begin;
-	list = malloc(sizeof(t_simple_command *));
-	if (!list)
-		return (NULL);
+	list = NULL;
+	list = init_list();
 	while (i < end)
 	{
 		if (!ft_strcmp(arg[i], "<") || !ft_strcmp(arg[i], ">")

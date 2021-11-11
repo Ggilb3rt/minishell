@@ -12,33 +12,6 @@
 
 #include "minishell.h"
 
-static t_command	*command_last(t_command **cmd)
-{
-	t_command	*cur;
-
-	cur = *cmd;
-	if (!cur)
-		return (NULL);
-	printf("yo\n");
-	print_all(cmd);
-	while (cur->next != NULL)
-		cur = cur->next;
-	printf("ya\n");
-	return (cur);
-}
-
-static t_simple_command	*simple_last(t_simple_command **list)
-{
-	t_simple_command *cur;
-
-	cur = *list;
-	if (!cur)
-		return (NULL);
-	while (cur->next != NULL)
-		cur = cur->next;
-	return (cur);
-}
-
 void	add_simple(t_simple_command *new, t_simple_command **list)
 {
 	t_simple_command	*cur;
@@ -53,9 +26,11 @@ void	add_simple(t_simple_command *new, t_simple_command **list)
 	}
 	else
 	{
-		cur = simple_last(list);
+		cur = *list;
+		while (cur && cur->next != NULL)
+			cur = cur->next;
 		cur->next = new;
-		cur->next->next = NULL;
+		//cur->next->next = NULL;
 	}
 }
 
@@ -73,9 +48,11 @@ void	add_command(t_command *new, t_command **cmd)
 	}
 	else
 	{
-		cur = command_last(cmd);
+		cur = *cmd;
+		while (cur && cur->next != NULL)
+			cur = cur->next;
 		cur->next = new;
-		cur->next->next = NULL;
+		//cur->next->next = NULL;
 	}
 }
 
