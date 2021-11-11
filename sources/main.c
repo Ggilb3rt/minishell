@@ -148,14 +148,14 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	line = ft_strdup("");
-	cmd = NULL;
-	cmd = init_cmd();
 	ms_signal();
 	ms_envp = create_msenvp_lst(envp);
 	msg_prompt = ft_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
 	while (1)
 	{
 		free(line);
+		cmd = NULL;
+		cmd = init_cmd();
 		line = readline(msg_prompt);
 		if (!line)
 			break ;
