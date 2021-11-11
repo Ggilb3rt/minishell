@@ -77,8 +77,8 @@ t_simple_command	**lexer_2(char **arg, int begin, int end)
 		if (!ft_strcmp(arg[i], "<") || !ft_strcmp(arg[i], ">")
 			|| !ft_strcmp(arg[i], "<<") || !ft_strcmp(arg[i], ">>"))
 		{
-			if (i - begin == 0)
-				i++;
+			//if (i - begin == 0)
+			//	i++;
 			new_simple_command(arg, list, i, begin);
 			begin = i;
 		}
@@ -105,8 +105,9 @@ t_command	**lexer(char **arg, t_command **cmd)
 	{
 		if (!ft_strcmp(arg[i], "|"))
 		{
+			arg[i] = NULL;
 			new_command(arg, cmd, i, begin);
-			begin = i;
+			begin = i + 1;
 		}
 		i++;
 	}

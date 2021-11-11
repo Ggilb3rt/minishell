@@ -12,6 +12,24 @@
 
 #include "minishell.h"
 
+static t_command	*command_last(t_command *cmd)
+{
+	if (!cmd)
+		return (NULL);
+	while (cmd->next != NULL)
+		cmd = cmd->next;
+	return (cmd);
+}
+
+static t_simple_command	*simple_last(t_simple_command *list)
+{
+	if (!list)
+		return (NULL);
+	while (list->next != NULL)
+		list = list->next;
+	return (list);
+}
+
 void	add_simple(t_simple_command *new, t_simple_command **list)
 {
 	t_simple_command	*cur;
@@ -26,11 +44,9 @@ void	add_simple(t_simple_command *new, t_simple_command **list)
 	}
 	else
 	{
-		cur = *list;
-		while (cur && cur->next != NULL)
-			cur = cur->next;
+		cur = simple_last(*list);
 		cur->next = new;
-		//cur->next->next = NULL;
+		cur->next->next = NULL;
 	}
 }
 
@@ -48,11 +64,9 @@ void	add_command(t_command *new, t_command **cmd)
 	}
 	else
 	{
-		cur = *cmd;
-		while (cur && cur->next != NULL)
-			cur = cur->next;
+		cur = command_last(*cmd);
 		cur->next = new;
-		//cur->next->next = NULL;
+		cur->next->next = NULL;
 	}
 }
 
