@@ -6,7 +6,7 @@
 /*   By: elmer <elmer@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/11 16:34:21 by elmer            ###   ########.fr       */
+/*   Updated: 2021/11/11 17:50:44 by elmer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 			// perror(cur->list[0]->arg[0]);
 		else
 			cur->can_exec = 1;
-		printf("%s ==> %d\n", cur->list[0]->arg[0], cur->can_exec);
+		//printf("%s ==> %d\n", cur->list[0]->arg[0], cur->can_exec);
 		cur = cur->next;
 	}
 	return (0);

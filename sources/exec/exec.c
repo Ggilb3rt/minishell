@@ -155,7 +155,13 @@ void	parent_exec(char **list, char **env, int *fd, int fd_out)
 		dup2(fd[1], STDOUT_FILENO);
 	//fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
 	close(fd[1]);
-	execve(list[0], list, env);
+	if (execve(list[0], list, env) == -1)
+	{
+		perror(list[0]);
+		close(fd[0]);
+		close(fd[1]);
+		exit(errno);
+	}
 }
 
 int	multiple_cmds(t_command *cur, char **env, int fd[2])
@@ -187,7 +193,9 @@ void	one_cmd(t_command *cur, char **env)
 		dup2(cur->fd_in, STDIN_FILENO);
 		close(cur->fd_in);
 	}
-	execve(cur->list[0]->arg[0], cur->list[0]->arg, env);
+	if (execve(cur->list[0]->arg[0], cur->list[0]->arg, env) == -1)
+		perror(cur->list[0]->arg[0]);
+	exit(errno);
 }
 
 int	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
@@ -200,8 +208,8 @@ int	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
 	while (cur != NULL && cur->list[0]->token != NWLINE)
 	{
 		printf("fd_in %d, fd_out %d, %s : %d\n", cur->fd_in, cur->fd_out, cur->list[0]->arg[0], cur->can_exec);
-		if (cur->can_exec == 1)
-		{
+		//if (cur->can_exec == 1)
+		//{
 			if (cur->next != NULL && cur->next->list[0]->token != NWLINE)
 			{
 				if (multiple_cmds(cur, env, fd) != 0)
@@ -209,13 +217,13 @@ int	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
 			}
 			else
 				one_cmd(cur, env);
-		}
-		else
-		{
-			close(fd[0]);
-			close(fd[1]);
-			printf("error cmd\n");
-		}
+		//}
+		//else
+		// {
+		// 	close(fd[0]);
+		// 	close(fd[1]);
+		// 	printf("error cmd\n");
+		// }
 		cur = cur->next;
 	}
 	return (0);
