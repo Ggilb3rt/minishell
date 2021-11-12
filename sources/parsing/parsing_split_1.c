@@ -43,7 +43,8 @@ static void	find_quote(char *str, int i, t_split *splt)
 			|| (str[i] == '\'' && splt->count_s >= 0))
 		&& splt->open)
 		count_quote(str, i, splt);
-	else if ((str[i] == ' ' || i == splt->len || str[i] == '\"')
+	else if ((str[i] == ' ' || i == splt->len
+			|| (str[i] == '\"' || str[i] == '\''))
 		&& splt->open == 0 && splt->count >= 0)
 		count_spaces(str, i, splt);
 }

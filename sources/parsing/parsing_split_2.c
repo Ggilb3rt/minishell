@@ -58,7 +58,7 @@ static void	meet_quote(char *str, t_count *cnt)
 		cnt->open = 0;
 	}
 	else
-		printf("error next quote\n");
+		perror("error next quote\n");
 }
 
 static void	trig_words(char *str, t_count *cnt)

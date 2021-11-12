@@ -21,7 +21,7 @@ static void	redir_great(t_simple_command *cur, t_command *cmd)
 		if (ft_str_isalnum_under(cur->arg[1]))
 			cmd->out_file = ft_strdup(cur->arg[1]);
 		else
-			printf("unexpected syntax\n");
+			perror("unexpected syntax\n");
 	}
 	else if (cur->token == DGREAT)
 	{
@@ -30,7 +30,7 @@ static void	redir_great(t_simple_command *cur, t_command *cmd)
 		if (ft_str_isalnum_under(cur->arg[1]))
 			cmd->out_file = ft_strdup(cur->arg[1]);
 		else
-			printf("unexpected syntax\n");
+			perror("unexpected syntax\n");
 	}
 }
 
@@ -43,7 +43,7 @@ static void	redir_less(t_simple_command *cur, t_command *cmd)
 		if (ft_str_isalnum_under(cur->arg[1]))
 			cmd->in_file = ft_strdup(cur->arg[1]);
 		else
-			printf("unexpected syntax\n");
+			perror("unexpected syntax\n");
 	}
 	else if (cur->token == DLESS)
 	{
@@ -52,7 +52,7 @@ static void	redir_less(t_simple_command *cur, t_command *cmd)
 		if (ft_str_isalnum_under(cur->arg[1]))
 			cmd->end = cur->arg[1];
 		else
-			printf("unexpected syntax\n");
+			perror("unexpected syntax\n");
 		g_ret = EHERE;
 	}
 }
