@@ -21,7 +21,7 @@ static int	init_split(t_split *splt, char *str)
 	splt->size = word_count(str);
 	splt->len = (int)ft_strlen(str);
 	splt->j = 0;
-	splt->new = malloc(sizeof(char *) * splt->size + 1);
+	splt->new = malloc(sizeof(char *) * (splt->size + 1));
 	if (!splt->new)
 		return (0);
 	return (1);
@@ -57,19 +57,16 @@ static void	find_quote(char *str, int i, t_split *splt)
 char	**split_quote(char *str)
 {
 	int		i;
-	t_split	*splt;
+	t_split	splt;
 
-	splt = malloc(sizeof(t_split));
-	if (!splt)
-		return (NULL);
-	if (!init_split(splt, str))
+	if (!init_split(&splt, str))
 		return (NULL);
 	i = 0;
-	while (i <= splt->len)
+	while (i <= splt.len)
 	{
-		find_quote(str, i, splt);
+		find_quote(str, i, &splt);
 		i++;
 	}
-	splt->new[splt->j] = 0;
-	return (splt->new);
+	splt.new[splt.j] = 0;
+	return (splt.new);
 }
