@@ -13,13 +13,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df373721-7ffe-4423-b427-5786852dbf98" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/minishell.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/minishell.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/heredoc/heredoc.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/heredoc/heredoc.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/utils.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/utils.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_grammar.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_grammar.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_lexer.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_lexer.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_quit.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_quit.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/utils/utils_2.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/utils/utils_2.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -132,9 +132,13 @@ int	main(int ac, char **av, char **envp)
 		//set_cmd_ready_to_exec(cmd, ms_envp);
 		//print_simple_command(cmd);
 		//print_command(cmd);
-		print_all(cmd);
-		ms_pipeline(cmd, envp);
+		//print_all(cmd);
+		//ms_pipeline(cmd, envp);
+		free_command(cmd);
+		//print_all(cmd);
 	}
+	if (cmd)
+		free_command(cmd);
 	printf("quit loop\n");
 	//close_cmds_fd(cmd);
 	free(msg_prompt);

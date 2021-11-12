@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_error.c                                    :+:      :+:    :+:   */
+/*   parsing_quit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alangloi <alangloi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,22 +11,3 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void 	free_split(t_split *splt)
-{
-	while ((*splt->new))
-	{
-		free((*splt->new));
-		(*splt->new) = NULL;
-		splt->new++;
-	}
-}
-
-void 	free_word(char *word)
-{
-	if (word)
-	{
-		free(word);
-		word = NULL;
-	}
-}
