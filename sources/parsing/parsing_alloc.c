@@ -12,6 +12,26 @@
 
 #include "minishell.h"
 
+char	**get_arg(char **str, int begin, int end)
+{
+	char	**new;
+	int		diff;
+	int		j;
+
+	j = 0;
+	diff = end - begin;
+	new = malloc(sizeof(char *) * (diff + 1));
+	if (!new)
+		return (NULL);
+	while (j < diff)
+	{
+		new[j] = ft_strdup(str[begin + j]);
+		j++;
+	}
+	new[j] = NULL;
+	return (new);
+}
+
 t_simple_command	*alloc_simple(char **str, int begin, int end)
 {
 	t_simple_command	*new;
@@ -36,7 +56,7 @@ t_command	*alloc_command(char **arg, int begin, int end)
 		return (NULL);
 	cmd->numb_avail_simple_commands = 0;
 	cmd->numb_simple_commands = 0;
-	cmd->list = lexer_2(arg, begin, end);
+	cmd->list = get_simple(arg, begin, end);
 	cmd->out_file = NULL;
 	cmd->in_file = NULL;
 	cmd->err_file = NULL;
