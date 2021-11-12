@@ -83,16 +83,16 @@ static void	trig_words(char *str, t_count *cnt)
 
 int	word_count(char *str)
 {
-	t_count	*cnt;
+	t_count	cnt; //*cnt;
 
-	cnt = malloc(sizeof(t_count));
-	if (!cnt)
-		return (0);
-	cnt->open = 0;
-	cnt->i = 0;
-	cnt->words = 0;
-	cnt->trig = 0;
-	while (str[cnt->i])
-		trig_words(str, cnt);
-	return (cnt->words);
+	//cnt = malloc(sizeof(t_count));
+	//if (!cnt)
+	//	return (0);
+	cnt.open = 0;
+	cnt.i = 0;
+	cnt.words = 0;
+	cnt.trig = 0;
+	while (str[cnt.i])
+		trig_words(str, &cnt);
+	return (cnt.words);
 }

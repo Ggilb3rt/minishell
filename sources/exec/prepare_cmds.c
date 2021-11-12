@@ -133,6 +133,7 @@ int	associate_file_to_cmd(t_command *cmds)
 		}
 		cur = cur->next;
 	}
+
 	return (0);
 }
 
@@ -160,5 +161,6 @@ int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 			perror(cur->list[0]->arg[0]);
 		cur = cur->next;
 	}
+
 	return (0);
 }

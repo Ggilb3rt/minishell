@@ -12,13 +12,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df373721-7ffe-4423-b427-5786852dbf98" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/sources/env/env_exec.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/env.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/env.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/exec.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/exec.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources.mk" beforeDir="false" afterPath="$PROJECT_DIR$/sources.mk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/exec/exec.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/exec/exec.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/exec/prepare_cmds.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/exec/prepare_cmds.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_error.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_quit.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_split_1.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_split_1.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_split_2.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_split_2.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/utils/utils_2.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/utils/utils_2.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,11 +51,6 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C/C++" />
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="minishell" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="minishell" TARGET_NAME="minishell" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="minishell" RUN_TARGET_NAME="minishell">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -71,6 +67,7 @@
       <updated>1635948196507</updated>
       <workItem from="1635948218497" duration="7915000" />
       <workItem from="1636021385095" duration="22530000" />
+      <workItem from="1636715027592" duration="1000" />
     </task>
     <servers />
   </component>

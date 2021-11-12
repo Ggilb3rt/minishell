@@ -5,7 +5,7 @@ SOURCES = \
 		parsing/parsing_add.c \
 		parsing/parsing_grammar.c \
 		parsing/parsing_token.c \
-		parsing/parsing_error.c \
+		parsing/parsing_quit.c \
 		parsing/parsing_lexer.c \
 		parsing/parsing_cleanup.c \
 		parsing/parsing_split_1.c \
