@@ -62,7 +62,7 @@ static void	io_redirections(t_command *cmd)
 	t_simple_command	*cur;
 
 	cur = (*cmd->list);
-	while (cur && cur->next != NULL)
+	while (cur)// && cur->next != NULL)
 	{
 		if (cur->token == GREAT || cur->token == DGREAT)
 			redir_great(cur, cmd);
@@ -77,7 +77,7 @@ int	parser(t_command **cmd)
 	t_command	*cur;
 
 	cur = *cmd;
-	while (cur && cur->next != NULL)
+	while (cur)// && cur->next != NULL)
 	{
 		io_redirections(cur);
 		cur = cur->next;

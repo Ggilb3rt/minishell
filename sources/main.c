@@ -129,7 +129,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		if ((g_ret = cmd_exit(line)) == 1)
 			exit(0);
-		set_cmd_ready_to_exec(cmd, ms_envp);
+		//set_cmd_ready_to_exec(cmd, ms_envp);
 		//print_simple_command(cmd);
 		//print_command(cmd);
 		//print_all(cmd);

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
-    <generated>
-      <config projectName="minishell" targetName="minishell" />
-    </generated>
+    <generated />
   </component>
   <component name="CMakeSettings">
     <configurations>
@@ -12,12 +13,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df373721-7ffe-4423-b427-5786852dbf98" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/debug/debug.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/debug/debug.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_add.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_add.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_grammar.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_grammar.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_lexer.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_lexer.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/heredoc/heredoc.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/heredoc/heredoc.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +23,6 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -50,19 +45,14 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C/C++" />
   </component>
   <component name="RunManager">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="minishell" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="minishell" TARGET_NAME="minishell" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="minishell" RUN_TARGET_NAME="minishell">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
   </component>

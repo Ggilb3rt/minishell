@@ -33,11 +33,11 @@ char	**get_arg(char **str, int begin, int end)
 }
 
 static void	new_simple_command(char **arg, t_simple_command **list,
-								  int end, int begin)
+								  int begin, int end)
 {
 	t_simple_command	*cur;
 
-	cur = alloc_simple(arg, begin, end);
+	cur = alloc_simple(arg, end, begin);
 	if (!cur)
 		return ;
 	add_simple(cur, list);
