@@ -62,6 +62,7 @@ void	free_command(t_command *cmd)
 	}
 }
 */
+
 void 	free_simple_command(t_simple_command **list)
 {
 	int 				i;

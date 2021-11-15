@@ -31,20 +31,20 @@ void	open_quote(char *str, int i, t_split *splt)
 	}
 }
 
-char	*split_words(char *str, int strt, int fnsh)
+char	*split_words(char *str, int begin, int end)
 {
 	char	*word;
 	int		i;
 
 	i = 0;
-	word = malloc(sizeof(char) * (fnsh - strt + 1));
+	word = malloc(sizeof(char) * (end - begin + 1));
 	if (!word)
 		return (NULL);
-	while (strt < fnsh)
+	while (begin < end)
 	{
-		word[i] = str[strt];
+		word[i] = str[begin];
 		i++;
-		strt++;
+		begin++;
 	}
 	word[i] = '\0';
 	return (word);
