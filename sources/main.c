@@ -123,22 +123,27 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 		if (!lexer_and_parser(line, cmd))
 			break ;
+		convert_var(cmd);
 		if (g_ret == EHERE)
 		{
 			heredoc_func(line, cmd);
 		}
 		if ((g_ret = cmd_exit(line)) == 1)
 			exit(0);
-		//set_cmd_ready_to_exec(cmd, ms_envp);
+		set_cmd_ready_to_exec(cmd, ms_envp);
 		//print_simple_command(cmd);
 		//print_command(cmd);
-		print_all(cmd);
+		//print_all(cmd);
 		//char	**my_env = convert_envplst_to_tab(ms_envp);
 		//base_pour_exec(cmd, envp, ms_envp);
 		//ms_pipeline(cmd, envp);
 		//print_all(cmd);
 		ms_pipeline(cmd, envp);
+		free_command(cmd);
+		//print_all(cmd);
 	}
+	if (cmd)
+		free_command(cmd);
 	printf("quit loop\n");
 	//close_cmds_fd(cmd);
 	free(msg_prompt);

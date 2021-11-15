@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
-    <generated>
-      <config projectName="minishell" targetName="minishell" />
-    </generated>
+    <generated />
   </component>
   <component name="CMakeSettings">
     <configurations>
@@ -14,6 +15,7 @@
     <list default="true" id="df373721-7ffe-4423-b427-5786852dbf98" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
 <<<<<<< HEAD
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/sources.mk" beforeDir="false" afterPath="$PROJECT_DIR$/sources.mk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/exec/prepare_cmds.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/exec/prepare_cmds.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/main.c" afterDir="false" />
@@ -23,11 +25,18 @@
       <change beforePath="$PROJECT_DIR$/sources/utils/utils_2.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/utils/utils_2.c" afterDir="false" />
 =======
       <change beforePath="$PROJECT_DIR$/sources/debug/debug.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/debug/debug.c" afterDir="false" />
+=======
+>>>>>>> 559fe9b772dcbb7875357b3fc51aceea3d3ec59e
       <change beforePath="$PROJECT_DIR$/sources/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_add.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_add.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_grammar.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_grammar.c" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_lexer.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_lexer.c" afterDir="false" />
 >>>>>>> 9dfaec3813701038052340665b46fef35bb5256d
+=======
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_quit.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_quit.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_split_1.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_split_1.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_split_2.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_split_2.c" afterDir="false" />
+>>>>>>> 559fe9b772dcbb7875357b3fc51aceea3d3ec59e
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +46,6 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -60,7 +68,11 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C/C++" />
   </component>
   <component name="RunManager">
+<<<<<<< HEAD
     <configuration name="minishell" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="minishell" TARGET_NAME="minishell" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="minishell" RUN_TARGET_NAME="minishell">
+=======
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+>>>>>>> 559fe9b772dcbb7875357b3fc51aceea3d3ec59e
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -81,7 +93,11 @@
       <updated>1635948196507</updated>
       <workItem from="1635948218497" duration="7915000" />
       <workItem from="1636021385095" duration="22530000" />
+<<<<<<< HEAD
       <workItem from="1636715027592" duration="1000" />
+=======
+      <workItem from="1636738932175" duration="2164000" />
+>>>>>>> 559fe9b772dcbb7875357b3fc51aceea3d3ec59e
     </task>
     <servers />
   </component>
