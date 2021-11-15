@@ -27,16 +27,14 @@ void convert_var(t_command **cmd)
 				str = tmp->arg[i];
 				while (str[j])
 				{
-					printf("\t%c\n", str[j]);
 					if (str[j] == '$')
 					{
-						printf("test\n");
 						k = 0;
 						var = NULL;
-						printf("j = %i\n", j);
-						while (str[j + k] != ' ' || str[j + k])
+						while (str[j + k] != ' ' && str[j + k] != '\0')
+						{
 							k++;
-						printf("k = %i\n", k);
+						}
 						var = ft_substr(str, j, k);
 						if (var)
 						{
