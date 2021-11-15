@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:18:38 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/09 14:42:01 by alangloi         ###   ########.fr       */
+/*   Updated: 2021/11/09 15:58:44 by alangloi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,32 @@ static void	new_command(char **arg, t_command **cmd, int end, int begin)
 	add_command(cur, cmd);
 }
 
+static t_simple_command **init_list(void)
+{
+	t_simple_command **list;
+
+	list = malloc(sizeof(t_simple_command *));
+	if (!list)
+		return (NULL);
+	*list = NULL;
+	return (list);
+}
+
 t_simple_command	**lexer_2(char **arg, int begin, int end)
 {
 	t_simple_command	**list;
 	int					i;
 
 	i = begin;
-	list = malloc(sizeof(t_simple_command *));
-	if (!list)
-		return (NULL);
+	list = NULL;
+	list = init_list();
 	while (i < end)
 	{
 		if (!ft_strcmp(arg[i], "<") || !ft_strcmp(arg[i], ">")
 			|| !ft_strcmp(arg[i], "<<") || !ft_strcmp(arg[i], ">>"))
 		{
-			if (i - begin == 0)
-				i++;
+			//if (i - begin == 0)
+			//	i++;
 			new_simple_command(arg, list, i, begin);
 			begin = i;
 		}
@@ -95,8 +105,9 @@ t_command	**lexer(char **arg, t_command **cmd)
 	{
 		if (!ft_strcmp(arg[i], "|"))
 		{
+			arg[i] = NULL;
 			new_command(arg, cmd, i, begin);
-			begin = i;
+			begin = i + 1;
 		}
 		i++;
 	}

@@ -13,6 +13,7 @@
   <component name="ChangeListManager">
     <list default="true" id="df373721-7ffe-4423-b427-5786852dbf98" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/sources.mk" beforeDir="false" afterPath="$PROJECT_DIR$/sources.mk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/exec/prepare_cmds.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/exec/prepare_cmds.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/main.c" afterDir="false" />
@@ -20,6 +21,13 @@
       <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_split_1.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_split_1.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_split_2.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_split_2.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/utils/utils_2.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/utils/utils_2.c" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/sources/debug/debug.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/debug/debug.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_add.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_add.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_grammar.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_grammar.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_lexer.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_lexer.c" afterDir="false" />
+>>>>>>> 9dfaec3813701038052340665b46fef35bb5256d
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +37,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -54,6 +63,11 @@
     <configuration name="minishell" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="minishell" TARGET_NAME="minishell" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="minishell" RUN_TARGET_NAME="minishell">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
   </component>

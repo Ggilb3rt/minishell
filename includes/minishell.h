@@ -52,6 +52,7 @@ typedef struct s_command
 	int 					fd_in;
 	int 					fd_out;
 	char 					*end;
+	int						can_exec;
 	struct s_command		*next;
 }				t_command;
 

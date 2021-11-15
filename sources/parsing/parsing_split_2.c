@@ -6,7 +6,7 @@
 /*   By: alangloi <alangloi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 16:09:29 by alangloi          #+#    #+#             */
-/*   Updated: 2021/10/20 16:09:32 by alangloi         ###   ########.fr       */
+/*   Updated: 2021/11/09 15:38:23 by alangloi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,8 @@ static void	trig_words(char *str, t_count *cnt)
 
 int	word_count(char *str)
 {
-	t_count	cnt; //*cnt;
+	t_count	cnt;
 
-	//cnt = malloc(sizeof(t_count));
-	//if (!cnt)
-	//	return (0);
 	cnt.open = 0;
 	cnt.i = 0;
 	cnt.words = 0;

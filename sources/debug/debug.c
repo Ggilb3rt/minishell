@@ -12,27 +12,24 @@ int	print_command(t_command *cmd)
 	return (0);
 }
 
-int	print_simple_command(t_simple_command **sc)
+int	print_simple_command(t_simple_command **cur)
 {
-	t_simple_command	*cur;
+	char 				**arr;
 	int					i;
 	int					count;
-	int					arr_size;
 
-	arr_size = 0;
 	count = 0;
-	cur = *sc;
 	printf("COMMAND TABLE :\n");
-	while (cur != NULL)
+	while ((*cur) != NULL)
 	{
 		i = 0;
-		arr_size = array_size(cur->arg) + 1;
-		while (i < arr_size)
+		arr = (*cur)->arg;
+		while (arr[i])
 		{
-			printf("%i %s = %i\n", count, cur->arg[i], cur->token);
+			printf("%i %s = %i\n", count, arr[i], (*cur)->token);
 			i++;
 		}
-		cur = cur->next;
+		(*cur) = (*cur)->next;
 		count++;
 	}
 	return (0);

@@ -16,9 +16,8 @@ static void	redir_great(t_simple_command *cur, t_command *cmd)
 {
 	if (cur->token == GREAT)
 	{
-		printf("yep\n");
-		free(cmd->out_file);
-		cmd->out_file = NULL;
+		//free(cmd->out_file);
+		//cmd->out_file = NULL;
 		if (ft_str_isalnum_under(cur->arg[1]))
 			cmd->out_file = ft_strdup(cur->arg[1]);
 		else
@@ -26,9 +25,8 @@ static void	redir_great(t_simple_command *cur, t_command *cmd)
 	}
 	else if (cur->token == DGREAT)
 	{
-		printf("yep\n");
-		free(cmd->out_file);
-		cmd->out_file = NULL;
+		//free(cmd->out_file);
+		//cmd->out_file = NULL;
 		if (ft_str_isalnum_under(cur->arg[1]))
 			cmd->out_file = ft_strdup(cur->arg[1]);
 		else
@@ -40,8 +38,8 @@ static void	redir_less(t_simple_command *cur, t_command *cmd)
 {
 	if (cur->token == LESS)
 	{
-		free(cmd->in_file);
-		cmd->in_file = NULL;
+		//free(cmd->in_file);
+		//cmd->in_file = NULL;
 		if (ft_str_isalnum_under(cur->arg[1]))
 			cmd->in_file = ft_strdup(cur->arg[1]);
 		else
@@ -49,8 +47,8 @@ static void	redir_less(t_simple_command *cur, t_command *cmd)
 	}
 	else if (cur->token == DLESS)
 	{
-		free(cmd->in_file);
-		cmd->in_file = NULL;
+		//free(cmd->in_file);
+		//cmd->in_file = NULL;
 		if (ft_str_isalnum_under(cur->arg[1]))
 			cmd->end = cur->arg[1];
 		else
@@ -64,7 +62,7 @@ static void	io_redirections(t_command *cmd)
 	t_simple_command	*cur;
 
 	cur = (*cmd->list);
-	while (cur != NULL)
+	while (cur && cur->next != NULL)
 	{
 		if (cur->token == GREAT || cur->token == DGREAT)
 			redir_great(cur, cmd);
@@ -79,7 +77,7 @@ int	parser(t_command **cmd)
 	t_command	*cur;
 
 	cur = *cmd;
-	while (cur != NULL)
+	while (cur && cur->next != NULL)
 	{
 		io_redirections(cur);
 		cur = cur->next;

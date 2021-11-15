@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 17:37:53 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/10/12 18:33:22 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/09 15:32:20 by alangloi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,3 +85,4 @@ char	*init_cmd_path(char *cmd, char *paths)
 	working_cmd = select_wokring_path(splitted_paths, cmd);
 	return (working_cmd);
 }
+

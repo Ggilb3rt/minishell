@@ -6,9 +6,15 @@
 /*   By: alangloi <alangloi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:03:00 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/09 15:05:24 by alangloi         ###   ########.fr       */
+/*   Updated: 2021/11/09 15:28:46 by alangloi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "minishell.h"
+
+//
+// Created by Antoine LANGLOIS on 23/09/2021.
+//
 
 #include "minishell.h"
 
@@ -37,7 +43,6 @@
  */
 
 // priorities pipe (|) then redirect (< > >> <<) then others
-
 
 // void	child_exec(int *fd)
 // {
@@ -119,7 +124,6 @@
 // 	return (0);
 // }
 
-
 void	ms_pipe(int *fd)
 {
 	if (pipe(fd) != 0)
@@ -165,51 +169,78 @@ void	parent_exec(char **list, char **env, int *fd, int fd_out)
 		dup2(fd[1], STDOUT_FILENO);
 	//fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
 	close(fd[1]);
-	execve(list[0], list, env);
+	if (execve(list[0], list, env) == -1)
+	{
+		perror(list[0]);
+		close(fd[0]);
+		close(fd[1]);
+		exit(errno);
+	}
+}
+
+int	multiple_cmds(t_command *cur, char **env, int fd[2])
+{
+	pid_t		pid;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		return (errno);
+	}
+	else if (pid > 0)
+		parent_exec(cur->list[0]->arg, env, fd, cur->fd_out);
+	else
+		child_exec(fd, cur->fd_in);
+	return (0);
+}
+
+void	one_cmd(t_command *cur, char **env)
+{
+	if (cur->fd_out != -1)
+	{
+		dup2(cur->fd_out, STDOUT_FILENO);
+		close(cur->fd_out);
+	}
+	if (cur->fd_in != -1)
+	{
+		dup2(cur->fd_in, STDIN_FILENO);
+		close(cur->fd_in);
+	}
+	if (execve(cur->list[0]->arg[0], cur->list[0]->arg, env) == -1)
+		perror(cur->list[0]->arg[0]);
+	exit(errno);
 }
 
 int	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
 {
-	pid_t		pid;
 	t_command	*cur;
 
 	cur = *cmd;
 	if (!cur)
 		return (-1);
-	pid = 0;
 	while (cur != NULL && cur->list[0]->token != NWLINE)
 	{
-		printf("fd_in %d, fd_out %d, %s\n", cur->fd_in, cur->fd_out, cur->list[0]->arg[0]);
-		if (cur->next != NULL && cur->next->list[0]->token != NWLINE)
-		{
-			pid = fork();
-			if (pid == -1)
+		printf("fd_in %d, fd_out %d, %s : %d\n", cur->fd_in, cur->fd_out, cur->list[0]->arg[0], cur->can_exec);
+		//if (cur->can_exec == 1)
+		//{
+			if (cur->next != NULL && cur->next->list[0]->token != NWLINE)
 			{
-				perror("fork");
-				return (errno);
+				if (multiple_cmds(cur, env, fd) != 0)
+					return (-1);
 			}
-			else if (pid > 0)
-				parent_exec(cur->list[0]->arg, env, fd, cur->fd_out);
 			else
-				child_exec(fd, cur->fd_in);
-		}
-		else
-		{
-			if (cur->fd_out != -1)
-			{
-				dup2(cur->fd_out, STDOUT_FILENO);
-				close(cur->fd_out);
-			}
-			if (cur->fd_in != -1)
-			{
-				dup2(cur->fd_in, STDIN_FILENO);
-				close(cur->fd_in);
-			}
-			execve(cur->list[0]->arg[0], cur->list[0]->arg, env);
-		}
+				one_cmd(cur, env);
+		//}
+		//else
+		// {
+		// 	close(fd[0]);
+		// 	close(fd[1]);
+		// 	printf("error cmd\n");
+		// }
 		cur = cur->next;
 	}
-	return ((int)pid);
+	return (0);
 }
 
 int	ms_pipeline(t_command **cmd, char **env)
@@ -235,7 +266,7 @@ int	ms_pipeline(t_command **cmd, char **env)
 		close(fd[0]);
 		close(fd[1]);
 		waitpid(global_pid, NULL, 0);
-		//	printf("hi end\n");
+	//	printf("hi end\n");
 	}
 	//printf("return exec %d\n", ret_exec);
 	return (ret_exec);
