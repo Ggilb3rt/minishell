@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 14:36:36 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/15 14:53:18 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/16 15:25:15 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ size_t	get_ms_env_len(t_list_envp *ms_env)
 
 	i = 0;
 	tmp = ms_env;
-	while (tmp->next != NULL)
+	while (tmp != NULL)
 	{
 		i++;
 		tmp = tmp->next;
 	}
-	i++;
+	//i++;
 	return (i);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/16 14:25:50 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/16 16:21:02 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,14 @@ int	main(int ac, char **av, char **envp)
 	char		*line;
 	char		*msg_prompt;
 	t_command	**cmd;
-	char		**converted_ms_envp;
 
 	(void)ac;
 	(void)av;
 	line = ft_strdup("");
 	ms_signal();
 	ms_envp = create_msenvp_lst(envp);
+	cmd_env(ms_envp);
+	convert(ms_envp);
 	msg_prompt = ft_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
 	while (1)
 	{
@@ -135,11 +136,11 @@ int	main(int ac, char **av, char **envp)
 		//print_simple_command(cmd);
 		//print_command(cmd);
 		//print_all(cmd);
-		//char	**my_env = convert_envplst_to_tab(ms_envp);
-		//base_pour_exec(cmd, envp, ms_envp);
-		//ms_pipeline(cmd, envp);
-		//print_all(cmd);
-		converted_ms_envp = convert_envplst_to_tab(ms_envp);
+		// char **converted_ms_envp = convert_envplst_to_tab(ms_envp);
+		// for(int p = 0; p < 30; p++)
+		// {
+		// 	printf("out %p, %s\n", converted_ms_envp[p], converted_ms_envp[p]);
+		// }
 		ms_pipeline(cmd, envp);
 		free_command(cmd);
 		//free_tab(converted_ms_envp);

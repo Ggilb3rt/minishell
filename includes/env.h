@@ -15,6 +15,7 @@ typedef struct s_list_envp
 
 // env_exec
 char		**convert_envplst_to_tab(t_list_envp *ms_env);
+char		**convert(t_list_envp *ms_env);
 
 // env_edit
 void		edit_lst_content(t_list_envp *env, int index, char *new_val);
