@@ -35,14 +35,18 @@ static int	init_split(t_split *splt, char *str)
 static void	find_quote(char *str, int i, t_split *splt)
 {
 	if ((str[i] == '\"' || str[i] == '\'') && splt->open == 0
-		&& splt->count < 0)
+		&& splt->count < 0) {
 		open_quote(str, i, splt);
+	}
 	else if (splt->open == 0 && str[i] != ' ' && splt->count < 0)
 		splt->count = i;
 	else if (((str[i] == '\"' && splt->count_d >= 0)
 			|| (str[i] == '\'' && splt->count_s >= 0))
 		&& splt->open)
+	{
+		printf("pouet\n");
 		count_quote(str, i, splt);
+	}
 	else if ((str[i] == ' ' || i == splt->len
 			|| (str[i] == '\"' || str[i] == '\''))
 		&& splt->open == 0 && splt->count >= 0)

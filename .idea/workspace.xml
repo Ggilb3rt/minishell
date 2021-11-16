@@ -13,15 +13,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df373721-7ffe-4423-b427-5786852dbf98" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/includes/builtins.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/builtins.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/env.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/env.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/libft.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/libft.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/parsing.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/parsing.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/env/env_exec.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/env/env_exec.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/env/env_getter.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/env/env_getter.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/env/env_var.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/env/env_var.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_cleanup.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_cleanup.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +75,7 @@
       <workItem from="1635948218497" duration="7915000" />
       <workItem from="1636021385095" duration="22530000" />
       <workItem from="1636738932175" duration="2186000" />
-      <workItem from="1637069587591" duration="12510000" />
+      <workItem from="1637069587591" duration="13161000" />
     </task>
     <servers />
   </component>
