@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/16 18:08:13 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/16 18:49:38 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,9 @@ int	main(int ac, char **av, char **envp)
 		// 	printf("out %p, %s\n", converted_ms_envp[p], converted_ms_envp[p]);
 		// }
 		ms_pipeline(cmd, envp);
+		//! quand la pipeline est trop longue cette boucle redemare
+		//! ca cree une impression que les cmds ne sont pas finis
+		//! ls | grep a | tr a @ | tr e E [enter] puis ls avant de [enter]
 		close_cmds_fd(cmd);
 		free_command(cmd);
 		//free_tab(converted_ms_envp);
