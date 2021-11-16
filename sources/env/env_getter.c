@@ -39,9 +39,9 @@ char	*to_find_sanitize(char *to_find)
 /*
 * Donne le nombre de variable d'environnement dans la liste ms_env
 */
-size_t	get_ms_env_len(t_list_envp *ms_env)
+int	get_ms_env_len(t_list_envp *ms_env)
 {
-	size_t		i;
+	int		i;
 	t_list_envp	*tmp;
 
 	i = 0;
@@ -117,12 +117,14 @@ char	*get_ms_env_val(char *to_find, t_list_envp *ms_env)
 	t_list_envp	*tmp;
 
 	tmp = ms_env;
+	to_find = to_find_sanitize(to_find);
 	i = get_ms_env_index(to_find, tmp);
 	if (i < 0)
 		return (NULL);
 	len_to_find = ft_strlen(to_find);
 	while (i-- > 0)
 		tmp = tmp->next;
+	//printf("GET MS ENV VAL = %s\n", (tmp->content) + len_to_find);
 	return ((tmp->content) + len_to_find);
 }
 

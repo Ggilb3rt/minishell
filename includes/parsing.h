@@ -85,7 +85,7 @@ t_command			**get_command(char **arg, t_command **cmd);
 t_simple_command	**get_simple(char **arg, int begin, int end);
 
 /* parsing cleanup */
-void				cleanup(char **str);
+int					clean_quote(char **str);
 
 /* parsing split 1 */
 char				**split_quote(char *str);

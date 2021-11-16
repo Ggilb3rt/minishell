@@ -20,5 +20,6 @@ size_t		ft_strlcpy(char *dst, const char *srv, size_t dstsize);
 char 		*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char 		*ft_strtrim(const char *s1, const char *set);
 char 		*ft_substr(const char *s, unsigned int start, size_t len);
+char		*ft_strchr(const char *s, int c);
 
 #endif //MINISHELL_LIBFT_H
