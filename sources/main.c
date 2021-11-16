@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elmer <elmer@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/11 19:12:58 by elmer            ###   ########.fr       */
+/*   Updated: 2021/11/16 14:25:50 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int	main(int ac, char **av, char **envp)
 	char		*line;
 	char		*msg_prompt;
 	t_command	**cmd;
+	char		**converted_ms_envp;
 
 	(void)ac;
 	(void)av;
@@ -138,8 +139,10 @@ int	main(int ac, char **av, char **envp)
 		//base_pour_exec(cmd, envp, ms_envp);
 		//ms_pipeline(cmd, envp);
 		//print_all(cmd);
+		converted_ms_envp = convert_envplst_to_tab(ms_envp);
 		ms_pipeline(cmd, envp);
 		free_command(cmd);
+		//free_tab(converted_ms_envp);
 		//print_all(cmd);
 	}
 	if (cmd)
