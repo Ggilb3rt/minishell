@@ -14,11 +14,6 @@
   <component name="ChangeListManager">
     <list default="true" id="df373721-7ffe-4423-b427-5786852dbf98" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_grammar.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_grammar.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_quit.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_quit.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_split_1.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_split_1.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/parsing/parsing_split_2.c" beforeDir="false" afterPath="$PROJECT_DIR$/sources/parsing/parsing_split_2.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,9 +45,9 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C/C++" />
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
     <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
@@ -71,7 +66,8 @@
       <updated>1635948196507</updated>
       <workItem from="1635948218497" duration="7915000" />
       <workItem from="1636021385095" duration="22530000" />
-      <workItem from="1636738932175" duration="2164000" />
+      <workItem from="1636738932175" duration="2186000" />
+      <workItem from="1637069587591" duration="5000" />
     </task>
     <servers />
   </component>
