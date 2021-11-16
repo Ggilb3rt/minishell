@@ -32,4 +32,7 @@ void		print_envp(t_list_envp *head);
 t_list_envp	*new_char_list(char *str);
 t_list_envp	*create_msenvp_lst(char **envp);
 
+//env var
+void		convert_var(t_command **command);
+
 #endif

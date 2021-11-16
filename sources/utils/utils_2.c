@@ -26,8 +26,44 @@ void	free_tab(char **arr)
 	free(arr);
 	arr = NULL;
 }
+/*
+void free_command(t_command **cmd)
+{
+	while ((*cmd)->next)
+	{
+		free(*cmd);
+		*cmd = NULL;
+		(*cmd) = (*cmd)->next;
+	}
+	free(cmd);
+	cmd = NULL;
+}
 
-static void 	free_simple_command(t_simple_command **list)
+void free_simple(t_simple_command **list)
+{
+	while ((*list)->next)
+	{
+		free(*list);
+		*list = NULL;
+		(*list) = (*list)->next;
+	}
+	free(list);
+	list = NULL;
+}
+
+void	free_command(t_command *cmd)
+{
+	while (cmd->list != NULL)
+	{
+		free_simple_command(cmd->list);
+		free(cmd->list);
+		cmd->list = NULL;
+		cmd->list = cmd->list->next;
+	}
+}
+*/
+
+void 	free_simple_command(t_simple_command **list)
 {
 	int 				i;
 	int 				size;

@@ -96,7 +96,7 @@ char				*split_words(char *str, int strt, int fnsh);
 
 /* parsing split 3 */
 void				open_quote(char *str, int i, t_split *splt);
-char				*split_words(char *str, int strt, int fnsh);
+char				*split_words(char *str, int begin, int end);
 void 				count_quote(char *str, int i, t_split *splt);
 void 				count_spaces(char *str, int i, t_split *splt);
 

@@ -11,3 +11,48 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void print_error(char *str, int fd)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		write(fd, &str[i], 1);
+	}
+	write(fd, "\n", 1);
+}
+
+
+
+void free_split(t_split *splt)
+{
+	int i;
+
+	i = 0;
+	while (splt->new[i])
+	{
+		free(splt->new[i]);
+		splt->new[i] = NULL;
+		i++;
+	}
+	free(splt);
+	splt = NULL;
+}
+
+void free_word(char *str)
+{
+	free(str);
+	str = NULL;
+}
+
+/*
+void free_count(t_count *cnt)
+{
+	int i;
+
+	i = 0;
+	while (cnt)
+}
+*/

@@ -6,11 +6,11 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 14:36:36 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/02 16:41:44 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/15 14:53:18 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "minishell.h"
 
 /*
 ! To avoid errors maybe to add function to check if "to_find"
@@ -36,6 +36,9 @@ char	*to_find_sanitize(char *to_find)
 		return (ft_strjoin(to_find, "="));
 }
 
+/*
+* Donne le nombre de variable d'environnement dans la liste ms_env
+*/
 size_t	get_ms_env_len(t_list_envp *ms_env)
 {
 	size_t		i;
@@ -52,6 +55,9 @@ size_t	get_ms_env_len(t_list_envp *ms_env)
 	return (i);
 }
 
+/*
+* Donne la position d'une variable to_find dans la liste ms_env
+*/
 int	get_ms_env_index(char *to_find, t_list_envp *ms_env)
 {
 	int			index;
@@ -78,6 +84,32 @@ int	get_ms_env_index(char *to_find, t_list_envp *ms_env)
 	return (index);
 }
 
+/*
+* Positionne un pointeur sur l'element en position index dans la list ms_env
+*/
+t_list_envp	*ms_lst_point(int index, t_list_envp *ms_env)
+{
+	t_list_envp	*tmp;
+
+	tmp = ms_env;
+	if (index < 0)
+		return (NULL);
+	while (index-- > 0)
+		tmp = tmp->next;
+	return (tmp);
+}
+
+/*
+* Positionne un pointeur au début de la valeur contenu dans to_find
+*
+* ex :
+*	PWD=/Users/rogerrabbit/doc
+		^
+		|
+  char *ptr = get_ms_env_val("PWD", ms_env);
+
+* pas de free() necessaire.
+*/
 char	*get_ms_env_val(char *to_find, t_list_envp *ms_env)
 {
 	int			i;
@@ -92,18 +124,6 @@ char	*get_ms_env_val(char *to_find, t_list_envp *ms_env)
 	while (i-- > 0)
 		tmp = tmp->next;
 	return ((tmp->content) + len_to_find);
-}
-
-t_list_envp	*ms_lst_point(int index, t_list_envp *ms_env)
-{
-	t_list_envp	*tmp;
-
-	tmp = ms_env;
-	if (index < 0)
-		return (NULL);
-	while (index-- > 0)
-		tmp = tmp->next;
-	return (tmp);
 }
 
 /*
