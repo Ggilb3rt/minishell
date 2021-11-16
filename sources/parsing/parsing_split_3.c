@@ -31,7 +31,7 @@ void	open_quote(char *str, int i, t_split *splt)
 	}
 }
 
-char	*split_words(char *str, int begin, int end)
+char	*split_words(char *str, int begin, int end, int nospace)
 {
 	char	*word;
 	int		i;
@@ -46,7 +46,10 @@ char	*split_words(char *str, int begin, int end)
 		i++;
 		begin++;
 	}
-	word[i] = '\0';
+	if (!nospace)
+		word[i] = '\0';
+	else
+		word[i] = '\2';
 	return (word);
 }
 
@@ -54,12 +57,12 @@ void	count_quote(char *str, int i, t_split *splt)
 {
 	if (splt->count_s > 0)
 	{
-		splt->new[splt->j] = split_words(str, splt->count_s, i + 1);
+		splt->new[splt->j] = split_words(str, splt->count_s, i + 1, 0);
 		splt->count_s = -1;
 	}
 	else if (splt->count_d > 0)
 	{
-		splt->new[splt->j] = split_words(str, splt->count_d, i + 1);
+		splt->new[splt->j] = split_words(str, splt->count_d, i + 1, 0);
 		splt->count_d = -1;
 	}
 	splt->j++;
@@ -68,10 +71,20 @@ void	count_quote(char *str, int i, t_split *splt)
 
 void	count_spaces(char *str, int i, t_split *splt)
 {
-	splt->new[splt->j] = split_words(str, splt->count, i);
+	int nospace;
+
+	nospace = 0;
+	if ((str[i] == '\"' || str[i] == '\'') && (str[i - 1] != ' '))
+		nospace = 1;
+	//printf("pipi [%c %c %c]\n", str[i - 1], str[i], str[i + 1]);
+	splt->new[splt->j] = split_words(str, splt->count, i, nospace);
+	//printf("\t\t%s\n", splt->new[splt->j]);
 	splt->count = -1;
 	splt->j++;
 	if ((str[i] == '\"' || str[i] == '\'') && splt->open == 0
 		&& splt->count < 0)
+	{
+		//printf("prout [%c %c %c]\n", str[i - 1], str[i], str[i + 1]);
 		open_quote(str, i, splt);
+	}
 }

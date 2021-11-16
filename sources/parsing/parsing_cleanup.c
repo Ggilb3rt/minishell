@@ -12,18 +12,16 @@
 
 #include "minishell.h"
 
-int clean_simple(char **str)
+static void clean_simple(char **str)
 {
 	int i;
 	int j;
-	int s;
 	char *new;
 
 	i = 1;
-	s = 0;
 	new = malloc(sizeof(char) * (ft_strlen(*str) - 1));
 	if (!new)
-		return (2);
+		return ;
 	j = 0;
 	while ((*str)[i] != '\'')
 	{
@@ -32,24 +30,20 @@ int clean_simple(char **str)
 		j++;
 	}
 	new[j] = '\0';
-	s = 2;
 	free(*str);
 	(*str) = new;
-	return (s);
 }
 
-int clean_double(char **str)
+static void clean_double(char **str)
 {
 	int i;
 	int j;
-	int d;
 	char *new;
 
 	i = 1;
-	d = 0;
 	new = malloc(sizeof(char) * (ft_strlen(*str) - 1));
 	if (!new)
-		return (2);
+		return ;
 	j = 0;
 	while ((*str)[i] != '\"')
 	{
@@ -58,20 +52,82 @@ int clean_double(char **str)
 		j++;
 	}
 	new[j] = '\0';
-	d = 1;
 	free(*str);
 	(*str) = new;
-	return (d);
 }
 
 int clean_quote(char **str)
 {
-	int ret;
-
-	ret = 0;
 	if ((*str[0]) == '\"')
-		ret = clean_double(str);
+	{
+		clean_double(str);
+		return (1);
+	}
 	if ((*str[0]) == '\'')
-		ret = clean_simple(str);
-	return (ret);
+	{
+		clean_simple(str);
+		return (2);
+	}
+	return (0);
+}
+
+void join_quotes(char **str)
+{
+	int i;
+	int j;
+	int k;
+	char *tmp;
+	int join;
+
+	j = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (join)
+		{
+			k = 0;
+			while (str[i + k])
+			{
+				if (str[i + k])
+				{
+					free(str[i + k]);
+					str[i + k] = NULL;
+				}
+				if (str[i + k + 1])
+				{
+					str[i + k] = ft_strdup(str[i + k + 1]);
+					free(str[i + k + 1]);
+					str[i + k + 1] = NULL;
+					k++;
+				}
+				else
+				{
+					printf("str = %s\n", str[i + k + 1]);
+					//free(str[i + k + 1]);
+					break;
+				}
+			}
+			//i++;
+		}
+		join = 0;
+		j = 0;
+		if (str[i])
+		{
+			while (str[i][j])
+			{
+				if (str[i][j + 1] == '\2')
+				{
+					//printf("\tstr[%i][%i + 1] = %c\n", i, j, str[i][j + 1]);
+					tmp = ft_strdup(str[i]);
+					free(str[i]);
+					str[i] = ft_strjoin(tmp, str[i + 1]);
+					free(tmp);
+					join = 1;
+				}
+				j++;
+			}
+			printf("JOIN QUOTE %i = %s\n", i, str[i]);
+			i++;
+		}
+	}
 }

@@ -86,17 +86,17 @@ t_simple_command	**get_simple(char **arg, int begin, int end);
 
 /* parsing cleanup */
 int					clean_quote(char **str);
+void				join_quotes(char **str);
 
 /* parsing split 1 */
 char				**split_quote(char *str);
 
 /* parsing split 2 */
 int					word_count(char *str);
-char				*split_words(char *str, int strt, int fnsh);
 
 /* parsing split 3 */
 void				open_quote(char *str, int i, t_split *splt);
-char				*split_words(char *str, int begin, int end);
+char				*split_words(char *str, int begin, int end, int nospace);
 void 				count_quote(char *str, int i, t_split *splt);
 void 				count_spaces(char *str, int i, t_split *splt);
 
