@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/16 16:21:02 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/16 17:55:07 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	close_cmds_fd(t_command **cmds)
 			ret_in = close(cmd->fd_in);
 		if (cmd->fd_out != -1)
 			ret_out = close(cmd->fd_out);
-		printf("fds_close %d, %d", ret_in, ret_out);
+		printf("fds_close %d, %d\n", ret_in, ret_out);
 		cmd = cmd->next;
 	}
 }
@@ -142,6 +142,7 @@ int	main(int ac, char **av, char **envp)
 		// 	printf("out %p, %s\n", converted_ms_envp[p], converted_ms_envp[p]);
 		// }
 		ms_pipeline(cmd, envp);
+		close_cmds_fd(cmd);
 		free_command(cmd);
 		//free_tab(converted_ms_envp);
 		//print_all(cmd);

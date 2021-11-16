@@ -26,4 +26,8 @@ int main(void)
 	a = open("./out", O_CREAT | O_WRONLY | O_APPEND, 0666);
 	b = open("./out", O_CREAT | O_WRONLY | O_APPEND, 0666);
 	printf("%d %d\n", a, b);
+	close(a);
+
+	while (1)
+		;
 }
