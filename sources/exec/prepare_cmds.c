@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/16 17:21:21 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/16 18:27:39 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	associate_file_to_cmd_b(t_simple_command **list)
 					return (-1);
 			}
 			else if (current_token == GREAT)
-				tmp_fd = open(cur->arg[0], O_CREAT | O_WRONLY, 0666);
+				tmp_fd = open(cur->arg[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
 			else if (current_token == DGREAT)
 				tmp_fd = open(cur->arg[0], O_CREAT | O_WRONLY | O_APPEND, 0666);
 			else if (current_token == DLESS)
@@ -101,7 +101,7 @@ int	init_files_fds(int cur_token, char *path, int *fd_in, int *fd_out)
 	//else if (cur_token == DLESS)
 	//	*fd_in = 1;
 	else if (cur_token == GREAT)
-		*fd_out = open(path, O_CREAT | O_WRONLY, 0666);
+		*fd_out = open(path, O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	else if (cur_token == DGREAT)
 		*fd_out = open(path, O_CREAT | O_WRONLY | O_APPEND, 0666);
 	if (*fd_out == -1 && (cur_token == GREAT || cur_token == DGREAT))
