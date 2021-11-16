@@ -39,7 +39,7 @@ void 	heredoc_func(char *arg, t_command **cmd)
 		}
 		else if (line && ft_strlen(line) != ft_strlen((*cmd)->end))
 		{
-			if ((*cmd)->fd_out == -1)
+			if ((*cmd))//->fd_out == -1)
 				perror("error");
 			write((*cmd)->fd_out, line, ft_strlen(line));
 			write((*cmd)->fd_out, "\n", 1);

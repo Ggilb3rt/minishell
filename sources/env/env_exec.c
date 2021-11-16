@@ -19,7 +19,7 @@ char	**convert_envplst_to_tab(t_list_envp *ms_env)
 	size_t	i;
 
 	len_ms_env = get_ms_env_len(ms_env);
-	tmp_env = malloc(sizeof(char *) + (len_ms_env + 1));
+	tmp_env = malloc(sizeof(char *) + (len_ms_env));
 	if (!tmp_env)
 		return (NULL);
 	i = 0;
@@ -30,12 +30,12 @@ char	**convert_envplst_to_tab(t_list_envp *ms_env)
 		i++;
 	}
 	tmp_env[i] = NULL;
-	// int j = 0;
-	// while(tmp_env[j] != NULL)
-	// {
-	// 	printf("convertion envp %d %s\n", j, tmp_env[j]);
-	// 	j++;
-	// }
-	// printf("len %ld, i %ld\n", len_ms_env, i);
+	int j = 0;
+	while(tmp_env[j] != NULL)
+	{
+	 	printf("convertion envp %d %s\n", j, tmp_env[j]);
+	 	j++;
+	}
+	//printf("len %ld, i %ld\n", len_ms_env, i);
 	return (tmp_env);
 }

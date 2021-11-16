@@ -16,21 +16,21 @@ static void	redir_great(t_simple_command *cur, t_command *cmd)
 {
 	if (cur->token == GREAT)
 	{
-		//free(cmd->out_file);
-		//cmd->out_file = NULL;
+		free(cmd->out_file);
+		cmd->out_file = NULL;
 		if (ft_str_isalnum_under(cur->arg[1]))
 			cmd->out_file = ft_strdup(cur->arg[1]);
 		else
-			printf("unexpected syntax\n");
+			perror("unexpected syntax\n");
 	}
 	else if (cur->token == DGREAT)
 	{
-		//free(cmd->out_file);
-		//cmd->out_file = NULL;
+		free(cmd->out_file);
+		cmd->out_file = NULL;
 		if (ft_str_isalnum_under(cur->arg[1]))
 			cmd->out_file = ft_strdup(cur->arg[1]);
 		else
-			printf("unexpected syntax\n");
+			perror("unexpected syntax\n");
 	}
 }
 
@@ -38,21 +38,21 @@ static void	redir_less(t_simple_command *cur, t_command *cmd)
 {
 	if (cur->token == LESS)
 	{
-		//free(cmd->in_file);
-		//cmd->in_file = NULL;
+		free(cmd->in_file);
+		cmd->in_file = NULL;
 		if (ft_str_isalnum_under(cur->arg[1]))
 			cmd->in_file = ft_strdup(cur->arg[1]);
 		else
-			printf("unexpected syntax\n");
+			perror("unexpected syntax\n");
 	}
 	else if (cur->token == DLESS)
 	{
-		//free(cmd->in_file);
-		//cmd->in_file = NULL;
+		free(cmd->in_file);
+		cmd->in_file = NULL;
 		if (ft_str_isalnum_under(cur->arg[1]))
 			cmd->end = cur->arg[1];
 		else
-			printf("unexpected syntax\n");
+			perror("unexpected syntax\n");
 		g_ret = EHERE;
 	}
 }
@@ -62,7 +62,7 @@ static void	io_redirections(t_command *cmd)
 	t_simple_command	*cur;
 
 	cur = (*cmd->list);
-	while (cur && cur->next != NULL)
+	while (cur)
 	{
 		if (cur->token == GREAT || cur->token == DGREAT)
 			redir_great(cur, cmd);
@@ -77,7 +77,7 @@ int	parser(t_command **cmd)
 	t_command	*cur;
 
 	cur = *cmd;
-	while (cur && cur->next != NULL)
+	while (cur)
 	{
 		io_redirections(cur);
 		cur = cur->next;

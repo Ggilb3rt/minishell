@@ -16,6 +16,7 @@ SOURCES = \
 		env/env_free.c \
 		env/env_getter.c \
 		env/env_exec.c \
+		env/env_var.c \
 		exec/exec.c \
 		exec/prepare_cmds.c \
 		exec/exec_cmd_path.c \
@@ -41,4 +42,5 @@ SOURCES = \
 		libft/ft_strlen.c \
 		libft/ft_strnstr.c \
 		libft/ft_strtrim.c \
+		libft/ft_substr.c \
 		debug/debug.c

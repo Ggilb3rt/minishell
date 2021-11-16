@@ -26,8 +26,31 @@ void	free_tab(char **arr)
 	free(arr);
 	arr = NULL;
 }
-
 /*
+void free_command(t_command **cmd)
+{
+	while ((*cmd)->next)
+	{
+		free(*cmd);
+		*cmd = NULL;
+		(*cmd) = (*cmd)->next;
+	}
+	free(cmd);
+	cmd = NULL;
+}
+
+void free_simple(t_simple_command **list)
+{
+	while ((*list)->next)
+	{
+		free(*list);
+		*list = NULL;
+		(*list) = (*list)->next;
+	}
+	free(list);
+	list = NULL;
+}
+
 void	free_command(t_command *cmd)
 {
 	while (cmd->list != NULL)
@@ -38,25 +61,39 @@ void	free_command(t_command *cmd)
 		cmd->list = cmd->list->next;
 	}
 }
+*/
 
 void 	free_simple_command(t_simple_command **list)
 {
 	int 				i;
 	int 				size;
 
-	while (list != NULL)
+	while ((*list) && (*list)->next)
 	{
-		size = array_size(list->arg);
+		size = array_size((*list)->arg);
 		i = 0;
 		while (i < size)
 		{
-			free(cur->arg[i]);
-			cur->arg[i] = NULL;
+			free((*list)->arg[i]);
+			(*list)->arg[i] = NULL;
 			i++;
 		}
-		free(cur->arg);
-		cur->arg = NULL;
-		list = list->next;
+		free((*list)->arg);
+		(*list)->arg = NULL;
+		*list = (*list)->next;
 	}
+	free(list);
+	list = NULL;
 }
- */
+
+void	free_command(t_command **cmd)
+{
+	while (*cmd && (*cmd)->next)
+	{
+		free_simple_command((*cmd)->list);
+		free(*cmd);
+		(*cmd) = (*cmd)->next;
+	}
+	free(cmd);
+	cmd = NULL;
+}

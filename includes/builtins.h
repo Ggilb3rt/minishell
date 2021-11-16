@@ -35,14 +35,6 @@ int	cmd_export(t_list_envp *env, char **args);
 int	cmd_unset(t_list_envp **env, char **to_find);
 int	cmd_exit(char *line);
 
-/* ENV */
-char		*get_env_val(char *to_find, char **env);
 
-//char		*get_env_val(char *to_find, char **env);
-//int		get_env_index(char *to_find, char **env);
-size_t		get_ms_env_len(t_list_envp *ms_env);
-char		*get_ms_env_val(char *to_find, t_list_envp *ms_env);
-int			get_ms_env_index(char *to_find, t_list_envp *ms_env);
-t_list_envp	*ms_lst_point(int index, t_list_envp *ms_env);
 
 #endif

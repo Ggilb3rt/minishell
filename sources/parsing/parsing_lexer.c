@@ -12,32 +12,12 @@
 
 #include "minishell.h"
 
-char	**get_arg(char **str, int begin, int end)
-{
-	char	**new;
-	int		diff;
-	int		j;
-
-	j = 0;
-	diff = end - begin;
-	new = malloc(sizeof(char *) * (diff + 1));
-	if (!new)
-		return (NULL);
-	while (j < diff)
-	{
-		new[j] = ft_strdup(str[begin + j]);
-		j++;
-	}
-	new[j] = NULL;
-	return (new);
-}
-
 static void	new_simple_command(char **arg, t_simple_command **list,
-								  int end, int begin)
+								  int begin, int end)
 {
 	t_simple_command	*cur;
 
-	cur = alloc_simple(arg, begin, end);
+	cur = alloc_simple(arg, end, begin);
 	if (!cur)
 		return ;
 	add_simple(cur, list);
@@ -53,9 +33,9 @@ static void	new_command(char **arg, t_command **cmd, int end, int begin)
 	add_command(cur, cmd);
 }
 
-static t_simple_command **init_list(void)
+static t_simple_command	**init_list(void)
 {
-	t_simple_command **list;
+	t_simple_command	**list;
 
 	list = malloc(sizeof(t_simple_command *));
 	if (!list)
@@ -64,7 +44,7 @@ static t_simple_command **init_list(void)
 	return (list);
 }
 
-t_simple_command	**lexer_2(char **arg, int begin, int end)
+t_simple_command	**get_simple(char **arg, int begin, int end)
 {
 	t_simple_command	**list;
 	int					i;
@@ -77,8 +57,6 @@ t_simple_command	**lexer_2(char **arg, int begin, int end)
 		if (!ft_strcmp(arg[i], "<") || !ft_strcmp(arg[i], ">")
 			|| !ft_strcmp(arg[i], "<<") || !ft_strcmp(arg[i], ">>"))
 		{
-			//if (i - begin == 0)
-			//	i++;
 			new_simple_command(arg, list, i, begin);
 			begin = i;
 		}
@@ -94,7 +72,7 @@ t_simple_command	**lexer_2(char **arg, int begin, int end)
  * - Second step, we are handling the chevrons.
  */
 
-t_command	**lexer(char **arg, t_command **cmd)
+t_command	**get_command(char **arg, t_command **cmd)
 {
 	int			begin;
 	int			i;
