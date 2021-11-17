@@ -38,6 +38,7 @@ typedef struct s_simple_command
 	int						numb;
 	char					**arg;
 	int						token;
+	int						build;
 	struct s_simple_command	*next;
 }				t_simple_command;
 

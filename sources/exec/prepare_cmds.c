@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/17 15:29:30 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/17 17:24:36 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,11 @@ int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 		ret_file = associate_file_to_cmd(cur);
 		if (ret_file < 0)
 			return (ret_file);
-		if (cur->list[0]->token != NWLINE)
+		if (!strcmp(cur->list[0]->arg[0], "cd"))
+		//	printf("sega ! %s\n\n", cur->list[0]->arg[0]);
+		//	cmd_cd(cur->list[0]->arg[1], env);
+			cur->list[0]->build = 1;
+		else if (cur->list[0]->token != NWLINE)
 		{
 			env_path = get_ms_env_val(PATH, env);
 			cur->list[0]->arg[0] = init_cmd_path(cur->list[0]->arg[0],

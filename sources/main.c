@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/17 15:49:35 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/17 17:28:40 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int	main(int ac, char **av, char **envp)
 	line = ft_strdup("");
 	ms_signal();
 	ms_envp = create_msenvp_lst(envp);
+	//cmd_cd("../../", ms_envp);
 	msg_prompt = ft_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
 	while (1)
 	{
@@ -134,7 +135,7 @@ int	main(int ac, char **av, char **envp)
 		set_cmd_ready_to_exec(cmd, ms_envp);
 		//print_all(cmd);
 		pipeline_env = convert_envplst_to_tab(ms_envp);
-		ms_pipeline(cmd, pipeline_env);
+		ms_pipeline(cmd, pipeline_env, ms_envp);
 		close_cmds_fd(cmd);
 		free_command(cmd);
 		free_tab(pipeline_env);

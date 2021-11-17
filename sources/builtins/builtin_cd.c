@@ -28,8 +28,6 @@ need to interpret ~ and -
 - print pwd
 */
 
-
-
 char	*select_path_dash_op(char *path, t_list_envp *ms_env)
 {
 	if (!path)
@@ -52,7 +50,6 @@ char	*select_path_dash_op(char *path, t_list_envp *ms_env)
 	return (path);
 }
 
-
 void	update_old_pwd(t_list_envp *env)
 {
 	char		*current_pwd;
@@ -73,7 +70,6 @@ void	update_old_pwd(t_list_envp *env)
 
 /*
 dont use path because must free (with path maybe need free)
-
 */
 
 int	cmd_cd(char *path, t_list_envp *ms_env)

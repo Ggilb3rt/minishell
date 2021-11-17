@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:03:00 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/17 15:27:11 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/17 17:32:57 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	multiple_cmds(t_command *cur, char **env, int fd[2])
 	return (0);
 }
 
-void	one_cmd(t_command *cur, char **env)
+void	one_cmd(t_command *cur, char **env, t_list_envp *env_lst)
 {
 	if (cur->fd_out != -1)
 	{
@@ -123,12 +123,17 @@ void	one_cmd(t_command *cur, char **env)
 		dup2(cur->fd_in, STDIN_FILENO);
 		close(cur->fd_in);
 	}
-	if (execve(cur->list[0]->arg[0], cur->list[0]->arg, env) == -1)
+	if (cur->list[0]->build == 1)
+	{
+		printf("pointeur sur %p fork\n", env_lst);
+		cmd_cd(cur->list[0]->arg[1], env_lst);
+	}
+	else if (execve(cur->list[0]->arg[0], cur->list[0]->arg, env) == -1)
 		perror(cur->list[0]->arg[0]);
 	exit(errno);
 }
 
-int	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
+int	execute_pipeline_cmds(t_command **cmd, char **env, int fd[2], t_list_envp *lst)
 {
 	t_command	*cur;
 
@@ -146,7 +151,7 @@ int	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
 					return (-1);
 			}
 			else
-				one_cmd(cur, env);
+				one_cmd(cur, env, lst);
 		//}
 		//else
 		// {
@@ -159,7 +164,7 @@ int	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
 	return (0);
 }
 
-int	ms_pipeline(t_command **cmd, char **env)
+int	ms_pipeline(t_command **cmd, char **env, t_list_envp *lst)
 {
 	int		fd[2];
 	pid_t	global_pid;
@@ -169,6 +174,7 @@ int	ms_pipeline(t_command **cmd, char **env)
 
 	ret_exec = -1;
 	ms_pipe(fd);
+	printf("pointeur sur %p pipeline\n", lst);
 	global_pid = fork();
 	if (global_pid == -1)
 	{
@@ -176,7 +182,7 @@ int	ms_pipeline(t_command **cmd, char **env)
 		return (errno);
 	}
 	else if (global_pid == 0)
-		ret_exec = execute_pipeline_cmds2(cmd, env, fd);
+		ret_exec = execute_pipeline_cmds(cmd, env, fd, lst);
 	else if (global_pid > 0)
 	{
 		close(fd[0]);
