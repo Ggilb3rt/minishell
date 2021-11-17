@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/16 18:49:38 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/17 15:49:35 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,14 +100,13 @@ int	main(int ac, char **av, char **envp)
 	char		*line;
 	char		*msg_prompt;
 	t_command	**cmd;
+	char		**pipeline_env;
 
 	(void)ac;
 	(void)av;
 	line = ft_strdup("");
 	ms_signal();
 	ms_envp = create_msenvp_lst(envp);
-	cmd_env(ms_envp);
-	convert(ms_envp);
 	msg_prompt = ft_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
 	while (1)
 	{
@@ -133,27 +132,18 @@ int	main(int ac, char **av, char **envp)
 		if ((g_ret = cmd_exit(line)) == 1)
 			exit(0);
 		set_cmd_ready_to_exec(cmd, ms_envp);
-		//print_simple_command(cmd);
-		//print_command(cmd);
 		//print_all(cmd);
-		// char **converted_ms_envp = convert_envplst_to_tab(ms_envp);
-		// for(int p = 0; p < 30; p++)
-		// {
-		// 	printf("out %p, %s\n", converted_ms_envp[p], converted_ms_envp[p]);
-		// }
-		ms_pipeline(cmd, envp);
-		//! quand la pipeline est trop longue cette boucle redemare
-		//! ca cree une impression que les cmds ne sont pas finis
-		//! ls | grep a | tr a @ | tr e E [enter] puis ls avant de [enter]
+		pipeline_env = convert_envplst_to_tab(ms_envp);
+		ms_pipeline(cmd, pipeline_env);
 		close_cmds_fd(cmd);
 		free_command(cmd);
-		//free_tab(converted_ms_envp);
+		free_tab(pipeline_env);
 		//print_all(cmd);
 	}
+	//close_cmds_fd(cmd);
 	if (cmd)
 		free_command(cmd);
 	printf("quit loop\n");
-	//close_cmds_fd(cmd);
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
 	return (g_ret);

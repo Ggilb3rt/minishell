@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alangloi <alangloi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:03:00 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/09 15:28:46 by alangloi         ###   ########.fr       */
+/*   Updated: 2021/11/17 15:27:11 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,86 +44,6 @@
 
 // priorities pipe (|) then redirect (< > >> <<) then others
 
-// void	child_exec(int *fd)
-// {
-// 	//static int i = 0;
-
-// 	//fprintf(stderr, "execute child %d | %d %d\n", i++, *fd, *(fd + 1));
-// 	close(fd[1]);
-// 	dup2(fd[0], 0);
-// 	//fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
-// 	close(fd[0]);
-// 	ms_pipe(fd);
-// }
-
-// void	parent_exec2(char ***cmd, char **env, int *fd)
-// {
-// 	// Parent execute cmd and send output to child
-// 	//static int i = 0;
-
-// 	//fprintf(stderr, "execute parent %d | %d %d\n", i++, *fd, *(fd + 1));
-// 	close(fd[0]);
-// 	dup2(fd[1], 1);
-// 	//fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
-// 	close(fd[1]);
-// 	execve((*cmd)[0], *cmd, env);
-// }
-
-// pid_t	execute_pipeline_cmds(char ***cmd, char **env, int fd[2])
-// {
-// 	pid_t	pid;
-
-// 	while (*cmd != NULL)
-// 	{
-// 		if (*(cmd + 1) != NULL)
-// 		{
-// 			pid = fork();
-// 			if (pid == -1)
-// 			{
-// 				perror("fork");
-// 				return (errno);
-// 			}
-// 			else if (pid > 0)
-// 				parent_exec2(cmd, env, fd);
-// 			else
-// 				child_exec(fd);
-// 		}
-// 		else
-// 			execve((*cmd)[0], *cmd, env);
-// 		cmd++;
-// 	}
-// 	return (pid);
-// }
-
-// int	ms_pipeline2(char ***cmd, char **env)
-// {
-// 	int		fd[2];
-// 	pid_t	global_pid;
-// 	pid_t	ret_exec;
-
-// 	ret_exec = -1;
-// 	ms_pipe(fd);
-// 	printf("hi from pipeline\n");
-// 	global_pid = fork();
-// 	if (global_pid == -1)
-// 	{
-// 		perror("global fork");
-// 		return (errno);
-// 	}
-// 	else if (global_pid == 0)
-// 		ret_exec = execute_pipeline_cmds(cmd, env, fd);
-// 	else if (global_pid > 0)
-// 	{
-// 		printf("hi parent\n");
-// 		close(fd[0]);
-// 		close(fd[1]);
-// 		waitpid(global_pid, NULL, 0);
-// 	}
-// 	printf("return exec %d\n", ret_exec);
-// 	printf("hi end\n");
-// 	return (0);
-// }
-
 void	ms_pipe(int *fd)
 {
 	if (pipe(fd) != 0)
@@ -133,11 +53,8 @@ void	ms_pipe(int *fd)
 	}
 }
 
-void	child_exec(int *fd, int fd_in)
+void	process_pipe(int *fd, int fd_in)
 {
-	//static int i = 0;
-
-	//fprintf(stderr, "execute child %d | %d %d\n", i++, *fd, *(fd + 1));
 	close(fd[1]);
 	if (fd_in != -1)
 	{
@@ -147,7 +64,6 @@ void	child_exec(int *fd, int fd_in)
 	else
 	{
 		dup2(fd[0], STDIN_FILENO);
-		//fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
 		close(fd[0]);
 	}
 	ms_pipe(fd);
@@ -189,9 +105,9 @@ int	multiple_cmds(t_command *cur, char **env, int fd[2])
 		return (errno);
 	}
 	else if (pid > 0)
-		parent_exec(cur->list[0]->arg, env, fd, cur->fd_out);
+		process_pipe(fd, cur->fd_in);
 	else
-		child_exec(fd, cur->fd_in);
+		parent_exec(cur->list[0]->arg, env, fd, cur->fd_out);
 	return (0);
 }
 
@@ -221,7 +137,7 @@ int	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
 		return (-1);
 	while (cur != NULL && cur->list[0]->token != NWLINE)
 	{
-		printf("fd_in %d, fd_out %d, %s : %d\n", cur->fd_in, cur->fd_out, cur->list[0]->arg[0], cur->can_exec);
+		//printf("fd_in %d, fd_out %d, %s : %d\n", cur->fd_in, cur->fd_out, cur->list[0]->arg[0], cur->can_exec);
 		//if (cur->can_exec == 1)
 		//{
 			if (cur->next != NULL && cur->next->list[0]->token != NWLINE)
@@ -248,10 +164,11 @@ int	ms_pipeline(t_command **cmd, char **env)
 	int		fd[2];
 	pid_t	global_pid;
 	pid_t	ret_exec;
+	pid_t	parent_ret;
+	int		exit_code;
 
 	ret_exec = -1;
 	ms_pipe(fd);
-	//printf("hi from pipeline\n");
 	global_pid = fork();
 	if (global_pid == -1)
 	{
@@ -262,11 +179,10 @@ int	ms_pipeline(t_command **cmd, char **env)
 		ret_exec = execute_pipeline_cmds2(cmd, env, fd);
 	else if (global_pid > 0)
 	{
-		//	printf("hi parent\n");
 		close(fd[0]);
 		close(fd[1]);
-		waitpid(global_pid, NULL, 0);
-	//	printf("hi end\n");
+		parent_ret = waitpid(global_pid, &exit_code, 0);
+		//printf("hi end %d | %d\n", parent_ret, exit_code);
 	}
 	//printf("return exec %d\n", ret_exec);
 	return (ret_exec);

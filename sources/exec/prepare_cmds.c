@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/16 18:27:39 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/17 15:29:30 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	associate_file_to_cmd(t_command *cmds)
 	while (cur != NULL)
 	{
 		current_token = cur->token;
-		printf("current_token = %d\n", current_token);
+		//printf("current_token = %d\n", current_token);
 		if (current_token == GREAT || current_token == DGREAT
 			|| current_token == LESS || current_token == DLESS)
 		{
