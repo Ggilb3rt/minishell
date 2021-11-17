@@ -35,9 +35,11 @@
 int	lexer_and_parser(char *str, t_command **cmd)
 {
 	char	**arg;
-	int		ret;
+	int		ret = 0;
 
+	(void)cmd;
 	arg = split_quote(str);
+	/*
 	get_command(arg, cmd);
 	if (!cmd)
 	{
@@ -50,5 +52,6 @@ int	lexer_and_parser(char *str, t_command **cmd)
 		printf("Error synthax\n");
 		exit (0);
 	}
+	 */
 	return (ret);
 }

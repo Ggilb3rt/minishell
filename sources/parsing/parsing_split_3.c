@@ -48,21 +48,31 @@ char	*split_words(char *str, int begin, int end, int nospace)
 	}
 	if (!nospace)
 		word[i] = '\0';
-	else
+	else {
+		//printf("special case = %s\n", word);
 		word[i] = '\2';
+	}
 	return (word);
 }
 
 void	count_quote(char *str, int i, t_split *splt)
 {
+	int nospace;
+
+	nospace = 0;
+	if ((str[i] == '\"' || str[i] == '\'') && (str[i + 1] != ' '))
+	{
+		//printf("yo\n");
+		nospace = 1;
+	}
 	if (splt->count_s > 0)
 	{
-		splt->new[splt->j] = split_words(str, splt->count_s, i + 1, 0);
+		splt->new[splt->j] = split_words(str, splt->count_s, i + 1, nospace);
 		splt->count_s = -1;
 	}
 	else if (splt->count_d > 0)
 	{
-		splt->new[splt->j] = split_words(str, splt->count_d, i + 1, 0);
+		splt->new[splt->j] = split_words(str, splt->count_d, i + 1, nospace);
 		splt->count_d = -1;
 	}
 	splt->j++;
@@ -75,7 +85,10 @@ void	count_spaces(char *str, int i, t_split *splt)
 
 	nospace = 0;
 	if ((str[i] == '\"' || str[i] == '\'') && (str[i - 1] != ' '))
+	{
+		//printf("ya\n");
 		nospace = 1;
+	}
 	//printf("pipi [%c %c %c]\n", str[i - 1], str[i], str[i + 1]);
 	splt->new[splt->j] = split_words(str, splt->count, i, nospace);
 	//printf("\t\t%s\n", splt->new[splt->j]);

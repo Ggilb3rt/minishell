@@ -17,19 +17,26 @@ static void clean_simple(char **str)
 	int i;
 	int j;
 	char *new;
+	int spec;
 
 	i = 1;
+	spec = 0;
 	new = malloc(sizeof(char) * (ft_strlen(*str) - 1));
 	if (!new)
 		return ;
 	j = 0;
 	while ((*str)[i] != '\'')
 	{
+		if ((*str)[i + 2] == '\2')
+			spec = 1;
 		new[j] = (*str)[i];
 		i++;
 		j++;
 	}
-	new[j] = '\0';
+	if (!spec)
+		new[j] = '\0';
+	else
+		new[j] = '\2';
 	free(*str);
 	(*str) = new;
 }
@@ -39,19 +46,26 @@ static void clean_double(char **str)
 	int i;
 	int j;
 	char *new;
+	int spec;
 
 	i = 1;
+	spec = 0;
 	new = malloc(sizeof(char) * (ft_strlen(*str) - 1));
 	if (!new)
 		return ;
 	j = 0;
 	while ((*str)[i] != '\"')
 	{
+		if ((*str)[i + 2] == '\2')
+			spec = 1;
 		new[j] = (*str)[i];
 		i++;
 		j++;
 	}
-	new[j] = '\0';
+	if (!spec)
+		new[j] = '\0';
+	else
+		new[j] = '\2';
 	free(*str);
 	(*str) = new;
 }
@@ -70,7 +84,7 @@ int clean_quote(char **str)
 	}
 	return (0);
 }
-
+/*
 void join_quotes(char **str)
 {
 	int i;
@@ -90,44 +104,43 @@ void join_quotes(char **str)
 			{
 				if (str[i + k])
 				{
+					//printf("1\n");
 					free(str[i + k]);
 					str[i + k] = NULL;
 				}
 				if (str[i + k + 1])
 				{
 					str[i + k] = ft_strdup(str[i + k + 1]);
-					free(str[i + k + 1]);
-					str[i + k + 1] = NULL;
-					k++;
+					//printf("2\n");
+					//free(str[i + k + 1]);
+					//str[i + k + 1] = NULL;
 				}
 				else
-				{
-					printf("str = %s\n", str[i + k + 1]);
-					//free(str[i + k + 1]);
-					break;
-				}
+					break ;
+				k++;
 			}
 			//i++;
 		}
 		join = 0;
 		j = 0;
-		if (str[i])
+		//printf("1 %s\n", str[i]);
+		while (str[i][j])
 		{
-			while (str[i][j])
+			//printf("2 %c\n", str[i][j]);
+			if (str[i][j + 1] == '\2')
 			{
-				if (str[i][j + 1] == '\2')
-				{
-					//printf("\tstr[%i][%i + 1] = %c\n", i, j, str[i][j + 1]);
-					tmp = ft_strdup(str[i]);
-					free(str[i]);
-					str[i] = ft_strjoin(tmp, str[i + 1]);
-					free(tmp);
-					join = 1;
-				}
-				j++;
+				//printf("3\n");
+				//printf("\tstr[%i][%i + 1] = %c\n", i, j, str[i][j + 1]);
+				tmp = ft_strdup(str[i]);
+				free(str[i]);
+				str[i] = ft_strjoin(tmp, str[i + 1]);
+				free(tmp);
+				join = 1;
 			}
-			printf("JOIN QUOTE %i = %s\n", i, str[i]);
-			i++;
+			j++;
 		}
+		//printf("JOIN QUOTE %i = %s\n", i, str[i]);
+		i++;
 	}
 }
+ */

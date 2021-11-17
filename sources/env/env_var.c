@@ -85,7 +85,7 @@ void convert_var(t_command **cmd, t_list_envp *ms_env)
 		while (tmp)
 		{
 			get_var_arg(&(*tmp->arg), ms_env);
-			join_quotes(&(*tmp->arg));
+			//join_quotes(&(*tmp->arg));
 			tmp = tmp->next;
 		}
 		cur = cur->next;

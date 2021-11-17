@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+/*
 static int	init_split(t_split *splt, char *str)
 {
 	splt->open = 0;
@@ -26,12 +27,14 @@ static int	init_split(t_split *splt, char *str)
 		return (0);
 	return (1);
 }
+*/
 
 /*
  * This function is the core of the split because it's here that we're going
  * to developp the algorithm.
  */
 
+/*
 static void	find_quote(char *str, int i, t_split *splt)
 {
 	if ((str[i] == '\"' || str[i] == '\'') && splt->open == 0
@@ -55,6 +58,7 @@ static void	find_quote(char *str, int i, t_split *splt)
 		count_spaces(str, i, splt);
 	}
 }
+*/
 
 /*
  * This function will split the string into different parts, caring about
@@ -62,6 +66,7 @@ static void	find_quote(char *str, int i, t_split *splt)
  * an influence on how the string will be splitted.
  */
 
+/*
 char	**split_quote(char *str)
 {
 	int		i;
@@ -77,4 +82,18 @@ char	**split_quote(char *str)
 	}
 	splt.new[splt.j] = 0;
 	return (splt.new);
+}
+*/
+
+char	**split_quote(char *str)
+{
+	int i;
+	i = 0;
+	while (str[i])
+	{
+		printf("%c", str[i]);
+		i++;
+	}
+	printf("\n");
+	return (NULL);
 }
