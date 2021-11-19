@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:03:00 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/17 17:32:57 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/19 18:59:49 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,14 +123,13 @@ void	one_cmd(t_command *cur, char **env, t_list_envp *env_lst)
 		dup2(cur->fd_in, STDIN_FILENO);
 		close(cur->fd_in);
 	}
-	if (cur->list[0]->build == 1)
-	{
-		printf("pointeur sur %p fork\n", env_lst);
-		cmd_cd(cur->list[0]->arg[1], env_lst);
-	}
+	if (cur->list[0]->build >= 0)
+		exit(exec_builtin(cur->list[0]->arg, env_lst));
 	else if (execve(cur->list[0]->arg[0], cur->list[0]->arg, env) == -1)
+	{
 		perror(cur->list[0]->arg[0]);
-	exit(errno);
+		exit(errno);
+	}
 }
 
 int	execute_pipeline_cmds(t_command **cmd, char **env, int fd[2], t_list_envp *lst)
@@ -175,6 +174,8 @@ int	ms_pipeline(t_command **cmd, char **env, t_list_envp *lst)
 	ret_exec = -1;
 	ms_pipe(fd);
 	printf("pointeur sur %p pipeline\n", lst);
+	if (cmd[0]->list[0]->build >= 0)
+		exec_builtin(cmd[0]->list[0]->arg, lst);
 	global_pid = fork();
 	if (global_pid == -1)
 	{

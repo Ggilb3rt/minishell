@@ -21,5 +21,6 @@ int			ms_pipeline(t_command **cmd, char **env, t_list_envp *lst);
 /* prepare_fds_cmds */
 int			associate_file_to_cmd(t_command *cmds);
 int			set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env_path);
+int			exec_builtin(char **cmd_name, t_list_envp *env);
 
 #endif

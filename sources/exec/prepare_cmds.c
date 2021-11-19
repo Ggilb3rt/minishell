@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/17 17:24:36 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/19 18:57:32 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,47 +34,47 @@ int	check_read_access(char *path, int *fd)
 /*
 * L'acces, la creation et le append sur les fichiers fonctionnent
 */
-int	associate_file_to_cmd_b(t_simple_command **list)
-{
-	t_simple_command	*cur;
-	int					current_token;
-	int					tmp_fd;
+// int	associate_file_to_cmd_b(t_simple_command **list)
+// {
+// 	t_simple_command	*cur;
+// 	int					current_token;
+// 	int					tmp_fd;
 
-	cur = *list;
-	tmp_fd = 0;
-	while (cur != NULL)
-	{
-		current_token = cur->token;
-		if (current_token == GREAT || current_token == DGREAT
-			|| current_token == LESS || current_token == DLESS)
-		{
-			cur = cur->next;
-			if (cur->token != WORD)
-				return (-1);
-			if (current_token == LESS)
-			{
-				if (!check_read_access(cur->arg[0], &tmp_fd))
-					return (-1);
-			}
-			else if (current_token == GREAT)
-				tmp_fd = open(cur->arg[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
-			else if (current_token == DGREAT)
-				tmp_fd = open(cur->arg[0], O_CREAT | O_WRONLY | O_APPEND, 0666);
-			else if (current_token == DLESS)
-				tmp_fd = 1;
-			if (tmp_fd == -1)
-			{
-				perror("open");
-				return (errno);
-			}
-			if (tmp_fd > 0)
-				write(tmp_fd, "Loeut\n", 7);
-			printf("tmp fd : %d\n", tmp_fd);
-		}
-		cur = cur->next;
-	}
-	return (0);
-}
+// 	cur = *list;
+// 	tmp_fd = 0;
+// 	while (cur != NULL)
+// 	{
+// 		current_token = cur->token;
+// 		if (current_token == GREAT || current_token == DGREAT
+// 			|| current_token == LESS || current_token == DLESS)
+// 		{
+// 			cur = cur->next;
+// 			if (cur->token != WORD)
+// 				return (-1);
+// 			if (current_token == LESS)
+// 			{
+// 				if (!check_read_access(cur->arg[0], &tmp_fd))
+// 					return (-1);
+// 			}
+// 			else if (current_token == GREAT)
+// 				tmp_fd = open(cur->arg[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
+// 			else if (current_token == DGREAT)
+// 				tmp_fd = open(cur->arg[0], O_CREAT | O_WRONLY | O_APPEND, 0666);
+// 			else if (current_token == DLESS)
+// 				tmp_fd = 1;
+// 			if (tmp_fd == -1)
+// 			{
+// 				perror("open");
+// 				return (errno);
+// 			}
+// 			if (tmp_fd > 0)
+// 				write(tmp_fd, "Loeut\n", 7);
+// 			printf("tmp fd : %d\n", tmp_fd);
+// 		}
+// 		cur = cur->next;
+// 	}
+// 	return (0);
+// }
 
 int	open_out_file(int cur_token, char *path, int *fd_out)
 {
@@ -134,6 +134,26 @@ int	associate_file_to_cmd(t_command *cmds)
 	return (0);
 }
 
+void	set_builtin(char *cmd_name, t_command *cur)
+{
+	if (!strcmp(cmd_name, "echo"))
+		cur->list[0]->build = BUILT_ECHO;
+	else if (!strcmp(cmd_name, "cd"))
+		cur->list[0]->build = BUILT_CD;
+	else if (!strcmp(cmd_name, "pwd"))
+		cur->list[0]->build = BUILT_PWD;
+	else if (!strcmp(cmd_name, "export"))
+		cur->list[0]->build = BUILT_EXPORT;
+	else if (!strcmp(cmd_name, "unset"))
+		cur->list[0]->build = BUILT_UNSET;
+	else if (!strcmp(cmd_name, "env"))
+		cur->list[0]->build = BUILT_ENV;
+	else if (!strcmp(cmd_name, "exit"))
+		cur->list[0]->build = BUILT_EXIT;
+	else
+		cur->list[0]->build = -1;
+}
+
 int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 {
 	t_command	*cur;
@@ -146,15 +166,13 @@ int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 		ret_file = associate_file_to_cmd(cur);
 		if (ret_file < 0)
 			return (ret_file);
-		if (!strcmp(cur->list[0]->arg[0], "cd"))
-		//	printf("sega ! %s\n\n", cur->list[0]->arg[0]);
-		//	cmd_cd(cur->list[0]->arg[1], env);
-			cur->list[0]->build = 1;
-		else if (cur->list[0]->token != NWLINE)
+		set_builtin(cur->list[0]->arg[0], cur);
+		if (cur->list[0]->token != NWLINE)
 		{
 			env_path = get_ms_env_val(PATH, env);
-			cur->list[0]->arg[0] = init_cmd_path(cur->list[0]->arg[0],
-					env_path);
+			if (cur->list[0]->build == -1)
+				cur->list[0]->arg[0] = init_cmd_path(cur->list[0]->arg[0],
+						env_path);
 		}
 		//! il ne faut pas que j'exec si le programme n'existe pas (sinon besoin multi exit)
 		//! une solution serait de set une var a test avec d'exec pour chaque cmd
@@ -166,7 +184,30 @@ int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 		//printf("%s ==> %d\n", cur->list[0]->arg[0], cur->can_exec);
 		cur = cur->next;
 	}
-
 	return (0);
 }
 
+int	exec_builtin(char **cmd, t_list_envp *env)
+{
+	char	*cmd_name;
+
+	if (!cmd || !cmd[0])
+		return (0);
+	cmd_name = cmd[0];
+	if (!strcmp(cmd_name, "echo"))
+		return (cmd_echo(cmd[1]));
+	else if (!strcmp(cmd_name, "cd"))
+		return (cmd_cd(cmd[1], env));
+	else if (!strcmp(cmd_name, "pwd"))
+		return (cmd_pwd(env, 1));
+	else if (!strcmp(cmd_name, "export"))
+		return (cmd_export(env, cmd));
+	else if (!strcmp(cmd_name, "unset"))
+		return (cmd_unset(&env, cmd));
+	else if (!strcmp(cmd_name, "env"))
+		return (cmd_env(env));
+	else if (!strcmp(cmd_name, "exit"))
+		return (cmd_exit(cmd_name));
+	else
+		return (0);
+}

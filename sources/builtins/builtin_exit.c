@@ -18,6 +18,27 @@
  * involving key pressed (CTRL-C, CTRL-\)
  */
 
+
+/*
+Exemples de tests
+
+bash> exit				==> 0
+bash> exit 42			==> 42
+bash> exit 256			==> 0
+bash> exit -42			==> 214
+bash> exit a 42			==> exit + err numeric arg required + return 255
+bash> exit 42 a			==> no exit + err too many arg + return 1
+bash> exit a			==> exit + err numeric arg required + return 255
+bash> exit a a			==> == exit a 42
+bash> exit 28374623874627346234629423423 ==> == exit a 42
+bash> exit | exit		==> do nothing + return 0
+bash> exit 42 | exit -42	==> do nothing + return 214
+
+
+le retour de exit est toujour compris entre 0 et 255
+*/
+
+
 int	cmd_exit(char *line)
 {
 	if (!line)

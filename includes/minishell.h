@@ -32,6 +32,15 @@
 # define IN 0
 # define OUT 1
 
+# define BUILT_ECHO 0
+# define BUILT_PWD 1
+# define BUILT_ENV 2
+# define BUILT_EXIT 3
+
+# define BUILT_CD 10
+# define BUILT_EXPORT 11
+# define BUILT_UNSET 12
+
 typedef struct s_simple_command
 {
 	int						numb_avail;
