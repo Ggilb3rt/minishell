@@ -4,6 +4,7 @@
 
 #include "minishell.h"
 
+/*
 static char *assign_var(char *str, int j)
 {
 	int k;
@@ -91,3 +92,4 @@ void convert_var(t_command **cmd, t_list_envp *ms_env)
 		cur = cur->next;
 	}
 }
+*/

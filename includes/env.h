@@ -7,12 +7,6 @@
 
 # include "minishell.h"
 
-typedef struct s_list_envp
-{
-	char				*content;
-	struct s_list_envp	*next;
-}	t_list_envp;
-
 // env_exec
 char		**convert_envplst_to_tab(t_list_envp *ms_env);
 

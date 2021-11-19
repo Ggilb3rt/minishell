@@ -144,3 +144,113 @@ void join_quotes(char **str)
 	}
 }
  */
+
+static int 	open_quoteee(const char *str, t_split *split)
+{
+	if (str[split->i] == '\"' && !split->open_s && !split->open_d)
+	{
+		split->open_d = 1;
+		return (1);
+	}
+	if (str[split->i] == '\'' && !split->open_d && !split->open_s)
+	{
+		split->open_s = 1;
+		return (1);
+	}
+	return (0);
+}
+
+static int 	close_quoteee(const char *str, t_split *split)
+{
+	if (str[split->i] == '\"' && !split->open_s && split->open_d)
+	{
+		split->open_d = 0;
+		return (0);
+	}
+	if (str[split->i] == '\'' && !split->open_d && split->open_s)
+	{
+		split->open_s = 0;
+		return (0);
+	}
+	return (1);
+}
+
+static void	init_split(t_split *split, const char *str)
+{
+	(void)str;
+	split->i = 0;
+	split->l = 0;
+	split->open_s = 0;
+	split->open_d = 0;
+}
+
+static char *assign_varrr(const char *str, t_split *split)
+{
+	char *var;
+	int k;
+
+	split->i++;
+	k = split->i;
+	var = NULL;
+	while (str[split->i] != ' ' && str[split->i] != '\0' && str[split->i] != '\'' && str[split->i] != '\"')
+	{
+		//printf("\t%c \n", str[split->i + k]);
+		split->i++;
+	}
+	var = ft_substr(str, k, split->i - k);
+	if (var)
+		return (var);
+	return (NULL);
+}
+
+static void search_varrr(const char *str, t_split *split, t_list_envp *ms_env)
+{
+	char *var;
+	char *arg;
+	int i;
+
+	if (str[split->i] == '$')
+	{
+		var = assign_varrr(str, split);
+		if (var)
+		{
+			arg = get_ms_env_val(var, ms_env);
+			if (!arg)
+				arg = ft_strdup("");
+			i = 0;
+			while (arg[i]) {
+				split->new[split->l] = arg[i];
+				split->l++;
+				i++;
+			}
+			//split->i++;
+		}
+	}
+}
+
+char	*parsing_cleanup(char *str, t_list_envp *ms_env)
+{
+	t_split	split;
+
+	init_split(&split, str);
+	split.new = malloc(sizeof(char) * 10000);
+	while (str[split.i])
+	{
+		if (open_quoteee(str, &split))
+		{
+			split.i++;
+			while (close_quoteee(str, &split))
+			{
+				if (!split.open_s)
+					search_varrr(str, &split, ms_env);
+				split.new[split.l] = str[split.i];
+				split.l++;
+				split.i++;
+			}
+		}
+		//split.new[0][split.l] = str[split.i];
+		//split.l++;
+		split.i++;
+	}
+	return (split.new);
+}

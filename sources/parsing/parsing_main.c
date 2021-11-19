@@ -35,10 +35,14 @@
 int	lexer_and_parser(char *str, t_command **cmd)
 {
 	char	**arg;
+	char 	*new;
 	int		ret = 0;
 
 	(void)cmd;
-	arg = split_quote(str);
+	new = parsing_cleanup(str);
+	printf("%s\n", new);
+	(void)arg;
+	//arg = split_quote(new);
 	/*
 	get_command(arg, cmd);
 	if (!cmd)

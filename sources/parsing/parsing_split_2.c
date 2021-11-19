@@ -18,6 +18,7 @@
  * before the storage into a new array of words.
  */
 
+/*
 static void	check_quote(char c, t_count *cnt)
 {
 	if (c == '\'')
@@ -93,3 +94,4 @@ int	word_count(char *str)
 		trig_words(str, &cnt);
 	return (cnt.words);
 }
+*/

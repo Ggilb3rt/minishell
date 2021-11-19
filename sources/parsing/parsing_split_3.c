@@ -17,6 +17,7 @@
  * the core of the spliting into different parts and be stored in slpt->new.
  */
 
+/*
 void	open_quote(char *str, int i, t_split *splt)
 {
 	if (str[i] == '\'')
@@ -101,3 +102,4 @@ void	count_spaces(char *str, int i, t_split *splt)
 		open_quote(str, i, splt);
 	}
 }
+*/

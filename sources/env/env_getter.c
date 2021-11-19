@@ -74,8 +74,11 @@ int	get_ms_env_index(char *to_find, t_list_envp *ms_env)
 	len_to_find = ft_strlen(to_find);
 	while (++index < (int)len_ms_env)
 	{
-		if (ft_strnstr(tmp->content, to_find, len_to_find))
-			break ;
+		if (tmp->content)
+		{
+			if (ft_strnstr(tmp->content, to_find, len_to_find))
+				break;
+		}
 		tmp = tmp->next;
 	}
 	free(to_find);

@@ -85,15 +85,3 @@ char	**split_quote(char *str)
 }
 */
 
-char	**split_quote(char *str)
-{
-	int i;
-	i = 0;
-	while (str[i])
-	{
-		printf("%c", str[i]);
-		i++;
-	}
-	printf("\n");
-	return (NULL);
-}

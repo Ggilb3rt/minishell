@@ -32,6 +32,12 @@
 # define IN 0
 # define OUT 1
 
+typedef struct s_list_envp
+{
+	char				*content;
+	struct s_list_envp	*next;
+}	t_list_envp;
+
 typedef struct s_simple_command
 {
 	int						numb_avail;

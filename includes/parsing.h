@@ -34,13 +34,16 @@
  * reponse : je vais y jeter un oeil
 */
 
+/*
 typedef struct s_to_exec_cmd
 {
 	char		**arg;
 	int			in_file_fd;
 	int			out_file_fd;
 }				t_to_exec_cmd;
+*/
 
+/*
 typedef struct s_split
 {
 	int 	size;
@@ -51,6 +54,17 @@ typedef struct s_split
 	int		open;
 	char 	**new;
 	int 	j;
+}				t_split;
+*/
+
+typedef struct s_split
+{
+	int 	size;
+	int 	i;
+	int 	l;
+	char 	*new;
+	int 	open_s;
+	int 	open_d;
 }				t_split;
 
 typedef struct s_count
@@ -87,6 +101,7 @@ t_simple_command	**get_simple(char **arg, int begin, int end);
 /* parsing cleanup */
 int					clean_quote(char **str);
 void				join_quotes(char **str);
+char				*parsing_cleanup(char *str, t_list_envp *ms_env);
 
 /* parsing split 1 */
 char				**split_quote(char *str);
