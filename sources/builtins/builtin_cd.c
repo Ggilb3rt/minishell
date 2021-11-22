@@ -21,7 +21,7 @@
 /*
 return 0 if ok, 1 otherwise (permission denied, No such file or directory)
 
-need to interpret ~ and -
+need to interpret ~ and - (not true)
 ~ = $HOME
 - = $OLDPWD ; working, need parsing to see if I must free(path)
 
@@ -31,7 +31,7 @@ need to interpret ~ and -
 char	*select_path_dash_op(char *path, t_list_envp *ms_env)
 {
 	if (!path)
-		return (NULL);
+		return (get_ms_env_val(HOME, ms_env));
 	if (get_ms_env_index(OLDPWD, ms_env) == -1)
 		return (path);
 	if (path[0] == '-')
@@ -39,13 +39,10 @@ char	*select_path_dash_op(char *path, t_list_envp *ms_env)
 		if (ft_strlen(path) > 1)
 		{
 			if (path[1] != ' ')
-			{
 				return (path);
-			}
 		}
 		free(path);
 		path = get_ms_env_val(OLDPWD, ms_env);
-		path += ft_strlen(OLDPWD);
 	}
 	return (path);
 }
@@ -62,7 +59,6 @@ void	update_old_pwd(t_list_envp *env)
 	if (index_old_pwd == -1)
 		return ;
 	current_pwd = get_ms_env_val(PWD, tmp);
-	current_pwd += ft_strlen(PWD);
 	next_old_pwd = ft_strjoin(OLDPWD, current_pwd);
 	edit_lst_content(tmp, index_old_pwd, next_old_pwd);
 	free(next_old_pwd);
@@ -89,6 +85,5 @@ int	cmd_cd(char *path, t_list_envp *ms_env)
 	}
 	update_old_pwd(ms_env);
 	cmd_pwd(ms_env, 0);
-	printf("USE OF THE CD COMMAND : %s\n", path);
 	return (0);
 }

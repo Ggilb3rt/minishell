@@ -20,6 +20,7 @@ SOURCES = \
 		exec/exec.c \
 		exec/prepare_cmds.c \
 		exec/exec_cmd_path.c \
+		exec/pipes.c \
 		heredoc/heredoc.c \
 		builtins/builtin_echo.c \
 		builtins/builtin_cd.c \
@@ -28,6 +29,7 @@ SOURCES = \
 		builtins/builtin_export.c \
 		builtins/builtin_pwd.c \
 		builtins/builtin_unset.c \
+		builtins/select_builtin.c \
 		utils/utils_1.c \
 		utils/utils_2.c \
 		libft/ft_isalnum.c \

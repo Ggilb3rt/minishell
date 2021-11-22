@@ -26,14 +26,16 @@
 # define PWD "PWD="
 # define OLDPWD "OLDPWD="
 # define PATH "PATH="
+# define HOME "HOME="
 
-int	cmd_echo(char *str);
+int	cmd_echo(char **words);
 int	cmd_env(t_list_envp *ms_envp);
 int	cmd_cd(char *path, t_list_envp *env);
 int	cmd_pwd(t_list_envp *env, int print);
 int	cmd_export(t_list_envp *env, char **args);
 int	cmd_unset(t_list_envp **env, char **to_find);
 int	cmd_exit(char *line);
+int	exec_builtin(char **cmd_name, t_list_envp *env);
 
 /* ENV */
 char		*get_env_val(char *to_find, char **env);

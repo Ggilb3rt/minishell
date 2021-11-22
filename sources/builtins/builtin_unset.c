@@ -52,18 +52,16 @@ int	cmd_unset(t_list_envp **env, char **to_find)
 
 	if (!env || !to_find)
 		return (1);
-	i = 0;
+	i = 1;
 	while (to_find[i] != NULL)
 	{
 		if (!ft_str_isalnum_under(to_find[i]))
 		{
-			printf("minishell: unset: `%s': not a valid identifier\n",
-				to_find[i]);
+			//printf("minishell: unset: `%s': not a valid identifier\n",
+			//	to_find[i]);
 			break ;
 		}
 		current_index = get_ms_env_index(to_find[i], *env);
-		if (current_index == -1)
-			break ;
 		remove_first_or_inside(env, current_index);
 		i++;
 	}

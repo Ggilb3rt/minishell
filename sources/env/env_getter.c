@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 14:36:36 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/16 15:25:15 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/22 08:05:56 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,11 @@ int	get_ms_env_index(char *to_find, t_list_envp *ms_env)
 	t_list_envp	*tmp;
 	size_t		len_ms_env;
 
+	if (!to_find)
+		return (-1);
 	index = -1;
 	tmp = ms_env;
 	to_find = to_find_sanitize(to_find);
-	if (!to_find)
-		return (-1);
 	len_ms_env = get_ms_env_len(tmp);
 	len_to_find = ft_strlen(to_find);
 	while (++index < (int)len_ms_env)
@@ -94,7 +94,7 @@ t_list_envp	*ms_lst_point(int index, t_list_envp *ms_env)
 	tmp = ms_env;
 	if (index < 0)
 		return (NULL);
-	while (index-- > 0)
+	while (index-- > 0 && tmp != NULL)
 		tmp = tmp->next;
 	return (tmp);
 }

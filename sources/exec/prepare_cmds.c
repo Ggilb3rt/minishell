@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/19 18:57:32 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/22 08:13:27 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,29 +185,4 @@ int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 		cur = cur->next;
 	}
 	return (0);
-}
-
-int	exec_builtin(char **cmd, t_list_envp *env)
-{
-	char	*cmd_name;
-
-	if (!cmd || !cmd[0])
-		return (0);
-	cmd_name = cmd[0];
-	if (!strcmp(cmd_name, "echo"))
-		return (cmd_echo(cmd[1]));
-	else if (!strcmp(cmd_name, "cd"))
-		return (cmd_cd(cmd[1], env));
-	else if (!strcmp(cmd_name, "pwd"))
-		return (cmd_pwd(env, 1));
-	else if (!strcmp(cmd_name, "export"))
-		return (cmd_export(env, cmd));
-	else if (!strcmp(cmd_name, "unset"))
-		return (cmd_unset(&env, cmd));
-	else if (!strcmp(cmd_name, "env"))
-		return (cmd_env(env));
-	else if (!strcmp(cmd_name, "exit"))
-		return (cmd_exit(cmd_name));
-	else
-		return (0);
 }

@@ -28,7 +28,7 @@ void	print_words(char **words, int flag)
 	int		i;
 	int		nb_words;
 
-	i = 0;
+	i = 1;
 	nb_words = array_size(words);
 	if (flag)
 		i++;
@@ -43,16 +43,13 @@ void	print_words(char **words, int flag)
 		printf("\n");
 }
 
-int	cmd_echo(char *str)
+int	cmd_echo(char **words)
 {
 	int		flag;
-	char	**words;
 
-	words = ft_split(str, ' ');
 	if (!words)
 		return (1);
-	flag = is_flag(words[0]);
+	flag = is_flag(words[1]);
 	print_words(words, flag);
-	free_tab(words);
 	return (0);
 }

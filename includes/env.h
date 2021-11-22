@@ -29,7 +29,7 @@ void		remove_lst_content(char *content);
 void		ms_lst_free_all(t_list_envp *head);
 
 // env
-void		print_envp(t_list_envp *head);
+void		print_envp(t_list_envp *head, int export);
 t_list_envp	*new_char_list(char *str);
 t_list_envp	*create_msenvp_lst(char **envp);
 

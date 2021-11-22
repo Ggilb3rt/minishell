@@ -4,14 +4,17 @@
 
 #include "minishell.h"
 
-void	print_envp(t_list_envp *head)
+void	print_envp(t_list_envp *head, int export)
 {
 	t_list_envp	*current;
 
 	current = head;
 	while (current != NULL)
 	{
-		printf("%s\n", current->content);
+		if (export)
+			printf("declare -x %s\n", current->content);
+		else
+			printf("%s\n", current->content);
 		current = current->next;
 	}
 }

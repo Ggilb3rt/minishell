@@ -27,6 +27,6 @@
 
 int	cmd_env(t_list_envp *ms_envp)
 {
-	print_envp(ms_envp);
+	print_envp(ms_envp, 0);
 	return (0);
 }

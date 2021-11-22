@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:03:00 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/19 18:59:49 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/22 09:19:40 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,57 +44,33 @@
 
 // priorities pipe (|) then redirect (< > >> <<) then others
 
-void	ms_pipe(int *fd)
+void	parent_exec(t_command *cur, char **env, int *fd, t_list_envp *lst)
 {
-	if (pipe(fd) != 0)
-	{
-		perror("pipe");
-		exit(errno);
-	}
-}
-
-void	process_pipe(int *fd, int fd_in)
-{
-	close(fd[1]);
-	if (fd_in != -1)
-	{
-		dup2(fd_in, STDIN_FILENO);
-		close(fd_in);
-	}
-	else
-	{
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-	}
-	ms_pipe(fd);
-}
-
-void	parent_exec(char **list, char **env, int *fd, int fd_out)
-{
-	// Parent execute cmd and send output to child
-	//static int i = 0;
-
-	//fprintf(stderr, "execute parent %d | %d %d\n", i++, *fd, *(fd + 1));
 	close(fd[0]);
-	if (fd_out != -1)
+	if (cur->fd_out != -1)
 	{
-		dup2(fd_out, STDOUT_FILENO);
-		close(fd_out);
+		dup2(cur->fd_out, STDOUT_FILENO);
+		close(cur->fd_out);
 	}
 	else
 		dup2(fd[1], STDOUT_FILENO);
-	//fprintf(stderr, "fd duped %d %d\n", *fd, *(fd + 1));
 	close(fd[1]);
-	if (execve(list[0], list, env) == -1)
+	if (cur->list[0]->build >= 0)
 	{
-		perror(list[0]);
+		if (cur->list[0]->build >= 10)
+			exit(0);
+		exit(exec_builtin(cur->list[0]->arg, lst));
+	}
+	else if (execve(cur->list[0]->arg[0], cur->list[0]->arg, env) == -1)
+	{
+		perror(cur->list[0]->arg[0]);
 		close(fd[0]);
 		close(fd[1]);
 		exit(errno);
 	}
 }
 
-int	multiple_cmds(t_command *cur, char **env, int fd[2])
+int	multiple_cmds(t_command *cur, char **env, int fd[2], t_list_envp *lst)
 {
 	pid_t		pid;
 
@@ -107,7 +83,7 @@ int	multiple_cmds(t_command *cur, char **env, int fd[2])
 	else if (pid > 0)
 		process_pipe(fd, cur->fd_in);
 	else
-		parent_exec(cur->list[0]->arg, env, fd, cur->fd_out);
+		parent_exec(cur, env, fd, lst);
 	return (0);
 }
 
@@ -124,7 +100,11 @@ void	one_cmd(t_command *cur, char **env, t_list_envp *env_lst)
 		close(cur->fd_in);
 	}
 	if (cur->list[0]->build >= 0)
+	{
+		if (cur->list[0]->build >= 10)
+			exit(0);
 		exit(exec_builtin(cur->list[0]->arg, env_lst));
+	}
 	else if (execve(cur->list[0]->arg[0], cur->list[0]->arg, env) == -1)
 	{
 		perror(cur->list[0]->arg[0]);
@@ -146,7 +126,7 @@ int	execute_pipeline_cmds(t_command **cmd, char **env, int fd[2], t_list_envp *l
 		//{
 			if (cur->next != NULL && cur->next->list[0]->token != NWLINE)
 			{
-				if (multiple_cmds(cur, env, fd) != 0)
+				if (multiple_cmds(cur, env, fd, lst) != 0)
 					return (-1);
 			}
 			else
@@ -173,8 +153,7 @@ int	ms_pipeline(t_command **cmd, char **env, t_list_envp *lst)
 
 	ret_exec = -1;
 	ms_pipe(fd);
-	printf("pointeur sur %p pipeline\n", lst);
-	if (cmd[0]->list[0]->build >= 0)
+	if (cmd[0]->list[0]->build >= 10)
 		exec_builtin(cmd[0]->list[0]->arg, lst);
 	global_pid = fork();
 	if (global_pid == -1)
@@ -191,6 +170,5 @@ int	ms_pipeline(t_command **cmd, char **env, t_list_envp *lst)
 		parent_ret = waitpid(global_pid, &exit_code, 0);
 		//printf("hi end %d | %d\n", parent_ret, exit_code);
 	}
-	//printf("return exec %d\n", ret_exec);
 	return (ret_exec);
 }

@@ -84,13 +84,14 @@ int	export_update_env(t_list_envp *env, int equal_pos, char *arg)
 int	cmd_export(t_list_envp *env, char **args)
 {
 	int		i;
-	int		has_err;
 	int		equal_pos;
 
-	if (args == NULL)
+	if (args[1] == NULL)
+	{
+		print_envp(env, 1);
 		return (0);
-	i = -1;
-	has_err = 0;
+	}
+	i = 0;
 	while (args[++i] != NULL)
 	{
 		equal_pos = check_valide_identifier(args[i]);
@@ -101,10 +102,9 @@ int	cmd_export(t_list_envp *env, char **args)
 		}
 		else
 		{
-			printf("minishell: export: not valid in this context: %s\n",
-				args[i]);
-			has_err = 1;
+			//printf("export: not valid in this context: %s\n", args[i]);
+			return (1);
 		}
 	}
-	return (has_err);
+	return (0);
 }
