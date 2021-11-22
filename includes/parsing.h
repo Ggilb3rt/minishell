@@ -76,7 +76,7 @@ typedef struct s_count
 }				t_count;
 
 /* parsing main */
-int					lexer_and_parser(char *str, t_command **cmd);
+int					lexer_and_parser(char *str, t_command **cmd, t_list_envp *ms_env);
 
 /* parsing tokens */
 int					create_token(char *str);
@@ -87,21 +87,21 @@ void				add_command(t_command *new, t_command **list);
 int				    add_newline(t_command **list, char **arg, int i);
 
 /* parsing alloc */
-t_simple_command	*alloc_simple(char **str, int end, int begin);
-t_command			*alloc_command(char **arg, int begin, int end);
+t_simple_command	*alloc_simple(char *str);
+t_command			*alloc_command(char *arg);
 char                **get_arg(char **str, int i, int last);
 
 /* parsing grammar */
 int					parser(t_command **cmd);
 
 /* parsing lexer */
-t_command			**get_command(char **arg, t_command **cmd);
-t_simple_command	**get_simple(char **arg, int begin, int end);
+t_command			**get_command(char *arg);
+t_simple_command	**get_simple(char *arg);
 
 /* parsing cleanup */
 int					clean_quote(char **str);
 void				join_quotes(char **str);
-char				*parsing_cleanup(char *str, t_list_envp *ms_env);
+void				parsing_cleanup(char *str, t_list_envp *ms_env, t_command **cmd);
 
 /* parsing split 1 */
 char				**split_quote(char *str);

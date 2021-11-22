@@ -32,14 +32,14 @@ char	**get_arg(char **str, int begin, int end)
 	return (new);
 }
 
-t_simple_command	*alloc_simple(char **str, int begin, int end)
+t_simple_command	*alloc_simple(char *str)
 {
 	t_simple_command	*new;
 
 	new = malloc(sizeof(t_simple_command));
 	if (!new)
 		return (NULL);
-	new->arg = get_arg(str, begin, end);
+	new->arg = ft_split(str, ' ');
 	new->token = create_token(new->arg[0]);
 	new->numb_avail = 0;
 	new->numb = 0;
@@ -47,7 +47,7 @@ t_simple_command	*alloc_simple(char **str, int begin, int end)
 	return (new);
 }
 
-t_command	*alloc_command(char **arg, int begin, int end)
+t_command	*alloc_command(char *arg)
 {
 	t_command	*cmd;
 
@@ -56,7 +56,7 @@ t_command	*alloc_command(char **arg, int begin, int end)
 		return (NULL);
 	cmd->numb_avail_simple_commands = 0;
 	cmd->numb_simple_commands = 0;
-	cmd->list = get_simple(arg, begin, end);
+	cmd->list = get_simple(arg);
 	cmd->out_file = NULL;
 	cmd->in_file = NULL;
 	cmd->err_file = NULL;

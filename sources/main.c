@@ -122,7 +122,7 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		else
 			free(line);
-		if (!lexer_and_parser(line, cmd))
+		if (!lexer_and_parser(line, cmd, ms_envp))
 			break ;
 		if (g_ret == EHERE)
 		{

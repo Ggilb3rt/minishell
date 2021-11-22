@@ -12,27 +12,26 @@
 
 #include "minishell.h"
 
-static void	new_simple_command(char **arg, t_simple_command **list,
-								  int begin, int end)
+static void	new_simple_command(char *arg, t_simple_command **list)
 {
 	t_simple_command	*cur;
 
-	cur = alloc_simple(arg, end, begin);
+	cur = alloc_simple(arg);
 	if (!cur)
 		return ;
 	add_simple(cur, list);
 }
-
+/*
 static void	new_command(char **arg, t_command **cmd, int end, int begin)
 {
 	t_command	*cur;
 
-	cur = alloc_command(arg, begin, end);
+	cur = alloc_command(arg);
 	if (!cur)
 		return ;
 	add_command(cur, cmd);
 }
-
+*/
 static t_simple_command	**init_list(void)
 {
 	t_simple_command	**list;
@@ -44,25 +43,13 @@ static t_simple_command	**init_list(void)
 	return (list);
 }
 
-t_simple_command	**get_simple(char **arg, int begin, int end)
+t_simple_command	**get_simple(char *arg)
 {
 	t_simple_command	**list;
-	int					i;
 
-	i = begin;
 	list = NULL;
 	list = init_list();
-	while (i < end)
-	{
-		if (!ft_strcmp(arg[i], "<") || !ft_strcmp(arg[i], ">")
-			|| !ft_strcmp(arg[i], "<<") || !ft_strcmp(arg[i], ">>"))
-		{
-			new_simple_command(arg, list, i, begin);
-			begin = i;
-		}
-		i++;
-	}
-	new_simple_command(arg, list, i, begin);
+	new_simple_command(arg, list);
 	return (list);
 }
 
@@ -72,7 +59,8 @@ t_simple_command	**get_simple(char **arg, int begin, int end)
  * - Second step, we are handling the chevrons.
  */
 
-t_command	**get_command(char **arg, t_command **cmd)
+/*
+t_command	**get_command(char *arg, t_command **cmd)
 {
 	int			begin;
 	int			i;
@@ -94,3 +82,4 @@ t_command	**get_command(char **arg, t_command **cmd)
 		return (NULL);
 	return (cmd);
 }
+*/

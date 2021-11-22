@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+/*
 static void clean_simple(char **str)
 {
 	int i;
@@ -84,6 +85,8 @@ int clean_quote(char **str)
 	}
 	return (0);
 }
+ */
+
 /*
 void join_quotes(char **str)
 {
@@ -150,11 +153,13 @@ static int 	open_quoteee(const char *str, t_split *split)
 	if (str[split->i] == '\"' && !split->open_s && !split->open_d)
 	{
 		split->open_d = 1;
+		split->i++;
 		return (1);
 	}
 	if (str[split->i] == '\'' && !split->open_d && !split->open_s)
 	{
 		split->open_s = 1;
+		split->i++;
 		return (1);
 	}
 	return (0);
@@ -165,11 +170,13 @@ static int 	close_quoteee(const char *str, t_split *split)
 	if (str[split->i] == '\"' && !split->open_s && split->open_d)
 	{
 		split->open_d = 0;
+		split->i++;
 		return (0);
 	}
 	if (str[split->i] == '\'' && !split->open_d && split->open_s)
 	{
 		split->open_s = 0;
+		split->i++;
 		return (0);
 	}
 	return (1);
@@ -228,17 +235,86 @@ static void search_varrr(const char *str, t_split *split, t_list_envp *ms_env)
 	}
 }
 
-char	*parsing_cleanup(char *str, t_list_envp *ms_env)
+static int ret_val(const char *str, t_split *split)
+{
+	int i;
+
+	i = 0;
+	while (str[split->i + i] && str[split->i + i] != ' ')
+		i++;
+	return (i);
+}
+
+static int redirection(char *str, t_split *split, t_command **cmd)
+{
+	int i;
+
+	i = 0;
+	if (str[split->i] == '<')
+	{
+		split->i++;
+		while (str[split->i == ' '])
+			split->i++;
+		while (ft_isalnum(str[split->i]))
+		{
+			(*cmd)->in_file = malloc(sizeof(char) * (ret_val(str, split) + 1));
+			if (ft_isalnum(str[split->i]))
+			{
+				(*cmd)->in_file[i] = str[split->i];
+				split->i++;
+				i++;
+			}
+		}
+		(*cmd)->in_file[i] = '\0';
+		return (0);
+	}
+	else if (str[split->i] == '>')
+	{
+		split->i++;
+		while (str[split->i] == ' ')
+			split->i++;
+		while (str[split->i])
+		{
+			(*cmd)->out_file = malloc(sizeof(char) * (ret_val(str, split) + 1));
+			if (ft_isalnum(str[split->i]))
+			{
+				(*cmd)->out_file[i] = str[split->i];
+				split->i++;
+				i++;
+			}
+		}
+		(*cmd)->out_file[i] = '\0';
+		return (0);
+	}
+	return (1);
+}
+
+void parsing_cleanup(char *str, t_list_envp *ms_env, t_command **cmd)
 {
 	t_split	split;
+	t_command *cur;
 
 	init_split(&split, str);
 	split.new = malloc(sizeof(char) * 10000);
+	cur = alloc_command(split.new);
 	while (str[split.i])
 	{
+		if (str[split.i] == '|')
+		{
+			if (split.new)
+			{
+				add_command(cur, cmd);
+				free(cur);
+				cur = NULL;
+				cur = alloc_command(split.new);
+			}
+			(*(*cmd)->list)->arg = plpl;
+			split.i++;
+			*cmd = (*cmd)->next;
+			//----------------------
+		}
 		if (open_quoteee(str, &split))
 		{
-			split.i++;
 			while (close_quoteee(str, &split))
 			{
 				if (!split.open_s)
@@ -248,9 +324,9 @@ char	*parsing_cleanup(char *str, t_list_envp *ms_env)
 				split.i++;
 			}
 		}
-		//split.new[0][split.l] = str[split.i];
-		//split.l++;
+		redirection(str, &split, cmd);
+		split.new[split.l] = str[split.i];
+		split.l++;
 		split.i++;
 	}
-	return (split.new);
 }

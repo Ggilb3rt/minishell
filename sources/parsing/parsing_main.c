@@ -32,16 +32,16 @@
  * The parsing is not perfect and will still need some improvements.
  */
 
-int	lexer_and_parser(char *str, t_command **cmd)
+int	lexer_and_parser(char *str, t_command **cmd, t_list_envp *ms_env)
 {
 	char	**arg;
 	char 	*new;
 	int		ret = 0;
 
-	(void)cmd;
-	new = parsing_cleanup(str);
-	printf("%s\n", new);
-	(void)arg;
+	//(void)cmd;
+	parsing_cleanup(str, ms_env, cmd);
+	//printf("%s\n", new);
+	//(void)arg;
 	//arg = split_quote(new);
 	/*
 	get_command(arg, cmd);
