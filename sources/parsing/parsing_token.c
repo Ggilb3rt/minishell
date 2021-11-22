@@ -27,6 +27,7 @@ static int	is_operator(char *str)
 	return (0);
 }
 
+
 int	create_token(char *str)
 {
 	if (is_operator(str))

@@ -84,7 +84,7 @@ int					create_token(char *str);
 /* parsing add */
 void				add_simple(t_simple_command *new, t_simple_command **list);
 void				add_command(t_command *new, t_command **list);
-int				    add_newline(t_command **list, char **arg, int i);
+int					add_newline(t_command **list);
 
 /* parsing alloc */
 t_simple_command	*alloc_simple(char *str);

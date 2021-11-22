@@ -38,7 +38,8 @@ int	lexer_and_parser(char *str, t_command **cmd, t_list_envp *ms_env)
 	char 	*new;
 	int		ret = 0;
 
-	//(void)cmd;
+	(void)arg;
+	(void)new;
 	parsing_cleanup(str, ms_env, cmd);
 	//printf("%s\n", new);
 	//(void)arg;

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 char	**get_arg(char **str, int begin, int end)
 {
 	char	**new;
@@ -31,7 +31,7 @@ char	**get_arg(char **str, int begin, int end)
 	new[j] = NULL;
 	return (new);
 }
-
+*/
 t_simple_command	*alloc_simple(char *str)
 {
 	t_simple_command	*new;
@@ -40,7 +40,7 @@ t_simple_command	*alloc_simple(char *str)
 	if (!new)
 		return (NULL);
 	new->arg = ft_split(str, ' ');
-	new->token = create_token(new->arg[0]);
+	new->token = 0; //create_token(new->arg[0]);
 	new->numb_avail = 0;
 	new->numb = 0;
 	new->next = NULL;

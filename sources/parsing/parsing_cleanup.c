@@ -291,8 +291,8 @@ static int redirection(char *str, t_split *split, t_command **cmd)
 
 void parsing_cleanup(char *str, t_list_envp *ms_env, t_command **cmd)
 {
-	t_split	split;
-	t_command *cur;
+	t_split		split;
+	t_command	*cur;
 
 	init_split(&split, str);
 	split.new = malloc(sizeof(char) * 10000);
@@ -301,16 +301,16 @@ void parsing_cleanup(char *str, t_list_envp *ms_env, t_command **cmd)
 	{
 		if (str[split.i] == '|')
 		{
+			split.i++;
 			if (split.new)
 			{
-				add_command(cur, cmd);
-				free(cur);
-				cur = NULL;
 				cur = alloc_command(split.new);
+				add_command(cur, cmd);
+				//free(cur);
+				//cur = NULL;
+				//cur = cur->next;
 			}
-			(*(*cmd)->list)->arg = plpl;
-			split.i++;
-			*cmd = (*cmd)->next;
+
 			//----------------------
 		}
 		if (open_quoteee(str, &split))
@@ -324,9 +324,13 @@ void parsing_cleanup(char *str, t_list_envp *ms_env, t_command **cmd)
 				split.i++;
 			}
 		}
-		redirection(str, &split, cmd);
+		redirection(str, &split, &cur);
 		split.new[split.l] = str[split.i];
 		split.l++;
 		split.i++;
 	}
+	printf("%s\n", split.new);
+	cur = alloc_command(split.new);
+	add_command(cur, cmd);
+	//add_newline(cmd);
 }
