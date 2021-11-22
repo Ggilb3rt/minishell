@@ -6,6 +6,8 @@
 
 char	*ft_strchr(const char *s, int c)
 {
+	if ((char)c == '\0')
+		return ((char *)s);
 	while (*s)
 	{
 		if (*s != (char)c)
@@ -13,7 +15,5 @@ char	*ft_strchr(const char *s, int c)
 		else
 			return ((char *)s);
 	}
-	if ((char)c == '\0')
-		return ((char *)s);
 	return (0);
 }

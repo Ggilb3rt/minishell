@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elmer <elmer@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:03:00 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/22 09:19:40 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/22 10:26:38 by elmer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ int	ms_pipeline(t_command **cmd, char **env, t_list_envp *lst)
 		close(fd[0]);
 		close(fd[1]);
 		parent_ret = waitpid(global_pid, &exit_code, 0);
-		//printf("hi end %d | %d\n", parent_ret, exit_code);
+		printf("hi end %d | %d\n", parent_ret, exit_code);
 	}
 	return (ret_exec);
 }
