@@ -20,8 +20,6 @@
  * 'free' the returned buffer.
  */
 
-// ! need to print in the good fd, do I need to manage it here or with pipe ?
-
 int	cmd_pwd(t_list_envp *env, int print)
 {
 	char	*buf;
@@ -31,7 +29,7 @@ int	cmd_pwd(t_list_envp *env, int print)
 	buf = getcwd(buf, 0);
 	if (!buf)
 	{
-		perror("BUILTIN PWD ERROR");
+		perror("getcwd() error");
 		return (errno);
 	}
 	new_pdw = ft_strjoin(PWD, buf);

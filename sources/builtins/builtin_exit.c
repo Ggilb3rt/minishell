@@ -38,12 +38,12 @@ bash> exit 42 | exit -42	==> do nothing + return 214
 le retour de exit est toujour compris entre 0 et 255
 */
 
-
 int	cmd_exit(char *line)
 {
 	if (!line)
 		return (0);
-	if (!ft_strcmp(line, "exit")) {
+	if (!ft_strcmp(line, "exit"))
+	{
 		printf("exit\n");
 		return (1);
 	}

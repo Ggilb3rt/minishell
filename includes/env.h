@@ -2,8 +2,8 @@
 // Created by Antoine LANGLOIS on 24/09/2021.
 //
 
-#ifndef MS_ENV_H
-# define MS_ENV_H
+#ifndef ENV_H
+# define ENV_H
 
 # include "minishell.h"
 

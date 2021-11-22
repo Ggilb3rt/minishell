@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elmer <elmer@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/22 11:53:41 by elmer            ###   ########.fr       */
+/*   Updated: 2021/11/22 17:18:45 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int g_ret = 0;
+int	g_ret = 0;
 
-void sig_handler(int n)
+void	sig_handler(int n)
 {
 	if (n == SIGINT)
 	{
@@ -33,7 +33,7 @@ void sig_handler(int n)
 	}
 }
 
-void ms_signal(void)
+void	ms_signal(void)
 {
 	if (signal(SIGINT, sig_handler) == SIG_ERR)
 	{
@@ -83,9 +83,9 @@ void	close_cmds_fd(t_command **cmds)
 	}
 }
 
-static t_command **init_cmd(void)
+static t_command	**init_cmd(void)
 {
-	t_command **cmd;
+	t_command	**cmd;
 
 	cmd = malloc(sizeof(t_command *));
 	if (!cmd)

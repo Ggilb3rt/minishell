@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/22 08:13:27 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/22 17:08:27 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	check_read_access(char *path, int *fd)
 {
-	//printf("path %s\n", path);
 	if (access(path, F_OK | R_OK) == -1)
 	{
 		*fd = -2;
@@ -27,54 +26,8 @@ int	check_read_access(char *path, int *fd)
 		perror(path);
 		return (0);
 	}
-	//printf("check fd in access in file %d\n", *fd);
 	return (1);
 }
-
-/*
-* L'acces, la creation et le append sur les fichiers fonctionnent
-*/
-// int	associate_file_to_cmd_b(t_simple_command **list)
-// {
-// 	t_simple_command	*cur;
-// 	int					current_token;
-// 	int					tmp_fd;
-
-// 	cur = *list;
-// 	tmp_fd = 0;
-// 	while (cur != NULL)
-// 	{
-// 		current_token = cur->token;
-// 		if (current_token == GREAT || current_token == DGREAT
-// 			|| current_token == LESS || current_token == DLESS)
-// 		{
-// 			cur = cur->next;
-// 			if (cur->token != WORD)
-// 				return (-1);
-// 			if (current_token == LESS)
-// 			{
-// 				if (!check_read_access(cur->arg[0], &tmp_fd))
-// 					return (-1);
-// 			}
-// 			else if (current_token == GREAT)
-// 				tmp_fd = open(cur->arg[0], O_WRONLY | O_CREAT | O_TRUNC, 0666);
-// 			else if (current_token == DGREAT)
-// 				tmp_fd = open(cur->arg[0], O_CREAT | O_WRONLY | O_APPEND, 0666);
-// 			else if (current_token == DLESS)
-// 				tmp_fd = 1;
-// 			if (tmp_fd == -1)
-// 			{
-// 				perror("open");
-// 				return (errno);
-// 			}
-// 			if (tmp_fd > 0)
-// 				write(tmp_fd, "Loeut\n", 7);
-// 			printf("tmp fd : %d\n", tmp_fd);
-// 		}
-// 		cur = cur->next;
-// 	}
-// 	return (0);
-// }
 
 int	open_out_file(int cur_token, char *path, int *fd_out)
 {
@@ -121,7 +74,6 @@ int	associate_file_to_cmd(t_command *cmds)
 	while (cur != NULL)
 	{
 		current_token = cur->token;
-		//printf("current_token = %d\n", current_token);
 		if (current_token == GREAT || current_token == DGREAT
 			|| current_token == LESS || current_token == DLESS)
 		{

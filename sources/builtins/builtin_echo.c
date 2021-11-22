@@ -9,8 +9,6 @@
  * the option -n don't output the trailing newline
  */
 
-// ! same question than pwd with the fd
-
 int	is_flag(char *str)
 {
 	if (!str)

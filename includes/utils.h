@@ -11,7 +11,7 @@ int			array_size(char **arr);
 int			arr_int_size(int *arr);
 
 void		free_tab(char **arr);
-void	free_command(t_command **cmd);
+void		free_command(t_command **cmd);
 //void	free_command(t_command *cmd);
 //void 	free_simple_command(t_simple_command **list);
 
