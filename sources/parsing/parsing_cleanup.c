@@ -224,7 +224,8 @@ static int search_varrr(const char *str, t_split *split, t_list_envp *ms_env)
 			if (!arg)
 				arg = ft_strdup("");
 			i = 0;
-			while (arg[i]) {
+			while (arg[i])
+			{
 				split->new[split->l] = arg[i];
 				//printf("\t%c\n", split->new[split->l]);
 				split->l++;
@@ -310,12 +311,8 @@ void parsing_cleanup(char *str, t_list_envp *ms_env, t_command **cmd)
 			split.new = NULL;
 			split.l = 0;
 			split.new = malloc(sizeof(char) * 10000);
-			printf("koukou\n");
-			print_all(cmd);
 			add_command(cur, cmd);
-			printf("kaka\n");
-			print_all(cmd);
-			free(cur);
+			//free(cur);
 			cur = NULL;
 			cur = alloc_command(NULL);
 		}
@@ -352,11 +349,7 @@ void parsing_cleanup(char *str, t_list_envp *ms_env, t_command **cmd)
 	cur->arg = ft_split(split.new, ' ');
 	free(split.new);
 	split.new = NULL;
-	printf("koko\n");
-	print_all(cmd);
 	add_command(cur, cmd);
-	printf("kiki\n");
-	print_all(cmd);
-	free(cur);
+	//free(cur);
 	cur = NULL;
 }

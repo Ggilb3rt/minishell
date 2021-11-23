@@ -34,6 +34,7 @@ int	check_read_access(char *path, int *fd)
 /*
 * L'acces, la creation et le append sur les fichiers fonctionnent
 */
+/*
 int	associate_file_to_cmd_b(t_simple_command **list)
 {
 	t_simple_command	*cur;
@@ -75,7 +76,7 @@ int	associate_file_to_cmd_b(t_simple_command **list)
 	}
 	return (0);
 }
-
+*/
 
 int	open_out_file(int prev_token, char *path, int *fd_out)
 {
@@ -111,7 +112,7 @@ int	init_files_fds(int prev_token, char *path, int *fd_in, int *fd_out)
 	}
 	return (0);
 }
-
+/*
 int	associate_file_to_cmd(t_command *cmds)
 {
 	t_simple_command	*cur;
@@ -136,7 +137,8 @@ int	associate_file_to_cmd(t_command *cmds)
 
 	return (0);
 }
-
+*/
+/*
 int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 {
 	t_command	*cur;
@@ -168,4 +170,4 @@ int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 
 	return (0);
 }
-
+*/

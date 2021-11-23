@@ -63,7 +63,7 @@ void	free_command(t_command *cmd)
 }
 */
 
-void 	free_simple_command(t_simple_command **list)
+void 	free_command(t_command **list)
 {
 	int 				i;
 	int 				size;
@@ -85,7 +85,7 @@ void 	free_simple_command(t_simple_command **list)
 	free(list);
 	list = NULL;
 }
-
+/*
 void	free_command(t_command **cmd)
 {
 	while (*cmd && (*cmd)->next)
@@ -96,4 +96,4 @@ void	free_command(t_command **cmd)
 	}
 	free(cmd);
 	cmd = NULL;
-}
+}*/

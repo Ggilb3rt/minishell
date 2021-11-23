@@ -58,17 +58,17 @@ void	add_command(t_command *new, t_command **cmd)
 	if (!new)
 		return ;
 	new->next = NULL;
-	//for (int i = 0; i < array_size(new->arg); i++)
-	//	printf("\t%s\n", new->arg[i]);
+	for (int i = 0; i < array_size(new->arg); i++)
+		printf("\t%s\n", new->arg[i]);
 	if (!*cmd)
 	{
-		//printf("\t1st eLEMT\n");
+		printf("\t1st eLEMT\n");
 		new->next = *cmd;
 		*cmd = new;
 	}
 	else
 	{
-		//printf("\tadd NxT\n");
+		printf("\tadd NxT\n");
 		cur = command_last(*cmd);
 		cur->next = new;
 		cur->next->next = NULL;

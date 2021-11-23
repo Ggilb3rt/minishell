@@ -189,7 +189,7 @@ int	multiple_cmds(t_command *cur, char **env, int fd[2])
 		return (errno);
 	}
 	else if (pid > 0)
-		parent_exec(cur->list[0]->arg, env, fd, cur->fd_out);
+		parent_exec(cur->arg, env, fd, cur->fd_out);
 	else
 		child_exec(fd, cur->fd_in);
 	return (0);
@@ -207,8 +207,8 @@ void	one_cmd(t_command *cur, char **env)
 		dup2(cur->fd_in, STDIN_FILENO);
 		close(cur->fd_in);
 	}
-	if (execve(cur->list[0]->arg[0], cur->list[0]->arg, env) == -1)
-		perror(cur->list[0]->arg[0]);
+	if (execve(cur->arg[0], cur->arg, env) == -1)
+		perror(cur->arg[0]);
 	exit(errno);
 }
 
@@ -219,12 +219,12 @@ int	execute_pipeline_cmds2(t_command **cmd, char **env, int fd[2])
 	cur = *cmd;
 	if (!cur)
 		return (-1);
-	while (cur != NULL && cur->list[0]->token != NWLINE)
+	while (cur != NULL && cur->token != NWLINE)
 	{
-		printf("fd_in %d, fd_out %d, %s : %d\n", cur->fd_in, cur->fd_out, cur->list[0]->arg[0], cur->can_exec);
+		printf("fd_in %d, fd_out %d, %s : %d\n", cur->fd_in, cur->fd_out, cur->arg[0], cur->can_exec);
 		//if (cur->can_exec == 1)
 		//{
-			if (cur->next != NULL && cur->next->list[0]->token != NWLINE)
+			if (cur->next != NULL && cur->next->token != NWLINE)
 			{
 				if (multiple_cmds(cur, env, fd) != 0)
 					return (-1);

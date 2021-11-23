@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "parsing.h"
-
+/*
 static void	redir_great(t_simple_command *cur, t_command *cmd)
 {
 	if (cur->token == GREAT)
@@ -84,3 +84,4 @@ int	parser(t_command **cmd)
 	}
 	return (1);
 }
+*/
