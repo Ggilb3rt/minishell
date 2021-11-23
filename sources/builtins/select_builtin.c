@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 08:13:19 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/22 08:13:39 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/23 16:40:59 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ int	exec_builtin(char **cmd, t_list_envp *env)
 	else if (!strcmp(cmd_name, "env"))
 		return (cmd_env(env));
 	else if (!strcmp(cmd_name, "exit"))
-		return (cmd_exit(cmd_name));
+		return (cmd_exit(cmd));
 	return (0);
 }

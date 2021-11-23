@@ -6,21 +6,21 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/22 17:18:45 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/23 16:01:14 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_ret = 0;
+t_g_sig	g_ret = {.ret = 0, . quit = 0};
 
 void	sig_handler(int n)
 {
 	if (n == SIGINT)
 	{
-		if (g_ret == EHERE)
+		if (g_ret.ret == EHERE)
 		{
-			g_ret = QHERE;
+			g_ret.ret = QHERE;
 		}
 		else
 		{
@@ -28,7 +28,7 @@ void	sig_handler(int n)
 			rl_on_new_line();
 			rl_replace_line("", 0);
 			rl_redisplay();
-			g_ret = 0;
+			g_ret.ret = 0;
 		}
 	}
 }
@@ -125,26 +125,28 @@ int	main(int ac, char **av, char **envp)
 		if (!lexer_and_parser(line, cmd))
 			break ;
 		convert_var(cmd);
-		if (g_ret == EHERE)
+		if (g_ret.ret == EHERE)
 		{
 			heredoc_func(line, cmd);
 		}
-		if ((g_ret = cmd_exit(line)) == 1)
-			exit(0);
 		set_cmd_ready_to_exec(cmd, ms_envp);
 		//print_all(cmd);
 		pipeline_env = convert_envplst_to_tab(ms_envp);
 		ms_pipeline(cmd, pipeline_env, ms_envp);
 		close_cmds_fd(cmd);
-		free_command(cmd);
 		free_tab(pipeline_env);
+		printf("g_ret in = %d | %d\n", g_ret.ret, g_ret.quit);
+		if (g_ret.quit == 1)
+			break ;
+		//	exit(g_ret.ret);
+		free_command(cmd);
 		//print_all(cmd);
 	}
 	//close_cmds_fd(cmd);
-	if (cmd)
+	if (cmd == NULL)
 		free_command(cmd);
-	printf("quit loop\n");
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
-	return (g_ret);
+	printf("g_ret out = %d | %d\n", g_ret.ret, g_ret.quit);
+	return (g_ret.ret);
 }

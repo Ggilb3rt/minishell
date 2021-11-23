@@ -6,7 +6,7 @@
 
 static int	event_hook(void)
 {
-	if (g_ret == QHERE)
+	if (g_ret.ret == QHERE)
 	{
 		rl_replace_line("\1", 1);
 		rl_done = 1;
@@ -14,7 +14,7 @@ static int	event_hook(void)
 	return (0);
 }
 
-void 	heredoc_func(char *arg, t_command **cmd)
+void	heredoc_func(char *arg, t_command **cmd)
 {
 	char	*line;
 
@@ -22,7 +22,7 @@ void 	heredoc_func(char *arg, t_command **cmd)
 	rl_event_hook = &event_hook;
 	line = ft_strdup("");
 	(*cmd)->fd_out = open((*cmd)->end, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	while (g_ret != QHERE)
+	while (g_ret.ret != QHERE)
 	{
 		free(line);
 		line = readline("> ");
@@ -30,11 +30,11 @@ void 	heredoc_func(char *arg, t_command **cmd)
 			break ;
 		if (line[0] == '\1')
 		{
-			break;
+			break ;
 		}
 		else if (!ft_strcmp(line, (*cmd)->end))
 		{
-			g_ret = 0;
+			g_ret.ret = 0;
 			break ;
 		}
 		else if (line && ft_strlen(line) != ft_strlen((*cmd)->end))

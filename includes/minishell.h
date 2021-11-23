@@ -23,11 +23,11 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <errno.h>
+# include <limits.h>
 
-# define UINT_MAX 4294967294
 # define QEXIT 0
-# define EHERE 1
-# define QHERE 2
+# define EHERE -1
+# define QHERE -2
 
 # define IN 0
 # define OUT 1
@@ -35,11 +35,17 @@
 # define BUILT_ECHO 0
 # define BUILT_PWD 1
 # define BUILT_ENV 2
-# define BUILT_EXIT 3
 
 # define BUILT_CD 10
 # define BUILT_EXPORT 11
 # define BUILT_UNSET 12
+# define BUILT_EXIT 13
+
+typedef struct s_g_sig
+{
+	int						ret;
+	int						quit;
+}	t_g_sig;
 
 typedef struct s_simple_command
 {
@@ -56,17 +62,17 @@ typedef struct s_command
 	int						numb_avail_simple_commands;
 	int						numb_simple_commands;
 	t_simple_command		**list;
-	char 					*out_file;
-	char 					*in_file;
-	char 					*err_file;
-	int 					fd_in;
-	int 					fd_out;
-	char 					*end;
+	char					*out_file;
+	char					*in_file;
+	char					*err_file;
+	int						fd_in;
+	int						fd_out;
+	char					*end;
 	int						can_exec;
 	struct s_command		*next;
 }				t_command;
 
-extern int	g_ret;
+extern t_g_sig	g_ret;
 
 # include "parsing.h"
 # include "env.h"
@@ -76,6 +82,6 @@ extern int	g_ret;
 # include "heredoc.h"
 # include "libft.h"
 
-void sig_handler(int n);
+void	sig_handler(int n);
 
 #endif
