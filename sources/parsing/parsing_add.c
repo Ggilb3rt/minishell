@@ -20,7 +20,7 @@ static t_command	*command_last(t_command *cmd)
 		cmd = cmd->next;
 	return (cmd);
 }
-
+/*
 static t_simple_command	*simple_last(t_simple_command *list)
 {
 	if (!list)
@@ -29,7 +29,8 @@ static t_simple_command	*simple_last(t_simple_command *list)
 		list = list->next;
 	return (list);
 }
-
+ */
+/*
 void	add_simple(t_simple_command *new, t_simple_command **list)
 {
 	t_simple_command	*cur;
@@ -49,7 +50,7 @@ void	add_simple(t_simple_command *new, t_simple_command **list)
 		cur->next->next = NULL;
 	}
 }
-
+*/
 void	add_command(t_command *new, t_command **cmd)
 {
 	t_command	*cur;
@@ -57,13 +58,17 @@ void	add_command(t_command *new, t_command **cmd)
 	if (!new)
 		return ;
 	new->next = NULL;
+	//for (int i = 0; i < array_size(new->arg); i++)
+	//	printf("\t%s\n", new->arg[i]);
 	if (!*cmd)
 	{
+		//printf("\t1st eLEMT\n");
 		new->next = *cmd;
 		*cmd = new;
 	}
 	else
 	{
+		//printf("\tadd NxT\n");
 		cur = command_last(*cmd);
 		cur->next = new;
 		cur->next->next = NULL;

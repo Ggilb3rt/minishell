@@ -37,7 +37,7 @@ typedef struct s_list_envp
 	char				*content;
 	struct s_list_envp	*next;
 }	t_list_envp;
-
+/*
 typedef struct s_simple_command
 {
 	int						numb_avail;
@@ -46,15 +46,16 @@ typedef struct s_simple_command
 	int						token;
 	struct s_simple_command	*next;
 }				t_simple_command;
-
+*/
 typedef struct s_command
 {
-	int						numb_avail_simple_commands;
-	int						numb_simple_commands;
-	t_simple_command		**list;
+	int						numb_avail_simple_commands; //inutile?
+	int						numb_simple_commands; //inutile?
+	int 					token; //inutile?
+	char					**arg;
 	char 					*out_file;
 	char 					*in_file;
-	char 					*err_file;
+	char 					*err_file; //inutile?
 	int 					fd_in;
 	int 					fd_out;
 	char 					*end;

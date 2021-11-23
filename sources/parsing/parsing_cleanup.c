@@ -201,7 +201,6 @@ static char *assign_varrr(const char *str, t_split *split)
 	var = NULL;
 	while (str[split->i] != ' ' && str[split->i] != '\0' && str[split->i] != '\'' && str[split->i] != '\"')
 	{
-		//printf("\t%c \n", str[split->i + k]);
 		split->i++;
 	}
 	var = ft_substr(str, k, split->i - k);
@@ -210,7 +209,7 @@ static char *assign_varrr(const char *str, t_split *split)
 	return (NULL);
 }
 
-static void search_varrr(const char *str, t_split *split, t_list_envp *ms_env)
+static int search_varrr(const char *str, t_split *split, t_list_envp *ms_env)
 {
 	char *var;
 	char *arg;
@@ -227,12 +226,15 @@ static void search_varrr(const char *str, t_split *split, t_list_envp *ms_env)
 			i = 0;
 			while (arg[i]) {
 				split->new[split->l] = arg[i];
+				//printf("\t%c\n", split->new[split->l]);
 				split->l++;
 				i++;
 			}
-			//split->i++;
 		}
+		return (1);
 	}
+	else
+		return (0);
 }
 
 static int ret_val(const char *str, t_split *split)
@@ -245,7 +247,7 @@ static int ret_val(const char *str, t_split *split)
 	return (i);
 }
 
-static int redirection(char *str, t_split *split, t_command **cmd)
+static int redirection(char *str, t_split *split, t_command *cmd)
 {
 	int i;
 
@@ -255,17 +257,17 @@ static int redirection(char *str, t_split *split, t_command **cmd)
 		split->i++;
 		while (str[split->i == ' '])
 			split->i++;
-		while (ft_isalnum(str[split->i]))
+		cmd->in_file = malloc(sizeof(char) * (ret_val(str, split) + 1));
+		while (str[split->i] && str[split->i] != ' ')
 		{
-			(*cmd)->in_file = malloc(sizeof(char) * (ret_val(str, split) + 1));
 			if (ft_isalnum(str[split->i]))
 			{
-				(*cmd)->in_file[i] = str[split->i];
+				cmd->in_file[i] = str[split->i];
 				split->i++;
 				i++;
 			}
 		}
-		(*cmd)->in_file[i] = '\0';
+		cmd->in_file[i] = '\0';
 		return (0);
 	}
 	else if (str[split->i] == '>')
@@ -273,20 +275,20 @@ static int redirection(char *str, t_split *split, t_command **cmd)
 		split->i++;
 		while (str[split->i] == ' ')
 			split->i++;
-		while (str[split->i])
+		cmd->out_file = malloc(sizeof(char) * (ret_val(str, split) + 1));
+		while (str[split->i] && str[split->i] != ' ')
 		{
-			(*cmd)->out_file = malloc(sizeof(char) * (ret_val(str, split) + 1));
 			if (ft_isalnum(str[split->i]))
 			{
-				(*cmd)->out_file[i] = str[split->i];
+				cmd->out_file[i] = str[split->i];
 				split->i++;
 				i++;
 			}
 		}
-		(*cmd)->out_file[i] = '\0';
-		return (0);
+		cmd->out_file[i] = '\0';
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 void parsing_cleanup(char *str, t_list_envp *ms_env, t_command **cmd)
@@ -296,41 +298,65 @@ void parsing_cleanup(char *str, t_list_envp *ms_env, t_command **cmd)
 
 	init_split(&split, str);
 	split.new = malloc(sizeof(char) * 10000);
-	cur = alloc_command(split.new);
+	cur = alloc_command(NULL);
 	while (str[split.i])
 	{
 		if (str[split.i] == '|')
 		{
 			split.i++;
-			if (split.new)
-			{
-				cur = alloc_command(split.new);
-				add_command(cur, cmd);
-				//free(cur);
-				//cur = NULL;
-				//cur = cur->next;
-			}
-
-			//----------------------
+			split.new[split.l] = '\0';
+			cur->arg = ft_split(split.new, ' ');
+			free(split.new);
+			split.new = NULL;
+			split.l = 0;
+			split.new = malloc(sizeof(char) * 10000);
+			printf("koukou\n");
+			print_all(cmd);
+			add_command(cur, cmd);
+			printf("kaka\n");
+			print_all(cmd);
+			free(cur);
+			cur = NULL;
+			cur = alloc_command(NULL);
 		}
-		if (open_quoteee(str, &split))
+		else if (open_quoteee(str, &split))
 		{
 			while (close_quoteee(str, &split))
 			{
-				if (!split.open_s)
-					search_varrr(str, &split, ms_env);
-				split.new[split.l] = str[split.i];
-				split.l++;
-				split.i++;
+				if (!split.open_s && split.open_d)
+				{
+					if (!search_varrr(str, &split, ms_env))
+					{
+						split.new[split.l] = str[split.i];
+						split.l++;
+						split.i++;
+					}
+				}
+				else
+				{
+					split.new[split.l] = str[split.i];
+					split.l++;
+					split.i++;
+				}
 			}
 		}
-		redirection(str, &split, &cur);
-		split.new[split.l] = str[split.i];
-		split.l++;
-		split.i++;
+		else
+		{
+			redirection(str, &split, cur);
+			split.new[split.l] = str[split.i];
+			split.l++;
+			split.i++;
+		}
 	}
-	printf("%s\n", split.new);
-	cur = alloc_command(split.new);
+	split.new[split.l] = '\0';
+	cur->arg = ft_split(split.new, ' ');
+	free(split.new);
+	split.new = NULL;
+	printf("koko\n");
+	print_all(cmd);
 	add_command(cur, cmd);
-	//add_newline(cmd);
+	printf("kiki\n");
+	print_all(cmd);
+	free(cur);
+	cur = NULL;
 }

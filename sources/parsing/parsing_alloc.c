@@ -32,6 +32,7 @@ char	**get_arg(char **str, int begin, int end)
 	return (new);
 }
 */
+/*
 t_simple_command	*alloc_simple(char *str)
 {
 	t_simple_command	*new;
@@ -46,17 +47,18 @@ t_simple_command	*alloc_simple(char *str)
 	new->next = NULL;
 	return (new);
 }
-
-t_command	*alloc_command(char *arg)
+*/
+t_command	*alloc_command(const char *arg)
 {
 	t_command	*cmd;
 
+	(void)arg;
 	cmd = malloc(sizeof(t_command));
 	if (!cmd)
 		return (NULL);
 	cmd->numb_avail_simple_commands = 0;
 	cmd->numb_simple_commands = 0;
-	cmd->list = get_simple(arg);
+	cmd->arg = NULL; //get_simple(arg);
 	cmd->out_file = NULL;
 	cmd->in_file = NULL;
 	cmd->err_file = NULL;

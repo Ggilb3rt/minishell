@@ -82,21 +82,21 @@ int					lexer_and_parser(char *str, t_command **cmd, t_list_envp *ms_env);
 int					create_token(char *str);
 
 /* parsing add */
-void				add_simple(t_simple_command *new, t_simple_command **list);
-void				add_command(t_command *new, t_command **list);
+//void				add_simple(t_simple_command *new, t_simple_command **list);
+void				add_command(t_command *new, t_command **cmd);
 int					add_newline(t_command **list);
 
 /* parsing alloc */
-t_simple_command	*alloc_simple(char *str);
-t_command			*alloc_command(char *arg);
-char                **get_arg(char **str, int i, int last);
+//t_simple_command	*alloc_simple(char *str);
+t_command			*alloc_command(const char *arg);
+//char                **get_arg(char **str, int i, int last);
 
 /* parsing grammar */
 int					parser(t_command **cmd);
 
 /* parsing lexer */
 t_command			**get_command(char *arg);
-t_simple_command	**get_simple(char *arg);
+//t_simple_command	**get_simple(char *arg);
 
 /* parsing cleanup */
 int					clean_quote(char **str);
@@ -116,7 +116,7 @@ void 				count_quote(char *str, int i, t_split *splt);
 void 				count_spaces(char *str, int i, t_split *splt);
 
 /* debug */
-int					print_simple_command(t_simple_command **sc);
+//int					print_simple_command(t_simple_command **sc);
 int					print_command(t_command *cmd);
 int					print_all(t_command **cmd);
 

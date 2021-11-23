@@ -36,7 +36,7 @@ int	lexer_and_parser(char *str, t_command **cmd, t_list_envp *ms_env)
 {
 	char	**arg;
 	char 	*new;
-	int		ret = 0;
+	int		ret = 1;
 
 	(void)arg;
 	(void)new;

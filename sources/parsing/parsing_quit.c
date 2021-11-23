@@ -28,15 +28,8 @@ void print_error(char *str, int fd)
 
 void free_split(t_split *splt)
 {
-	int i;
-
-	i = 0;
-	while (splt->new[i])
-	{
-		free(splt->new[i]);
-		splt->new[i] = NULL;
-		i++;
-	}
+	free(splt->new);
+	splt->new = NULL;
 	free(splt);
 	splt = NULL;
 }

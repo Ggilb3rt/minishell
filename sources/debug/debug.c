@@ -12,41 +12,44 @@ int	print_command(t_command *cmd)
 	return (0);
 }
 
-int	print_simple_command(t_simple_command **cur)
+int	print_all(t_command **cmd)
 {
+
 	char 				**arr;
 	int					i;
 	int					count;
 
 	count = 0;
 	printf("COMMAND TABLE :\n");
-	while ((*cur) != NULL)
+	while ((*cmd) != NULL)
 	{
 		i = 0;
-		arr = (*cur)->arg;
+		arr = (*cmd)->arg;
 		while (arr[i])
 		{
-			printf("%i %s = %i\n", count, arr[i], (*cur)->token);
+			printf("%i %s\n", count, arr[i]);//, (*cmd)->token);
 			i++;
 		}
-		(*cur) = (*cur)->next;
+		print_command(*cmd);
+		printf("\n");
+		(*cmd) = (*cmd)->next;
 		count++;
 	}
-	return (0);
-}
 
-int	print_all(t_command **cmd)
-{
-	t_command	*cur;
+	/*
+	int j = 0;
+	t_command *cur;
 
 	cur = *cmd;
 	while (cur != NULL)
 	{
-		printf("---cur---\n");
-		print_simple_command(cur->list);
-		print_command(cur);
-		printf("\n");
+		for (int i = 0; cur->arg[i] != NULL; i++)
+		{
+			printf("%d %d stparg = %s\n", j, i, cur->arg[i]);
+		}
 		cur = cur->next;
+		j++;
 	}
+	 */
 	return (0);
 }

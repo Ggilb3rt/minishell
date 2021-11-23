@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 static void	new_simple_command(char *arg, t_simple_command **list)
 {
 	t_simple_command	*cur;
@@ -21,6 +21,7 @@ static void	new_simple_command(char *arg, t_simple_command **list)
 		return ;
 	add_simple(cur, list);
 }
+ */
 /*
 static void	new_command(char **arg, t_command **cmd, int end, int begin)
 {
@@ -32,6 +33,7 @@ static void	new_command(char **arg, t_command **cmd, int end, int begin)
 	add_command(cur, cmd);
 }
 */
+/*
 static t_simple_command	**init_list(void)
 {
 	t_simple_command	**list;
@@ -52,7 +54,7 @@ t_simple_command	**get_simple(char *arg)
 	new_simple_command(arg, list);
 	return (list);
 }
-
+*/
 /*
  * The lexing part is processed into 2 differents step :
  * - First step, we are handling all the pipes
