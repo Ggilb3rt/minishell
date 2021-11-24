@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int 	open_quoteee(const char *str, t_split *split)
+static int	open_quoteee(const char *str, t_split *split)
 {
 	if (str[split->i] == '\"' && !split->open_s && !split->open_d)
 	{
@@ -29,7 +29,7 @@ static int 	open_quoteee(const char *str, t_split *split)
 	return (0);
 }
 
-static int 	close_quoteee(const char *str, t_split *split)
+static int	close_quoteee(const char *str, t_split *split)
 {
 	if (str[split->i] == '\"' && !split->open_s && split->open_d)
 	{
@@ -57,25 +57,23 @@ static void	init_split(t_split *split, const char *str)
 	split->open_d = 0;
 }
 
-static char *assign_varrr(const char *str, t_split *split)
+static char	*assign_varrr(const char *str, t_split *split)
 {
-	char *var;
-	int k;
+	char	*var;
+	int		k;
 
 	split->i++;
 	k = split->i;
 	var = NULL;
 	while (str[split->i] != ' ' && str[split->i] != '\0' && str[split->i] != '\'' && str[split->i] != '\"')
-	{
 		split->i++;
-	}
 	var = ft_substr(str, k, split->i - k);
 	if (var)
 		return (var);
 	return (NULL);
 }
 
-static int search_varrr(const char *str, t_split *split, t_list_envp *ms_env)
+static int	search_varrr(const char *str, t_split *split, t_list_envp *ms_env)
 {
 	char *var;
 	char *arg;
@@ -102,7 +100,7 @@ static int search_varrr(const char *str, t_split *split, t_list_envp *ms_env)
 		return (0);
 }
 
-static int ret_val(const char *str, t_split *split)
+static int	ret_val(const char *str, t_split *split)
 {
 	int i;
 
@@ -112,7 +110,7 @@ static int ret_val(const char *str, t_split *split)
 	return (i);
 }
 
-static int redirection(char *str, t_split *split, t_command *cmd)
+static int	redirection(char *str, t_split *split, t_command *cmd)
 {
 	int i;
 
@@ -132,6 +130,8 @@ static int redirection(char *str, t_split *split, t_command *cmd)
 				i++;
 			}
 		}
+		cmd->token_in = LESS;
+		cmd->token_out = 0;
 		cmd->in_file[i] = '\0';
 		return (0);
 	}
@@ -150,6 +150,8 @@ static int redirection(char *str, t_split *split, t_command *cmd)
 				i++;
 			}
 		}
+		cmd->token_in = 0;
+		cmd->token_out = GREAT;
 		cmd->out_file[i] = '\0';
 		return (1);
 	}
@@ -168,6 +170,8 @@ static int redirection(char *str, t_split *split, t_command *cmd)
 				i++;
 			}
 		}
+		cmd->token_in = 0;
+		cmd->token_out = DGREAT;
 		cmd->out_file[i] = '\0';
 		return (1);
 	}
@@ -186,6 +190,8 @@ static int redirection(char *str, t_split *split, t_command *cmd)
 				i++;
 			}
 		}
+		cmd->token_in = DLESS;
+		cmd->token_out = 0;
 		cmd->end[i] = '\0';
 		g_ret.ret = EHERE;
 		return (1);
@@ -248,9 +254,7 @@ static int 	count_word(char *str, t_list_envp *ms_env, int pos)
 						split.i++;
 					}
 					else
-					{
 						count += split.q;
-					}
 				}
 				else
 				{
@@ -269,7 +273,14 @@ static int 	count_word(char *str, t_list_envp *ms_env, int pos)
 	return (count);
 }
 
-void parsing_cleanup(char *str, t_list_envp *ms_env, t_command **cmd)
+static void	get_char(char *str, t_split *split)
+{
+	split->new[split->o][split->l] = str[split->i];
+	split->l++;
+	split->i++;
+}
+
+void	parsing_cleanup(char *str, t_list_envp *ms_env, t_command **cmd)
 {
 	t_split		split;
 	t_command	*cur;
@@ -307,6 +318,8 @@ void parsing_cleanup(char *str, t_list_envp *ms_env, t_command **cmd)
 			split.i++;
 			while (str[split.i] == ' ')
 				split.i++;
+			if (!str[split.i])
+				break ;
 			split.new[split.o][split.l] = '\0';
 			split.new[split.o + 1] = NULL;
 			cur->arg = split.new;
@@ -331,26 +344,16 @@ void parsing_cleanup(char *str, t_list_envp *ms_env, t_command **cmd)
 				if (!split.open_s && split.open_d)
 				{
 					if (!search_varrr(str, &split, ms_env))
-					{
-						split.new[split.o][split.l] = str[split.i];
-						split.l++;
-						split.i++;
-					}
+						get_char(str, &split);
 				}
 				else
-				{
-					split.new[split.o][split.l] = str[split.i];
-					split.l++;
-					split.i++;
-				}
+					get_char(str, &split);
 			}
 		}
 		else
 		{
 			redirection(str, &split, cur);
-			split.new[split.o][split.l] = str[split.i];
-			split.l++;
-			split.i++;
+			get_char(str, &split);
 		}
 	}
 	split.new[split.o][split.l] = '\0';

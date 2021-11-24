@@ -68,7 +68,9 @@ typedef struct s_command
 {
 	int						numb_avail_simple_commands; //inutile?
 	int						numb_simple_commands; //inutile?
-	int 					token; //inutile?
+	int 					token_in;
+	int 					token_out;
+	int 					token;
 	char					**arg;
 	char 					*out_file;
 	char 					*in_file;
