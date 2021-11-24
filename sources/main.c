@@ -109,6 +109,7 @@ int	main(int ac, char **av, char **envp)
 	ms_envp = create_msenvp_lst(envp);
 	msg_prompt = ft_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
 	//cmd_env(ms_envp);
+	(void)pipeline_env;
 	while (1)
 	{
 		free(line);
@@ -123,18 +124,18 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		else
 			free(line);
-		if (!lexer_and_parser(line, cmd, ms_envp))
+		if (!parsing_main(line, cmd, ms_envp))
 			break ;
 		if (g_ret.ret == EHERE)
 		{
 			heredoc_func(line, cmd);
 		}
 		print_all(cmd);
-		set_cmd_ready_to_exec(cmd, ms_envp);
-		pipeline_env = convert_envplst_to_tab(ms_envp);
-		ms_pipeline(cmd, pipeline_env, ms_envp);
-		close_cmds_fd(cmd);
-		free_tab(pipeline_env);
+		//set_cmd_ready_to_exec(cmd, ms_envp);
+		//pipeline_env = convert_envplst_to_tab(ms_envp);
+		//ms_pipeline(cmd, pipeline_env, ms_envp);
+		//close_cmds_fd(cmd);
+		//free_tab(pipeline_env);
 		printf("g_ret in = %d | %d\n", g_ret.ret, g_ret.quit);
 		if (g_ret.quit == 1)
 			break ;
@@ -143,7 +144,7 @@ int	main(int ac, char **av, char **envp)
 		//print_all(cmd);
 	}
 	//close_cmds_fd(cmd);
-	if (cmd == NULL)
+	if (cmd)
 		free_command(cmd);
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);

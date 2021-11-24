@@ -31,6 +31,7 @@ int	print_all(t_command **cmd)
 			printf("%i %s\n", count, arr[i]);//, (*cmd)->token);
 			i++;
 		}
+		printf("%i %s\n", count, arr[i]);
 		print_command(cur);
 		printf("\n");
 		cur = cur->next;

@@ -59,9 +59,8 @@ typedef struct s_split
 
 typedef struct s_split
 {
-	int 	size;
+	char 	*str;
 	int 	i;
-	int		z;
 	int 	l;
 	int 	o;
 	int 	q;
@@ -79,47 +78,48 @@ typedef struct s_count
 }				t_count;
 
 /* parsing main */
-int					lexer_and_parser(char *str, t_command **cmd, t_list_envp *ms_env);
+int					parsing_main(char *str, t_command **cmd, t_list_envp *ms_env);
+int					ret_val(t_split *split);
+void				del_spaces(t_split *split);
 
 /* parsing tokens */
 int					create_token(char *str);
 
 /* parsing add */
-//void				add_simple(t_simple_command *new, t_simple_command **list);
 void				add_command(t_command *new, t_command **cmd);
 int					add_newline(t_command **list);
 
 /* parsing alloc */
-//t_simple_command	*alloc_simple(char *str);
 t_command			*alloc_command(char **arg);
-//char                **get_arg(char **str, int i, int last);
+int					alloc_word(t_split *split, t_list_envp *ms_env);
+int					alloc_arg(t_split *split);
 
-/* parsing grammar */
-int					parser(t_command **cmd);
+/* parsing init */
+void				init_split(t_split *split, char *str);
+int					init_arg(t_split *split, t_command *cur, t_list_envp *ms_env);
 
-/* parsing lexer */
-t_command			**get_command(char *arg);
-//t_simple_command	**get_simple(char *arg);
+/* parsing get */
+void				get_char(t_split *split);
+void 				get_arg(t_split *split, t_command *cur, t_command **cmd);
+int 				get_arg_pipe(t_split *split, t_command *cur, t_command **cmd);
+int 				get_word_space(t_split *split, t_list_envp *ms_env);
 
-/* parsing cleanup */
-int					clean_quote(char **str);
-void				join_quotes(char **str);
-void				parsing_cleanup(char *str, t_list_envp *ms_env, t_command **cmd);
+/* parsing quotes */
+int					open_quote(t_split *split);
+int					close_quote(t_split *split);
+void				into_quote(t_split *split, t_list_envp *ms_env);
 
-/* parsing split 1 */
-char				**split_quote(char *str);
+/* parsing redirections */
+void				redirection(t_split *split, t_command *cmd);
 
-/* parsing split 2 */
-int					word_count(char *str);
+/* parsing env */
+int					search_var(t_split *split, t_list_envp *ms_env);
 
-/* parsing split 3 */
-void				open_quote(char *str, int i, t_split *splt);
-char				*split_words(char *str, int begin, int end, int nospace);
-void 				count_quote(char *str, int i, t_split *splt);
-void 				count_spaces(char *str, int i, t_split *splt);
+/* parsing count */
+int 				count_args(char *str, int pos);
+int 				count_word(char *str, t_list_envp *ms_env, int pos);
 
 /* debug */
-//int					print_simple_command(t_simple_command **sc);
 int					print_command(t_command *cmd);
 int					print_all(t_command **cmd);
 

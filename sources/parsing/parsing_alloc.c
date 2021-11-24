@@ -11,43 +11,24 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
-char	**get_arg(char **str, int begin, int end)
-{
-	char	**new;
-	int		diff;
-	int		j;
 
-	j = 0;
-	diff = end - begin;
-	new = malloc(sizeof(char *) * (diff + 1));
-	if (!new)
-		return (NULL);
-	while (j < diff)
-	{
-		new[j] = ft_strdup(str[begin + j]);
-		j++;
-	}
-	new[j] = NULL;
-	return (new);
-}
-*/
-/*
-t_simple_command	*alloc_simple(char *str)
+int alloc_word(t_split *split, t_list_envp *ms_env)
 {
-	t_simple_command	*new;
-
-	new = malloc(sizeof(t_simple_command));
-	if (!new)
-		return (NULL);
-	new->arg = ft_split(str, ' ');
-	new->token = 0; //create_token(new->arg[0]);
-	new->numb_avail = 0;
-	new->numb = 0;
-	new->next = NULL;
-	return (new);
+	split->new[split->o] = malloc (sizeof(char) * (count_word(split->str, ms_env, split->i) + 1));
+	if (!split->new[split->o])
+		return (0);
+	return (1);
 }
-*/
+
+int alloc_arg(t_split *split)
+{
+	split->new = malloc(sizeof(char *) * (count_args(split->str, split->i) + 1));
+	if (!split->new)
+		return (0);
+	split->new[split->o] = NULL;
+	return (1);
+}
+
 t_command	*alloc_command(char **arg)
 {
 	t_command	*cmd;

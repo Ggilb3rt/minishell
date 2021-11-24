@@ -3,14 +3,13 @@ SOURCES = \
 		parsing/parsing_main.c \
 		parsing/parsing_alloc.c \
 		parsing/parsing_add.c \
-		parsing/parsing_grammar.c \
 		parsing/parsing_token.c \
-		parsing/parsing_quit.c \
-		parsing/parsing_lexer.c \
-		parsing/parsing_cleanup.c \
-		parsing/parsing_split_1.c \
-		parsing/parsing_split_2.c \
-		parsing/parsing_split_3.c \
+		parsing/parsing_count.c \
+		parsing/parsing_env.c \
+		parsing/parsing_get.c \
+		parsing/parsing_init.c \
+		parsing/parsing_quotes.c \
+		parsing/parsing_redirs.c \
 		env/env.c \
 		env/env_edit.c \
 		env/env_free.c \

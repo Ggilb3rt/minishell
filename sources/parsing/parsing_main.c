@@ -32,31 +32,74 @@
  * The parsing is not perfect and will still need some improvements.
  */
 
-int	lexer_and_parser(char *str, t_command **cmd, t_list_envp *ms_env)
+void del_spaces(t_split *split)
 {
-	char	**arg;
-	char 	*new;
-	int		ret = 1;
+	while (split->str[split->i] == ' ')
+		split->i++;
+}
 
-	(void)arg;
-	(void)new;
-	parsing_cleanup(str, ms_env, cmd);
-	//printf("%s\n", new);
-	//(void)arg;
-	//arg = split_quote(new);
-	/*
-	get_command(arg, cmd);
-	if (!cmd)
+int	ret_val(t_split *split)
+{
+	int i;
+
+	i = 0;
+	while (split->str[split->i + i] && split->str[split->i + i] != ' ')
+		i++;
+	return (i);
+}
+
+static int check_char(t_split *split, t_command *cur, t_command **cmd, t_list_envp *ms_env)
+{
+	if (split->str[split->i] == ' ')
 	{
-		printf("Error input string\n");
-		exit (0);
+		if (!get_word_space(split, ms_env))
+			return (0);
 	}
-	ret = parser(cmd);
-	if (!ret)
+	else if (split->str[split->i] == '|')
 	{
-		printf("Error synthax\n");
-		exit (0);
+		if (!get_arg_pipe(split, cur, cmd))
+			return (0);
+		if (!init_arg(split, cur, ms_env))
+		{
+			free_split(split);
+			exit(0);
+		}
 	}
-	 */
-	return (ret);
+	else if (open_quote(split))
+		into_quote(split, ms_env);
+	else
+	{
+		redirection(split, cur);
+		get_char(split);
+	}
+	return (1);
+}
+
+int	parsing_main(char *str, t_command **cmd, t_list_envp *ms_env)
+{
+	t_split		split;
+	t_command	*cur;
+	int 		ret;
+
+	ret = 0;
+	cur = NULL;
+	split.new = NULL;
+	init_split(&split, str);
+	printf("toupie\n");
+	if (!init_arg(&split, cur, ms_env))
+	{
+		free_split(&split);
+		exit(0);
+	}
+	while (split.str[split.i])
+	{
+		ret = check_char(&split, cur, cmd, ms_env);
+		if (!ret)
+			break ;
+	}
+	printf("toupie\n");
+	get_arg(&split, cur, cmd);
+	add_newline(cmd);
+	printf("toupie\n");
+	return (1);
 }

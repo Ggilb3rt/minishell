@@ -68,7 +68,7 @@ void 	free_command(t_command **list)
 	int	i;
 	int	size;
 
-	while ((*list) && (*list)->next)
+	while ((*list))// && (*list)->next)
 	{
 		size = array_size((*list)->arg);
 		i = 0;
@@ -78,6 +78,12 @@ void 	free_command(t_command **list)
 			(*list)->arg[i] = NULL;
 			i++;
 		}
+		if ((*list)->out_file)
+			free((*list)->out_file);
+		if ((*list)->in_file)
+			free((*list)->in_file);
+		if ((*list)->end)
+			free((*list)->end);
 		free((*list)->arg);
 		(*list)->arg = NULL;
 		*list = (*list)->next;
@@ -85,6 +91,25 @@ void 	free_command(t_command **list)
 	free(list);
 	list = NULL;
 }
+
+void free_split(t_split *split)
+{
+	int i;
+
+	i = 0;
+	if (split->new)
+	{
+		while (split->new[i])
+		{
+			free(split->new[i]);
+			split->new[i] = NULL;
+			i++;
+		}
+		free(split->new);
+		split->new = NULL;
+	}
+}
+
 /*
 void	free_command(t_command **cmd)
 {
