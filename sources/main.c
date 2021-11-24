@@ -134,7 +134,6 @@ int	main(int ac, char **av, char **envp)
 		//convert_var(cmd, ms_envp);
 		//print_simple_command(cmd);
 		//print_command(cmd);
-		printf("keke\n");
 		print_all(cmd);
 		//char	**my_env = convert_envplst_to_tab(ms_envp);
 		//for (int i = 0; i < 29; i++){

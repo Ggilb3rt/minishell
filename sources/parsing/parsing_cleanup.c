@@ -253,7 +253,7 @@ static int redirection(char *str, t_split *split, t_command *cmd)
 	int i;
 
 	i = 0;
-	if (str[split->i] == '<')
+	if (str[split->i] == '<' && str[split->i + 1] != '<')
 	{
 		split->i++;
 		while (str[split->i == ' '])
@@ -271,7 +271,7 @@ static int redirection(char *str, t_split *split, t_command *cmd)
 		cmd->in_file[i] = '\0';
 		return (0);
 	}
-	else if (str[split->i] == '>')
+	else if (str[split->i] == '>' && str[split->i + 1] != '>')
 	{
 		split->i++;
 		while (str[split->i] == ' ')
@@ -287,6 +287,43 @@ static int redirection(char *str, t_split *split, t_command *cmd)
 			}
 		}
 		cmd->out_file[i] = '\0';
+		return (1);
+	}
+	else if (str[split->i] == '>' && str[split->i + 1] == '>')
+	{
+		split->i += 2;
+		while (str[split->i] == ' ')
+			split->i++;
+		cmd->out_file = malloc(sizeof(char) * (ret_val(str, split) + 1));
+		while (str[split->i] && str[split->i] != ' ')
+		{
+			if (ft_isalnum(str[split->i]))
+			{
+				cmd->out_file[i] = str[split->i];
+				split->i++;
+				i++;
+			}
+		}
+		cmd->out_file[i] = '\0';
+		return (1);
+	}
+	else if (str[split->i] == '<' && str[split->i + 1] == '<')
+	{
+		split->i += 2;
+		while (str[split->i] == ' ')
+			split->i++;
+		cmd->end = malloc(sizeof(char) * (ret_val(str, split) + 1));
+		while (str[split->i] && str[split->i] != ' ')
+		{
+			if (ft_isalnum(str[split->i]))
+			{
+				cmd->end[i] = str[split->i];
+				split->i++;
+				i++;
+			}
+		}
+		cmd->end[i] = '\0';
+		g_ret = EHERE;
 		return (1);
 	}
 	return (0);
@@ -318,6 +355,7 @@ void parsing_cleanup(char *str, t_list_envp *ms_env, t_command **cmd)
 		}
 		else if (open_quoteee(str, &split))
 		{
+			printf("pouet\n");
 			while (close_quoteee(str, &split))
 			{
 				if (!split.open_s && split.open_d)
