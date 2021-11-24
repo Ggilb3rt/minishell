@@ -129,11 +129,16 @@ int	main(int ac, char **av, char **envp)
 		{
 			heredoc_func(line, cmd);
 		}
-		print_all(cmd);
+		//print_all(cmd);
+		printf("1\n");
 		set_cmd_ready_to_exec(cmd, ms_envp);
+		printf("2\n");
 		pipeline_env = convert_envplst_to_tab(ms_envp);
+		printf("3\n");
 		ms_pipeline(cmd, pipeline_env, ms_envp);
+		printf("4\n");
 		close_cmds_fd(cmd);
+		printf("5\n");
 		free_tab(pipeline_env);
 		printf("g_ret in = %d | %d\n", g_ret.ret, g_ret.quit);
 		if (g_ret.quit == 1)
