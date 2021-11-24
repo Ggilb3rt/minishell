@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/22 17:08:27 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/24 12:09:44 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,14 +126,11 @@ int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 				cur->list[0]->arg[0] = init_cmd_path(cur->list[0]->arg[0],
 						env_path);
 		}
-		//! il ne faut pas que j'exec si le programme n'existe pas (sinon besoin multi exit)
-		//! une solution serait de set une var a test avec d'exec pour chaque cmd
 		if (access(cur->list[0]->arg[0], X_OK) == -1)
 			cur->can_exec = 0;
 			// perror(cur->list[0]->arg[0]);
 		else
 			cur->can_exec = 1;
-		//printf("%s ==> %d\n", cur->list[0]->arg[0], cur->can_exec);
 		cur = cur->next;
 	}
 	return (0);

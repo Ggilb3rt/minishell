@@ -1,14 +1,25 @@
-//
-// Created by Antoine LANGLOIS on 22/09/2021.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/24 11:56:51 by ggilbert          #+#    #+#             */
+/*   Updated: 2021/11/24 11:59:41 by ggilbert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
 /* export with no options : export 'name'='word'
- * - Set export attribute for shell variables, corresponding to the specified 'name', which shall cause them to
- * be in the environment of subsequently executed builtins. If the name of a variable is followed by ='word', then
+ * - Set export attribute for shell variables, corresponding to 
+ * the specified 'name', which shall cause them to
+ * be in the environment of subsequently executed builtins.
+ * If the name of a variable is followed by ='word', then
  * the value of that variable shall be set to 'word'.
- * The shell shall format the ouptut, including the proper use of quoting, so that it is suitable for reinput to the
+ * The shell shall format the ouptut, including the proper use of quoting,
+ * so that it is suitable for reinput to the
  * shell as builtins that achieve the same exporting results.
  */
 
@@ -18,17 +29,19 @@
  */
 
 /*
-export POUET=pouet	==> add to end of list (on mac not at the end but before last, need to check on linux)
-export LEL=lel LOL=lol ==> add each item
-export POO=foo POUET=nooon ==> add POO and update POUET
-export	(void) ==> print list of exported var (pas besoin de le gerer a priori car pas defini dans le man general)
+* export POUET=pouet	==> add to end of list (on mac not at the end but 
+* before last, need to check on linux)
+* export LEL=lel LOL=lol ==> add each item
+* export POO=foo POUET=nooon ==> add POO and update POUET
+* export	(void) ==> print list of exported var (pas besoin de le gerer 
+* a priori car pas defini dans le man general)
 
-*before '=' must be alphanum
+* before '=' must be alphanum
 
-split the list of items
-foreach item check if exist
-	if exist ==> update
-	if !exist ==> create
+* split the list of items
+* foreach item check if exist
+*	if exist ==> update
+*	if !exist ==> create
 */
 
 int	check_valide_identifier(char *arg)
@@ -102,7 +115,7 @@ int	cmd_export(t_list_envp *env, char **args)
 		}
 		else
 		{
-			//printf("export: not valid in this context: %s\n", args[i]);
+			printf("export: not valid in this context: %s\n", args[i]);
 			return (1);
 		}
 	}

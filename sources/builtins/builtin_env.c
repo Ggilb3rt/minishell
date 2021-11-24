@@ -1,12 +1,22 @@
-//
-// Created by Antoine LANGLOIS on 22/09/2021.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/24 11:55:08 by ggilbert          #+#    #+#             */
+/*   Updated: 2021/11/24 11:55:33 by ggilbert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
 /* env with no options or arguments : env 'NAME'='value'
- * - run a program in a modified environment. Set each 'NAME' to 'value' in the environment.
- * working only with the current call, NAME become her origin value after end of env
+ * - run a program in a modified environment. Set each 'NAME' to 'value'
+ * in the environment.
+ * Working only with the current call, NAME become her origin value 
+ * after end of env
  *
  * if var exist change her value
  * if !var create new and put it to the end

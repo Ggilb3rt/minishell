@@ -45,4 +45,7 @@ SOURCES = \
 		libft/ft_strnstr.c \
 		libft/ft_strtrim.c \
 		libft/ft_substr.c \
+		libft/ft_atoi.c \
+		libft/ft_itoa.c \
+		libft/ft_isnbr.c \
 		debug/debug.c
