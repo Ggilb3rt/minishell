@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:03:00 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/24 12:08:25 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/24 15:36:55 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ void	parent_exec(t_command *cur, char **env, int *fd, t_list_envp *lst)
 	}
 }
 
+/* ! Pourquoi j'avais inverse process_pipe et parent_exec ?
+ * cat | cat | ls fonctionne bien quand process_pipe est dans
+ * le child (pid == 0) mais avec une pipe trop longue ca merde
+ * 
+ * si process_pipe est dans le parent (pid > 0) cat | cat | ls merde
+ * mais une pipe tres longue fonctionne...
+*/
 int	multiple_cmds(t_command *cur, char **env, int fd[2], t_list_envp *lst)
 {
 	pid_t		pid;
@@ -50,7 +57,7 @@ int	multiple_cmds(t_command *cur, char **env, int fd[2], t_list_envp *lst)
 		perror("fork");
 		return (errno);
 	}
-	else if (pid > 0)
+	else if (pid == 0)
 		process_pipe(fd, cur->fd_in);
 	else
 		parent_exec(cur, env, fd, lst);
@@ -138,5 +145,7 @@ int	ms_pipeline(t_command **cmd, char **env, t_list_envp *lst)
 		close(fd[1]);
 		waitpid(global_pid, &exit_code, 0);
 	}
+	close(fd[0]);
+	close(fd[1]);
 	return (ret_exec);
 }

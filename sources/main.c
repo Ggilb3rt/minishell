@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/24 12:12:30 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/24 15:35:30 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int	main(int ac, char **av, char **envp)
 		ms_pipeline(cmd, pipeline_env, ms_envp);
 		close_cmds_fd(cmd);
 		free_tab(pipeline_env);
-		printf("g_ret in = %d | %d\n", g_ret.ret, g_ret.quit);
+		//printf("g_ret in = %d | %d\n", g_ret.ret, g_ret.quit);
 		if (g_ret.quit == 1)
 			break ;
 		//	exit(g_ret.ret);
@@ -147,6 +147,6 @@ int	main(int ac, char **av, char **envp)
 		free_command(cmd);
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
-	printf("g_ret out = %d | %d\n", g_ret.ret, g_ret.quit);
+	//printf("g_ret out = %d | %d\n", g_ret.ret, g_ret.quit);
 	return (g_ret.ret);
 }
