@@ -9,6 +9,12 @@
 
 /* theses function will allow minishell to look for and run programs */
 
+typedef struct s_token
+{
+	int		in;
+	int		out;
+}			t_token;
+
 /* exec_cmd_path */
 char		*init_cmd_path(char *cmd, char *paths);
 

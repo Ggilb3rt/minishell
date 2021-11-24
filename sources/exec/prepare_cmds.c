@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/24 12:09:44 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/24 20:32:53 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,35 +29,42 @@ int	check_read_access(char *path, int *fd)
 	return (1);
 }
 
-int	open_out_file(int cur_token, char *path, int *fd_out)
-{
-	printf("open out file : %d\n", cur_token);
-	if (cur_token == GREAT)
-		*fd_out = open(path, O_CREAT | O_WRONLY | O_CLOEXEC, 0666);
-	else if (cur_token == DGREAT)
-		*fd_out = open(path, O_CREAT | O_WRONLY | O_APPEND | O_CLOEXEC, 0666);
-	if (*fd_out == -1 && (cur_token == GREAT || cur_token == DGREAT))
-	{
-		perror(path);
-		return (-1);
-	}
-	return (0);
-}
+// int	open_out_file(int cur_token, char *path, int *fd_out)
+// {
+// 	printf("open out file : %d\n", cur_token);
+// 	if (cur_token == GREAT)
+// 		*fd_out = open(path, O_CREAT | O_WRONLY | O_CLOEXEC, 0666);
+// 	else if (cur_token == DGREAT)
+// 		*fd_out = open(path, O_CREAT | O_WRONLY | O_APPEND | O_CLOEXEC, 0666);
+// 	if (*fd_out == -1 && (cur_token == GREAT || cur_token == DGREAT))
+// 	{
+// 		perror(path);
+// 		return (-1);
+// 	}
+// 	return (0);
+// }
 
-int	init_files_fds(int cur_token, char *path, int *fd_in, int *fd_out)
+int	init_in_file_fd(t_token cur_token, char *path, int *fd_in)
 {
-	if (cur_token == LESS)
+	printf("init files fds |%s|\n", path);
+	if (cur_token.in == LESS)
 	{
 		if (!check_read_access(path, fd_in))
 			return (-1);
 	}
-	//else if (cur_token == DLESS)
+	//else if (cur_token.in == DLESS)
 	//	*fd_in = 1;
-	else if (cur_token == GREAT)
+	return (0);
+}
+
+int	init_out_file_fd(t_token cur_token, char *path, int *fd_out)
+{
+	printf("init files fds |%s|\n", path);
+	if (cur_token.out == GREAT)
 		*fd_out = open(path, O_CREAT | O_WRONLY | O_TRUNC, 0666);
-	else if (cur_token == DGREAT)
+	else if (cur_token.out == DGREAT)
 		*fd_out = open(path, O_CREAT | O_WRONLY | O_APPEND, 0666);
-	if (*fd_out == -1 && (cur_token == GREAT || cur_token == DGREAT))
+	if (*fd_out == -1 && (cur_token.out == GREAT || cur_token.out == DGREAT))
 	{
 		perror(path);
 		return (errno);
@@ -68,21 +75,29 @@ int	init_files_fds(int cur_token, char *path, int *fd_in, int *fd_out)
 int	associate_file_to_cmd(t_command *cmds)
 {
 	t_command	*cur;
-	int			current_token;
+	t_token		current_token;
 
 	cur = cmds;
-	while (cur != NULL)
-	{
-		current_token = cur->token;
-		if (current_token == GREAT || current_token == DGREAT
-			|| current_token == LESS || current_token == DLESS)
+	//while (cur != NULL && cur->token != NWLINE)
+	//{
+		current_token.in = cur->token_in;
+		current_token.out = cur->token_out;
+		printf("cur token %s %d, %d\n", cur->arg[0], current_token.in, current_token.out);
+		if (current_token.out == GREAT || current_token.out == DGREAT)
 		{
-			if (init_files_fds(current_token, cur->arg[1],
-					&cmds->fd_in, &cmds->fd_out) < 0)
+			if (init_out_file_fd(current_token, cur->out_file,
+					&cmds->fd_out) < 0)
 				return (-1);
 		}
-		cur = cur->next;
-	}
+		if (current_token.in == LESS || current_token.in == DLESS)
+		{
+			if (init_in_file_fd(current_token, cur->out_file,
+					&cmds->fd_in) < 0)
+				return (-1);
+		}
+		printf("files descriptores %d %d\n", cur->fd_in, cur->fd_out);
+	//	cur = cur->next;
+	//}
 	return (0);
 }
 
@@ -113,16 +128,12 @@ int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 	char		*env_path;
 
 	cur = *cmd;
-	while (cur != NULL)
+	while (cur != NULL && cur->token != NWLINE)
 	{
-		printf("\t1\n");
 		ret_file = associate_file_to_cmd(cur);
-		printf("\t2\n");
 		if (ret_file < 0)
 			return (ret_file);
-		printf("\t3 %s\n", cur->arg[0]);
 		set_builtin(cur->arg[0], cur);
-		printf("\t4\n");
 		if (cur->token != NWLINE)
 		{
 			env_path = get_ms_env_val(PATH, env);
@@ -130,13 +141,11 @@ int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 				cur->arg[0] = init_cmd_path(cur->arg[0],
 						env_path);
 		}
-		printf("\t5\n");
 		if (access(cur->arg[0], X_OK) == -1)
 			cur->can_exec = 0;
 			// perror(cur->list[0]->arg[0]);
 		else
 			cur->can_exec = 1;
-		printf("\t6\n");
 		cur = cur->next;
 	}
 	return (0);
