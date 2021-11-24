@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:03:00 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/24 17:54:20 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/24 21:09:37 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,11 @@ int	multiple_cmds(t_command *cur, char **env, int fd[2], t_list_envp *lst)
 	return (0);
 }
 
-void	one_cmd(t_command *cur, char **env, t_list_envp *env_lst)
+void	one_cmd(t_command *cur, char **env, t_list_envp *env_lst, int fd[2])
 {
 	printf("starting onecmd %s\n", cur->list[0]->arg[0]);
+	close(fd[0]);
+	close(fd[1]);
 	if (cur->fd_out != -1)
 	{
 		dup2(cur->fd_out, STDOUT_FILENO);
@@ -116,7 +118,7 @@ int	execute_pipeline_cmds(t_command **cmd, char **env, int fd[2], t_list_envp *l
 					return (-1);
 			}
 			else
-				one_cmd(cur, env, lst);
+				one_cmd(cur, env, lst, fd);
 		//}
 		//else
 		// {
