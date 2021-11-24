@@ -313,7 +313,7 @@ void parsing_cleanup(char *str, t_list_envp *ms_env, t_command **cmd)
 			cur->token = create_token(split.new[0]);
 			split.o = 0;
 			split.new = NULL;
-			split.new = malloc(sizeof(char) * (count_args(str, split.i) + 1));
+			split.new = malloc(sizeof(char *) * (count_args(str, split.i) + 1));
 			if (!split.new)
 				break ;
 			split.new[split.o] = malloc (sizeof(char) * (count_word(str, ms_env, split.i) + 1));
