@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/24 15:35:30 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/24 17:19:27 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int	main(int ac, char **av, char **envp)
 	msg_prompt = ft_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
 	while (1)
 	{
+		printf("starting loop\n");
 		free(line);
 		cmd = NULL;
 		cmd = init_cmd();
@@ -142,7 +143,7 @@ int	main(int ac, char **av, char **envp)
 		free_command(cmd);
 		//print_all(cmd);
 	}
-	//close_cmds_fd(cmd);
+	close_cmds_fd(cmd);
 	if (cmd == NULL)
 		free_command(cmd);
 	free(msg_prompt);
