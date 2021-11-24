@@ -1,14 +1,22 @@
-//
-// Created by Antoine LANGLOIS on 22/09/2021.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_unset.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/24 12:02:48 by ggilbert          #+#    #+#             */
+/*   Updated: 2021/11/24 12:03:20 by ggilbert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
 /* unset with no options or arguments : unset 'name'
  * - Unset values and attributes of variables and functions
  * each variable of function specified by name shall be unset.
- * Unsetting a variable or function that was not previously set shall not be considered an error and does not
- * cause the shell to abort.
+ * Unsetting a variable or function that was not previously set shall
+ * not be considered an error and does not cause the shell to abort.
  * NOTE : VARIABLE= is equivalent to VARIABLE=""
  */
 
@@ -52,7 +60,7 @@ int	cmd_unset(t_list_envp **env, char **to_find)
 
 	if (!env || !to_find)
 		return (1);
-	i = 0;
+	i = 1;
 	while (to_find[i] != NULL)
 	{
 		if (!ft_str_isalnum_under(to_find[i]))
@@ -62,8 +70,6 @@ int	cmd_unset(t_list_envp **env, char **to_find)
 			break ;
 		}
 		current_index = get_ms_env_index(to_find[i], *env);
-		if (current_index == -1)
-			break ;
 		remove_first_or_inside(env, current_index);
 		i++;
 	}

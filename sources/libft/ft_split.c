@@ -67,18 +67,42 @@ char	*process(char *sn, char c, char **arr)
 	return (sn);
 }
 
+char	*char_to_string(char c)
+{
+	char	*s;
+
+	s = malloc(sizeof(char) * 2);
+	if (!s)
+		return (NULL);
+	s[0] = c;
+	s[1] = '\0';
+	return (s);
+}
+
 char	**ft_split(char const *s, char c)
 {
 	char	**arr;
 	char	*sn;
+	char	*set;
 
-	sn = ft_strtrim(s, &c);
-	if (!sn)
+	set = char_to_string(c);
+	if (!set)
 		return (NULL);
+	sn = ft_strtrim(s, set);
+	if (!sn)
+	{
+		free(set);
+		return (NULL);
+	}
 	arr = (char **)malloc(sizeof(s) * (ft_countc(sn, c) + 2));
 	if (arr == NULL)
+	{
+		free(sn);
+		free(set);
 		return (NULL);
+	}
 	process(sn, c, arr);
 	free(sn);
+	free(set);
 	return (arr);
 }

@@ -1,6 +1,14 @@
-//
-// Created by Antoine LANGLOIS on 22/09/2021.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/24 11:54:18 by ggilbert          #+#    #+#             */
+/*   Updated: 2021/11/24 11:54:22 by ggilbert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -8,8 +16,6 @@
  * - echo writes the string entered as an argument on the standard output
  * the option -n don't output the trailing newline
  */
-
-// ! same question than pwd with the fd
 
 int	is_flag(char *str)
 {
@@ -28,7 +34,7 @@ void	print_words(char **words, int flag)
 	int		i;
 	int		nb_words;
 
-	i = 0;
+	i = 1;
 	nb_words = array_size(words);
 	if (flag)
 		i++;
@@ -43,16 +49,13 @@ void	print_words(char **words, int flag)
 		printf("\n");
 }
 
-int	cmd_echo(char *str)
+int	cmd_echo(char **words)
 {
 	int		flag;
-	char	**words;
 
-	words = ft_split(str, ' ');
 	if (!words)
 		return (1);
-	flag = is_flag(words[0]);
+	flag = is_flag(words[1]);
 	print_words(words, flag);
-	free_tab(words);
 	return (0);
 }

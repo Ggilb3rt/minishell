@@ -1,37 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_exec.c                                         :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/09 17:24:49 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/22 17:14:01 by ggilbert         ###   ########.fr       */
+/*   Created: 2021/11/24 10:52:52 by ggilbert          #+#    #+#             */
+/*   Updated: 2021/11/24 11:06:50 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**convert_envplst_to_tab(t_list_envp *ms_env)
+int	ft_atoi(const char *str)
 {
-	char		**tmp_env;
-	size_t		len_ms_env;
-	size_t		i;
-	t_list_envp	*cur;
+	long	res;
+	int		sign;
 
-	cur = ms_env;
-	len_ms_env = get_ms_env_len(cur);
-	tmp_env = malloc(sizeof(cur->content) * (len_ms_env + 1));
-	if (!tmp_env)
-		return (NULL);
-	i = 0;
-	while (i < len_ms_env)
+	sign = 1;
+	res = 0;
+	while ((*str >= 9 && *str <= 13) || *str == 32)
+		str++;
+	if (*str == '+' || *str == '-')
 	{
-		tmp_env[i] = ft_strdup(cur->content);
-		if (cur->next != NULL)
-			cur = cur->next;
-		i++;
+		if (*str == '-')
+			sign = -1;
+		str++;
 	}
-	tmp_env[i] = NULL;
-	return (tmp_env);
+	while (ft_isdigit(*str) && *str)
+	{
+		res = res * 10 + ((char)*str - '0');
+		str++;
+	}
+	//if (res > INT_MAX)
+	//	res = INT_MAX;
+	//if (res < INT_MIN)
+	//	res = INT_MIN;
+	return (sign * (int)res);
 }

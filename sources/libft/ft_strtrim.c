@@ -3,91 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elmer <elmer@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 09:28:09 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/10/26 16:05:18 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/22 11:55:24 by elmer            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	ft_get_first(char const *s1, char const *set)
+int	ft_getstart(const char *s1, const char *set)
 {
+	size_t	len;
 	size_t	i;
-	char	*pattern;
 
+	len = ft_strlen(s1);
 	i = 0;
-	pattern = (char *)set;
-	while (*s1)
+	printf("getstart |%s|\n", set);
+	while (i < len)
 	{
-		if (*pattern == *s1)
-		{
-			s1++;
-			pattern = (char *)set;
-			i++;
-		}
-		else if (*pattern)
-		{
-			pattern++;
-		}
-		else
+		if (ft_strchr(set, s1[i]) == 0)
 			break ;
+		i++;
 	}
 	return (i);
 }
 
-size_t	ft_get_last(char const *s1, char const *set)
+int	ft_getend(const char *s1, const char *set)
 {
+	size_t	len;
 	size_t	i;
-	size_t	s1l;
-	char	*pattern;
 
+	len = ft_strlen(s1);
 	i = 0;
-	s1l = ft_strlen(s1);
-	pattern = (char *)set;
-	s1 += s1l - 1;
-	while (s1l--)
+	while (i < len)
 	{
-		if (*pattern == *s1)
-		{
-			s1--;
-			pattern = (char *)set;
-			i++;
-		}
-		else if (*pattern)
-		{
-			pattern++;
-		}
-		else
+		if (ft_strchr(set, s1[len - i - 1]) == 0)
 			break ;
+		i++;
 	}
-	return (i);
+	return (len - i);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	char	*c;
-	size_t	first;
-	size_t	last;
-	size_t	final;
-	size_t	s1l;
+	int		start;
+	int		end;
+	char	*newstr;
 
-	s1l = ft_strlen(s1);
-	first = ft_get_first(s1, set);
-	last = ft_get_last(s1, set);
-	final = s1l - first - last;
-	if (first >= s1l)
-		final = 1;
-	c = malloc((final) * sizeof(*c) + 1);
-	if (c == NULL)
+	if (s1 == NULL)
 		return (NULL);
-	if (first >= s1l)
-	{
-		c[0] = '\0';
-		return (c);
-	}
-	s1 += first;
-	ft_strlcpy(c, s1, final + 1);
-	return (c);
+	if (set == NULL)
+		return (ft_strdup(s1));
+	start = ft_getstart(s1, set);
+	end = ft_getend(s1, set);
+	if (start >= end)
+		return (ft_strdup(""));
+	newstr = (char *)malloc(sizeof(char) * (end - start + 1));
+	if (newstr == NULL)
+		return (NULL);
+	ft_strlcpy(newstr, s1 + start, end - start + 1);
+	return (newstr);
 }

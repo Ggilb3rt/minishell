@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:22:04 by alangloi          #+#    #+#             */
-/*   Updated: 2021/10/29 16:51:27 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/23 15:50:51 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	redir_less(t_simple_command *cur, t_command *cmd)
 			cmd->end = cur->arg[1];
 		else
 			perror("unexpected syntax\n");
-		g_ret = EHERE;
+		g_ret.ret = EHERE;
 	}
 }
 

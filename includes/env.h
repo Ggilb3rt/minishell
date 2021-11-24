@@ -2,13 +2,14 @@
 // Created by Antoine LANGLOIS on 24/09/2021.
 //
 
-#ifndef MS_ENV_H
-# define MS_ENV_H
+#ifndef ENV_H
+# define ENV_H
 
 # include "minishell.h"
 
 // env_exec
 char		**convert_envplst_to_tab(t_list_envp *ms_env);
+char		**convert(t_list_envp *ms_env);
 
 // env_edit
 void		edit_lst_content(t_list_envp *env, int index, char *new_val);
@@ -22,7 +23,7 @@ void		remove_lst_content(char *content);
 void		ms_lst_free_all(t_list_envp *head);
 
 // env
-void		print_envp(t_list_envp *head);
+void		print_envp(t_list_envp *head, int export);
 t_list_envp	*new_char_list(char *str);
 t_list_envp	*create_msenvp_lst(char **envp);
 

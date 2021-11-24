@@ -14,8 +14,7 @@ int	print_command(t_command *cmd)
 
 int	print_all(t_command **cmd)
 {
-
-	char 				**arr;
+	char				**arr;
 	int					i;
 	int					count;
 

@@ -1,37 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_exec.c                                         :+:      :+:    :+:   */
+/*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/09 17:24:49 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/22 17:14:01 by ggilbert         ###   ########.fr       */
+/*   Created: 2021/11/22 08:27:26 by ggilbert          #+#    #+#             */
+/*   Updated: 2021/11/22 08:27:45 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**convert_envplst_to_tab(t_list_envp *ms_env)
+void	ms_pipe(int *fd)
 {
-	char		**tmp_env;
-	size_t		len_ms_env;
-	size_t		i;
-	t_list_envp	*cur;
-
-	cur = ms_env;
-	len_ms_env = get_ms_env_len(cur);
-	tmp_env = malloc(sizeof(cur->content) * (len_ms_env + 1));
-	if (!tmp_env)
-		return (NULL);
-	i = 0;
-	while (i < len_ms_env)
+	if (pipe(fd) != 0)
 	{
-		tmp_env[i] = ft_strdup(cur->content);
-		if (cur->next != NULL)
-			cur = cur->next;
-		i++;
+		perror("pipe");
+		exit(errno);
 	}
-	tmp_env[i] = NULL;
-	return (tmp_env);
+}
+
+void	process_pipe(int *fd, int fd_in)
+{
+	close(fd[1]);
+	if (fd_in != -1)
+	{
+		dup2(fd_in, STDIN_FILENO);
+		close(fd_in);
+	}
+	else
+	{
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
+	}
+	ms_pipe(fd);
 }

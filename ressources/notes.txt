@@ -441,3 +441,8 @@ _s(s[i], set) && !in_s(s[i + 1], set) && k > 0) && (k = 0) == 0)
 			j++;
 	}
 	tab[count_words(s, set)] = NULL;
+
+
+
+Opened fd checker on mac :
+```lsof -c minishell```

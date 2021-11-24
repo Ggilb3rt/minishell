@@ -103,6 +103,7 @@ Temporary Items
 # End of https://www.toptal.com/developers/gitignore/api/c,macos,linux
 
 minishell
+exec_no_perm
 objects
 CMakeLists.txt
 cmake-build-debug

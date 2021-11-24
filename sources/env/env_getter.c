@@ -6,24 +6,11 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 14:36:36 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/15 14:53:18 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/22 17:21:33 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-! To avoid errors maybe to add function to check if "to_find"
-! has '=' at the end (if he don't add it ?)
-
-* ex :
-	if I add 
-		POUETPOUET=pouet
-		POUET=lol
-	get_ms_env_index("POUET", ms_env) will return the first one but it's an error
-
-	cf to_find_sanitize
-*/
 
 char	*to_find_sanitize(char *to_find)
 {
@@ -46,12 +33,11 @@ int	get_ms_env_len(t_list_envp *ms_env)
 
 	i = 0;
 	tmp = ms_env;
-	while (tmp->next != NULL)
+	while (tmp != NULL)
 	{
 		i++;
 		tmp = tmp->next;
 	}
-	i++;
 	return (i);
 }
 
@@ -65,11 +51,11 @@ int	get_ms_env_index(char *to_find, t_list_envp *ms_env)
 	t_list_envp	*tmp;
 	size_t		len_ms_env;
 
+	if (!to_find)
+		return (-1);
 	index = -1;
 	tmp = ms_env;
 	to_find = to_find_sanitize(to_find);
-	if (!to_find)
-		return (-1);
 	len_ms_env = get_ms_env_len(tmp);
 	len_to_find = ft_strlen(to_find);
 	while (++index < (int)len_ms_env)
@@ -97,7 +83,7 @@ t_list_envp	*ms_lst_point(int index, t_list_envp *ms_env)
 	tmp = ms_env;
 	if (index < 0)
 		return (NULL);
-	while (index-- > 0)
+	while (index-- > 0 && tmp != NULL)
 		tmp = tmp->next;
 	return (tmp);
 }
@@ -130,29 +116,3 @@ char	*get_ms_env_val(char *to_find, t_list_envp *ms_env)
 	//printf("GET MS ENV VAL = %s\n", (tmp->content) + len_to_find);
 	return ((tmp->content) + len_to_find);
 }
-
-/*
-char	*get_env_val(char *to_find, char **env)
-{
-	int		i;
-	int		l_to_find;
-	char	*new;
-
-	l_to_find = ft_strlen(to_find);
-	i = get_env_index(to_find, env);
-	new = ft_strdup(env[i] + l_to_find + 1);
-	return (new);
-}
-
-int	get_env_index(char *to_find, char **env)
-{
-	int		i;
-	int		l_to_find;
-
-	i = 0;
-	l_to_find = ft_strlen(to_find);
-	while (!ft_strnstr(env[i], to_find, l_to_find))
-		i++;
-	return (i);
-}
-*/

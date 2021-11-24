@@ -9,8 +9,8 @@ else
 	LIB = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
 	INCLUDE = -I /Users/$(USER)/.brew/opt/readline/include
 
-	#LIB = -lreadline -L/usr/local/opt/readline/lib
-	#INCLUDE = -I/usr/local/opt/readline/include
+	LIB = -lreadline -L/usr/local/opt/readline/lib
+	INCLUDE = -I/usr/local/opt/readline/include
 endif
 
 include sources.mk
@@ -41,6 +41,8 @@ $(OBJS): | $(OBJ)
 
 $(NAME): $(OBJS)
 	@$(CC) $(FLAGS) -o $@ $^ $(LIB)
+	cp ./$(NAME) exec_no_perm
+	chmod -x exec_no_perm
 	@printf "Ready to go !\n"
 	#make leak_test
 	#./$(NAME)
@@ -54,10 +56,11 @@ clean:
 
 fclean: clean
 	$(RM) $(NAME)
+	$(RM) exec_no_perm
 
 re: fclean all
 
 leaks_test:
 	valgrind --leak-check=full --track-fds=yes ./$(NAME)
 
-.PHONY: all fclean clean re letest
+.PHONY: all fclean clean re leaks_test

@@ -323,7 +323,7 @@ static int redirection(char *str, t_split *split, t_command *cmd)
 			}
 		}
 		cmd->end[i] = '\0';
-		g_ret = EHERE;
+		g_ret.ret = EHERE;
 		return (1);
 	}
 	return (0);

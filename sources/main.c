@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elmer <elmer@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/11 19:12:58 by elmer            ###   ########.fr       */
+/*   Updated: 2021/11/24 12:12:30 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int g_ret = 0;
+t_g_sig	g_ret = {.ret = 0, . quit = 0};
 
-void sig_handler(int n)
+void	sig_handler(int n)
 {
 	if (n == SIGINT)
 	{
-		if (g_ret == EHERE)
+		if (g_ret.ret == EHERE)
 		{
-			g_ret = QHERE;
+			g_ret.ret = QHERE;
 		}
 		else
 		{
@@ -28,12 +28,12 @@ void sig_handler(int n)
 			rl_on_new_line();
 			rl_replace_line("", 0);
 			rl_redisplay();
-			g_ret = 0;
+			g_ret.ret = 0;
 		}
 	}
 }
 
-void ms_signal(void)
+void	ms_signal(void)
 {
 	if (signal(SIGINT, sig_handler) == SIG_ERR)
 	{
@@ -78,14 +78,14 @@ void	close_cmds_fd(t_command **cmds)
 			ret_in = close(cmd->fd_in);
 		if (cmd->fd_out != -1)
 			ret_out = close(cmd->fd_out);
-		printf("fds_close %d, %d", ret_in, ret_out);
+		printf("fds_close %d, %d\n", ret_in, ret_out);
 		cmd = cmd->next;
 	}
 }
 
-static t_command **init_cmd(void)
+static t_command	**init_cmd(void)
 {
-	t_command **cmd;
+	t_command	**cmd;
 
 	cmd = malloc(sizeof(t_command *));
 	if (!cmd)
@@ -100,6 +100,7 @@ int	main(int ac, char **av, char **envp)
 	char		*line;
 	char		*msg_prompt;
 	t_command	**cmd;
+	char		**pipeline_env;
 
 	(void)ac;
 	(void)av;
@@ -124,33 +125,28 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 		if (!lexer_and_parser(line, cmd, ms_envp))
 			break ;
-		if (g_ret == EHERE)
+		if (g_ret.ret == EHERE)
 		{
 			heredoc_func(line, cmd);
 		}
-		if ((g_ret = cmd_exit(line)) == 1)
-			exit(0);
-		//set_cmd_ready_to_exec(cmd, ms_envp);
-		//convert_var(cmd, ms_envp);
-		//print_simple_command(cmd);
-		//print_command(cmd);
-		print_all(cmd);
-		//char	**my_env = convert_envplst_to_tab(ms_envp);
-		//for (int i = 0; i < 29; i++){
-		//	printf("%s\n", my_env[i]);
-		//}
-		//base_pour_exec(cmd, envp, ms_envp);
-		//ms_pipeline(cmd, envp);
+		set_cmd_ready_to_exec(cmd, ms_envp);
 		//print_all(cmd);
-		//ms_pipeline(cmd, envp);
+		pipeline_env = convert_envplst_to_tab(ms_envp);
+		ms_pipeline(cmd, pipeline_env, ms_envp);
+		close_cmds_fd(cmd);
+		free_tab(pipeline_env);
+		printf("g_ret in = %d | %d\n", g_ret.ret, g_ret.quit);
+		if (g_ret.quit == 1)
+			break ;
+		//	exit(g_ret.ret);
 		free_command(cmd);
 		//print_all(cmd);
 	}
-	if (cmd)
-		free_command(cmd);
-	printf("quit loop\n");
 	//close_cmds_fd(cmd);
+	if (cmd == NULL)
+		free_command(cmd);
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
-	return (g_ret);
+	printf("g_ret out = %d | %d\n", g_ret.ret, g_ret.quit);
+	return (g_ret.ret);
 }

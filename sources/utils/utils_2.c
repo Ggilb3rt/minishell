@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_4.c                                          :+:      :+:    :+:   */
+/*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alangloi <alangloi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:09:16 by alangloi          #+#    #+#             */
-/*   Updated: 2021/10/19 14:10:03 by alangloi         ###   ########.fr       */
+/*   Updated: 2021/11/22 17:10:04 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	free_command(t_command *cmd)
 
 void 	free_command(t_command **list)
 {
-	int 				i;
-	int 				size;
+	int	i;
+	int	size;
 
 	while ((*list) && (*list)->next)
 	{

@@ -1,17 +1,28 @@
-//
-// Created by Antoine LANGLOIS on 24/09/2021.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/24 11:56:08 by ggilbert          #+#    #+#             */
+/*   Updated: 2021/11/24 11:56:13 by ggilbert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_envp(t_list_envp *head)
+void	print_envp(t_list_envp *head, int export)
 {
 	t_list_envp	*current;
 
 	current = head;
 	while (current != NULL)
 	{
-		printf("%s\n", current->content);
+		if (export)
+			printf("declare -x %s\n", current->content);
+		else
+			printf("%s\n", current->content);
 		current = current->next;
 	}
 }
