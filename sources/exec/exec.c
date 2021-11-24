@@ -120,17 +120,11 @@ int	ms_pipeline(t_command **cmd, char **env, t_list_envp *lst)
 	pid_t	ret_exec;
 	int		exit_code;
 
-	printf("\t1\n");
 	ret_exec = -1;
-	printf("\t2\n");
 	ms_pipe(fd);
-	for (int i = 0; i < array_size(cmd[0]->arg); i++)
-		printf("\t3 %s\n", cmd[0]->arg[i]);
 	if (cmd[0]->build >= 10)
 		exec_builtin(cmd[0]->arg, lst);
-	printf("\t4\n");
 	global_pid = fork();
-	printf("\t5\n");
 	if (global_pid == -1)
 	{
 		perror("global fork");
@@ -144,6 +138,5 @@ int	ms_pipeline(t_command **cmd, char **env, t_list_envp *lst)
 		close(fd[1]);
 		waitpid(global_pid, &exit_code, 0);
 	}
-	printf("\t6\n");
 	return (ret_exec);
 }

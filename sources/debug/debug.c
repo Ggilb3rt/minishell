@@ -17,21 +17,23 @@ int	print_all(t_command **cmd)
 	char				**arr;
 	int					i;
 	int					count;
+	t_command			*cur;
 
+	cur = *cmd;
 	count = 0;
 	printf("COMMAND TABLE :\n");
-	while ((*cmd) != NULL)
+	while (cur != NULL)
 	{
 		i = 0;
-		arr = (*cmd)->arg;
+		arr = cur->arg;
 		while (arr[i])
 		{
 			printf("%i %s\n", count, arr[i]);//, (*cmd)->token);
 			i++;
 		}
-		print_command(*cmd);
+		print_command(cur);
 		printf("\n");
-		(*cmd) = (*cmd)->next;
+		cur = cur->next;
 		count++;
 	}
 
