@@ -12,142 +12,6 @@
 
 #include "minishell.h"
 
-/*
-static void clean_simple(char **str)
-{
-	int i;
-	int j;
-	char *new;
-	int spec;
-
-	i = 1;
-	spec = 0;
-	new = malloc(sizeof(char) * (ft_strlen(*str) - 1));
-	if (!new)
-		return ;
-	j = 0;
-	while ((*str)[i] != '\'')
-	{
-		if ((*str)[i + 2] == '\2')
-			spec = 1;
-		new[j] = (*str)[i];
-		i++;
-		j++;
-	}
-	if (!spec)
-		new[j] = '\0';
-	else
-		new[j] = '\2';
-	free(*str);
-	(*str) = new;
-}
-
-static void clean_double(char **str)
-{
-	int i;
-	int j;
-	char *new;
-	int spec;
-
-	i = 1;
-	spec = 0;
-	new = malloc(sizeof(char) * (ft_strlen(*str) - 1));
-	if (!new)
-		return ;
-	j = 0;
-	while ((*str)[i] != '\"')
-	{
-		if ((*str)[i + 2] == '\2')
-			spec = 1;
-		new[j] = (*str)[i];
-		i++;
-		j++;
-	}
-	if (!spec)
-		new[j] = '\0';
-	else
-		new[j] = '\2';
-	free(*str);
-	(*str) = new;
-}
-
-int clean_quote(char **str)
-{
-	if ((*str[0]) == '\"')
-	{
-		clean_double(str);
-		return (1);
-	}
-	if ((*str[0]) == '\'')
-	{
-		clean_simple(str);
-		return (2);
-	}
-	return (0);
-}
- */
-
-/*
-void join_quotes(char **str)
-{
-	int i;
-	int j;
-	int k;
-	char *tmp;
-	int join;
-
-	j = 0;
-	i = 0;
-	while (str[i])
-	{
-		if (join)
-		{
-			k = 0;
-			while (str[i + k])
-			{
-				if (str[i + k])
-				{
-					//printf("1\n");
-					free(str[i + k]);
-					str[i + k] = NULL;
-				}
-				if (str[i + k + 1])
-				{
-					str[i + k] = ft_strdup(str[i + k + 1]);
-					//printf("2\n");
-					//free(str[i + k + 1]);
-					//str[i + k + 1] = NULL;
-				}
-				else
-					break ;
-				k++;
-			}
-			//i++;
-		}
-		join = 0;
-		j = 0;
-		//printf("1 %s\n", str[i]);
-		while (str[i][j])
-		{
-			//printf("2 %c\n", str[i][j]);
-			if (str[i][j + 1] == '\2')
-			{
-				//printf("3\n");
-				//printf("\tstr[%i][%i + 1] = %c\n", i, j, str[i][j + 1]);
-				tmp = ft_strdup(str[i]);
-				free(str[i]);
-				str[i] = ft_strjoin(tmp, str[i + 1]);
-				free(tmp);
-				join = 1;
-			}
-			j++;
-		}
-		//printf("JOIN QUOTE %i = %s\n", i, str[i]);
-		i++;
-	}
-}
- */
-
 static int 	open_quoteee(const char *str, t_split *split)
 {
 	if (str[split->i] == '\"' && !split->open_s && !split->open_d)
@@ -188,6 +52,7 @@ static void	init_split(t_split *split, const char *str)
 	split->i = 0;
 	split->l = 0;
 	split->o = 0;
+	split->q = 0;
 	split->open_s = 0;
 	split->open_d = 0;
 }
@@ -214,7 +79,6 @@ static int search_varrr(const char *str, t_split *split, t_list_envp *ms_env)
 {
 	char *var;
 	char *arg;
-	int i;
 
 	if (str[split->i] == '$')
 	{
@@ -224,14 +88,14 @@ static int search_varrr(const char *str, t_split *split, t_list_envp *ms_env)
 			arg = get_ms_env_val(var, ms_env);
 			if (!arg)
 				arg = ft_strdup("");
-			i = 0;
-			while (arg[i])
+			split->q = 0;
+			while (arg[split->q])
 			{
-				printf("ga\n");
-				split->new[split->o][split->l] = arg[i];
+				split->new[split->o][split->l] = arg[split->q];
 				//printf("\t%c\n", split->new[split->l]);
+				//printf("words = %c\n", arg[split->q]);
 				split->l++;
-				i++;
+				split->q++;
 			}
 		}
 		return (1);
@@ -331,42 +195,141 @@ static int redirection(char *str, t_split *split, t_command *cmd)
 	return (0);
 }
 
+static int 	count_args(const char *str, int pos)
+{
+	t_split split;
+	int count;
+
+	count = 0;
+	init_split(&split, str);
+	split.i = pos;
+	while (str[split.i] && str[split.i] != '|')
+	{
+		//printf("args = %c\n", str[split.i]);
+		if (open_quoteee(str, &split))
+		{
+			while (close_quoteee(str, &split))
+				split.i++;
+		}
+		else if (str[split.i] == ' ')
+		{
+			split.i++;
+			while (str[split.i] == ' ')
+				split.i++;
+			if (!str[split.i] && str[split.i] == '|')
+				return (count);
+			count++;
+			//printf("1 count = %d\n", count);
+		}
+		else
+			split.i++;
+	}
+	count++;
+	//printf("2 count = %d\n", count);
+	return (count);
+}
+
+static int 	count_word(char *str, t_list_envp *ms_env, int pos)
+{
+	int count;
+	t_split split;
+	t_command *cur;
+
+	count = 0;
+	init_split(&split, str);
+	cur = alloc_command(NULL);
+	split.i = pos;
+	while (str[split.i] && str[split.i] != ' ')
+	{
+		//printf("words = %c\n", str[split.i]);
+		if (open_quoteee(str, &split))
+		{
+			while (close_quoteee(str, &split))
+			{
+				if (!split.open_s && split.open_d)
+				{
+					if (!search_varrr(str, &split, ms_env))
+					{
+						count++;
+						//printf("4 count = %d\n", count);
+						split.i++;
+					}
+					else
+					{
+						//printf("3 count = %d\n", count);
+						count += split.q;
+					}
+				}
+				else
+				{
+					split.i++;
+					count++;
+					//printf("2 count = %d\n", count);
+				}
+			}
+		}
+		else
+		{
+			redirection(str, &split, cur);
+			split.i++;
+			count++;
+			//printf("1 count = %d\n", count);
+		}
+	}
+	//count++;
+	//printf("count = %d\n", count);
+	return (count);
+}
+
 void parsing_cleanup(char *str, t_list_envp *ms_env, t_command **cmd)
 {
 	t_split		split;
 	t_command	*cur;
 
 	init_split(&split, str);
-	split.new = malloc(sizeof(char *) * 100);
-	split.new[split.o] = malloc (sizeof(char) * 100);
+	split.new = malloc(sizeof(char *) * (count_args(str, split.i) + 1));
+	if (!split.new)
+		return ;
+	split.new[split.o] = malloc (sizeof(char) * (count_word(str, ms_env, split.i) + 1));
+	if (!split.new[split.o])
+		return ;
 	cur = alloc_command(NULL);
 	while (str[split.i])
 	{
-		printf("%d %d %c\n", split.o, split.l, str[split.i]);
+		//printf("%d %d %c\n", split.o, split.l, str[split.i]);
 		if (str[split.i] == ' ')
 		{
 			split.i++;
 			while (str[split.i] == ' ')
 				split.i++;
+			if (str[split.i] == '|')
+				continue ;
+			if (!str[split.i])
+				break ;
 			split.new[split.o][split.l] = '\0';
-			//free(*split.new);
 			split.o++;
 			split.new[split.o] = NULL;
-			split.new[split.o] = malloc (sizeof(char) * 100);
+			split.new[split.o] = malloc (sizeof(char) * (count_word(str, ms_env, split.i) + 1));
+			if (!split.new[split.o])
+				break ;
+			//printf("--------------------\n");
 			split.l = 0;
 		}
 		else if (str[split.i] == '|')
 		{
 			split.i++;
-			//free(split.new);
-			//split.l = 0;
-			split.new[split.o] = NULL;
+			while (str[split.i] == ' ')
+				split.i++;
+			//split.new[split.o] = NULL;
 			cur->arg = split.new;
 			cur->token = create_token(split.new[0]);
 			split.o = 0;
 			split.new = NULL;
 			(*split.new) = NULL;
-			split.new = malloc(sizeof(char) * 10000);
+			split.new = malloc(sizeof(char) * (count_args(str, split.i) + 1));
+			if (!split.new)
+				break ;
+			//printf("--------------------\n");
 			add_command(cur, cmd);
 			cur = NULL;
 			cur = alloc_command(NULL);
@@ -400,10 +363,11 @@ void parsing_cleanup(char *str, t_list_envp *ms_env, t_command **cmd)
 			split.i++;
 		}
 	}
+	split.new[split.o][split.l] = '\0';
+	split.new[split.o + 1] = NULL;
 	cur->arg = split.new;
 	cur->token = create_token(split.new[0]);
 	add_command(cur, cmd);
 	cur = NULL;
 	add_newline(cmd);
-	printf("coucou\n");
 }

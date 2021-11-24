@@ -61,8 +61,10 @@ typedef struct s_split
 {
 	int 	size;
 	int 	i;
+	int		z;
 	int 	l;
 	int 	o;
+	int 	q;
 	char 	**new;
 	int 	open_s;
 	int 	open_d;

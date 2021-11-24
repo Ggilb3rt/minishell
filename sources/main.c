@@ -129,7 +129,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			heredoc_func(line, cmd);
 		}
-		//print_all(cmd);
+		print_all(cmd);
 		set_cmd_ready_to_exec(cmd, ms_envp);
 		pipeline_env = convert_envplst_to_tab(ms_envp);
 		ms_pipeline(cmd, pipeline_env, ms_envp);
