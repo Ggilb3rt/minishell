@@ -115,10 +115,14 @@ int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 	cur = *cmd;
 	while (cur != NULL)
 	{
+		printf("\t1\n");
 		ret_file = associate_file_to_cmd(cur);
+		printf("\t2\n");
 		if (ret_file < 0)
 			return (ret_file);
+		printf("\t3 %s\n", cur->arg[0]);
 		set_builtin(cur->arg[0], cur);
+		printf("\t4\n");
 		if (cur->token != NWLINE)
 		{
 			env_path = get_ms_env_val(PATH, env);
@@ -126,11 +130,13 @@ int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 				cur->arg[0] = init_cmd_path(cur->arg[0],
 						env_path);
 		}
+		printf("\t5\n");
 		if (access(cur->arg[0], X_OK) == -1)
 			cur->can_exec = 0;
 			// perror(cur->list[0]->arg[0]);
 		else
 			cur->can_exec = 1;
+		printf("\t6\n");
 		cur = cur->next;
 	}
 	return (0);

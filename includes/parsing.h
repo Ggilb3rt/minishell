@@ -62,7 +62,8 @@ typedef struct s_split
 	int 	size;
 	int 	i;
 	int 	l;
-	char 	*new;
+	int 	o;
+	char 	**new;
 	int 	open_s;
 	int 	open_d;
 }				t_split;
@@ -88,7 +89,7 @@ int					add_newline(t_command **list);
 
 /* parsing alloc */
 //t_simple_command	*alloc_simple(char *str);
-t_command			*alloc_command(const char *arg);
+t_command			*alloc_command(char **arg);
 //char                **get_arg(char **str, int i, int last);
 
 /* parsing grammar */

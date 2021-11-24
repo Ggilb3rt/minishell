@@ -187,6 +187,7 @@ static void	init_split(t_split *split, const char *str)
 	(void)str;
 	split->i = 0;
 	split->l = 0;
+	split->o = 0;
 	split->open_s = 0;
 	split->open_d = 0;
 }
@@ -226,7 +227,8 @@ static int search_varrr(const char *str, t_split *split, t_list_envp *ms_env)
 			i = 0;
 			while (arg[i])
 			{
-				split->new[split->l] = arg[i];
+				printf("ga\n");
+				split->new[split->o][split->l] = arg[i];
 				//printf("\t%c\n", split->new[split->l]);
 				split->l++;
 				i++;
@@ -335,41 +337,56 @@ void parsing_cleanup(char *str, t_list_envp *ms_env, t_command **cmd)
 	t_command	*cur;
 
 	init_split(&split, str);
-	split.new = malloc(sizeof(char) * 10000);
+	split.new = malloc(sizeof(char *) * 100);
+	split.new[split.o] = malloc (sizeof(char) * 100);
 	cur = alloc_command(NULL);
 	while (str[split.i])
 	{
-		if (str[split.i] == '|')
+		printf("%d %d %c\n", split.o, split.l, str[split.i]);
+		if (str[split.i] == ' ')
 		{
 			split.i++;
-			split.new[split.l] = '\0';
-			cur->arg = ft_split(split.new, ' ');
-			free(split.new);
-			split.new = NULL;
+			while (str[split.i] == ' ')
+				split.i++;
+			split.new[split.o][split.l] = '\0';
+			//free(*split.new);
+			split.o++;
+			split.new[split.o] = NULL;
+			split.new[split.o] = malloc (sizeof(char) * 100);
 			split.l = 0;
+		}
+		else if (str[split.i] == '|')
+		{
+			split.i++;
+			//free(split.new);
+			//split.l = 0;
+			split.new[split.o] = NULL;
+			cur->arg = split.new;
+			cur->token = create_token(split.new[0]);
+			split.o = 0;
+			split.new = NULL;
+			(*split.new) = NULL;
 			split.new = malloc(sizeof(char) * 10000);
 			add_command(cur, cmd);
-			//free(cur);
 			cur = NULL;
 			cur = alloc_command(NULL);
 		}
 		else if (open_quoteee(str, &split))
 		{
-			printf("pouet\n");
 			while (close_quoteee(str, &split))
 			{
 				if (!split.open_s && split.open_d)
 				{
 					if (!search_varrr(str, &split, ms_env))
 					{
-						split.new[split.l] = str[split.i];
+						split.new[split.o][split.l] = str[split.i];
 						split.l++;
 						split.i++;
 					}
 				}
 				else
 				{
-					split.new[split.l] = str[split.i];
+					split.new[split.o][split.l] = str[split.i];
 					split.l++;
 					split.i++;
 				}
@@ -378,16 +395,15 @@ void parsing_cleanup(char *str, t_list_envp *ms_env, t_command **cmd)
 		else
 		{
 			redirection(str, &split, cur);
-			split.new[split.l] = str[split.i];
+			split.new[split.o][split.l] = str[split.i];
 			split.l++;
 			split.i++;
 		}
 	}
-	split.new[split.l] = '\0';
-	cur->arg = ft_split(split.new, ' ');
-	free(split.new);
-	split.new = NULL;
+	cur->arg = split.new;
+	cur->token = create_token(split.new[0]);
 	add_command(cur, cmd);
-	//free(cur);
 	cur = NULL;
+	add_newline(cmd);
+	printf("coucou\n");
 }
