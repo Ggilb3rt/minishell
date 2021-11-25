@@ -32,21 +32,17 @@ static char **copytab(char **cpy)
 	return (arr);
 }
  */
-void get_arg(t_split *split, t_command *cur, t_command **cmd)
+void get_arg(t_split *split, t_command **cur, t_command **cmd)
 {
 	split->new[split->o][split->l] = '\0';
 	split->new[split->o + 1] = NULL;
-	cur->arg = split->new;
-	//for (int i = 0; i < array_size(cur->arg); i++)
-	//	printf("%s\n", cur->arg[i]);
-	cur->token = create_token(cur->arg[0]);
-	printf("pouet\n");
+	(*cur)->arg = split->new;
+	(*cur)->token = create_token((*cur)->arg[0]);
 	add_command(cur, cmd);
-	printf("pouet\n");
-	//cur = NULL;
+	*cur = NULL;
 }
 
-int get_arg_pipe(t_split *split, t_command *cur, t_command **cmd)
+int get_arg_pipe(t_split *split, t_command **cur, t_command **cmd)
 {
 	split->i++;
 	del_spaces(split);

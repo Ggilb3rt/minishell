@@ -66,20 +66,20 @@ typedef struct s_simple_command
 */
 typedef struct s_command
 {
-	int						numb_avail_simple_commands; //inutile?
-	int						numb_simple_commands; //inutile?
+	//int						numb_avail_simple_commands; //inutile?
+	//int						numb_simple_commands; //inutile?
 	int 					token_in;
 	int 					token_out;
 	int 					token;
 	char					**arg;
 	char 					*out_file;
 	char 					*in_file;
-	char 					*err_file; //inutile?
+	//char 					*err_file; //inutile?
 	int 					fd_in;
 	int 					fd_out;
 	char 					*end;
 	int 					build;
-	int						can_exec;
+	//int						can_exec;
 	struct s_command		*next;
 }				t_command;
 

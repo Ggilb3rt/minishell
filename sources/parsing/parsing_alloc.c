@@ -37,12 +37,16 @@ t_command	*alloc_command(char **arg)
 	cmd = malloc(sizeof(t_command));
 	if (!cmd)
 		return (NULL);
-	cmd->numb_avail_simple_commands = 0;
-	cmd->numb_simple_commands = 0;
+	//cmd->numb_avail_simple_commands = 0;
+	//cmd->numb_simple_commands = 0;
 	cmd->arg = arg; //get_simple(arg);
 	cmd->out_file = NULL;
 	cmd->in_file = NULL;
-	cmd->err_file = NULL;
+	cmd->end = NULL;
+	//cmd->err_file = NULL;
+	cmd->build = -1;
+	cmd->token_in = -1;
+	cmd->token_out = -1;
 	cmd->fd_out = -1;
 	cmd->fd_in = -1;
 	cmd->next = NULL;

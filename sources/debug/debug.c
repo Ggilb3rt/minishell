@@ -8,7 +8,7 @@ int	print_command(t_command *cmd)
 {
 	printf("out file = %s\n", cmd->out_file);
 	printf("in file = %s\n", cmd->in_file);
-	printf("err file = %s\n", cmd->err_file);
+	//printf("err file = %s\n", cmd->err_file);
 	return (0);
 }
 
@@ -25,12 +25,6 @@ int	print_all(t_command **cmd)
 	while (cur != NULL)
 	{
 		i = 0;
-		if (cur->arg) {
-			for (int j = 0; j < array_size(cur->arg); j++)
-				printf("%s\n", cur->arg[j]);
-		}
-		else
-			printf("empty kiki\n");
 		arr = cur->arg;
 		while (arr[i])
 		{

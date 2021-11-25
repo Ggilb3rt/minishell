@@ -21,26 +21,26 @@ static t_command	*command_last(t_command *cmd)
 	return (cmd);
 }
 
-void	add_command(t_command *new, t_command **cmd)
+void	add_command(t_command **new, t_command **cmd)
 {
 	t_command	*cur;
 
-	if (!new)
+	if (!*new)
 		return ;
-	new->next = NULL;
-	for (int i = 0; i < array_size(new->arg); i++)
-		printf("\t%s\n",new->arg[i]);
+	(*new)->next = NULL;
+	for (int i = 0; i < array_size((*new)->arg); i++)
+		printf("\t%s\n",(*new)->arg[i]);
 	if (!*cmd)
 	{
 		printf("1st elem\n");
-		new->next = *cmd;
-		*cmd = new;
+		(*new)->next = *cmd;
+		*cmd = *new;
 	}
 	else
 	{
 		printf("next elem\n");
 		cur = command_last(*cmd);
-		cur->next = new;
+		cur->next = *new;
 		cur->next->next = NULL;
 	}
 }
@@ -58,6 +58,6 @@ int	add_newline(t_command **list)
 	//arr[1][0] = '\0';
 	new = alloc_command(arr);
 	new->token = create_token(arr[0]);
-	add_command(new, list);
+	add_command(&new, list);
 	return (1);
 }

@@ -83,15 +83,13 @@ void	close_cmds_fd(t_command **cmds)
 	}
 }
 
-static t_command	**init_cmd(void)
+static int	init_cmd(t_command ***cmd)
 {
-	t_command	**cmd;
-
-	cmd = malloc(sizeof(t_command *));
-	if (!cmd)
-		return (NULL);
-	*cmd = NULL;
-	return (cmd);
+	*cmd = malloc(sizeof(t_command *));
+	if (!*cmd)
+		return (0);
+	**cmd = NULL;
+	return (1);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -114,7 +112,8 @@ int	main(int ac, char **av, char **envp)
 	{
 		free(line);
 		cmd = NULL;
-		cmd = init_cmd();
+		if (!init_cmd(&cmd))
+			break ;
 		line = readline(msg_prompt);
 		if (!line)
 			break ;
@@ -130,22 +129,24 @@ int	main(int ac, char **av, char **envp)
 		{
 			heredoc_func(line, cmd);
 		}
+		//for (int g = 0; g < array_size((*cmd)->arg); g++)
+		//	printf("tutu %s\n", (*cmd)->arg[g]);
 		print_all(cmd);
 		//set_cmd_ready_to_exec(cmd, ms_envp);
 		//pipeline_env = convert_envplst_to_tab(ms_envp);
 		//ms_pipeline(cmd, pipeline_env, ms_envp);
 		//close_cmds_fd(cmd);
 		//free_tab(pipeline_env);
-		printf("g_ret in = %d | %d\n", g_ret.ret, g_ret.quit);
-		if (g_ret.quit == 1)
-			break ;
+		//printf("g_ret in = %d | %d\n", g_ret.ret, g_ret.quit);
+		//if (g_ret.quit == 1)
+		//	break ;
 		//	exit(g_ret.ret);
-		free_command(cmd);
+		//free_command(cmd);
 		//print_all(cmd);
 	}
 	//close_cmds_fd(cmd);
-	if (cmd)
-		free_command(cmd);
+	//if (cmd)
+	//	free_command(cmd);
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
 	printf("g_ret out = %d | %d\n", g_ret.ret, g_ret.quit);

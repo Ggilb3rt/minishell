@@ -48,7 +48,7 @@ int	ret_val(t_split *split)
 	return (i);
 }
 
-static int check_char(t_split *split, t_command *cur, t_command **cmd, t_list_envp *ms_env)
+static int check_char(t_split *split, t_command **cur, t_command **cmd, t_list_envp *ms_env)
 {
 	if (split->str[split->i] == ' ')
 	{
@@ -59,17 +59,14 @@ static int check_char(t_split *split, t_command *cur, t_command **cmd, t_list_en
 	{
 		if (!get_arg_pipe(split, cur, cmd))
 			return (0);
-		if (!init_arg(split, cur, ms_env))
-		{
-			free_split(split);
-			exit(0);
-		}
+		if (!init_arg(split, ms_env, cur))
+			return (0);
 	}
 	else if (open_quote(split))
 		into_quote(split, ms_env);
 	else
 	{
-		redirection(split, cur);
+		redirection(split, *cur);
 		get_char(split);
 	}
 	return (1);
@@ -78,16 +75,14 @@ static int check_char(t_split *split, t_command *cur, t_command **cmd, t_list_en
 int	parsing_main(char *str, t_command **cmd, t_list_envp *ms_env)
 {
 	t_split		split;
-	t_command	cur;
+	t_command	*cur;
 	int 		ret;
 
+	cur = NULL;
 	split.new = NULL;
 	init_split(&split, str);
-	if (!init_arg(&split, &cur, ms_env))
-	{
-		free_split(&split);
-		exit(0);
-	}
+	if (!init_arg(&split, ms_env, &cur))
+		return (0);
 	while (split.str[split.i])
 	{
 		ret = check_char(&split, &cur, cmd, ms_env);
@@ -96,12 +91,5 @@ int	parsing_main(char *str, t_command **cmd, t_list_envp *ms_env)
 	}
 	get_arg(&split, &cur, cmd);
 	add_newline(cmd);
-	/*
-	for (t_command *tmp = *cmd; tmp != NULL; tmp = tmp->next)
-	{
-		for (int j = 0; j < array_size(tmp->arg); j++)
-			printf("\t\t%s\n", tmp->arg[j]);
-	}
-	 */
 	return (1);
 }

@@ -69,6 +69,7 @@ typedef struct s_split
 	int 	open_d;
 }				t_split;
 
+/*
 typedef struct s_count
 {
 	int		open;
@@ -76,6 +77,7 @@ typedef struct s_count
 	int 	i;
 	int 	trig;
 }				t_count;
+*/
 
 /* parsing main */
 int					parsing_main(char *str, t_command **cmd, t_list_envp *ms_env);
@@ -86,7 +88,7 @@ void				del_spaces(t_split *split);
 int					create_token(char *str);
 
 /* parsing add */
-void				add_command(t_command *new, t_command **cmd);
+void				add_command(t_command **new, t_command **cmd);
 int					add_newline(t_command **list);
 
 /* parsing alloc */
@@ -96,12 +98,12 @@ int					alloc_arg(t_split *split);
 
 /* parsing init */
 void				init_split(t_split *split, char *str);
-int					init_arg(t_split *split, t_command *cur, t_list_envp *ms_env);
+int					init_arg(t_split *split, t_list_envp *ms_env, t_command **cur);
 
 /* parsing get */
 void				get_char(t_split *split);
-void 				get_arg(t_split *split, t_command *cur, t_command **cmd);
-int 				get_arg_pipe(t_split *split, t_command *cur, t_command **cmd);
+void 				get_arg(t_split *split, t_command **cur, t_command **cmd);
+int 				get_arg_pipe(t_split *split, t_command **cur, t_command **cmd);
 int 				get_word_space(t_split *split, t_list_envp *ms_env);
 
 /* parsing quotes */
