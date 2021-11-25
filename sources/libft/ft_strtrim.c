@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elmer <elmer@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 09:28:09 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/22 11:55:24 by elmer            ###   ########.fr       */
+/*   Updated: 2021/11/24 19:46:22 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	ft_getstart(const char *s1, const char *set)
 
 	len = ft_strlen(s1);
 	i = 0;
-	printf("getstart |%s|\n", set);
 	while (i < len)
 	{
 		if (ft_strchr(set, s1[i]) == 0)
