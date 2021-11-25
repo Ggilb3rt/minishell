@@ -28,13 +28,17 @@ void	add_command(t_command *new, t_command **cmd)
 	if (!new)
 		return ;
 	new->next = NULL;
+	for (int i = 0; i < array_size(new->arg); i++)
+		printf("\t%s\n",new->arg[i]);
 	if (!*cmd)
 	{
+		printf("1st elem\n");
 		new->next = *cmd;
 		*cmd = new;
 	}
 	else
 	{
+		printf("next elem\n");
 		cur = command_last(*cmd);
 		cur->next = new;
 		cur->next->next = NULL;
@@ -50,8 +54,8 @@ int	add_newline(t_command **list)
 	arr[0] = malloc(sizeof(char) * 2);
 	arr[0][0] = '/';
 	arr[0][1] = '\0';
-	arr[1] = malloc(sizeof(char));
-	arr[1][0] = '\0';
+	//arr[1] = malloc(sizeof(char));
+	//arr[1][0] = '\0';
 	new = alloc_command(arr);
 	new->token = create_token(arr[0]);
 	add_command(new, list);

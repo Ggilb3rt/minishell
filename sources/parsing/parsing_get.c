@@ -34,17 +34,16 @@ static char **copytab(char **cpy)
  */
 void get_arg(t_split *split, t_command *cur, t_command **cmd)
 {
-	printf("\ttata\n");
 	split->new[split->o][split->l] = '\0';
-	printf("\ttati\n");
-	//split->new[split->o + 1] = NULL;
-	printf("\ttato\n");
+	split->new[split->o + 1] = NULL;
 	cur->arg = split->new;
-	printf("\ttatu\n");
+	//for (int i = 0; i < array_size(cur->arg); i++)
+	//	printf("%s\n", cur->arg[i]);
 	cur->token = create_token(cur->arg[0]);
-	printf("\ttate\n");
+	printf("pouet\n");
 	add_command(cur, cmd);
-	cur = NULL;
+	printf("pouet\n");
+	//cur = NULL;
 }
 
 int get_arg_pipe(t_split *split, t_command *cur, t_command **cmd)

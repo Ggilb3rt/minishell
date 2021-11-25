@@ -25,6 +25,12 @@ int	print_all(t_command **cmd)
 	while (cur != NULL)
 	{
 		i = 0;
+		if (cur->arg) {
+			for (int j = 0; j < array_size(cur->arg); j++)
+				printf("%s\n", cur->arg[j]);
+		}
+		else
+			printf("empty kiki\n");
 		arr = cur->arg;
 		while (arr[i])
 		{

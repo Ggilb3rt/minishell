@@ -78,25 +78,30 @@ static int check_char(t_split *split, t_command *cur, t_command **cmd, t_list_en
 int	parsing_main(char *str, t_command **cmd, t_list_envp *ms_env)
 {
 	t_split		split;
-	t_command	*cur;
+	t_command	cur;
 	int 		ret;
 
-	ret = 0;
-	cur = NULL;
 	split.new = NULL;
 	init_split(&split, str);
-	if (!init_arg(&split, cur, ms_env))
+	if (!init_arg(&split, &cur, ms_env))
 	{
 		free_split(&split);
 		exit(0);
 	}
 	while (split.str[split.i])
 	{
-		ret = check_char(&split, cur, cmd, ms_env);
+		ret = check_char(&split, &cur, cmd, ms_env);
 		if (!ret)
 			break ;
 	}
-	get_arg(&split, cur, cmd);
+	get_arg(&split, &cur, cmd);
 	add_newline(cmd);
+	/*
+	for (t_command *tmp = *cmd; tmp != NULL; tmp = tmp->next)
+	{
+		for (int j = 0; j < array_size(tmp->arg); j++)
+			printf("\t\t%s\n", tmp->arg[j]);
+	}
+	 */
 	return (1);
 }
