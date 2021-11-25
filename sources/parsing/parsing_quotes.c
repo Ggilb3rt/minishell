@@ -50,3 +50,19 @@ void into_quote(t_split *split, t_list_envp *ms_env)
 			get_char(split);
 	}
 }
+
+void 	dup_quotes(char **arr)
+{
+	int i;
+
+	i = 0;
+	while (arr[i])
+	{
+		if (!ft_strcmp(arr[i], " "))
+		{
+			free(arr[i]);
+			arr[i] = ft_strdup("");
+		}
+		i++;
+	}
+}

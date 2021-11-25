@@ -15,6 +15,7 @@ void get_arg(t_split *split, t_command **cur, t_command **cmd)
 {
 	split->new[split->o][split->l] = '\0';
 	split->new[split->o + 1] = NULL;
+	dup_quotes(split->new);
 	(*cur)->arg = split->new;
 	(*cur)->token = create_token((*cur)->arg[0]);
 	add_command(cur, cmd);
@@ -40,7 +41,7 @@ int get_word_space(t_split *split, t_list_envp *ms_env)
 	if (!split->str[split->i])
 		return (0);
 	if (split->str[split->i] == '>' || split->str[split->i] == '<')
-		return (0);
+		return (1);
 	split->new[split->o][split->l] = '\0';
 	split->l = 0;
 	split->o++;

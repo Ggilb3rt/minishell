@@ -28,10 +28,10 @@ int	print_all(t_command **cmd)
 		arr = cur->arg;
 		while (arr[i])
 		{
-			printf("%i %s\n", count, arr[i]);//, (*cmd)->token);
+			printf("[%i] [%s]\n", count, arr[i]);//, (*cmd)->token);
 			i++;
 		}
-		printf("%i %s\n", count, arr[i]);
+		printf("[%i] [%s]\n", count, arr[i]);
 		print_command(cur);
 		printf("\n");
 		cur = cur->next;

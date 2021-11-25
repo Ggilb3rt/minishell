@@ -66,7 +66,7 @@ static int check_char(t_split *split, t_command **cur, t_command **cmd, t_list_e
 		into_quote(split, ms_env);
 	else
 	{
-		redirection(split, *cur);
+		redirection(split, cur);
 		get_char(split);
 	}
 	return (1);

@@ -110,9 +110,10 @@ int 				get_word_space(t_split *split, t_list_envp *ms_env);
 int					open_quote(t_split *split);
 int					close_quote(t_split *split);
 void				into_quote(t_split *split, t_list_envp *ms_env);
+void 				dup_quotes(char **arr);
 
 /* parsing redirections */
-void				redirection(t_split *split, t_command *cmd);
+void				redirection(t_split *split, t_command **cur);
 
 /* parsing env */
 int					search_var(t_split *split, t_list_envp *ms_env);

@@ -4,104 +4,103 @@
 
 #include "minishell.h"
 
-static void redir_less(t_split *split, t_command *cmd)
-{
-	int i;
-
-	i = 0;
-	printf("yo\n");
-	split->i++;
-	del_spaces(split);
-	cmd->in_file = malloc(sizeof(char) * (ret_val(split) + 1));
-	while (split->str[split->i] && split->str[split->i] != ' ')
-	{
-		if (ft_isalnum(split->str[split->i]))
-		{
-			cmd->in_file[i] = split->str[split->i];
-			split->i++;
-			i++;
-		}
-	}
-	cmd->token_in = LESS;
-	cmd->token_out = 0;
-	cmd->in_file[i] = '\0';
-}
-
-static void redir_great(t_split *split, t_command *cmd)
+static void redir_less(t_split *split, t_command **cur)
 {
 	int i;
 
 	i = 0;
 	split->i++;
 	del_spaces(split);
-	cmd->out_file = malloc(sizeof(char) * (ret_val(split) + 1));
+	(*cur)->in_file = malloc(sizeof(char) * (ret_val(split) + 1));
 	while (split->str[split->i] && split->str[split->i] != ' ')
 	{
 		if (ft_isalnum(split->str[split->i]))
 		{
-			cmd->out_file[i] = split->str[split->i];
+			(*cur)->in_file[i] = split->str[split->i];
 			split->i++;
 			i++;
 		}
 	}
-	cmd->token_in = 0;
-	cmd->token_out = GREAT;
-	cmd->out_file[i] = '\0';
+	(*cur)->token_in = LESS;
+	(*cur)->token_out = 0;
+	(*cur)->in_file[i] = '\0';
 }
 
-static void redir_dgreat(t_split *split, t_command *cmd)
+static void redir_great(t_split *split, t_command **cur)
+{
+	int i;
+
+	i = 0;
+	split->i++;
+	del_spaces(split);
+	(*cur)->out_file = malloc(sizeof(char) * (ret_val(split) + 1));
+	while (split->str[split->i] && split->str[split->i] != ' ')
+	{
+		if (ft_isalnum(split->str[split->i]))
+		{
+			(*cur)->out_file[i] = split->str[split->i];
+			split->i++;
+			i++;
+		}
+	}
+	(*cur)->token_in = 0;
+	(*cur)->token_out = GREAT;
+	(*cur)->out_file[i] = '\0';
+}
+
+static void redir_dgreat(t_split *split, t_command **cur)
 {
 	int i;
 
 	i = 0;
 	split->i += 2;
 	del_spaces(split);
-	cmd->out_file = malloc(sizeof(char) * (ret_val(split) + 1));
+	(*cur)->out_file = malloc(sizeof(char) * (ret_val(split) + 1));
 	while (split->str[split->i] && split->str[split->i] != ' ')
 	{
 		if (ft_isalnum(split->str[split->i]))
 		{
-			cmd->out_file[i] = split->str[split->i];
+			(*cur)->out_file[i] = split->str[split->i];
 			split->i++;
 			i++;
 		}
 	}
-	cmd->token_in = 0;
-	cmd->token_out = DGREAT;
-	cmd->out_file[i] = '\0';
+	(*cur)->token_in = 0;
+	(*cur)->token_out = DGREAT;
+	(*cur)->out_file[i] = '\0';
 }
 
-static void redir_dless(t_split *split, t_command *cmd)
+static void redir_dless(t_split *split, t_command **cur)
 {
 	int i;
 
 	i = 0;
 	split->i += 2;
 	del_spaces(split);
-	cmd->end = malloc(sizeof(char) * (ret_val(split) + 1));
+	(*cur)->end = malloc(sizeof(char) * (ret_val(split) + 1));
 	while (split->str[split->i] && split->str[split->i] != ' ')
 	{
 		if (ft_isalnum(split->str[split->i]))
 		{
-			cmd->end[i] = split->str[split->i];
+			(*cur)->end[i] = split->str[split->i];
 			split->i++;
 			i++;
 		}
 	}
-	cmd->token_in = DLESS;
-	cmd->token_out = 0;
-	cmd->end[i] = '\0';
+	(*cur)->token_in = DLESS;
+	(*cur)->token_out = 0;
+	(*cur)->end[i] = '\0';
 	g_ret.ret = EHERE;
 }
 
-void	redirection(t_split *split, t_command *cmd)
+void	redirection(t_split *split, t_command **cur)
 {
 	if (split->str[split->i] == '<' && split->str[split->i + 1] != '<')
-		redir_less(split, cmd);
+		redir_less(split, cur);
 	else if (split->str[split->i] == '>' && split->str[split->i + 1] != '>')
-		redir_great(split, cmd);
+		redir_great(split, cur);
 	else if (split->str[split->i] == '>' && split->str[split->i + 1] == '>')
-		redir_dgreat(split, cmd);
+		redir_dgreat(split, cur);
 	else if (split->str[split->i] == '<' && split->str[split->i + 1] == '<')
-		redir_dless(split, cmd);
+		redir_dless(split, cur);
 }
