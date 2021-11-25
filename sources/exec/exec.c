@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:03:00 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/25 18:37:34 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/25 18:51:06 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,3 +173,21 @@ int	ms_pipeline(t_command **cmd, char **env, t_list_envp *lst)
 	}
 	return (ret_exec);
 }
+
+
+
+/*
+
+while (cmd)
+	fork()
+	if (error)
+		manage error
+	else if (child)
+		manage redirection
+		execute cmd
+	else (parent)
+		manage pipe
+		wait()
+	next_cmd
+
+*/
