@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:03:00 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/24 21:09:37 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/25 18:37:34 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ void	parent_exec(t_command *cur, char **env, int *fd, t_list_envp *lst)
  * 
  * si process_pipe est dans le parent (pid > 0) cat | cat | ls merde
  * mais une pipe tres longue fonctionne...
+ * 
+ * il est plus logique que le parent execute process_pipe car c'est lui
+ * qui doit gerer les pipes et le child execute le program
 */
 int	multiple_cmds(t_command *cur, char **env, int fd[2], t_list_envp *lst)
 {
@@ -71,7 +74,7 @@ int	multiple_cmds(t_command *cur, char **env, int fd[2], t_list_envp *lst)
 	return (0);
 }
 
-void	one_cmd(t_command *cur, char **env, t_list_envp *env_lst, int fd[2])
+int	one_cmd(t_command *cur, char **env, t_list_envp *env_lst, int fd[2])
 {
 	printf("starting onecmd %s\n", cur->list[0]->arg[0]);
 	close(fd[0]);
@@ -95,16 +98,19 @@ void	one_cmd(t_command *cur, char **env, t_list_envp *env_lst, int fd[2])
 	else if (execve(cur->list[0]->arg[0], cur->list[0]->arg, env) == -1)
 	{
 		perror(cur->list[0]->arg[0]);
+		g_ret.ret = errno;
 		exit(errno);
 	}
-
+	return (0);
 }
 
 int	execute_pipeline_cmds(t_command **cmd, char **env, int fd[2], t_list_envp *lst)
 {
 	t_command	*cur;
+	int			ret;
 
 	cur = *cmd;
+	ret = 0;
 	if (!cur)
 		return (-1);
 	while (cur != NULL && cur->list[0]->token != NWLINE)
@@ -114,11 +120,13 @@ int	execute_pipeline_cmds(t_command **cmd, char **env, int fd[2], t_list_envp *l
 		//{
 			if (cur->next != NULL && cur->next->list[0]->token != NWLINE)
 			{
-				if (multiple_cmds(cur, env, fd, lst) != 0)
+				
+				ret = multiple_cmds(cur, env, fd, lst);
+				if (ret != 0)
 					return (-1);
 			}
 			else
-				one_cmd(cur, env, lst, fd);
+				ret = one_cmd(cur, env, lst, fd);
 		//}
 		//else
 		// {
@@ -130,7 +138,7 @@ int	execute_pipeline_cmds(t_command **cmd, char **env, int fd[2], t_list_envp *l
 		cur = cur->next;
 	}
 	printf("fucking NWLINE %d\n", cur->list[0]->token);
-	return (0);
+	return (ret);
 }
 
 int	ms_pipeline(t_command **cmd, char **env, t_list_envp *lst)
