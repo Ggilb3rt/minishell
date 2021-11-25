@@ -55,8 +55,22 @@ int	ret_val(t_split *split, t_list_envp *ms_env)
 
 	i = 0;
 	l = split->i;
+	var = NULL;
 	while (split->str[i + l] && split->str[i + l] != ' ')
 	{
+		if (open_quote(split))
+		{
+			while (close_quote(split))
+			{
+				if (!split->open_s && split->open_d)
+				{
+					if (!search_var(split, ms_env, 0, NULL))
+						l++;
+				}
+				else
+					l++;
+			}
+		}
 		if (split->str[i + l] == '$')
 		{
 			l++;
@@ -68,7 +82,8 @@ int	ret_val(t_split *split, t_list_envp *ms_env)
 		else
 			i++;
 	}
-	i += (int)ft_strlen(get_ms_env_val(var, ms_env));
+	if (var)
+		i += (int)ft_strlen(get_ms_env_val(var, ms_env));
 	printf("count file = %d\n", i);
 	return (i);
 }
