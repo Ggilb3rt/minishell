@@ -4,7 +4,7 @@
 
 #include "minishell.h"
 
-static void redir_less(t_split *split, t_command **cur, t_list_envp *ms_env)
+static void	redir_less(t_split *split, t_command **cur, t_list_envp *ms_env)
 {
 	split->red = 0;
 	split->i++;
@@ -24,7 +24,7 @@ static void redir_less(t_split *split, t_command **cur, t_list_envp *ms_env)
 	(*cur)->in_file[split->red] = '\0';
 }
 
-static void redir_great(t_split *split, t_command **cur, t_list_envp *ms_env)
+static void	redir_great(t_split *split, t_command **cur, t_list_envp *ms_env)
 {
 	split->red = 0;
 	split->i++;
