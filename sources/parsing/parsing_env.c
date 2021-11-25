@@ -41,6 +41,8 @@ int	search_var(t_split *split, t_list_envp *ms_env, int print, t_command **cur)
 					split->new[split->o][split->l] = arg[split->q];
 				else if (print == 2)
 					(*cur)->out_file[split->red] = arg[split->q];
+				else if (print == 3)
+					(*cur)->in_file[split->red] = arg[split->q];
 				split->l++;
 				split->q++;
 				split->red++;

@@ -15,9 +15,12 @@ static void redir_less(t_split *split, t_command **cur, t_list_envp *ms_env)
 	(*cur)->in_file = malloc(sizeof(char) * (ret_val(split, ms_env) + 1));
 	while (split->str[split->i] && split->str[split->i] != ' ')
 	{
-		(*cur)->in_file[i] = split->str[split->i];
-		split->i++;
-		i++;
+		if (!search_var(split, ms_env, 3, cur))
+		{
+			(*cur)->in_file[i] = split->str[split->i];
+			split->i++;
+			i++;
+		}
 	}
 	(*cur)->token_in = LESS;
 	(*cur)->token_out = 0;
@@ -55,9 +58,12 @@ static void redir_dgreat(t_split *split, t_command **cur, t_list_envp *ms_env)
 	(*cur)->out_file = malloc(sizeof(char) * (ret_val(split, ms_env) + 1));
 	while (split->str[split->i] && split->str[split->i] != ' ')
 	{
-		(*cur)->out_file[i] = split->str[split->i];
-		split->i++;
-		i++;
+		if (!search_var(split, ms_env, 2, cur))
+		{
+			(*cur)->out_file[i] = split->str[split->i];
+			split->i++;
+			i++;
+		}
 	}
 	(*cur)->token_in = 0;
 	(*cur)->token_out = DGREAT;
