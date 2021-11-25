@@ -58,20 +58,46 @@ int	ret_val(t_split *split, t_list_envp *ms_env)
 	var = NULL;
 	while (split->str[i + l] && split->str[i + l] != ' ')
 	{
-		if (open_quote(split))
+		if (split->str[i + l] == '\"' && !split->open_s && !split->open_d)
 		{
-			while (close_quote(split))
+			split->open_d = 1;
+			l++;
+			while (split->str[i + l] != '\"' && !split->open_s && split->open_d)
 			{
+				i++;
 				if (!split->open_s && split->open_d)
 				{
-					if (!search_var(split, ms_env, 0, NULL))
+					if (split->str[i + l] == '$')
+					{
 						l++;
+						k = l + i;
+						while (parse_var(split->str[l + i]))
+							l++;
+						var = ft_substr(split->str, k, l + i - k);
+					}
 				}
-				else
+				if (split->str[i + l] == '\"' && !split->open_s && split->open_d)
+				{
+					split->open_d = 0;
 					l++;
+				}
 			}
 		}
-		if (split->str[i + l] == '$')
+		else if (split->str[i + l] == '\'' && !split->open_d && !split->open_s)
+		{
+			split->open_s = 1;
+			l++;
+			while (split->str[i + l] != '\'' && !split->open_d && split->open_s)
+			{
+				i++;
+				if (split->str[i + l] == '\'' && !split->open_s && split->open_d)
+				{
+					split->open_s = 0;
+					l++;
+				}
+			}
+		}
+		else if (split->str[i + l] == '$')
 		{
 			l++;
 			k = l + i;
