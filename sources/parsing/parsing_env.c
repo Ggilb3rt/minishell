@@ -12,7 +12,7 @@ static char	*assign_var(t_split *split)
 	split->i++;
 	k = split->i;
 	var = NULL;
-	while (split->str[split->i] != ' ' && split->str[split->i] != '\0' && split->str[split->i] != '\'' && split->str[split->i] != '\"')
+	while (parse_var(split->str[split->i]))
 		split->i++;
 	var = ft_substr(split->str, k, split->i - k);
 	if (var)
@@ -20,11 +20,12 @@ static char	*assign_var(t_split *split)
 	return (NULL);
 }
 
-int	search_var(t_split *split, t_list_envp *ms_env, int print)
+int	search_var(t_split *split, t_list_envp *ms_env, int print, t_command **cur)
 {
 	char *var;
 	char *arg;
 
+	(void)cur;
 	if (split->str[split->i] == '$')
 	{
 		var = assign_var(split);
@@ -38,8 +39,11 @@ int	search_var(t_split *split, t_list_envp *ms_env, int print)
 			{
 				if (print == 1)
 					split->new[split->o][split->l] = arg[split->q];
+				else if (print == 2)
+					(*cur)->out_file[split->red] = arg[split->q];
 				split->l++;
 				split->q++;
+				split->red++;
 			}
 		}
 		return (1);

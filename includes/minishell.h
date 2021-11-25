@@ -47,34 +47,20 @@ typedef struct s_list_envp
 	struct s_list_envp	*next;
 }	t_list_envp;
 
-
 typedef struct s_g_sig
 {
 	int						ret;
 	int						quit;
 }	t_g_sig;
-/*
-typedef struct s_simple_command
-{
-	int						numb_avail;
-	int						numb;
-	char					**arg;
-	int						token;
-	int						build;
-	struct s_simple_command	*next;
-}				t_simple_command;
-*/
+
 typedef struct s_command
 {
-	//int						numb_avail_simple_commands; //inutile?
-	//int						numb_simple_commands; //inutile?
 	int 					token_in;
 	int 					token_out;
 	int 					token;
 	char					**arg;
 	char 					*out_file;
 	char 					*in_file;
-	//char 					*err_file; //inutile?
 	int 					fd_in;
 	int 					fd_out;
 	char 					*end;

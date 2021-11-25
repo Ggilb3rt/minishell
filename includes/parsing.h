@@ -34,29 +34,6 @@
  * reponse : je vais y jeter un oeil
 */
 
-/*
-typedef struct s_to_exec_cmd
-{
-	char		**arg;
-	int			in_file_fd;
-	int			out_file_fd;
-}				t_to_exec_cmd;
-*/
-
-/*
-typedef struct s_split
-{
-	int 	size;
-	int		count;
-	int 	count_s;
-	int 	count_d;
-	int		len;
-	int		open;
-	char 	**new;
-	int 	j;
-}				t_split;
-*/
-
 typedef struct s_split
 {
 	char 	*str;
@@ -64,25 +41,17 @@ typedef struct s_split
 	int 	l;
 	int 	o;
 	int 	q;
+	int 	red;
 	char 	**new;
 	int 	open_s;
 	int 	open_d;
 }				t_split;
 
-/*
-typedef struct s_count
-{
-	int		open;
-	int 	words;
-	int 	i;
-	int 	trig;
-}				t_count;
-*/
-
 /* parsing main */
 int					parsing_main(char *str, t_command **cmd, t_list_envp *ms_env);
 int					ret_val(t_split *split, t_list_envp *ms_env);
 void				del_spaces(t_split *split);
+int					parse_var(int c);
 
 /* parsing tokens */
 int					create_token(char *str);
@@ -113,10 +82,10 @@ void				into_quote(t_split *split, t_list_envp *ms_env);
 void 				dup_quotes(char **arr);
 
 /* parsing redirections */
-void				redirection(t_split *split, t_command **cur, t_list_envp *ms_envp);
+void				redirection(t_split *split, t_command **cur, t_list_envp *ms_env);
 
 /* parsing env */
-int					search_var(t_split *split, t_list_envp *ms_env, int yes);
+int					search_var(t_split *split, t_list_envp *ms_env, int yes, t_command **cur);
 
 /* parsing count */
 int 				count_args(char *str, int pos);

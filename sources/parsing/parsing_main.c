@@ -38,18 +38,37 @@ void del_spaces(t_split *split)
 		split->i++;
 }
 
+int parse_var(int c)
+{
+	if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z')
+		|| (c >= 'A' && c <= 'Z'))
+		return (1);
+	return (0);
+}
+
 int	ret_val(t_split *split, t_list_envp *ms_env)
 {
 	int i;
+	char *var;
+	int k;
+	int l;
 
 	i = 0;
-	while (split->str[split->i + i] && split->str[split->i + i] != ' ')
+	l = split->i;
+	while (split->str[i + l] && split->str[i + l] != ' ')
 	{
-		if (!search_var(split, ms_env, 0))
-			i++;
+		if (split->str[i + l] == '$')
+		{
+			l++;
+			k = l + i;
+			while (parse_var(split->str[l + i]))
+				l++;
+			var = ft_substr(split->str, k, l + i - k);
+		}
 		else
-			i += split->q;
+			i++;
 	}
+	i += (int)ft_strlen(get_ms_env_val(var, ms_env));
 	printf("count file = %d\n", i);
 	return (i);
 }
@@ -73,7 +92,9 @@ static int check_char(t_split *split, t_command **cur, t_command **cmd, t_list_e
 	else
 	{
 		redirection(split, cur, ms_env);
-		if (!search_var(split, ms_env, 1))
+		if (!split->str[split->i])
+			return (0);
+		if (!search_var(split, ms_env, 1, NULL))
 			get_char(split);
 	}
 	return (1);

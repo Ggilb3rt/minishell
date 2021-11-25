@@ -13,6 +13,7 @@ void	get_char(t_split *split)
 
 void get_arg(t_split *split, t_command **cur, t_command **cmd)
 {
+
 	split->new[split->o][split->l] = '\0';
 	split->new[split->o + 1] = NULL;
 	dup_quotes(split->new);

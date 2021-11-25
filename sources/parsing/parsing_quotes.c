@@ -43,7 +43,7 @@ void into_quote(t_split *split, t_list_envp *ms_env)
 	{
 		if (!split->open_s && split->open_d)
 		{
-			if (!search_var(split, ms_env, 1))
+			if (!search_var(split, ms_env, 1, NULL))
 				get_char(split);
 		}
 		else

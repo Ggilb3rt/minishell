@@ -26,22 +26,22 @@ static void redir_less(t_split *split, t_command **cur, t_list_envp *ms_env)
 
 static void redir_great(t_split *split, t_command **cur, t_list_envp *ms_env)
 {
-	int i;
-
-	i = 0;
-	(void)ms_env;
+	split->red = 0;
 	split->i++;
 	del_spaces(split);
 	(*cur)->out_file = malloc(sizeof(char) * (ret_val(split, ms_env) + 1));
 	while (split->str[split->i] && split->str[split->i] != ' ')
 	{
-		(*cur)->out_file[i] = split->str[split->i];
-		split->i++;
-		i++;
+		if (!search_var(split, ms_env, 2, cur))
+		{
+			(*cur)->out_file[split->red] = split->str[split->i];
+			split->red++;
+			split->i++;
+		}
 	}
 	(*cur)->token_in = 0;
 	(*cur)->token_out = GREAT;
-	(*cur)->out_file[i] = '\0';
+	(*cur)->out_file[split->red] = '\0';
 }
 
 static void redir_dgreat(t_split *split, t_command **cur, t_list_envp *ms_env)
