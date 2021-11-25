@@ -45,6 +45,7 @@ int	ret_val(t_split *split)
 	i = 0;
 	while (split->str[split->i + i] && split->str[split->i + i] != ' ')
 		i++;
+	printf("count file = %d\n", i);
 	return (i);
 }
 
@@ -66,7 +67,7 @@ static int check_char(t_split *split, t_command **cur, t_command **cmd, t_list_e
 		into_quote(split, ms_env);
 	else
 	{
-		redirection(split, cur);
+		redirection(split, cur, ms_env);
 		if (!search_var(split, ms_env, 1))
 			get_char(split);
 	}

@@ -113,7 +113,7 @@ void				into_quote(t_split *split, t_list_envp *ms_env);
 void 				dup_quotes(char **arr);
 
 /* parsing redirections */
-void				redirection(t_split *split, t_command **cur);
+void				redirection(t_split *split, t_command **cur, t_list_envp *ms_envp);
 
 /* parsing env */
 int					search_var(t_split *split, t_list_envp *ms_env, int yes);

@@ -20,7 +20,7 @@ static char	*assign_varrr(t_split *split)
 	return (NULL);
 }
 
-int	search_var(t_split *split, t_list_envp *ms_env, int yes)
+int	search_var(t_split *split, t_list_envp *ms_env, int print)
 {
 	char *var;
 	char *arg;
@@ -36,7 +36,7 @@ int	search_var(t_split *split, t_list_envp *ms_env, int yes)
 			split->q = 0;
 			while (arg[split->q])
 			{
-				if (yes)
+				if (print == 1)
 					split->new[split->o][split->l] = arg[split->q];
 				split->l++;
 				split->q++;

@@ -84,7 +84,7 @@ int 	count_word(char *str, t_list_envp *ms_env, int pos)
 			count += count_open_quote(&split, ms_env);
 		else
 		{
-			redirection(&split, &cur);
+			redirection(&split, &cur, ms_env);
 			if (!search_var(&split, ms_env, 0))
 			{
 				split.i++;
