@@ -67,7 +67,8 @@ static int check_char(t_split *split, t_command **cur, t_command **cmd, t_list_e
 	else
 	{
 		redirection(split, cur);
-		get_char(split);
+		if (!search_var(split, ms_env, 1))
+			get_char(split);
 	}
 	return (1);
 }

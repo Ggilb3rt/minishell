@@ -38,6 +38,7 @@ int 	count_args(char *str, int pos)
 	while (split.str[split.i] && split.str[split.i] != '|')
 		count += count_check_args(&split);
 	count++;
+	printf("count args = %d\n", count);
 	return (count);
 }
 
@@ -50,7 +51,7 @@ static int count_open_quote(t_split *split, t_list_envp *ms_env)
 	{
 		if (!split->open_s && split->open_d)
 		{
-			if (!search_var(split, ms_env))
+			if (!search_var(split, ms_env, 0))
 			{
 				count++;
 				split->i++;
@@ -84,9 +85,15 @@ int 	count_word(char *str, t_list_envp *ms_env, int pos)
 		else
 		{
 			redirection(&split, &cur);
-			split.i++;
-			count++;
+			if (!search_var(&split, ms_env, 0))
+			{
+				split.i++;
+				count++;
+			}
+			else
+				count += split.q;
 		}
 	}
+	printf("count words = %d\n", count);
 	return (count);
 }

@@ -116,7 +116,7 @@ void 				dup_quotes(char **arr);
 void				redirection(t_split *split, t_command **cur);
 
 /* parsing env */
-int					search_var(t_split *split, t_list_envp *ms_env);
+int					search_var(t_split *split, t_list_envp *ms_env, int yes);
 
 /* parsing count */
 int 				count_args(char *str, int pos);
