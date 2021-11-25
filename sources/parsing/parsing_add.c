@@ -41,17 +41,18 @@ void	add_command(t_command **new, t_command **cmd)
 	}
 }
 
-int	add_newline(t_command **list)
+int	add_newline(t_command **cmd)
 {
 	t_command	*new;
 	char		**arr;
 
-	arr = malloc(sizeof(char*));
+	arr = malloc(sizeof(char *) * 2);
 	arr[0] = malloc(sizeof(char) * 2);
 	arr[0][0] = '/';
 	arr[0][1] = '\0';
+	arr[1] = NULL;
 	new = alloc_command(arr);
 	new->token = create_token(arr[0]);
-	add_command(&new, list);
+	add_command(&new, cmd);
 	return (1);
 }
