@@ -85,7 +85,6 @@ int	parsing_main(char *str, t_command **cmd, t_list_envp *ms_env)
 	cur = NULL;
 	split.new = NULL;
 	init_split(&split, str);
-	printf("toupie\n");
 	if (!init_arg(&split, cur, ms_env))
 	{
 		free_split(&split);
@@ -97,9 +96,7 @@ int	parsing_main(char *str, t_command **cmd, t_list_envp *ms_env)
 		if (!ret)
 			break ;
 	}
-	printf("toupie\n");
 	get_arg(&split, cur, cmd);
 	add_newline(cmd);
-	printf("toupie\n");
 	return (1);
 }

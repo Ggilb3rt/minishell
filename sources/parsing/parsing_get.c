@@ -10,13 +10,34 @@ void	get_char(t_split *split)
 	split->l++;
 	split->i++;
 }
+/*
+static char **copytab(char **cpy)
+{
+	char **arr;
+	int len;
+	int i;
 
+	i = 0;
+	len = array_size(cpy);
+	arr = malloc(sizeof(char *) * (len + 1));
+	while (i < len)
+	{
+		printf("%s\n", cpy[i]);
+		arr[i] = ft_strdup(cpy[i]);
+		printf("%s\n\n", arr[i]);
+		i++;
+	}
+	printf("prout\n");
+	arr[i] = NULL;
+	return (arr);
+}
+ */
 void get_arg(t_split *split, t_command *cur, t_command **cmd)
 {
 	printf("\ttata\n");
 	split->new[split->o][split->l] = '\0';
 	printf("\ttati\n");
-	split->new[split->o + 1] = NULL;
+	//split->new[split->o + 1] = NULL;
 	printf("\ttato\n");
 	cur->arg = split->new;
 	printf("\ttatu\n");

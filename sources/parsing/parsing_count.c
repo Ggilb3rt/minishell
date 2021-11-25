@@ -18,7 +18,7 @@ static int 	count_check_args(t_split *split)
 	{
 		split->i++;
 		del_spaces(split);
-		if (!split->str[split->i] && split->str[split->i] == '|')
+		if (!split->str[split->i] || split->str[split->i] == '|')
 			return (count);
 		count++;
 	}
@@ -38,7 +38,7 @@ int 	count_args(char *str, int pos)
 	while (split.str[split.i] && split.str[split.i] != '|')
 		count += count_check_args(&split);
 	count++;
-	printf("count = %d\n", count);
+	printf("count arg = %d\n", count);
 	return (count);
 }
 
@@ -89,5 +89,6 @@ int 	count_word(char *str, t_list_envp *ms_env, int pos)
 			count++;
 		}
 	}
+	printf("count word = %d\n", count);
 	return (count);
 }
