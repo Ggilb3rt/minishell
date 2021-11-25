@@ -4,12 +4,12 @@
 
 #include "minishell.h"
 
-static void redir_less(t_split *split, t_command **cur, t_list_envp *ms_envp)
+static void redir_less(t_split *split, t_command **cur, t_list_envp *ms_env)
 {
 	int i;
 
 	i = 0;
-	(void)ms_envp;
+	(void)ms_env;
 	split->i++;
 	del_spaces(split);
 	(*cur)->in_file = malloc(sizeof(char) * (ret_val(split) + 1));
@@ -24,12 +24,12 @@ static void redir_less(t_split *split, t_command **cur, t_list_envp *ms_envp)
 	(*cur)->in_file[i] = '\0';
 }
 
-static void redir_great(t_split *split, t_command **cur, t_list_envp *ms_envp)
+static void redir_great(t_split *split, t_command **cur, t_list_envp *ms_env)
 {
 	int i;
 
 	i = 0;
-	(void)ms_envp;
+	(void)ms_env;
 	split->i++;
 	del_spaces(split);
 	(*cur)->out_file = malloc(sizeof(char) * (ret_val(split) + 1));
@@ -44,12 +44,12 @@ static void redir_great(t_split *split, t_command **cur, t_list_envp *ms_envp)
 	(*cur)->out_file[i] = '\0';
 }
 
-static void redir_dgreat(t_split *split, t_command **cur, t_list_envp *ms_envp)
+static void redir_dgreat(t_split *split, t_command **cur, t_list_envp *ms_env)
 {
 	int i;
 
 	i = 0;
-	(void)ms_envp;
+	(void)ms_env;
 	split->i += 2;
 	del_spaces(split);
 	(*cur)->out_file = malloc(sizeof(char) * (ret_val(split) + 1));
@@ -84,14 +84,14 @@ static void redir_dless(t_split *split, t_command **cur)
 	g_ret.ret = EHERE;
 }
 
-void	redirection(t_split *split, t_command **cur, t_list_envp *ms_envp)
+void	redirection(t_split *split, t_command **cur, t_list_envp *ms_env)
 {
 	if (split->str[split->i] == '<' && split->str[split->i + 1] != '<')
-		redir_less(split, cur, ms_envp);
+		redir_less(split, cur, ms_env);
 	else if (split->str[split->i] == '>' && split->str[split->i + 1] != '>')
-		redir_great(split, cur, ms_envp);
+		redir_great(split, cur, ms_env);
 	else if (split->str[split->i] == '>' && split->str[split->i + 1] == '>')
-		redir_dgreat(split, cur, ms_envp);
+		redir_dgreat(split, cur, ms_env);
 	else if (split->str[split->i] == '<' && split->str[split->i + 1] == '<')
 		redir_dless(split, cur);
 }

@@ -45,7 +45,7 @@ int	ret_val(t_split *split)
 	i = 0;
 	while (split->str[split->i + i] && split->str[split->i + i] != ' ')
 		i++;
-	printf("count file = %d\n", i);
+	//printf("count file = %d\n", i);
 	return (i);
 }
 

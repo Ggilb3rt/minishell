@@ -4,7 +4,7 @@
 
 #include "minishell.h"
 
-static char	*assign_varrr(t_split *split)
+static char	*assign_var(t_split *split)
 {
 	char	*var;
 	int		k;
@@ -27,7 +27,7 @@ int	search_var(t_split *split, t_list_envp *ms_env, int print)
 
 	if (split->str[split->i] == '$')
 	{
-		var = assign_varrr(split);
+		var = assign_var(split);
 		if (var)
 		{
 			arg = get_ms_env_val(var, ms_env);
