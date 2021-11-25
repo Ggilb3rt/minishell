@@ -81,7 +81,7 @@ typedef struct s_count
 
 /* parsing main */
 int					parsing_main(char *str, t_command **cmd, t_list_envp *ms_env);
-int					ret_val(t_split *split);
+int					ret_val(t_split *split, t_list_envp *ms_env);
 void				del_spaces(t_split *split);
 
 /* parsing tokens */

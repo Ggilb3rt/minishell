@@ -12,7 +12,7 @@ static void redir_less(t_split *split, t_command **cur, t_list_envp *ms_env)
 	(void)ms_env;
 	split->i++;
 	del_spaces(split);
-	(*cur)->in_file = malloc(sizeof(char) * (ret_val(split) + 1));
+	(*cur)->in_file = malloc(sizeof(char) * (ret_val(split, ms_env) + 1));
 	while (split->str[split->i] && split->str[split->i] != ' ')
 	{
 		(*cur)->in_file[i] = split->str[split->i];
@@ -32,7 +32,7 @@ static void redir_great(t_split *split, t_command **cur, t_list_envp *ms_env)
 	(void)ms_env;
 	split->i++;
 	del_spaces(split);
-	(*cur)->out_file = malloc(sizeof(char) * (ret_val(split) + 1));
+	(*cur)->out_file = malloc(sizeof(char) * (ret_val(split, ms_env) + 1));
 	while (split->str[split->i] && split->str[split->i] != ' ')
 	{
 		(*cur)->out_file[i] = split->str[split->i];
@@ -52,7 +52,7 @@ static void redir_dgreat(t_split *split, t_command **cur, t_list_envp *ms_env)
 	(void)ms_env;
 	split->i += 2;
 	del_spaces(split);
-	(*cur)->out_file = malloc(sizeof(char) * (ret_val(split) + 1));
+	(*cur)->out_file = malloc(sizeof(char) * (ret_val(split, ms_env) + 1));
 	while (split->str[split->i] && split->str[split->i] != ' ')
 	{
 		(*cur)->out_file[i] = split->str[split->i];
@@ -71,7 +71,7 @@ static void redir_dless(t_split *split, t_command **cur)
 	i = 0;
 	split->i += 2;
 	del_spaces(split);
-	(*cur)->end = malloc(sizeof(char) * (ret_val(split) + 1));
+	(*cur)->end = malloc(sizeof(char) * (ret_val(split, NULL) + 1));
 	while (split->str[split->i] && split->str[split->i] != ' ')
 	{
 		(*cur)->end[i] = split->str[split->i];

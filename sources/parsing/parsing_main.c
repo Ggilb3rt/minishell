@@ -38,14 +38,19 @@ void del_spaces(t_split *split)
 		split->i++;
 }
 
-int	ret_val(t_split *split)
+int	ret_val(t_split *split, t_list_envp *ms_env)
 {
 	int i;
 
 	i = 0;
 	while (split->str[split->i + i] && split->str[split->i + i] != ' ')
-		i++;
-	//printf("count file = %d\n", i);
+	{
+		if (!search_var(split, ms_env, 0))
+			i++;
+		else
+			i += split->q;
+	}
+	printf("count file = %d\n", i);
 	return (i);
 }
 
