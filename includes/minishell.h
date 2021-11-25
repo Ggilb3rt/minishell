@@ -79,7 +79,7 @@ typedef struct s_command
 	int 					fd_out;
 	char 					*end;
 	int 					build;
-	//int						can_exec;
+	int						can_exec;
 	struct s_command		*next;
 }				t_command;
 
