@@ -106,6 +106,7 @@ int	main(int ac, char **av, char **envp)
 	ms_signal();
 	ms_envp = create_msenvp_lst(envp);
 	msg_prompt = ft_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
+	(void)pipeline_env;
 	while (1)
 	{
 		free(line);
@@ -128,14 +129,14 @@ int	main(int ac, char **av, char **envp)
 			heredoc_func(line, cmd);
 		}
 		print_all(cmd);
-		set_cmd_ready_to_exec(cmd, ms_envp);
-		pipeline_env = convert_envplst_to_tab(ms_envp);
-		ms_pipeline(cmd, pipeline_env, ms_envp);
-		close_cmds_fd(cmd);
-		free_tab(pipeline_env);
+		//set_cmd_ready_to_exec(cmd, ms_envp);
+		//pipeline_env = convert_envplst_to_tab(ms_envp);
+		//ms_pipeline(cmd, pipeline_env, ms_envp);
+		//close_cmds_fd(cmd);
+		//free_tab(pipeline_env);
 		//printf("g_ret in = %d | %d\n", g_ret.ret, g_ret.quit);
-		if (g_ret.quit == 1)
-			break ;
+		//if (g_ret.quit == 1)
+		//	break ;
 		//	exit(g_ret.ret);
 		free_command(cmd);
 		//print_all(cmd);

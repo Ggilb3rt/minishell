@@ -46,6 +46,7 @@ int	count_args(char *str, int pos)
 	while (split.str[split.i] && split.str[split.i] != '|')
 		count += count_check_args(&split);
 	count++;
+	printf("count arg = %d\n", count);
 	return (count);
 }
 
@@ -101,5 +102,6 @@ int	count_word(char *str, t_list_envp *ms_env, int pos)
 				count += split.q;
 		}
 	}
+	printf("count word = %d\n", count);
 	return (count);
 }

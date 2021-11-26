@@ -22,6 +22,6 @@ void				redirection(t_split *split, t_command **cur, t_list_envp *ms_env);
 int					ret_val(t_split *split, t_list_envp *ms_env);
 
 /* redir get */
-void				get_string(t_split *split, t_list_envp *ms_env, t_command **cur, int print);
+int					get_string(t_split *split, t_list_envp *ms_env, t_command **cur, int print);
 
 #endif //MINISHELL_REDIR_H

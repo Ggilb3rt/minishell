@@ -16,6 +16,8 @@ int	alloc_word(t_split *split, t_list_envp *ms_env)
 {
 	split->new[split->o] = malloc (sizeof(char)
 			* (count_word(split->str, ms_env, split->i) + 1));
+	split->open_d = 0;
+	split->open_s = 0;
 	if (!split->new[split->o])
 		return (0);
 	return (1);

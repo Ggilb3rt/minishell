@@ -20,13 +20,14 @@ int	open_quote(t_split *split)
 		split->i++;
 		return (1);
 	}
-	if (split->str[split->i] == '\'' && !split->open_d && !split->open_s)
+	else if (split->str[split->i] == '\'' && !split->open_d && !split->open_s)
 	{
 		split->open_s = 1;
 		split->i++;
 		return (1);
 	}
-	return (0);
+	else
+		return (0);
 }
 
 int	close_quote(t_split *split)
@@ -37,13 +38,14 @@ int	close_quote(t_split *split)
 		split->i++;
 		return (0);
 	}
-	if (split->str[split->i] == '\'' && !split->open_d && split->open_s)
+	else if (split->str[split->i] == '\'' && !split->open_d && split->open_s)
 	{
 		split->open_s = 0;
 		split->i++;
 		return (0);
 	}
-	return (1);
+	else
+		return (1);
 }
 
 void	into_quote(t_split *split, t_list_envp *ms_env)

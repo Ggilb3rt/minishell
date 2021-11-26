@@ -22,10 +22,12 @@ static void	get_redir(t_split *split, int print, t_command **cur)
 	split->red++;
 }
 
-void	get_string(t_split *split, t_list_envp *ms_env,
+int	get_string(t_split *split, t_list_envp *ms_env,
 					t_command **cur, int print)
 {
-	if (open_quote(split))
+	if (split->str[split->i] == ' ')
+		return (0);
+	else if (open_quote(split))
 	{
 		while (close_quote(split))
 		{
@@ -40,4 +42,5 @@ void	get_string(t_split *split, t_list_envp *ms_env,
 	}
 	else if (!search_var(split, ms_env, print, cur))
 		get_redir(split, print, cur);
+	return (1);
 }
