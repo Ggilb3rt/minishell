@@ -66,6 +66,8 @@ static int	check_char(t_split *split, t_command **cur,
 	else
 	{
 		redirection(split, cur, ms_env);
+		if (split->str[split->i] == '|' || split->str[split->i] == '<' || split->str[split->i] == '>')
+			return (1);
 		if (!split->str[split->i])
 			return (0);
 		if (!search_var(split, ms_env, 1, NULL))

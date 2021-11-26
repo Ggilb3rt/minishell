@@ -89,6 +89,5 @@ int	ret_val(t_split *split, t_list_envp *ms_env)
 		check_ret(split, &redir);
 	if (redir.var)
 		redir.i += (int)ft_strlen(get_ms_env_val(redir.var, ms_env));
-	printf("count file = %d\n", redir.i);
 	return (redir.i);
 }

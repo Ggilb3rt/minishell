@@ -16,7 +16,7 @@ typedef struct s_redir
 }				t_redir;
 
 /* redir main */
-void				redirection(t_split *split, t_command **cur, t_list_envp *ms_env);
+int					redirection(t_split *split, t_command **cur, t_list_envp *ms_env);
 
 /* redir ret */
 int					ret_val(t_split *split, t_list_envp *ms_env);

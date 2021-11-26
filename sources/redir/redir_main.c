@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	redir_less(t_split *split, t_command **cur, t_list_envp *ms_env)
+static int	redir_less(t_split *split, t_command **cur, t_list_envp *ms_env)
 {
 	split->red = 0;
 	split->i++;
@@ -28,9 +28,10 @@ static void	redir_less(t_split *split, t_command **cur, t_list_envp *ms_env)
 	(*cur)->token_in = LESS;
 	(*cur)->token_out = 0;
 	(*cur)->in_file[split->red] = '\0';
+	return (1);
 }
 
-static void	redir_great(t_split *split, t_command **cur, t_list_envp *ms_env)
+static int	redir_great(t_split *split, t_command **cur, t_list_envp *ms_env)
 {
 	split->red = 0;
 	split->i++;
@@ -46,9 +47,10 @@ static void	redir_great(t_split *split, t_command **cur, t_list_envp *ms_env)
 	(*cur)->token_in = 0;
 	(*cur)->token_out = GREAT;
 	(*cur)->out_file[split->red] = '\0';
+	return (1);
 }
 
-static void	redir_dgreat(t_split *split, t_command **cur, t_list_envp *ms_env)
+static int	redir_dgreat(t_split *split, t_command **cur, t_list_envp *ms_env)
 {
 	split->red = 0;
 	split->i += 2;
@@ -64,9 +66,10 @@ static void	redir_dgreat(t_split *split, t_command **cur, t_list_envp *ms_env)
 	(*cur)->token_in = 0;
 	(*cur)->token_out = DGREAT;
 	(*cur)->out_file[split->red] = '\0';
+	return (1);
 }
 
-static void	redir_dless(t_split *split, t_command **cur)
+static int	redir_dless(t_split *split, t_command **cur)
 {
 	int	i;
 
@@ -84,9 +87,10 @@ static void	redir_dless(t_split *split, t_command **cur)
 	(*cur)->token_out = 0;
 	(*cur)->end[i] = '\0';
 	g_ret.ret = EHERE;
+	return (1);
 }
 
-void	redirection(t_split *split, t_command **cur, t_list_envp *ms_env)
+int	redirection(t_split *split, t_command **cur, t_list_envp *ms_env)
 {
 	if (split->str[split->i] == '<' && split->str[split->i + 1] != '<')
 		redir_less(split, cur, ms_env);
@@ -96,4 +100,10 @@ void	redirection(t_split *split, t_command **cur, t_list_envp *ms_env)
 		redir_dgreat(split, cur, ms_env);
 	else if (split->str[split->i] == '<' && split->str[split->i + 1] == '<')
 		redir_dless(split, cur);
+	if (split->str[split->i] == ' ')
+	{
+		if (!get_word_space(split, ms_env))
+			return (0);
+	}
+	return (1);
 }

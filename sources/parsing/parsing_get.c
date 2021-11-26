@@ -40,6 +40,16 @@ int	get_arg_pipe(t_split *split, t_command **cur, t_command **cmd)
 	return (1);
 }
 
+int get_word(t_split *split, t_list_envp *ms_env)
+{
+	split->new[split->o][split->l] = '\0';
+	split->l = 0;
+	split->o++;
+	if (!alloc_word(split, ms_env))
+		return (0);
+	return (1);
+}
+
 int	get_word_space(t_split *split, t_list_envp *ms_env)
 {
 	split->i++;
@@ -50,10 +60,6 @@ int	get_word_space(t_split *split, t_list_envp *ms_env)
 		return (0);
 	if (split->str[split->i] == '>' || split->str[split->i] == '<')
 		return (1);
-	split->new[split->o][split->l] = '\0';
-	split->l = 0;
-	split->o++;
-	if (!alloc_word(split, ms_env))
-		return (0);
+	get_word(split, ms_env);
 	return (1);
 }

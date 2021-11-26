@@ -73,14 +73,13 @@ void				get_char(t_split *split);
 void 				get_arg(t_split *split, t_command **cur, t_command **cmd);
 int 				get_arg_pipe(t_split *split, t_command **cur, t_command **cmd);
 int 				get_word_space(t_split *split, t_list_envp *ms_env);
+int					get_word(t_split *split, t_list_envp *ms_env);
 
 /* parsing quotes */
 int					open_quote(t_split *split);
 int					close_quote(t_split *split);
 void				into_quote(t_split *split, t_list_envp *ms_env);
 void 				dup_quotes(char **arr);
-
-
 
 /* parsing env */
 int					search_var(t_split *split, t_list_envp *ms_env, int yes, t_command **cur);
