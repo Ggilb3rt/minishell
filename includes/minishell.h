@@ -67,6 +67,8 @@ typedef struct s_command
 	char					*err_file;
 	int						fd_in;
 	int						fd_out;
+	int						*pipe_in;
+	int						*pipe_out;
 	char					*end;
 	int						can_exec;
 	struct s_command		*next;
