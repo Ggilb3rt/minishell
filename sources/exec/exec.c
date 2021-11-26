@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:03:00 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/26 16:40:51 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/26 20:53:08 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,25 +176,11 @@ int	execute_pipeline_cmds(t_command **cmd, char **env, int fd[2], t_list_envp *l
 // 	return (ret_exec);
 // }
 
-void	exec_built_or_bin(t_command *cur, char **env, t_list_envp *lst, int pipe_fd[2])
-{
-	fprintf(stderr, "execution fd %d %d %d %d\n",
-		pipe_fd[0], pipe_fd[1], cur->fd_in, cur->fd_out);
-	if (cur->list[0]->build >= 0)
-	{
-		if (cur->list[0]->build >= 10)
-			exit(0);
-		exit(exec_builtin(cur->list[0]->arg, lst));
-	}
-	else if (execve(cur->list[0]->arg[0], cur->list[0]->arg, env) == -1)
-	{
-		perror(cur->list[0]->arg[0]);
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		exit(errno);
-	}
-}
 
+
+//! NEW VERSION
+
+/*
 int		create_pipes(t_command **cmd)
 {
 	t_command	*cur;
@@ -235,6 +221,36 @@ void	free_pipes(t_command **cmd)
 		cur = cur->next;
 	}
 
+}
+*/
+
+void	exec_built_or_bin(t_command *cur, char **env, t_list_envp *lst, int pipe_fd[2])
+{
+	fprintf(stderr, "execution fd %d %d %d %d\n",
+		pipe_fd[0], pipe_fd[1], cur->fd_in, cur->fd_out);
+	//close(pipe_fd[0]);
+	// if (cur->fd_out != -1)
+	// {
+	// 	dup2(cur->fd_out, STDOUT_FILENO);
+	// 	close(cur->fd_out);
+	// }
+	// else
+	// 	dup2(pipe_fd[1], STDOUT_FILENO);
+	//close(pipe_fd[1]);
+	if (cur->list[0]->build >= 0)
+	{
+		if (cur->list[0]->build >= 10)
+			exit(0);
+		exit(exec_builtin(cur->list[0]->arg, lst));
+	}
+	else if (execve(cur->list[0]->arg[0], cur->list[0]->arg, env) == -1)
+	{
+		g_ret.ret = errno;
+		perror(cur->list[0]->arg[0]);
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+		exit(errno);
+	}
 }
 
 void	set_redir(t_command *cur, int pipe_fd[2])
@@ -304,9 +320,9 @@ void	set_pipes(t_command *cur, int nb_cmd, int pipe_fd[2])
 		else
 		{
 			printf("cmd %d\n", nb_cmd);
-			
-			dup2(pipe_fd[1], STDOUT_FILENO);
-			close(pipe_fd[1]);
+			//close(pipe_fd[1]);
+			//dup2(pipe_fd[1], STDOUT_FILENO);
+			//close(pipe_fd[1]);
 			// if (cur->fd_in != -1)
 			// {
 			// 	dup2(cur->fd_in, STDIN_FILENO);
@@ -320,9 +336,13 @@ void	set_pipes(t_command *cur, int nb_cmd, int pipe_fd[2])
 			
 			// read from pipe_prec out
 			// write to cur->pipe_out
+			ms_pipe(pipe_fd);
+			printf("===> second pipe in cmd %d %d\n", pipe_fd[0], pipe_fd[1]);
+			close(pipe_fd[0]);
+			dup2(pipe_fd[1], STDOUT_FILENO);
+			close(pipe_fd[1]);
 		}
 	}
-	ms_pipe(pipe_fd);
 }
 
 int	ms_pipeline(t_command **cmd, char **env, t_list_envp *lst)
@@ -368,7 +388,14 @@ int	ms_pipeline(t_command **cmd, char **env, t_list_envp *lst)
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
 	while (wait(&status) > 0)
-			printf("waiting...");
+	{
+		printf("waiting..." );
+		if (WIFEXITED(status))
+		{
+			g_ret.ret = WEXITSTATUS(status);
+			printf("|%d|", g_ret.ret);
+		}
+	}
 	if (g_ret.ret == -1 || status == 0)
 		g_ret.ret = (unsigned char)status;
 	//free_pipes(cmd);
