@@ -48,6 +48,7 @@ int	multiple_cmds(t_command *cur, char **env, int fd[2], t_list_envp *lst)
 	//printf("multiple cmd\n");
 
 	pid = fork();
+	ms_signal(2);
 	if (pid == -1)
 	{
 		perror("fork");
@@ -80,7 +81,7 @@ void	one_cmd(t_command *cur, char **env, t_list_envp *env_lst)
 		exit(exec_builtin(cur->arg, env_lst));
 	}
 	//fprintf(stderr, "just before exec |%s| |%s|\n", cur->arg[0], cur->arg[1]);
-	execve(cur->arg[0], cur->arg, env);
+	g_ret.ret = execve(cur->arg[0], cur->arg, env);
 	fprintf(stderr, "errore ??\n");
 	perror(cur->arg[0]);
 	exit(errno);

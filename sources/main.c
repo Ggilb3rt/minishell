@@ -14,34 +14,41 @@
 
 t_g_sig	g_ret = {.ret = 0, . quit = 0};
 
-void	sig_handler(int n)
+void next_prompt(int sig)
 {
-	if (n == SIGINT)
-	{
-		if (g_ret.ret == EHERE)
-		{
-			g_ret.ret = QHERE;
-		}
-		else
-		{
-			printf("\n");
-			rl_on_new_line();
-			rl_replace_line("", 0);
-			rl_redisplay();
-			g_ret.ret = 0;
-		}
-	}
+	(void)sig;
+	g_ret.ret = 130;
+	printf("\n");
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
-void	ms_signal(void)
+void next_line(int sig)
 {
-	if (signal(SIGINT, sig_handler) == SIG_ERR)
+	(void)sig;
+	g_ret.ret = 130;
+	printf("\n");
+}
+
+void bckslsh(int sig)
+{
+	(void)sig;
+	g_ret.ret = 131;
+	printf("Quit (core dumped)\n");
+}
+
+void	ms_signal(int sig)
+{
+	if (sig == 1)
 	{
-		exit(1);
+		signal(SIGINT, next_prompt);
+		signal(SIGQUIT, SIG_IGN);
 	}
-	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+	if (sig == 2)
 	{
-		exit(1);
+		signal(SIGINT, next_line);
+		signal(SIGQUIT, bckslsh);
 	}
 }
 
@@ -94,6 +101,15 @@ static int	init_cmd(t_command ***cmd)
 	return (1);
 }
 
+static void print_message(void)
+{
+	printf("++++++++++++++++++++++++++++++++++++++++++++++++\n");
+	printf("+                                              +\n");
+	printf("+        Minishell by Moulage Lituanien        +\n");
+	printf("+                                              +\n");
+	printf("++++++++++++++++++++++++++++++++++++++++++++++++\n");
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_list_envp	*ms_envp;
@@ -104,8 +120,9 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
+	print_message();
 	line = ft_strdup("");
-	ms_signal();
+	ms_signal(1);
 	ms_envp = create_msenvp_lst(envp);
 	msg_prompt = ft_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
 	//(void)pipeline_env;
@@ -116,6 +133,12 @@ int	main(int ac, char **av, char **envp)
 		if (!init_cmd(&cmd))
 			break ;
 		line = readline(msg_prompt);
+		if (!ft_strcmp(line, "caca"))
+		{
+			printf("pipi\n");
+			g_ret.ret = 666;
+			break ;
+		}
 		if (!line)
 			break ;
 		else if (ft_strlen(line) > 0)
@@ -139,8 +162,8 @@ int	main(int ac, char **av, char **envp)
 		//printf("g_ret in = %d | %d\n", g_ret.ret, g_ret.quit);
 		if (g_ret.quit == 1)
 		{
-			//break ;
-			exit(g_ret.ret);
+			break ;
+			//exit(g_ret.ret);
 		}
 		free_command(cmd);
 		//print_all(cmd);
@@ -150,6 +173,6 @@ int	main(int ac, char **av, char **envp)
 		free_command(cmd);
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
-	//printf("g_ret out = %d | %d\n", g_ret.ret, g_ret.quit);
+	printf("g_ret out = %d | %d\n", g_ret.ret, g_ret.quit);
 	return (g_ret.ret);
 }

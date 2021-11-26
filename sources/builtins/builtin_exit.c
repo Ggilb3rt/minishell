@@ -98,7 +98,7 @@ int	has_one_arg(char **args)
 
 int	cmd_exit(char **args)
 {
-	g_ret.ret = 0;
+	//g_ret.ret = 0;
 	if (!args)
 		return (0);
 	if (ft_strcmp(args[0], "exit") == 0)

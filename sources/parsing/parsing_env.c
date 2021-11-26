@@ -40,6 +40,8 @@ static void	print_var(t_split *split, int print,
 			(*cur)->out_file[split->red] = arg[split->q];
 		else if (print == 3)
 			(*cur)->in_file[split->red] = arg[split->q];
+		else if (print == 4)
+			(*cur)->end[split->red] = arg[split->q];
 		split->l++;
 		split->q++;
 		split->red++;
@@ -55,6 +57,13 @@ int	search_var(t_split *split, t_list_envp *ms_env,
 	(void)cur;
 	if (split->str[split->i] == '$')
 	{
+		if (split->str[split->i + 1] == '?')
+		{
+			split->i += 2;
+			printf("\tret = %d\n", g_ret.ret);
+			print_var(split, print, cur, ft_itoa(g_ret.ret));
+			return (1);
+		}
 		var = assign_var(split);
 		if (var)
 		{

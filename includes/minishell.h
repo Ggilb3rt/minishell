@@ -81,5 +81,6 @@ extern t_g_sig	g_ret;
 # include "redir.h"
 
 void	sig_handler(int n);
+void	ms_signal(int sig);
 
 #endif
