@@ -36,6 +36,7 @@ $(OBJ):
 	cd objects && mkdir -p heredoc
 	cd objects && mkdir -p debug
 	cd objects && mkdir -p libft
+	cd objects && mkdir -p redir
 
 $(OBJS): | $(OBJ)
 

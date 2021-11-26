@@ -49,7 +49,6 @@ typedef struct s_split
 
 /* parsing main */
 int					parsing_main(char *str, t_command **cmd, t_list_envp *ms_env);
-int					ret_val(t_split *split, t_list_envp *ms_env);
 void				del_spaces(t_split *split);
 int					parse_var(int c);
 
@@ -81,8 +80,7 @@ int					close_quote(t_split *split);
 void				into_quote(t_split *split, t_list_envp *ms_env);
 void 				dup_quotes(char **arr);
 
-/* parsing redirections */
-void				redirection(t_split *split, t_command **cur, t_list_envp *ms_env);
+
 
 /* parsing env */
 int					search_var(t_split *split, t_list_envp *ms_env, int yes, t_command **cur);

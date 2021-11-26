@@ -9,13 +9,14 @@ SOURCES = \
 		parsing/parsing_get.c \
 		parsing/parsing_init.c \
 		parsing/parsing_quotes.c \
-		parsing/parsing_redirs.c \
-		env/env.c \
+		redir/redir_main.c \
+		redir/redir_ret.c \
+		redir/redir_get.c \
+		env/env_main.c \
 		env/env_edit.c \
 		env/env_free.c \
 		env/env_getter.c \
 		env/env_exec.c \
-		env/env_var.c \
 		exec/exec.c \
 		exec/prepare_cmds.c \
 		exec/exec_cmd_path.c \

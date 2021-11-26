@@ -72,12 +72,13 @@ typedef struct s_command
 extern t_g_sig	g_ret;
 
 # include "parsing.h"
-# include "env.h"
+# include "env_main.h"
 # include "builtins.h"
 # include "utils.h"
 # include "exec.h"
 # include "heredoc.h"
 # include "libft.h"
+# include "redir.h"
 
 void	sig_handler(int n);
 

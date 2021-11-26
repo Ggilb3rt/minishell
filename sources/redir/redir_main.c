@@ -11,14 +11,7 @@ static void	redir_less(t_split *split, t_command **cur, t_list_envp *ms_env)
 	del_spaces(split);
 	(*cur)->in_file = malloc(sizeof(char) * (ret_val(split, ms_env) + 1));
 	while (split->str[split->i] && split->str[split->i] != ' ')
-	{
-		if (!search_var(split, ms_env, 3, cur))
-		{
-			(*cur)->in_file[split->red] = split->str[split->i];
-			split->i++;
-			split->red++;
-		}
-	}
+		get_string(split, ms_env, cur, 3);
 	(*cur)->token_in = LESS;
 	(*cur)->token_out = 0;
 	(*cur)->in_file[split->red] = '\0';
@@ -31,35 +24,7 @@ static void	redir_great(t_split *split, t_command **cur, t_list_envp *ms_env)
 	del_spaces(split);
 	(*cur)->out_file = malloc(sizeof(char) * (ret_val(split, ms_env) + 1));
 	while (split->str[split->i] && split->str[split->i] != ' ')
-	{
-		if (open_quote(split))
-		{
-			while (close_quote(split))
-			{
-				if (!split->open_s && split->open_d)
-				{
-					if (!search_var(split, ms_env, 2, cur))
-					{
-						(*cur)->out_file[split->red] = split->str[split->i];
-						split->i++;
-						split->red++;
-					}
-				}
-				else
-				{
-					(*cur)->out_file[split->red] = split->str[split->i];
-					split->i++;
-					split->red++;
-				}
-			}
-		}
-		else if (!search_var(split, ms_env, 2, cur))
-		{
-			(*cur)->out_file[split->red] = split->str[split->i];
-			split->i++;
-			split->red++;
-		}
-	}
+		get_string(split, ms_env, cur, 2);
 	(*cur)->token_in = 0;
 	(*cur)->token_out = GREAT;
 	(*cur)->out_file[split->red] = '\0';
@@ -72,14 +37,7 @@ static void redir_dgreat(t_split *split, t_command **cur, t_list_envp *ms_env)
 	del_spaces(split);
 	(*cur)->out_file = malloc(sizeof(char) * (ret_val(split, ms_env) + 1));
 	while (split->str[split->i] && split->str[split->i] != ' ')
-	{
-		if (!search_var(split, ms_env, 2, cur))
-		{
-			(*cur)->out_file[split->red] = split->str[split->i];
-			split->i++;
-			split->red++;
-		}
-	}
+		get_string(split, ms_env, cur, 2);
 	(*cur)->token_in = 0;
 	(*cur)->token_out = DGREAT;
 	(*cur)->out_file[split->red] = '\0';
