@@ -16,6 +16,7 @@
 
 void	parent_exec(t_command *cur, char **env, int *fd, t_list_envp *lst)
 {
+	(void)lst;
 	close(fd[0]);
 	if (cur->fd_out != -1)
 	{
@@ -48,7 +49,6 @@ int	multiple_cmds(t_command *cur, char **env, int fd[2], t_list_envp *lst)
 	//printf("multiple cmd\n");
 
 	pid = fork();
-	ms_signal(2);
 	if (pid == -1)
 	{
 		perror("fork");
@@ -124,7 +124,7 @@ int	ms_pipeline(t_command **cmd, char **env, t_list_envp *lst)
 	int		fd[2];
 	pid_t	global_pid;
 	pid_t	ret_exec;
-	int		exit_code;
+	//int		exit_code;
 
 	t_command *cur = cmd[0];
 	(void)cur;
@@ -134,6 +134,7 @@ int	ms_pipeline(t_command **cmd, char **env, t_list_envp *lst)
 	if (cmd[0]->build >= 10)
 		exec_builtin(cmd[0]->arg, lst);
 	global_pid = fork();
+	ms_signal(2);
 	if (global_pid == -1)
 	{
 		perror("global fork");
@@ -145,7 +146,9 @@ int	ms_pipeline(t_command **cmd, char **env, t_list_envp *lst)
 	{
 		close(fd[0]);
 		close(fd[1]);
-		waitpid(global_pid, &exit_code, 0);
+		waitpid(global_pid, &g_ret.ret, 0);
 	}
+	if (WIFEXITED(g_ret.ret))
+		g_ret.ret = WEXITSTATUS(g_ret.ret);
 	return (ret_exec);
 }

@@ -14,41 +14,52 @@
 
 t_g_sig	g_ret = {.ret = 0, . quit = 0};
 
-void next_prompt(int sig)
+void	sig_handler_1(int n)
 {
-	(void)sig;
-	g_ret.ret = 130;
-	printf("\n");
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
-
-void next_line(int sig)
-{
-	(void)sig;
-	g_ret.ret = 130;
-	printf("\n");
-}
-
-void bckslsh(int sig)
-{
-	(void)sig;
-	g_ret.ret = 131;
-	printf("Quit (core dumped)\n");
-}
-
-void	ms_signal(int sig)
-{
-	if (sig == 1)
+	if (n == SIGINT)
 	{
-		signal(SIGINT, next_prompt);
-		signal(SIGQUIT, SIG_IGN);
+		if (g_ret.ret == EHERE)
+			g_ret.ret = QHERE;
+		else
+		{
+			g_ret.ret = 130;
+			printf("\n");
+			rl_replace_line("", 0);
+			rl_on_new_line();
+			rl_redisplay();
+		}
 	}
-	if (sig == 2)
+}
+
+void	sig_handler_2(int n)
+{
+	if (n == SIGINT)
 	{
-		signal(SIGINT, next_line);
-		signal(SIGQUIT, bckslsh);
+		g_ret.ret = 130;
+		printf("\n");
+	}
+	else if (n == SIGQUIT)
+	{
+		g_ret.ret = 131;
+		printf("Quit (core dumped)\n");
+	}
+}
+
+void	ms_signal(int n)
+{
+	if (n == 1)
+	{
+		if (signal(SIGINT, sig_handler_1) == SIG_ERR)
+			exit(1);
+		if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+			exit(1);
+	}
+	if (n == 2)
+	{
+		if (signal(SIGINT, sig_handler_2) == SIG_ERR)
+			exit(1);
+		if (signal(SIGQUIT, sig_handler_2) == SIG_ERR)
+			exit(1);
 	}
 }
 
@@ -133,12 +144,6 @@ int	main(int ac, char **av, char **envp)
 		if (!init_cmd(&cmd))
 			break ;
 		line = readline(msg_prompt);
-		if (!ft_strcmp(line, "caca"))
-		{
-			printf("pipi\n");
-			g_ret.ret = 666;
-			break ;
-		}
 		if (!line)
 			break ;
 		else if (ft_strlen(line) > 0)
