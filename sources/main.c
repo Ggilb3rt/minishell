@@ -72,13 +72,15 @@ void	close_cmds_fd(t_command **cmds)
 	cmd = *cmds;
 	ret_in = 0;
 	ret_out = 0;
+	(void)ret_in;
+	(void)ret_out;
 	while (cmd != NULL)
 	{
 		if (cmd->fd_in != -1)
 			ret_in = close(cmd->fd_in);
 		if (cmd->fd_out != -1)
 			ret_out = close(cmd->fd_out);
-		printf("fds_close %d, %d\n", ret_in, ret_out);
+		//printf("fds_close %d, %d\n", ret_in, ret_out);
 		cmd = cmd->next;
 	}
 }
@@ -134,12 +136,11 @@ int	main(int ac, char **av, char **envp)
 		ms_pipeline(cmd, pipeline_env, ms_envp);
 		close_cmds_fd(cmd);
 		free_tab(pipeline_env);
-		printf("g_ret in = %d | %d\n", g_ret.ret, g_ret.quit);
+		//printf("g_ret in = %d | %d\n", g_ret.ret, g_ret.quit);
 		if (g_ret.quit == 1)
 		{
 			//break ;
 			exit(g_ret.ret);
-
 		}
 		free_command(cmd);
 		//print_all(cmd);
@@ -149,6 +150,6 @@ int	main(int ac, char **av, char **envp)
 		free_command(cmd);
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
-	printf("g_ret out = %d | %d\n", g_ret.ret, g_ret.quit);
+	//printf("g_ret out = %d | %d\n", g_ret.ret, g_ret.quit);
 	return (g_ret.ret);
 }

@@ -44,10 +44,10 @@ int	check_read_access(char *path, int *fd)
 // 	return (0);
 // }
 
-int	init_in_file_fd(t_token cur_token, char *path, int *fd_in)
+int	init_in_file_fd(int cur_token, char *path, int *fd_in)
 {
-	printf("init files fds |%s|\n", path);
-	if (cur_token.in == LESS)
+	//printf("init files fds |%s|\n", path);
+	if (cur_token == LESS)
 	{
 		if (!check_read_access(path, fd_in))
 			return (-1);
@@ -57,14 +57,14 @@ int	init_in_file_fd(t_token cur_token, char *path, int *fd_in)
 	return (0);
 }
 
-int	init_out_file_fd(t_token cur_token, char *path, int *fd_out)
+int	init_out_file_fd(int cur_token, char *path, int *fd_out)
 {
-	printf("init files fds |%s|\n", path);
-	if (cur_token.out == GREAT)
+	//printf("init files fds |%s|\n", path);
+	if (cur_token == GREAT)
 		*fd_out = open(path, O_CREAT | O_WRONLY | O_TRUNC, 0666);
-	else if (cur_token.out == DGREAT)
+	else if (cur_token == DGREAT)
 		*fd_out = open(path, O_CREAT | O_WRONLY | O_APPEND, 0666);
-	if (*fd_out == -1 && (cur_token.out == GREAT || cur_token.out == DGREAT))
+	if (*fd_out == -1 && (cur_token == GREAT || cur_token == DGREAT))
 	{
 		perror(path);
 		return (errno);
@@ -75,27 +75,27 @@ int	init_out_file_fd(t_token cur_token, char *path, int *fd_out)
 int	associate_file_to_cmd(t_command *cmds)
 {
 	t_command	*cur;
-	t_token		current_token;
+	int		current_token;
 
 	cur = cmds;
 	//while (cur != NULL && cur->token != NWLINE)
 	//{
-		current_token.in = cur->token_in;
-		current_token.out = cur->token_out;
-		printf("cur token %s %d, %d\n", cur->arg[0], current_token.in, current_token.out);
-		if (current_token.out == GREAT || current_token.out == DGREAT)
+		current_token = cur->token_in;
+		current_token = cur->token_out;
+		//printf("cur token %s %d, %d\n", cur->arg[0], current_token.in, current_token.out);
+		if (current_token == GREAT || current_token == DGREAT)
 		{
 			if (init_out_file_fd(current_token, cur->out_file,
 					&cmds->fd_out) < 0)
 				return (-1);
 		}
-		if (current_token.in == LESS || current_token.in == DLESS)
+		if (current_token == LESS || current_token == DLESS)
 		{
-			if (init_in_file_fd(current_token, cur->out_file,
+			if (init_in_file_fd(current_token, cur->in_file,
 					&cmds->fd_in) < 0)
 				return (-1);
 		}
-		printf("files descriptores %d %d\n", cur->fd_in, cur->fd_out);
+		//printf("files descriptores %d %d\n", cur->fd_in, cur->fd_out);
 	//	cur = cur->next;
 	//}
 	return (0);

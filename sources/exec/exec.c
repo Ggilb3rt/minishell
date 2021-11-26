@@ -45,7 +45,7 @@ int	multiple_cmds(t_command *cur, char **env, int fd[2], t_list_envp *lst)
 {
 	pid_t		pid;
 
-	printf("multiple cmd\n");
+	//printf("multiple cmd\n");
 
 	pid = fork();
 	if (pid == -1)
@@ -72,14 +72,14 @@ void	one_cmd(t_command *cur, char **env, t_list_envp *env_lst)
 		dup2(cur->fd_in, STDIN_FILENO);
 		close(cur->fd_in);
 	}
-	fprintf(stderr, "build %d\n", cur->build);
+	//fprintf(stderr, "build %d\n", cur->build);
 	if (cur->build >= 0)
 	{
 		if (cur->build >= 10)
 			exit(0);
 		exit(exec_builtin(cur->arg, env_lst));
 	}
-	fprintf(stderr, "just before exec |%s| |%s|\n", cur->arg[0], cur->arg[1]);
+	//fprintf(stderr, "just before exec |%s| |%s|\n", cur->arg[0], cur->arg[1]);
 	execve(cur->arg[0], cur->arg, env);
 	fprintf(stderr, "errore ??\n");
 	perror(cur->arg[0]);
@@ -91,7 +91,7 @@ int	execute_pipeline_cmds(t_command **cmd, char **env, int fd[2], t_list_envp *l
 	t_command	*cur;
 
 	cur = *cmd;
-	printf("exc %s %d %d %s\n", cur->arg[0], cur->fd_out, cur->fd_in, cur->out_file);
+	//printf("exc %s %d %d %s\n", cur->arg[0], cur->fd_out, cur->fd_in, cur->out_file);
 	if (!cur)
 		return (-1);
 	while (cur != NULL && cur->token != NWLINE)
@@ -126,7 +126,8 @@ int	ms_pipeline(t_command **cmd, char **env, t_list_envp *lst)
 	int		exit_code;
 
 	t_command *cur = cmd[0];
-	printf("pipeline %s %d %d %s\n", cur->arg[0], cur->fd_out, cur->fd_in, cur->out_file);
+	(void)cur;
+	//printf("pipeline %s %d %d %s\n", cur->arg[0], cur->fd_out, cur->fd_in, cur->out_file);
 	ret_exec = -1;
 	ms_pipe(fd);
 	if (cmd[0]->build >= 10)
