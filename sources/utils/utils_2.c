@@ -26,75 +26,46 @@ void	free_tab(char **arr)
 	free(arr);
 	arr = NULL;
 }
-/*
-void free_command(t_command **cmd)
-{
-	while ((*cmd)->next)
-	{
-		free(*cmd);
-		*cmd = NULL;
-		(*cmd) = (*cmd)->next;
-	}
-	free(cmd);
-	cmd = NULL;
-}
 
-void free_simple(t_simple_command **list)
-{
-	while ((*list)->next)
-	{
-		free(*list);
-		*list = NULL;
-		(*list) = (*list)->next;
-	}
-	free(list);
-	list = NULL;
-}
-
-void	free_command(t_command *cmd)
-{
-	while (cmd->list != NULL)
-	{
-		free_simple_command(cmd->list);
-		free(cmd->list);
-		cmd->list = NULL;
-		cmd->list = cmd->list->next;
-	}
-}
-*/
-
-void 	free_command(t_command **list)
+void	free_command(t_command **list)
 {
 	int	i;
 	int	size;
+	t_command *cur;
 
-	while ((*list))// && (*list)->next)
+	cur = *list;
+	while (cur)
 	{
-		size = array_size((*list)->arg);
+		size = array_size(cur->arg);
 		i = 0;
 		while (i < size)
 		{
-			free((*list)->arg[i]);
-			(*list)->arg[i] = NULL;
+			free(cur->arg[i]);
+			cur->arg[i] = NULL;
 			i++;
 		}
-		if ((*list)->out_file)
-			free((*list)->out_file);
-		if ((*list)->in_file)
-			free((*list)->in_file);
-		if ((*list)->end)
-			free((*list)->end);
-		free((*list)->arg);
-		(*list)->arg = NULL;
-		*list = (*list)->next;
+		if (cur->out_file)
+			free(cur->out_file);
+		if (cur->in_file)
+			free(cur->in_file);
+		if (cur->end)
+			free(cur->end);
+		free(cur->arg);
+		cur->arg = NULL;
+		cur = cur->next;
+	}
+	while (*list)
+	{
+		free(*list);
+		*list = NULL;
 	}
 	free(list);
 	list = NULL;
 }
 
-void free_split(t_split *split)
+void	free_split(t_split *split)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (split->new)
@@ -109,16 +80,3 @@ void free_split(t_split *split)
 		split->new = NULL;
 	}
 }
-
-/*
-void	free_command(t_command **cmd)
-{
-	while (*cmd && (*cmd)->next)
-	{
-		free_simple_command((*cmd)->list);
-		free(*cmd);
-		(*cmd) = (*cmd)->next;
-	}
-	free(cmd);
-	cmd = NULL;
-}*/

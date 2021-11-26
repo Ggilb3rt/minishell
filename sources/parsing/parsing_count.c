@@ -101,5 +101,6 @@ int	count_word(char *str, t_list_envp *ms_env, int pos)
 				count += split.q;
 		}
 	}
+	free(cur);
 	return (count);
 }

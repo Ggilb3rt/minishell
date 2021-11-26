@@ -179,6 +179,8 @@ int	main(int ac, char **av, char **envp)
 	free(line);
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
+	//printf("-----------------\n");
+	//print_all(cmd);
 	//printf("g_ret out = %d | %d\n", g_ret.ret, g_ret.quit);
 	return (g_ret.ret);
 }

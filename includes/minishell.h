@@ -1,4 +1,14 @@
-//123
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alangloi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/26 21:59:38 by alangloi          #+#    #+#             */
+/*   Updated: 2021/11/26 21:59:40 by alangloi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -49,36 +59,36 @@ typedef struct s_list_envp
 
 typedef struct s_g_sig
 {
-	int						ret;
-	int						quit;
+	int					ret;
+	int					quit;
 }	t_g_sig;
 
 typedef struct s_command
 {
-	int 					token_in;
-	int 					token_out;
-	int 					token;
-	char					**arg;
-	char 					*out_file;
-	char 					*in_file;
-	int 					fd_in;
-	int 					fd_out;
-	char 					*end;
-	int 					build;
-	int						can_exec;
-	struct s_command		*next;
+	int					token_in;
+	int					token_out;
+	int					token;
+	char				**arg;
+	char				*out_file;
+	char				*in_file;
+	int					fd_in;
+	int					fd_out;
+	char				*end;
+	int					build;
+	int					can_exec;
+	struct s_command	*next;
 }				t_command;
 
-extern t_g_sig	g_ret;
-
 # include "parsing.h"
-# include "env_main.h"
+# include "env.h"
 # include "builtins.h"
 # include "utils.h"
 # include "exec.h"
 # include "heredoc.h"
 # include "libft.h"
 # include "redir.h"
+
+extern t_g_sig	g_ret;
 
 void	sig_handler(int n);
 void	ms_signal(int sig);

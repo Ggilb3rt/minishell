@@ -60,7 +60,9 @@ int	search_var(t_split *split, t_list_envp *ms_env,
 		if (split->str[split->i + 1] == '?')
 		{
 			split->i += 2;
-			print_var(split, print, cur, ft_itoa(g_ret.ret));
+			arg = ft_itoa(g_ret.ret);
+			print_var(split, print, cur, arg);
+			free(arg);
 			return (1);
 		}
 		var = assign_var(split);
@@ -71,6 +73,8 @@ int	search_var(t_split *split, t_list_envp *ms_env,
 				arg = ft_strdup("");
 			print_var(split, print, cur, arg);
 		}
+		free(var);
+		free(arg);
 		return (1);
 	}
 	else

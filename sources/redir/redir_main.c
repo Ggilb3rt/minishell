@@ -103,7 +103,7 @@ static int	redir_dless(t_split *split, t_command **cur, t_list_envp *ms_env)
 
 int	redirection(t_split *split, t_command **cur, t_list_envp *ms_env)
 {
-	int ret;
+	int	ret;
 
 	if (split->str[split->i] == '>' && split->str[split->i + 1] != '>')
 		ret = redir_great(split, cur, ms_env);

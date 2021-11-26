@@ -40,7 +40,7 @@ int	get_arg_pipe(t_split *split, t_command **cur, t_command **cmd)
 	return (1);
 }
 
-int get_word(t_split *split, t_list_envp *ms_env)
+int	get_word(t_split *split, t_list_envp *ms_env)
 {
 	split->new[split->o][split->l] = '\0';
 	split->l = 0;

@@ -50,24 +50,19 @@ static int	check_char(t_split *split, t_command **cur,
 						t_command **cmd, t_list_envp *ms_env)
 {
 	if (split->str[split->i] == ' ')
-	{
-		if (!get_word_space(split, ms_env))
-			return (0);
-	}
+		get_word_space(split, ms_env);
 	else if (split->str[split->i] == '|')
 	{
-		if (!get_arg_pipe(split, cur, cmd))
-			return (0);
-		if (!init_arg(split, ms_env, cur))
-			return (0);
+		get_arg_pipe(split, cur, cmd);
+		init_arg(split, ms_env, cur);
 	}
 	else if (open_quote(split))
 		into_quote(split, ms_env);
 	else
 	{
-		if (!redirection(split, cur, ms_env))
-			return (0);
-		if (split->str[split->i] == '|' || split->str[split->i] == '<' || split->str[split->i] == '>')
+		redirection(split, cur, ms_env);
+		if (split->str[split->i] == '|' || split->str[split->i] == '<'
+			|| split->str[split->i] == '>')
 			return (1);
 		if (!split->str[split->i])
 			return (0);
