@@ -1,12 +1,20 @@
-//
-// Created by alangloi on 11/24/21.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_count.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alangloi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/26 14:34:03 by alangloi          #+#    #+#             */
+/*   Updated: 2021/11/26 14:34:04 by alangloi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-static int 	count_check_args(t_split *split)
+static int	count_check_args(t_split *split)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	if (open_quote(split))
@@ -27,10 +35,10 @@ static int 	count_check_args(t_split *split)
 	return (count);
 }
 
-int 	count_args(char *str, int pos)
+int	count_args(char *str, int pos)
 {
-	t_split split;
-	int count;
+	t_split	split;
+	int		count;
 
 	count = 0;
 	init_split(&split, str);
@@ -41,9 +49,9 @@ int 	count_args(char *str, int pos)
 	return (count);
 }
 
-static int count_open_quote(t_split *split, t_list_envp *ms_env)
+static int	count_open_quote(t_split *split, t_list_envp *ms_env)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (close_quote(split))
@@ -67,11 +75,11 @@ static int count_open_quote(t_split *split, t_list_envp *ms_env)
 	return (count);
 }
 
-int 	count_word(char *str, t_list_envp *ms_env, int pos)
+int	count_word(char *str, t_list_envp *ms_env, int pos)
 {
-	int count;
-	t_split split;
-	t_command *cur;
+	int			count;
+	t_split		split;
+	t_command	*cur;
 
 	count = 0;
 	init_split(&split, str);

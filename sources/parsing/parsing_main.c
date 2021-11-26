@@ -32,13 +32,13 @@
  * The parsing is not perfect and will still need some improvements.
  */
 
-void del_spaces(t_split *split)
+void	del_spaces(t_split *split)
 {
 	while (split->str[split->i] == ' ')
 		split->i++;
 }
 
-int parse_var(int c)
+int	parse_var(int c)
 {
 	if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z')
 		|| (c >= 'A' && c <= 'Z'))
@@ -46,7 +46,8 @@ int parse_var(int c)
 	return (0);
 }
 
-static int check_char(t_split *split, t_command **cur, t_command **cmd, t_list_envp *ms_env)
+static int	check_char(t_split *split, t_command **cur,
+						t_command **cmd, t_list_envp *ms_env)
 {
 	if (split->str[split->i] == ' ')
 	{
@@ -77,7 +78,7 @@ int	parsing_main(char *str, t_command **cmd, t_list_envp *ms_env)
 {
 	t_split		split;
 	t_command	*cur;
-	int 		ret;
+	int			ret;
 
 	cur = NULL;
 	split.new = NULL;

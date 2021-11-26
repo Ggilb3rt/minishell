@@ -1,6 +1,14 @@
-//
-// Created by alangloi on 11/24/21.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_init.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alangloi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/26 14:33:42 by alangloi          #+#    #+#             */
+/*   Updated: 2021/11/26 14:33:44 by alangloi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -16,7 +24,7 @@ void	init_split(t_split *split, char *str)
 	split->open_d = 0;
 }
 
-int 	init_arg(t_split *split, t_list_envp *ms_env, t_command **cur)
+int	init_arg(t_split *split, t_list_envp *ms_env, t_command **cur)
 {
 	*cur = alloc_command(NULL);
 	if (!*cur)

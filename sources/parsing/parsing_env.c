@@ -1,6 +1,14 @@
-//
-// Created by alangloi on 11/24/21.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_env.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alangloi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/26 14:34:30 by alangloi          #+#    #+#             */
+/*   Updated: 2021/11/26 14:34:33 by alangloi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -20,7 +28,8 @@ static char	*assign_var(t_split *split)
 	return (NULL);
 }
 
-static void print_var(t_split *split, int print, t_command **cur, const char *arg)
+static void	print_var(t_split *split, int print,
+						t_command **cur, const char *arg)
 {
 	split->q = 0;
 	while (arg[split->q])
@@ -37,10 +46,11 @@ static void print_var(t_split *split, int print, t_command **cur, const char *ar
 	}
 }
 
-int	search_var(t_split *split, t_list_envp *ms_env, int print, t_command **cur)
+int	search_var(t_split *split, t_list_envp *ms_env,
+				int print, t_command **cur)
 {
-	char *var;
-	char *arg;
+	char	*var;
+	char	*arg;
 
 	(void)cur;
 	if (split->str[split->i] == '$')

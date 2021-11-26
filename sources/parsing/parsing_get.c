@@ -1,6 +1,14 @@
-//
-// Created by alangloi on 11/24/21.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_get.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alangloi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/26 14:35:24 by alangloi          #+#    #+#             */
+/*   Updated: 2021/11/26 14:35:26 by alangloi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -11,9 +19,8 @@ void	get_char(t_split *split)
 	split->i++;
 }
 
-void get_arg(t_split *split, t_command **cur, t_command **cmd)
+void	get_arg(t_split *split, t_command **cur, t_command **cmd)
 {
-
 	split->new[split->o][split->l] = '\0';
 	split->new[split->o + 1] = NULL;
 	dup_quotes(split->new);
@@ -23,7 +30,7 @@ void get_arg(t_split *split, t_command **cur, t_command **cmd)
 	*cur = NULL;
 }
 
-int get_arg_pipe(t_split *split, t_command **cur, t_command **cmd)
+int	get_arg_pipe(t_split *split, t_command **cur, t_command **cmd)
 {
 	split->i++;
 	del_spaces(split);
@@ -33,7 +40,7 @@ int get_arg_pipe(t_split *split, t_command **cur, t_command **cmd)
 	return (1);
 }
 
-int get_word_space(t_split *split, t_list_envp *ms_env)
+int	get_word_space(t_split *split, t_list_envp *ms_env)
 {
 	split->i++;
 	del_spaces(split);

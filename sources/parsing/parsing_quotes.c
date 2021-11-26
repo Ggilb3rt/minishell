@@ -1,6 +1,15 @@
-//
-// Created by alangloi on 11/24/21.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_quotes.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alangloi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/26 14:34:17 by alangloi          #+#    #+#             */
+/*   Updated: 2021/11/26 14:34:19 by alangloi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	open_quote(t_split *split)
@@ -37,7 +46,7 @@ int	close_quote(t_split *split)
 	return (1);
 }
 
-void into_quote(t_split *split, t_list_envp *ms_env)
+void	into_quote(t_split *split, t_list_envp *ms_env)
 {
 	while (close_quote(split))
 	{
@@ -51,9 +60,9 @@ void into_quote(t_split *split, t_list_envp *ms_env)
 	}
 }
 
-void 	dup_quotes(char **arr)
+void	dup_quotes(char **arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (arr[i])
