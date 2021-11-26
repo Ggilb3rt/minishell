@@ -176,8 +176,9 @@ int	main(int ac, char **av, char **envp)
 	//close_cmds_fd(cmd);
 	if (cmd)
 		free_command(cmd);
+	free(line);
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
-	printf("g_ret out = %d | %d\n", g_ret.ret, g_ret.quit);
+	//printf("g_ret out = %d | %d\n", g_ret.ret, g_ret.quit);
 	return (g_ret.ret);
 }

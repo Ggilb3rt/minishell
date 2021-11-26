@@ -60,7 +60,6 @@ int	search_var(t_split *split, t_list_envp *ms_env,
 		if (split->str[split->i + 1] == '?')
 		{
 			split->i += 2;
-			printf("\tret = %d\n", g_ret.ret);
 			print_var(split, print, cur, ft_itoa(g_ret.ret));
 			return (1);
 		}

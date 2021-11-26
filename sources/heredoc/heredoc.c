@@ -17,11 +17,12 @@ static int	event_hook(void)
 void	heredoc_func(char *arg, t_command **cmd)
 {
 	char	*line;
+	int fd;
 
 	(void)arg;
 	rl_event_hook = &event_hook;
 	line = ft_strdup("");
-	(*cmd)->fd_out = open((*cmd)->end, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	fd = open((*cmd)->end, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	while (g_ret.ret != QHERE)
 	{
 		free(line);
@@ -37,12 +38,15 @@ void	heredoc_func(char *arg, t_command **cmd)
 		}
 		else if (line && ft_strlen(line) != ft_strlen((*cmd)->end))
 		{
-			if ((*cmd)->fd_out == -1)
+			if (fd == -1)
 				perror("error");
-			write((*cmd)->fd_out, line, ft_strlen(line));
-			write((*cmd)->fd_out, "\n", 1);
+			write(fd, line, ft_strlen(line));
+			write(fd, "\n", 1);
 		}
 	}
-	close((*cmd)->fd_out);
+	close(fd);
+	free(line);
+	(*cmd)->fd_in = open((*cmd)->end, O_RDONLY | O_CREAT, 0777);
+	unlink((*cmd)->end);
 	//utiliser dup 2 mettre end dans in
 }
