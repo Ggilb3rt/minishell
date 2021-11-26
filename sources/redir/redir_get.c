@@ -18,6 +18,8 @@ static void	get_redir(t_split *split, int print, t_command **cur)
 		(*cur)->out_file[split->red] = split->str[split->i];
 	else if (print == 3)
 		(*cur)->in_file[split->red] = split->str[split->i];
+	else if (print == 4)
+		(*cur)->end[split->red] = split->str[split->i];
 	split->i++;
 	split->red++;
 }
@@ -31,7 +33,7 @@ int	get_string(t_split *split, t_list_envp *ms_env,
 	{
 		while (close_quote(split))
 		{
-			if (!split->open_s && split->open_d)
+			if (!split->open_s && split->open_d && print != 4)
 			{
 				if (!search_var(split, ms_env, print, cur))
 					get_redir(split, print, cur);

@@ -17,7 +17,9 @@ static int	redir_less(t_split *split, t_command **cur, t_list_envp *ms_env)
 	split->red = 0;
 	split->i++;
 	del_spaces(split);
-	(*cur)->in_file = malloc(sizeof(char) * (ret_val(split, ms_env) + 1));
+	(*cur)->in_file = malloc(sizeof(char) * (ret_val(split, ms_env, 0) + 1));
+	if (!(*cur)->in_file)
+		return (0);
 	split->open_d = 0;
 	split->open_s = 0;
 	while (split->str[split->i])
@@ -36,7 +38,9 @@ static int	redir_great(t_split *split, t_command **cur, t_list_envp *ms_env)
 	split->red = 0;
 	split->i++;
 	del_spaces(split);
-	(*cur)->out_file = malloc(sizeof(char) * (ret_val(split, ms_env) + 1));
+	(*cur)->out_file = malloc(sizeof(char) * (ret_val(split, ms_env, 0) + 1));
+	if (!(*cur)->out_file)
+		return (0);
 	split->open_d = 0;
 	split->open_s = 0;
 	while (split->str[split->i])
@@ -55,7 +59,9 @@ static int	redir_dgreat(t_split *split, t_command **cur, t_list_envp *ms_env)
 	split->red = 0;
 	split->i += 2;
 	del_spaces(split);
-	(*cur)->out_file = malloc(sizeof(char) * (ret_val(split, ms_env) + 1));
+	(*cur)->out_file = malloc(sizeof(char) * (ret_val(split, ms_env, 0) + 1));
+	if (!(*cur)->out_file)
+		return (0);
 	split->open_d = 0;
 	split->open_s = 0;
 	while (split->str[split->i])
@@ -69,41 +75,44 @@ static int	redir_dgreat(t_split *split, t_command **cur, t_list_envp *ms_env)
 	return (1);
 }
 
-static int	redir_dless(t_split *split, t_command **cur)
+static int	redir_dless(t_split *split, t_command **cur, t_list_envp *ms_env)
 {
-	int	i;
-
-	i = 0;
+	split->red = 0;
 	split->i += 2;
 	del_spaces(split);
-	(*cur)->end = malloc(sizeof(char) * (ret_val(split, NULL) + 1));
+	(*cur)->end = malloc(sizeof(char) * (ret_val(split, ms_env, 1) + 1));
+	if (!(*cur)->end)
+		return (0);
+	split->open_d = 0;
+	split->open_s = 0;
 	while (split->str[split->i] && split->str[split->i] != ' ')
 	{
-		(*cur)->end[i] = split->str[split->i];
-		split->i++;
-		i++;
+		if (!get_string(split, ms_env, cur, 4))
+			break ;
 	}
 	(*cur)->token_in = DLESS;
 	(*cur)->token_out = 0;
-	(*cur)->end[i] = '\0';
+	(*cur)->end[split->red] = '\0';
 	g_ret.ret = EHERE;
 	return (1);
 }
 
 int	redirection(t_split *split, t_command **cur, t_list_envp *ms_env)
 {
+	int ret;
+
 	if (split->str[split->i] == '<' && split->str[split->i + 1] != '<')
-		redir_less(split, cur, ms_env);
+		ret = redir_less(split, cur, ms_env);
 	else if (split->str[split->i] == '>' && split->str[split->i + 1] != '>')
-		redir_great(split, cur, ms_env);
+		ret = redir_great(split, cur, ms_env);
 	else if (split->str[split->i] == '>' && split->str[split->i + 1] == '>')
-		redir_dgreat(split, cur, ms_env);
+		ret = redir_dgreat(split, cur, ms_env);
 	else if (split->str[split->i] == '<' && split->str[split->i + 1] == '<')
-		redir_dless(split, cur);
+		ret = redir_dless(split, cur, ms_env);
 	if (split->str[split->i] == ' ')
 	{
 		if (!get_word_space(split, ms_env))
 			return (0);
 	}
-	return (1);
+	return (ret);
 }

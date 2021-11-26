@@ -60,6 +60,7 @@ int	get_word_space(t_split *split, t_list_envp *ms_env)
 		return (0);
 	if (split->str[split->i] == '>' || split->str[split->i] == '<')
 		return (1);
-	get_word(split, ms_env);
+	if (!get_word(split, ms_env))
+		return (0);
 	return (1);
 }

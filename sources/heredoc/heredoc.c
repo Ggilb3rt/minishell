@@ -29,9 +29,7 @@ void	heredoc_func(char *arg, t_command **cmd)
 		if (line == NULL)
 			break ;
 		if (line[0] == '\1')
-		{
 			break ;
-		}
 		else if (!ft_strcmp(line, (*cmd)->end))
 		{
 			g_ret.ret = 0;
@@ -39,11 +37,12 @@ void	heredoc_func(char *arg, t_command **cmd)
 		}
 		else if (line && ft_strlen(line) != ft_strlen((*cmd)->end))
 		{
-			if ((*cmd))//->fd_out == -1)
+			if ((*cmd)->fd_out == -1)
 				perror("error");
 			write((*cmd)->fd_out, line, ft_strlen(line));
 			write((*cmd)->fd_out, "\n", 1);
 		}
 	}
 	close((*cmd)->fd_out);
+	//utiliser dup 2 mettre end dans in
 }

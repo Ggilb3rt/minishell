@@ -19,7 +19,7 @@ typedef struct s_redir
 int					redirection(t_split *split, t_command **cur, t_list_envp *ms_env);
 
 /* redir ret */
-int					ret_val(t_split *split, t_list_envp *ms_env);
+int					ret_val(t_split *split, t_list_envp *ms_env, int print);
 
 /* redir get */
 int					get_string(t_split *split, t_list_envp *ms_env, t_command **cur, int print);

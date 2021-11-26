@@ -22,7 +22,7 @@ static void	stock_var(t_split *split, t_redir *redir)
 			redir->l + redir->i - redir->k);
 }
 
-static void	ret_open_double(t_split *split, t_redir *redir)
+static void	ret_open_double(t_split *split, t_redir *redir, int print)
 {
 	split->open_d = 1;
 	redir->l++;
@@ -30,7 +30,7 @@ static void	ret_open_double(t_split *split, t_redir *redir)
 		&& !split->open_s && split->open_d)
 	{
 		redir->i++;
-		if (!split->open_s && split->open_d)
+		if (!split->open_s && split->open_d && !print)
 		{
 			if (split->str[redir->i + redir->l] == '$')
 				stock_var(split, redir);
@@ -61,11 +61,11 @@ static void	ret_open_simple(t_split *split, t_redir *redir)
 	}
 }
 
-static void	check_ret(t_split *split, t_redir *redir)
+static void	check_ret(t_split *split, t_redir *redir, int print)
 {
 	if (split->str[redir->i + redir->l] == '\"'
 		&& !split->open_s && !split->open_d)
-		ret_open_double(split, redir);
+		ret_open_double(split, redir, print);
 	else if (split->str[redir->i + redir->l] == '\''
 		&& !split->open_d && !split->open_s)
 		ret_open_simple(split, redir);
@@ -75,7 +75,7 @@ static void	check_ret(t_split *split, t_redir *redir)
 		redir->i++;
 }
 
-int	ret_val(t_split *split, t_list_envp *ms_env)
+int	ret_val(t_split *split, t_list_envp *ms_env, int print)
 {
 	t_redir	redir;
 
@@ -86,7 +86,7 @@ int	ret_val(t_split *split, t_list_envp *ms_env)
 	split->open_s = 0;
 	while (split->str[redir.i + redir.l]
 		&& split->str[redir.i + redir.l] != ' ')
-		check_ret(split, &redir);
+		check_ret(split, &redir, print);
 	if (redir.var)
 		redir.i += (int)ft_strlen(get_ms_env_val(redir.var, ms_env));
 	return (redir.i);
