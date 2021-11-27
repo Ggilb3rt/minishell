@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alangloi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 21:58:32 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/26 21:58:34 by alangloi         ###   ########.fr       */
+/*   Updated: 2021/11/27 18:31:01 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void		close_pipe(int *fd);
 int			ms_pipeline(t_command **cmd, char **env, t_list_envp *lst);
 
 /* redirection.c */
+// void		set_redir(t_command *cur, int *old_pipe, int *new_pipe);
 void		set_redir(t_command *cur, int pipe_fd[2]);
 
 #endif
