@@ -6,19 +6,20 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 08:27:26 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/22 08:27:45 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/27 12:04:26 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ms_pipe(int *fd)
+int	ms_pipe(int *fd)
 {
 	if (pipe(fd) != 0)
 	{
 		perror("pipe");
-		exit(errno);
+		return (-1);
 	}
+	return (0);
 }
 
 void	process_pipe(int *fd, int fd_in)

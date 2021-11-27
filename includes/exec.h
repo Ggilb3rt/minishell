@@ -23,7 +23,7 @@ int			associate_file_to_cmd(t_command *cmds);
 int			set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env_path);
 
 /* pipes.c */
-void		ms_pipe(int *fd);
+int			ms_pipe(int *fd);
 void		process_pipe(int *fd, int fd_in);
 
 #endif
