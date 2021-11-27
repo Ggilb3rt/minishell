@@ -191,6 +191,13 @@ int	main(int ac, char **av, char **envp)
 		//printf("ok create line %p\n", line);
 		if (line)
 		{
+			if (line[0] == '|')
+			{
+				printf("minishell: syntax error near unexpected token '|'\n");
+				free(line);
+				line = NULL;
+				exit(1);
+			}
 			if (ft_strlen(line) > 0)
 			{
 				cmd = NULL;
@@ -209,7 +216,8 @@ int	main(int ac, char **av, char **envp)
 					}
 					//free_tab_2((*cmd)->arg);
 					//free_command(cmd);
-					free_all(cmd);
+					//free_all(cmd);
+					print_all(cmd);
 				}
 			}
 			else if (!ft_strcmp(line, ""))
@@ -223,6 +231,7 @@ int	main(int ac, char **av, char **envp)
 		else
 			ms_signal(3);
 	}
+
 	//free_all(cmd);
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);

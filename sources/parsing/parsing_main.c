@@ -53,14 +53,22 @@ static int	check_char(t_split *split, t_command **cur,
 		get_word_space(split, ms_env);
 	else if (split->str[split->i] == '|')
 	{
-		get_arg_pipe(split, cur, cmd);
+		if (get_arg_pipe(split, cur, cmd) == -1)
+		{
+			free_all(cmd);
+			exit(1);
+		}
 		init_arg(split, ms_env, cur);
 	}
 	else if (open_quote(split))
 		into_quote(split, ms_env);
 	else
 	{
-		redirection(split, cur, ms_env);
+		if (redirection(split, cur, ms_env) == -1)
+		{
+			free_all(cmd);
+			exit(1);
+		}
 		if (split->str[split->i] == '|' || split->str[split->i] == '<'
 			|| split->str[split->i] == '>')
 			return (1);

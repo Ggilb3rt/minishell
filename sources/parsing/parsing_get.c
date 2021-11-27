@@ -36,6 +36,11 @@ int	get_arg_pipe(t_split *split, t_command **cur, t_command **cmd)
 	del_spaces(split);
 	if (!split->str[split->i])
 		return (0);
+	if (split->str[split->i] == '|')
+	{
+		printf("minishell: syntax error near unexpected token '|'\n");
+		return (-1);
+	}
 	get_arg(split, cur, cmd);
 	return (1);
 }

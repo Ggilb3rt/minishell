@@ -17,6 +17,11 @@ static int	redir_great(t_split *split, t_command **cur, t_list_envp *ms_env)
 	split->red = 0;
 	split->i++;
 	del_spaces(split);
+	if (split->str[split->i] == '|')
+	{
+		printf("minishell: syntax error near unexpected token '|'\n");
+		return (-1);
+	}
 	(*cur)->out_file = malloc(sizeof(char) * (ret_val(split, ms_env, 0) + 1));
 	if (!(*cur)->out_file)
 		return (0);
@@ -39,6 +44,11 @@ static int	redir_dgreat(t_split *split, t_command **cur, t_list_envp *ms_env)
 	split->red = 0;
 	split->i += 2;
 	del_spaces(split);
+	if (split->str[split->i] == '|')
+	{
+		printf("minishell: syntax error near unexpected token '|'\n");
+		return (-1);
+	}
 	(*cur)->out_file = malloc(sizeof(char) * (ret_val(split, ms_env, 0) + 1));
 	if (!(*cur)->out_file)
 		return (0);
@@ -61,6 +71,11 @@ static int	redir_less(t_split *split, t_command **cur, t_list_envp *ms_env)
 	split->red = 0;
 	split->i++;
 	del_spaces(split);
+	if (split->str[split->i] == '|')
+	{
+		printf("minishell: syntax error near unexpected token '|'\n");
+		return (-1);
+	}
 	(*cur)->in_file = malloc(sizeof(char) * (ret_val(split, ms_env, 0) + 1));
 	if (!(*cur)->in_file)
 		return (0);
@@ -83,6 +98,11 @@ static int	redir_dless(t_split *split, t_command **cur, t_list_envp *ms_env)
 	split->red = 0;
 	split->i += 2;
 	del_spaces(split);
+	if (split->str[split->i] == '|')
+	{
+		printf("minishell: syntax error near unexpected token '|'\n");
+		return (-1);
+	}
 	(*cur)->end = malloc(sizeof(char) * (ret_val(split, ms_env, 1) + 1));
 	if (!(*cur)->end)
 		return (0);

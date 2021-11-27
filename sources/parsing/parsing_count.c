@@ -21,6 +21,12 @@ static int	count_check_args(t_split *split)
 	{
 		while (close_quote(split))
 			split->i++;
+		/*
+		if (split->open_d || split->open_s)
+		{
+			printf("minishell: abuse pas stp, ferme tes quotes\n");
+		}
+		 */
 	}
 	else if (split->str[split->i] == ' ')
 	{

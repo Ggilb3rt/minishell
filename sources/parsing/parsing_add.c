@@ -24,6 +24,7 @@ static t_command	*command_last(t_command *cmd)
 void	add_command(t_command **new, t_command **cmd)
 {
 	t_command	*cur;
+	int tmp;
 
 	if (!*new)
 		return ;
@@ -32,12 +33,16 @@ void	add_command(t_command **new, t_command **cmd)
 	{
 		(*new)->next = *cmd;
 		*cmd = *new;
+		(*cmd)->nb_cmd = 1;
 	}
 	else
 	{
+		tmp = (*cmd)->nb_cmd;
 		cur = command_last(*cmd);
+		(*new)->nb_cmd = tmp + 1;
 		cur->next = *new;
 		cur->next->next = NULL;
+
 	}
 }
 
