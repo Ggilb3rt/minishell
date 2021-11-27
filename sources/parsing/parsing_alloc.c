@@ -16,10 +16,11 @@ int	alloc_word(t_split *split, t_list_envp *ms_env)
 {
 	split->new[split->o] = malloc (sizeof(char)
 			* (count_word(split->str, ms_env, split->i) + 1));
-	split->open_d = 0;
-	split->open_s = 0;
+	printf("create split->new[split->o] %p\n", split->new[split->o]);
 	if (!split->new[split->o])
 		return (0);
+	split->open_d = 0;
+	split->open_s = 0;
 	return (1);
 }
 
@@ -27,6 +28,7 @@ int	alloc_arg(t_split *split)
 {
 	split->new = malloc(sizeof(char *)
 			* (count_args(split->str, split->i) + 1));
+	printf("create split->new %p\n", split->new);
 	if (!split->new)
 		return (0);
 	split->new[split->o] = NULL;
@@ -38,6 +40,7 @@ t_command	*alloc_command(char **arg)
 	t_command	*cmd;
 
 	cmd = malloc(sizeof(t_command));
+	printf("create cmd %p\n", cmd);
 	if (!cmd)
 		return (NULL);
 	cmd->arg = arg;

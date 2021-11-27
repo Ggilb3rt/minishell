@@ -111,6 +111,7 @@ void	close_cmds_fd(t_command **cmds)
 static int	init_cmd(t_command ***cmd)
 {
 	*cmd = malloc(sizeof(t_command *));
+	printf("create *cmd %p\n", *cmd);
 	if (!*cmd)
 		return (0);
 	**cmd = NULL;
@@ -137,44 +138,52 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	print_message();
-	line = ft_strdup("");
 	ms_signal(1);
 	ms_envp = create_msenvp_lst(envp);
 	msg_prompt = ft_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
 	while (1)
 	{
 		line = readline(msg_prompt);
+		printf("ok create line %p\n", line);
 		if (line)
 		{
 			if (ft_strlen(line) > 0)
 			{
 				cmd = NULL;
-				init_cmd(&cmd);
-				add_history(line);
-				if (parsing_main(line, cmd, ms_envp))
+				if (init_cmd(&cmd))
 				{
-					set_cmd_ready_to_exec(cmd, ms_envp);
-					pipeline_env = convert_envplst_to_tab(ms_envp);
-					ms_pipeline(cmd, pipeline_env, ms_envp);
-					close_cmds_fd(cmd);
-					free_tab(pipeline_env);
+					add_history(line);
+					if (parsing_main(line, cmd, ms_envp))
+					{
+						set_cmd_ready_to_exec(cmd, ms_envp);
+						pipeline_env = convert_envplst_to_tab(ms_envp);
+						ms_pipeline(cmd, pipeline_env, ms_envp);
+						close_cmds_fd(cmd);
+						free_tab(pipeline_env);
+					}
+					free_tab_2((*cmd)->arg);
+					//free_command(cmd);
 				}
-				free_command(cmd);
 			}
 			else if (!ft_strcmp(line, ""))
 				continue ;
 			if (g_ret.ret == EHERE)
 				heredoc_func(line, cmd);
-			if (g_ret.quit == 1)
-				break ;
+			printf("ok free line %p\n", line);
 			free(line);
+			line = NULL;
+			if (g_ret.quit == 1)
+			{
+				printf("plop\n");
+				break ;
+			}
 		}
 		else
 			ms_signal(3);
 	}
 	close_cmds_fd(cmd);
 	free_command(cmd);
-	free(line);
+	//printf("free line %p\n", line);
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
 	return (g_ret.ret);

@@ -47,11 +47,15 @@ int	add_newline(t_command **cmd)
 	char		**arr;
 
 	arr = malloc(sizeof(char *) * 2);
+	printf("create arr %p\n", arr);
 	arr[0] = malloc(sizeof(char) * 2);
+	printf("create arr[0] %p\n", arr[0]);
 	arr[0][0] = '/';
 	arr[0][1] = '\0';
 	arr[1] = NULL;
-	new = alloc_command(arr);
+	new = alloc_command(NULL);
+	//command_last(*cmd);
+	new->arg = arr;
 	new->token = create_token(arr[0]);
 	add_command(&new, cmd);
 	return (1);
