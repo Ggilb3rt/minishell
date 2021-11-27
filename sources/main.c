@@ -111,7 +111,7 @@ void	close_cmds_fd(t_command **cmds)
 static int	init_cmd(t_command ***cmd)
 {
 	*cmd = malloc(sizeof(t_command *));
-	printf("create *cmd %p\n", *cmd);
+	printf("create cmd %p\n", *cmd);
 	if (!*cmd)
 		return (0);
 	**cmd = NULL;
@@ -125,6 +125,50 @@ static void print_message(void)
 	printf("+        Minishell by Moulage Lituanien        +\n");
 	printf("+                                              +\n");
 	printf("++++++++++++++++++++++++++++++++++++++++++++++++\n");
+}
+
+void free_all(t_command **cmd)
+{
+	t_command *temp;
+	t_command *tmp;
+	t_command *cur;
+
+	if (cmd)
+	{
+		temp = *cmd;
+		while (temp)
+		{
+			if (temp->arg)
+			{
+				int i = 0;
+				int len = array_size(temp->arg);
+				while (i < len)
+				{
+					printf("free arg[i] %p\n", temp->arg[i]);
+					free(temp->arg[i]);
+					temp->arg[i] = NULL;
+					i++;
+				}
+				printf("free arg %p\n", temp->arg);
+				free(temp->arg);
+				temp->arg = NULL;
+			}
+			temp = temp->next;
+		}
+		cur = *cmd;
+		while (cur)
+		{
+			tmp = cur;
+			cur = cur->next;
+			//printf("free arg\n");
+			printf("free *cmd %p\n", tmp);
+			free(tmp);
+			tmp = NULL;
+		}
+		printf("free cmd %p\n", cmd);
+		free(cmd);
+		cmd = NULL;
+	}
 }
 
 int	main(int ac, char **av, char **envp)
@@ -144,7 +188,7 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		line = readline(msg_prompt);
-		printf("ok create line %p\n", line);
+		//printf("ok create line %p\n", line);
 		if (line)
 		{
 			if (ft_strlen(line) > 0)
@@ -160,30 +204,26 @@ int	main(int ac, char **av, char **envp)
 						ms_pipeline(cmd, pipeline_env, ms_envp);
 						close_cmds_fd(cmd);
 						free_tab(pipeline_env);
+						if (g_ret.ret == EHERE)
+							heredoc_func(line, cmd);
 					}
-					free_tab_2((*cmd)->arg);
+					//free_tab_2((*cmd)->arg);
 					//free_command(cmd);
+					free_all(cmd);
 				}
 			}
 			else if (!ft_strcmp(line, ""))
 				continue ;
-			if (g_ret.ret == EHERE)
-				heredoc_func(line, cmd);
-			printf("ok free line %p\n", line);
+			//printf("ok free line %p\n", line);
 			free(line);
 			line = NULL;
 			if (g_ret.quit == 1)
-			{
-				printf("plop\n");
 				break ;
-			}
 		}
 		else
 			ms_signal(3);
 	}
-	close_cmds_fd(cmd);
-	free_command(cmd);
-	//printf("free line %p\n", line);
+	//free_all(cmd);
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
 	return (g_ret.ret);

@@ -74,7 +74,9 @@ int	search_var(t_split *split, t_list_envp *ms_env,
 			print_var(split, print, cur, arg);
 		}
 		free(var);
+		var = NULL;
 		free(arg);
+		arg = NULL;
 		return (1);
 	}
 	else

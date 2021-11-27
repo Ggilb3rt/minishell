@@ -83,6 +83,7 @@ int	count_word(char *str, t_list_envp *ms_env, int pos)
 
 	count = 0;
 	init_split(&split, str);
+	//printf("init count\n");
 	cur = alloc_command(NULL);
 	split.i = pos;
 	while (split.str[split.i] && split.str[split.i] != ' ')
@@ -101,6 +102,9 @@ int	count_word(char *str, t_list_envp *ms_env, int pos)
 				count += split.q;
 		}
 	}
+	//printf("free count\n");
+	printf("free *cmd %p\n", cur);
 	free(cur);
+	cur = NULL;
 	return (count);
 }

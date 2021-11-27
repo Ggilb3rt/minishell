@@ -65,6 +65,7 @@ typedef struct s_g_sig
 
 typedef struct s_command
 {
+	//int					nb_cmd;
 	int					token_in;
 	int					token_out;
 	int					token;
@@ -92,5 +93,6 @@ extern t_g_sig	g_ret;
 
 void	sig_handler(int n);
 void	ms_signal(int sig);
+void free_all(t_command **cmd);
 
 #endif

@@ -26,6 +26,7 @@ void	init_split(t_split *split, char *str)
 
 int	init_arg(t_split *split, t_list_envp *ms_env, t_command **cur)
 {
+	//printf("init arg\n");
 	*cur = alloc_command(NULL);
 	if (!*cur)
 		return (0);

@@ -27,8 +27,6 @@ void	get_arg(t_split *split, t_command **cur, t_command **cmd)
 	(*cur)->arg = split->new;
 	(*cur)->token = create_token((*cur)->arg[0]);
 	add_command(cur, cmd);
-	//free_tab_2((*cur)->arg);
-	//free(*cur);
 	*cur = NULL;
 }
 
