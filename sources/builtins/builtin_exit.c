@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:45:07 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/24 11:49:05 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/27 16:27:06 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ int	cmd_exit(char **args)
 		return (0);
 	if (ft_strcmp(args[0], "exit") == 0)
 	{
+		g_ret.quit = 1;
 		if (args[1] == NULL)
 		{
-			g_ret.quit = 1;
 			printf("exit\n");
 			return (0);
 		}
