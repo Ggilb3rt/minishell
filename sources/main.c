@@ -61,6 +61,11 @@ void	ms_signal(int n)
 		if (signal(SIGQUIT, sig_handler_2) == SIG_ERR)
 			exit(1);
 	}
+	if (n == 3)
+	{
+		printf("exit\n");
+		exit(0);
+	}
 }
 
 int	get_nb_cmds(t_command **cmds)
@@ -136,51 +141,41 @@ int	main(int ac, char **av, char **envp)
 	ms_signal(1);
 	ms_envp = create_msenvp_lst(envp);
 	msg_prompt = ft_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
-	//(void)pipeline_env;
 	while (1)
 	{
-		free(line);
-		cmd = NULL;
-		if (!init_cmd(&cmd))
-			break ;
 		line = readline(msg_prompt);
-		if (!line)
-			break ;
-		else if (ft_strlen(line) > 0)
-			add_history(line);
-		else if (!ft_strcmp(line, ""))
-			continue ;
-		else
+		if (line)
+		{
+			cmd = NULL;
+			init_cmd(&cmd);
+			if (ft_strlen(line) > 0)
+			{
+				add_history(line);
+				if (parsing_main(line, cmd, ms_envp))
+				{
+					set_cmd_ready_to_exec(cmd, ms_envp);
+					pipeline_env = convert_envplst_to_tab(ms_envp);
+					ms_pipeline(cmd, pipeline_env, ms_envp);
+					close_cmds_fd(cmd);
+					free_tab(pipeline_env);
+				}
+				if (g_ret.ret == EHERE)
+					heredoc_func(line, cmd);
+				if (g_ret.quit == 1)
+					break ;
+			}
+			else if (!ft_strcmp(line, ""))
+				continue ;
+			free_command(cmd);
 			free(line);
-		if (!parsing_main(line, cmd, ms_envp))
-			break ;
-		if (g_ret.ret == EHERE)
-		{
-			heredoc_func(line, cmd);
 		}
-		//print_all(cmd);
-		set_cmd_ready_to_exec(cmd, ms_envp);
-		pipeline_env = convert_envplst_to_tab(ms_envp);
-		ms_pipeline(cmd, pipeline_env, ms_envp);
-		close_cmds_fd(cmd);
-		free_tab(pipeline_env);
-		//printf("g_ret in = %d | %d\n", g_ret.ret, g_ret.quit);
-		if (g_ret.quit == 1)
-		{
-			break ;
-			//exit(g_ret.ret);
-		}
-		free_command(cmd);
-		//print_all(cmd);
+		else
+			ms_signal(3);
 	}
-	//close_cmds_fd(cmd);
-	if (cmd)
-		free_command(cmd);
+	close_cmds_fd(cmd);
+	free_command(cmd);
 	free(line);
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
-	//printf("-----------------\n");
-	//print_all(cmd);
-	//printf("g_ret out = %d | %d\n", g_ret.ret, g_ret.quit);
 	return (g_ret.ret);
 }

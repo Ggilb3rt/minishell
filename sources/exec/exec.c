@@ -82,7 +82,7 @@ void	one_cmd(t_command *cur, char **env, t_list_envp *env_lst)
 	}
 	//fprintf(stderr, "just before exec |%s| |%s|\n", cur->arg[0], cur->arg[1]);
 	g_ret.ret = execve(cur->arg[0], cur->arg, env);
-	fprintf(stderr, "errore ??\n");
+	//fprintf(stderr, "errore ??\n");
 	perror(cur->arg[0]);
 	exit(errno);
 }

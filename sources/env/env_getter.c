@@ -114,5 +114,6 @@ char	*get_ms_env_val(char *to_find, t_list_envp *ms_env)
 	while (i-- > 0)
 		tmp = tmp->next;
 	//printf("GET MS ENV VAL = %s\n", (tmp->content) + len_to_find);
+	free(to_find);
 	return ((tmp->content) + len_to_find);
 }

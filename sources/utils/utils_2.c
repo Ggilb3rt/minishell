@@ -31,38 +31,50 @@ void	free_command(t_command **list)
 {
 	int	i;
 	int	size;
-	t_command *cur;
+	t_command *tmp;
 
-	cur = *list;
-	while (cur)
+	if (*list)
 	{
-		size = array_size(cur->arg);
-		i = 0;
-		while (i < size)
+		while (*list != NULL)
 		{
-			free(cur->arg[i]);
-			cur->arg[i] = NULL;
-			i++;
+			tmp = *list;
+			*list = (*list)->next;
+			if (tmp->arg)
+			{
+				i = 0;
+				size = array_size(tmp->arg);
+				while (i < size)
+				{
+					free(tmp->arg[i]);
+					tmp->arg[i] = NULL;
+					i++;
+				}
+				free(tmp->arg);
+				tmp->arg = NULL;
+			}
+			if (tmp->out_file)
+			{
+				free(tmp->out_file);
+				tmp->out_file = NULL;
+			}
+			if (tmp->in_file)
+			{
+				free(tmp->in_file);
+				tmp->in_file = NULL;
+			}
+			if (tmp->end)
+			{
+				free(tmp->end);
+				tmp->end = NULL;
+			}
+			free(tmp);
+			tmp = NULL;
 		}
-		if (cur->out_file)
-			free(cur->out_file);
-		if (cur->in_file)
-			free(cur->in_file);
-		if (cur->end)
-			free(cur->end);
-		free(cur->arg);
-		cur->arg = NULL;
-		cur = cur->next;
-	}
-	while (*list)
-	{
 		free(*list);
 		*list = NULL;
 	}
-	free(list);
-	list = NULL;
 }
-
+/*
 void	free_split(t_split *split)
 {
 	int	i;
@@ -80,3 +92,4 @@ void	free_split(t_split *split)
 		split->new = NULL;
 	}
 }
+*/
