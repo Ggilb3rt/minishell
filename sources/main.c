@@ -159,14 +159,14 @@ int	main(int ac, char **av, char **envp)
 					close_cmds_fd(cmd);
 					free_tab(pipeline_env);
 				}
-				if (g_ret.ret == EHERE)
-					heredoc_func(line, cmd);
-				if (g_ret.quit == 1)
-					break ;
 				free_command(cmd);
 			}
 			else if (!ft_strcmp(line, ""))
 				continue ;
+			if (g_ret.ret == EHERE)
+				heredoc_func(line, cmd);
+			if (g_ret.quit == 1)
+				break ;
 			free(line);
 		}
 		else
