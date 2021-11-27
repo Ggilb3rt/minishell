@@ -21,6 +21,8 @@ SOURCES = \
 		exec/prepare_cmds.c \
 		exec/exec_cmd_path.c \
 		exec/pipes.c \
+		exec/pipeline.c \
+		exec/redirection.c \
 		heredoc/heredoc.c \
 		builtins/builtin_echo.c \
 		builtins/builtin_cd.c \

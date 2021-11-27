@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipes.c                                            :+:      :+:    :+:   */
+/*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/22 08:27:26 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/27 17:36:25 by ggilbert         ###   ########.fr       */
+/*   Created: 2021/11/27 17:40:26 by ggilbert          #+#    #+#             */
+/*   Updated: 2021/11/27 17:41:14 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ms_pipe(int *fd)
+void	set_redir(t_command *cur, int pipe_fd[2])
 {
-	if (pipe(fd) != 0)
+	if (cur->fd_in != -1)
 	{
-		perror("pipe");
-		return (-1);
+		close(pipe_fd[1]);
+		dup2(cur->fd_in, STDIN_FILENO);
+		close(cur->fd_in);
 	}
-	return (0);
-}
-
-void	close_pipe(int *pipe_fd)
-{
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
+	if (cur->fd_out != -1)
+	{
+		close(pipe_fd[0]);
+		dup2(cur->fd_out, STDOUT_FILENO);
+		close(cur->fd_out);
+	}
 }
