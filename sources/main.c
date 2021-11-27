@@ -146,10 +146,10 @@ int	main(int ac, char **av, char **envp)
 		line = readline(msg_prompt);
 		if (line)
 		{
-			cmd = NULL;
-			init_cmd(&cmd);
 			if (ft_strlen(line) > 0)
 			{
+				cmd = NULL;
+				init_cmd(&cmd);
 				add_history(line);
 				if (parsing_main(line, cmd, ms_envp))
 				{
@@ -163,10 +163,10 @@ int	main(int ac, char **av, char **envp)
 					heredoc_func(line, cmd);
 				if (g_ret.quit == 1)
 					break ;
+				free_command(cmd);
 			}
 			else if (!ft_strcmp(line, ""))
 				continue ;
-			free_command(cmd);
 			free(line);
 		}
 		else
