@@ -44,15 +44,22 @@ void	add_command(t_command **new, t_command **cmd)
 int	add_newline(t_command **cmd)
 {
 	t_command	*new;
-	char		**arr;
 
-	arr = malloc(sizeof(char *) * 2);
-	arr[0] = malloc(sizeof(char) * 2);
-	arr[0][0] = '/';
-	arr[0][1] = '\0';
-	arr[1] = NULL;
-	new = alloc_command(arr);
-	new->token = create_token(arr[0]);
+	//printf("init newline\n");
+	new = alloc_command(NULL);
+	new->arg = malloc(sizeof(char *) * 2);
+	printf("create arg %p\n", new->arg);
+	new->arg[0] = malloc(sizeof(char) * 2);
+	printf("create arg[i] %p\n", new->arg[0]);
+	new->arg[0][0] = '/';
+	new->arg[0][1] = '\0';
+	//new->arg[1] = malloc(sizeof(char));
+	//printf("create arg[i] %p\n", new->arg[1]);
+	new->arg[1] = NULL;
+	//printf("create arg[i] %p\n", new->arg[1]);
+	new->token = create_token(new->arg[0]);
 	add_command(&new, cmd);
+	//free(new->arg[0]);
+	//free(new->arg);
 	return (1);
 }
