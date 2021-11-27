@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/24 12:12:30 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/27 17:56:35 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ int	main(int ac, char **av, char **envp)
 	line = ft_strdup("");
 	ms_signal(1);
 	ms_envp = create_msenvp_lst(envp);
-	msg_prompt = ft_strjoin(get_ms_env_val(USER, ms_envp), "@minishell > ");
+	msg_prompt = ft_strjoin(get_ms_env_val(USER, ms_envp), " 🙌 minishell > ");
 	while (1)
 	{
 		line = readline(msg_prompt);
