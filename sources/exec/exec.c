@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:03:00 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/27 17:57:45 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/27 21:13:24 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@
 
 void	exec_built_or_bin(t_command *cur, char **env, t_list_envp *lst)
 {
+	if (cur->arg[0] == NULL)
+	{
+		g_ret.ret = 2;
+		exit(2);
+	}
 	if (cur->build >= 0)
 	{
 		if (cur->build >= 10)

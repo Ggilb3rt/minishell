@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/27 18:58:48 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/27 21:18:29 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,6 @@ int	main(int ac, char **av, char **envp)
 				{
 					set_cmd_ready_to_exec(cmd, ms_envp);
 					pipeline_env = convert_envplst_to_tab(ms_envp);
-					printf("before pipeline %s, %d, %s\n", cmd[0]->in_file, cmd[0]->fd_in, cmd[0]->end);
 					ms_pipeline(cmd, pipeline_env, ms_envp);
 					close_cmds_fd(cmd);
 					free_tab(pipeline_env);
