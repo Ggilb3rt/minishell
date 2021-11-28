@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/27 18:09:55 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/28 15:25:42 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,8 @@ int	main(int ac, char **av, char **envp)
 						heredoc_func(line, cmd);
 					if (ret == 1)
 					{
+						if (g_ret.ret == EHERE)
+							heredoc_func(line, cmd);
 						set_cmd_ready_to_exec(cmd, ms_envp);
 						pipeline_env = convert_envplst_to_tab(ms_envp);
 						ms_pipeline(cmd, pipeline_env, ms_envp);

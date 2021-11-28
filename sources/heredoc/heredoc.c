@@ -17,7 +17,7 @@ static int	event_hook(void)
 void	heredoc_func(char *arg, t_command **cmd)
 {
 	char	*line;
-	int fd;
+	int		fd;
 
 	(void)arg;
 	rl_event_hook = &event_hook;

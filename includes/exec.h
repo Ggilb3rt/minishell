@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alangloi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 21:58:32 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/26 21:58:34 by alangloi         ###   ########.fr       */
+/*   Updated: 2021/11/28 14:51:50 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,17 @@
 
 # include "minishell.h"
 
-/* theses function will allow minishell to look for and run programs */
-
 typedef struct s_token
 {
 	int		in;
 	int		out;
 }			t_token;
+
+typedef struct s_pipes
+{
+	int		old_pipe[2];
+	int		new_pipe[2];
+}	t_pipes;
 
 /* exec_cmd_path */
 char		*init_cmd_path(char *cmd, char *paths);
