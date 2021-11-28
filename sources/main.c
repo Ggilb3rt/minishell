@@ -111,7 +111,7 @@ void	close_cmds_fd(t_command **cmds)
 static int	init_cmd(t_command ***cmd)
 {
 	*cmd = malloc(sizeof(t_command *));
-	printf("create cmd %p\n", *cmd);
+	//printf("create cmd %p\n", *cmd);
 	if (!*cmd)
 		return (0);
 	**cmd = NULL;
@@ -144,12 +144,12 @@ void free_all(t_command **cmd)
 				int len = array_size(temp->arg);
 				while (i < len)
 				{
-					printf("free arg[i] %p\n", temp->arg[i]);
+					//printf("free arg[i] %p\n", temp->arg[i]);
 					free(temp->arg[i]);
 					temp->arg[i] = NULL;
 					i++;
 				}
-				printf("free arg %p\n", temp->arg);
+				//printf("free arg %p\n", temp->arg);
 				free(temp->arg);
 				temp->arg = NULL;
 			}
@@ -161,11 +161,11 @@ void free_all(t_command **cmd)
 			tmp = cur;
 			cur = cur->next;
 			//printf("free arg\n");
-			printf("free *cmd %p\n", tmp);
+			//printf("free *cmd %p\n", tmp);
 			free(tmp);
 			tmp = NULL;
 		}
-		printf("free cmd %p\n", cmd);
+		//printf("free cmd %p\n", cmd);
 		free(cmd);
 		cmd = NULL;
 	}
@@ -216,8 +216,8 @@ int	main(int ac, char **av, char **envp)
 					}
 					//free_tab_2((*cmd)->arg);
 					//free_command(cmd);
-					//free_all(cmd);
-					print_all(cmd);
+					free_all(cmd);
+					//print_all(cmd);
 				}
 			}
 			else if (!ft_strcmp(line, ""))

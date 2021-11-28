@@ -22,6 +22,11 @@ static int	redir_great(t_split *split, t_command **cur, t_list_envp *ms_env)
 		printf("minishell: syntax error near unexpected token '|'\n");
 		return (-1);
 	}
+	if (split->str[split->i] == '<' || split->str[split->i] == '>')
+	{
+		printf("bash: syntax error near unexpected token `>'\n");
+		return (-1);
+	}
 	if (!split->str[split->i])
 	{
 		printf("bash: syntax error near unexpected token `newline'\n");
@@ -52,6 +57,11 @@ static int	redir_dgreat(t_split *split, t_command **cur, t_list_envp *ms_env)
 	if (split->str[split->i] == '|')
 	{
 		printf("minishell: syntax error near unexpected token '|'\n");
+		return (-1);
+	}
+	if (split->str[split->i] == '<' || split->str[split->i] == '>')
+	{
+		printf("bash: syntax error near unexpected token `>>'\n");
 		return (-1);
 	}
 	if (!split->str[split->i])
@@ -86,6 +96,11 @@ static int	redir_less(t_split *split, t_command **cur, t_list_envp *ms_env)
 		printf("minishell: syntax error near unexpected token '|'\n");
 		return (-1);
 	}
+	if (split->str[split->i] == '<' || split->str[split->i] == '>')
+	{
+		printf("bash: syntax error near unexpected token `<'\n");
+		return (-1);
+	}
 	if (!split->str[split->i])
 	{
 		printf("bash: syntax error near unexpected token `newline'\n");
@@ -110,12 +125,22 @@ static int	redir_less(t_split *split, t_command **cur, t_list_envp *ms_env)
 
 static int	redir_dless(t_split *split, t_command **cur, t_list_envp *ms_env)
 {
+	if (split->str[split->i] == '<' || split->str[split->i] == '>')
+	{
+		printf("bash: syntax error near unexpected token `<<'\n");
+		return (-1);
+	}
 	split->red = 0;
 	split->i += 2;
 	del_spaces(split);
 	if (split->str[split->i] == '|')
 	{
 		printf("minishell: syntax error near unexpected token '|'\n");
+		return (-1);
+	}
+	if (split->str[split->i] == '<' || split->str[split->i] == '>')
+	{
+		printf("bash: syntax error near unexpected token `<<'\n");
 		return (-1);
 	}
 	if (!split->str[split->i])

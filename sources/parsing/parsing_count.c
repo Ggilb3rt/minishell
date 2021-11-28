@@ -109,7 +109,7 @@ int	count_word(char *str, t_list_envp *ms_env, int pos)
 		}
 	}
 	//printf("free count\n");
-	printf("free *cmd %p\n", cur);
+	//printf("free *cmd %p\n", cur);
 	free(cur);
 	cur = NULL;
 	return (count);

@@ -53,9 +53,9 @@ int	add_newline(t_command **cmd)
 	//printf("init newline\n");
 	new = alloc_command(NULL);
 	new->arg = malloc(sizeof(char *) * 2);
-	printf("create arg %p\n", new->arg);
+	//printf("create arg %p\n", new->arg);
 	new->arg[0] = malloc(sizeof(char) * 2);
-	printf("create arg[i] %p\n", new->arg[0]);
+	//printf("create arg[i] %p\n", new->arg[0]);
 	new->arg[0][0] = '/';
 	new->arg[0][1] = '\0';
 	//new->arg[1] = malloc(sizeof(char));
