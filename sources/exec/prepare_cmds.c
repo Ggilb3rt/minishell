@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/24 20:32:53 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/27 21:19:13 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	init_out_file_fd(int cur_token, char *path, int *fd_out)
 int	associate_file_to_cmd(t_command *cmds)
 {
 	t_command	*cur;
-	int		current_token;
+	int			current_token;
 
 	cur = cmds;
 	//while (cur != NULL && cur->token != NWLINE)
@@ -141,11 +141,6 @@ int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 				cur->arg[0] = init_cmd_path(cur->arg[0],
 						env_path);
 		}
-		if (access(cur->arg[0], X_OK) == -1)
-			cur->can_exec = 0;
-			// perror(cur->list[0]->arg[0]);
-		else
-			cur->can_exec = 1;
 		cur = cur->next;
 	}
 	return (0);

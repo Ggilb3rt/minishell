@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 17:33:30 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/27 17:59:03 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/27 18:31:29 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	set_exec_pipeline(t_command *cur, int *nb_cmd, int *old_pipe, int *new_pipe,
 		else if (pid == 0)
 		{
 			connect_inside(pid, cur, nb_cmd, old_pipe, new_pipe);
+            set_redir(cur, new_pipe);
 			exec_built_or_bin(cur, env, lst);
 		}
 		connect_inside(pid, cur, nb_cmd, old_pipe, new_pipe);

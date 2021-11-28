@@ -89,8 +89,8 @@ fd leaks
 ```
 ulimit -n                                  # nombre de fd dispo max (pour expliquer le principe de fd leaks a l'evalué)
 ls /proc/self/fd                           # affiche le nombre fd utilisés par le process enfant il faut donc repeter cette commande plusieurs fois lors de la correction pour verifier les fd leaks
-ls | ls | ls /proc/self/fd                 # regarder le nombre de fd
-ls | ls | ls | ls | ls | ls /proc/self/fd  # le nombre de fd doit etre le meme que la ligne d'avant!
+ls | ls | ls /proc/self/fd                 # regarder le nombre de fd									+pass
+ls | ls | ls | ls | ls | ls /proc/self/fd  # le nombre de fd doit etre le meme que la ligne d'avant!	+pass
 # essayer aussi avec des redirections!
 ```
 Trivialites
@@ -99,40 +99,45 @@ Trivialites
 env -i ./minishell
 
 # redirections:
->test                        # doit creer test
->>test                       # doit creer test
-<test                        # doit essayer d'ouvrir test
-cat <a <b >c >d              # input b output d
+>test                        # doit creer test														~creer fichier, ecrit err, no cmd set
+>>test                       # doit creer test														~meme chose
+<test                        # doit essayer d'ouvrir test											~reussi a ouvrir mais print err
+en faissant les tests je vois que dans ces cas les fds ne sont pas closes
+cat <a <b >c >d              # input b output d														+pass
+
 # pipes
-ls | cat                     # affiche ls
-cat | ls                     # doit afficher ls puis doit exit apres un \n
+ls | cat                     # affiche ls															+pass
+cat | ls                     # doit afficher ls puis doit exit apres un \n							+pass
+
 #   les redirections doivent etre faites APRES les pipes, (donc sont prioritaires par ecrasement)
-cat a | < b cat | cat > c | cat # b doit etre copié dans c, rien ne doit etre ecrit dans stdout
+cat a | < b cat | cat > c | cat # b doit etre copié dans c, rien ne doit etre ecrit dans stdout		-! segfault a cause de "< b cat", si "cat < b" pass
+
 # execution
-./non_executable             # permission denied exit code 126
-./directory
-non_executable               # avec non_executable dans un dossier du path, permission denied
-cat < directory
+./non_executable             # permission denied exit code 126										~ok but wrong err code
+./directory																							~meme chose
+non_executable               # avec non_executable dans un dossier du path, permission denied		~meme chose
+cat < directory																						+pass
 ```
 
 Parsing
 ```
+export A="-la"
+ls $A			#doit executer ls -la																+pass
+
 export A="s -la" #puis faire
-l$A #doit executer un ls -la (donc que le split se fait apres le remplacement de var d'env)
+l$A #doit executer un ls -la (donc que le split se fait apres le remplacement de var d'env)			-! invalid pointer free, abort
 
 export A=p #puis faire
 export B=w #puis faire
 $A"$B"d  #doit executer un pwd, puis faire
 "$A"'$B'd #ne doit pas faire de pwd car les var d'env ne sont pas remplacee dans les simple quote
 
-echo "ls -la <a | grep x > b" #doit afficher "ls -la <a | grep x > b"
-echo ok "" ok #doit avoir deux espaces car "" est un argument vide mais est un argument
-echo ok "" "" "" "" "" "" "" "" "" ok #pour mieux voir ce qui est avant
+echo "ls -la <a | grep x > b" #doit afficher "ls -la <a | grep x > b"								+pass
+echo ok "" ok #doit avoir deux espaces car "" est un argument vide mais est un argument				+pass
+echo ok "" "" "" "" "" "" "" "" "" ok #pour mieux voir ce qui est avant								+pass
 
-export OK="ok                   ok" #puis faire
+export OK="ok                   ok" #puis faire														-! invalid pointer free, abort
 echo $OK #doit afficher "ok ok" (un seul espace entre les deux
-
-# si il y a le ; qui est fait
-unset A #pour etre sur que la variable d'environnement existe pas puis faire la suite sur une autre ligne de commande
-export A=ok; echo $A  #doit afficher un ok
 ```
+
+il semblerait que nos variables d'env n'aiment pas les espaces
