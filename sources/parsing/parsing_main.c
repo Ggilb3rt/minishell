@@ -54,10 +54,7 @@ static int	check_char(t_split *split, t_command **cur,
 	else if (split->str[split->i] == '|')
 	{
 		if (get_arg_pipe(split, cur, cmd) == -1)
-		{
-			free_all(cmd);
-			exit(1);
-		}
+			return (-1);
 		init_arg(split, ms_env, cur);
 	}
 	else if (open_quote(split))
@@ -65,10 +62,7 @@ static int	check_char(t_split *split, t_command **cur,
 	else
 	{
 		if (redirection(split, cur, ms_env) == -1)
-		{
-			free_all(cmd);
-			exit(1);
-		}
+			return (-1);
 		if (split->str[split->i] == '|' || split->str[split->i] == '<'
 			|| split->str[split->i] == '>')
 			return (1);
@@ -96,6 +90,8 @@ int	parsing_main(char *str, t_command **cmd, t_list_envp *ms_env)
 		ret = check_char(&split, &cur, cmd, ms_env);
 		if (!ret)
 			break ;
+		if (ret == -1)
+			return (0);
 	}
 	get_arg(&split, &cur, cmd);
 	add_newline(cmd);

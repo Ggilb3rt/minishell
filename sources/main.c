@@ -193,26 +193,29 @@ int	main(int ac, char **av, char **envp)
 		{
 			if (line[0] == '|')
 			{
-				printf("minishell: syntax error near unexpected token '|'\n");
+				printf("minishell: syntax error near unexpected token `|'\n");
 				free(line);
 				line = NULL;
-				exit(1);
+				continue ;
 			}
 			if (ft_strlen(line) > 0)
 			{
+				int		ret;
+
 				cmd = NULL;
 				if (init_cmd(&cmd))
 				{
 					add_history(line);
-					if (parsing_main(line, cmd, ms_envp))
+					ret = parsing_main(line, cmd, ms_envp);
+					if (g_ret.ret == EHERE)
+						heredoc_func(line, cmd);
+					if (ret == 1)
 					{
 						set_cmd_ready_to_exec(cmd, ms_envp);
 						pipeline_env = convert_envplst_to_tab(ms_envp);
 						ms_pipeline(cmd, pipeline_env, ms_envp);
 						close_cmds_fd(cmd);
 						free_tab(pipeline_env);
-						if (g_ret.ret == EHERE)
-							heredoc_func(line, cmd);
 					}
 					//free_tab_2((*cmd)->arg);
 					//free_command(cmd);
