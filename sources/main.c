@@ -221,7 +221,6 @@ int	main(int ac, char **av, char **envp)
 					//free_command(cmd);
 					//print_all(cmd);
 					free_all(cmd);
-
 				}
 			}
 			else if (!ft_strcmp(line, ""))
