@@ -18,12 +18,12 @@ exit 0 | exit 1
 exit 1 | exit 0
 cd ~
 echo |
-ecrire "nom_dun_fichier" puis ctrl-c ne marche pas
 | echo
 cat < >
 > a ls > b < Makefile
 > log echo coucou
 **echo ''**
+**ecrire "nom_dun_fichier" puis ctrl-c ne marche pas**
 **echo ""**
 ~~echo bonjour ; |~~
 **echo bonjour | |**
@@ -34,7 +34,7 @@ cat < >
 **cd $HOME/Documents**
 ~~echo "\s" & echo "\s"~~
 **echo >**
-**echo test > file test1**
+**`echo test > file test1`**
 **echo bonjour >>> test**
 **echo bonjour > > out**
 **echo 2 >> out1 > out2**

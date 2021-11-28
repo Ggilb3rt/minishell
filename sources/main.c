@@ -44,7 +44,7 @@ void	sig_handler_2(int n)
 		printf("Quit (core dumped)\n");
 	}
 }
-
+/*
 void	sig_klakson(int n)
 {
 	printf("pouet %d !!\n", n);
@@ -54,7 +54,7 @@ void	sig_klakson(int n)
 		g_ret.ret = QHERE;
 	}
 }
-
+*/
 void	ms_signal(int n)
 {
 	if (n == 1)
@@ -76,6 +76,7 @@ void	ms_signal(int n)
 		printf("exit\n");
 		exit(0);
 	}
+	/*
 	if (n == 4)
 	{
 		if (signal(SIGINT, sig_klakson) == SIG_ERR)
@@ -83,6 +84,7 @@ void	ms_signal(int n)
 		if (signal(SIGQUIT, sig_klakson) == SIG_ERR)
 			exit(1);
 	}
+	 */
 }
 
 int	get_nb_cmds(t_command **cmds)
@@ -199,11 +201,11 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	print_message();
-	ms_signal(1);
 	ms_envp = create_msenvp_lst(envp);
 	msg_prompt = ft_strjoin(get_ms_env_val(USER, ms_envp), " 🙌 minishell > ");
 	while (1)
 	{
+		ms_signal(1);
 		line = readline(msg_prompt);
 		//printf("ok create line %p\n", line);
 		if (line)
@@ -236,6 +238,7 @@ int	main(int ac, char **av, char **envp)
 					}
 					//free_tab_2((*cmd)->arg);
 					//free_command(cmd);
+					//print_all(cmd);
 					free_all(cmd);
 				}
 			}
@@ -245,15 +248,16 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 			line = NULL;
 			if (g_ret.quit == 1)
+			{
 				break ;
+			}
 		}
 		else
 			ms_signal(3);
 	}
-
 	//free_all(cmd);
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
-	printf("ret before exit %d\n", g_ret.ret);
+	//printf("ret before exit %d\n", g_ret.ret);
 	return (g_ret.ret);
 }

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int	count_check_args(t_split *split, t_command **cur)
+static int	count_check_args(t_split *split, t_command **cur, t_command **cmd)
 {
 	int	count;
 
@@ -21,13 +21,17 @@ static int	count_check_args(t_split *split, t_command **cur)
 	if (open_quote(split))
 	{
 		while (close_quote(split))
-			split->i++;
-		/*
-		if (split->open_d || split->open_s)
 		{
-			printf("minishell: abuse pas stp, ferme tes quotes\n");
+			split->i++;
+			if (!split->str[split->i])
+			{
+				free_all(cmd);
+				free(split->str);
+				split->str = NULL;
+				printf("minishell: please close your quotes.\n");
+				exit (0);
+			}
 		}
-		 */
 	}
 	else if (split->str[split->i] == ' ')
 	{
@@ -39,6 +43,7 @@ static int	count_check_args(t_split *split, t_command **cur)
 	}
 	else
 	{
+		/*
 		if (split->str[split->i] == '>' || split->str[split->i] == '<')
 		{
 			//printf("1\t%c\n", split->str[split->i]);
@@ -55,12 +60,13 @@ static int	count_check_args(t_split *split, t_command **cur)
 			}
 		}
 		else
+		 */
 			split->i++;
 	}
 	return (count);
 }
 
-int	count_args(char *str, int pos)
+int	count_args(char *str, int pos, t_command **cmd)
 {
 	t_split	split;
 	int		count;
@@ -72,9 +78,7 @@ int	count_args(char *str, int pos)
 	split.i = pos;
 	while (split.str[split.i] && split.str[split.i] != '|')
 	{
-		//printf("char = %c\n", split.str[split.i]);
-		count += count_check_args(&split, &cur);
-		//printf("count = %d\n", count);
+		count += count_check_args(&split, &cur, cmd);
 	}
 	count++;
 	free(cur);
@@ -89,6 +93,8 @@ static int	count_open_quote(t_split *split, t_list_envp *ms_env)
 	count = 0;
 	while (close_quote(split))
 	{
+		if (!split->str[split->i])
+			return (0);
 		if (!split->open_s && split->open_d)
 		{
 			if (!search_var(split, ms_env, 0, NULL))
@@ -116,12 +122,10 @@ int	count_word(char *str, t_list_envp *ms_env, int pos)
 
 	count = 0;
 	init_split(&split, str);
-	//printf("init count\n");
 	cur = alloc_command(NULL);
 	split.i = pos;
 	while (split.str[split.i] && split.str[split.i] != ' ')
 	{
-		//printf("\t%c\n", split.str[split.i]);
 		if (open_quote(&split))
 			count += count_open_quote(&split, ms_env);
 		else
@@ -136,9 +140,9 @@ int	count_word(char *str, t_list_envp *ms_env, int pos)
 				count += split.q;
 		}
 	}
-	//printf("free count\n");
-	//printf("free *cmd %p\n", cur);
 	free(cur);
 	cur = NULL;
+	//printf("free count\n");
+	//printf("free *cmd %p\n", cur);
 	return (count);
 }

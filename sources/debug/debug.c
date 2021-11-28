@@ -8,6 +8,7 @@ int	print_command(t_command *cmd)
 {
 	printf("out file = %s\n", cmd->out_file);
 	printf("in file = %s\n", cmd->in_file);
+	printf("here file = %s\n", cmd->end);
 	printf("nb_cmd = %d\n", cmd->nb_cmd);
 	//printf("err file = %s\n", cmd->err_file);
 	return (0);
