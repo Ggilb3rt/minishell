@@ -12,11 +12,10 @@
 
 #include "minishell.h"
 
-static int	count_check_args(t_split *split, t_command **cur, t_command **cmd)
+static int	count_check_args(t_split *split, t_command **cur)
 {
 	int	count;
 
-	(void)cmd;
 	(void)cur;
 	count = 0;
 	if (open_quote(split))
@@ -69,7 +68,7 @@ static int	count_check_args(t_split *split, t_command **cur, t_command **cmd)
 	return (count);
 }
 
-int	count_args(char *str, int pos, t_command **cmd)
+int	count_args(char *str, int pos)
 {
 	t_split	split;
 	int		count;
@@ -81,9 +80,9 @@ int	count_args(char *str, int pos, t_command **cmd)
 	split.i = pos;
 	while (split.str[split.i] && split.str[split.i] != '|')
 	{
-		count += count_check_args(&split, &cur, cmd);
+		count += count_check_args(&split, &cur);
 	}
-	count++;
+	//count++;
 	free(cur);
 	cur = NULL;
 	return (count);
@@ -96,8 +95,6 @@ static int	count_open_quote(t_split *split, t_list_envp *ms_env)
 	count = 0;
 	while (close_quote(split))
 	{
-		if (!split->str[split->i])
-			return (0);
 		if (!split->open_s && split->open_d)
 		{
 			if (!search_var(split, ms_env, 0, NULL))

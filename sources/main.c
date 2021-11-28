@@ -162,6 +162,7 @@ int	main(int ac, char **av, char **envp)
 	print_message();
 	ms_envp = create_msenvp_lst(envp);
 	msg_prompt = ft_strjoin(get_ms_env_val(USER, ms_envp), " 🙌 minishell > ");
+	//(void)pipeline_env;
 	while (1)
 	{
 		line = readline(msg_prompt);
@@ -177,17 +178,12 @@ int	main(int ac, char **av, char **envp)
 			}
 			if (ft_strlen(line) > 0)
 			{
-				int		ret;
-
 				cmd = NULL;
 				if (init_cmd(&cmd))
 				{
 					add_history(line);
-					ret = parsing_main(line, cmd, ms_envp);
-					if (ret == 1)
+					if (parsing_main(line, cmd, ms_envp))
 					{
-						//if (g_ret.ret == EHERE)
-						//	heredoc_func(line, cmd);
 						if (set_cmd_ready_to_exec(cmd, ms_envp) == 0)
 						{
 							pipeline_env = convert_envplst_to_tab(ms_envp);
@@ -196,15 +192,12 @@ int	main(int ac, char **av, char **envp)
 						}
 						free_tab(pipeline_env);
 					}
-					//free_tab_2((*cmd)->arg);
-					//free_command(cmd);
 					//print_all(cmd);
 					free_all(cmd);
 				}
 			}
 			else if (!ft_strcmp(line, ""))
 				continue ;
-			//printf("ok free line %p\n", line);
 			free(line);
 			line = NULL;
 			if (g_ret.quit == 1)
