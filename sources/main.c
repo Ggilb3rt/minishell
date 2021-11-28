@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/28 15:25:42 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/28 19:03:26 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,16 @@ void	sig_handler_2(int n)
 	}
 }
 
+void	sig_klakson(int n)
+{
+	printf("pouet %d !!\n", n);
+	if (n == SIGQUIT)
+	{
+		printf("bye\n");
+		g_ret.ret = QHERE;
+	}
+}
+
 void	ms_signal(int n)
 {
 	if (n == 1)
@@ -65,6 +75,13 @@ void	ms_signal(int n)
 	{
 		printf("exit\n");
 		exit(0);
+	}
+	if (n == 4)
+	{
+		if (signal(SIGINT, sig_klakson) == SIG_ERR)
+			exit(-1);
+		if (signal(SIGQUIT, sig_klakson) == SIG_ERR)
+			exit(1);
 	}
 }
 
@@ -209,8 +226,8 @@ int	main(int ac, char **av, char **envp)
 					ret = parsing_main(line, cmd, ms_envp);
 					if (ret == 1)
 					{
-						if (g_ret.ret == EHERE)
-							heredoc_func(line, cmd);
+						//if (g_ret.ret == EHERE)
+						//	heredoc_func(line, cmd);
 						set_cmd_ready_to_exec(cmd, ms_envp);
 						pipeline_env = convert_envplst_to_tab(ms_envp);
 						ms_pipeline(cmd, pipeline_env, ms_envp);
@@ -219,7 +236,6 @@ int	main(int ac, char **av, char **envp)
 					}
 					//free_tab_2((*cmd)->arg);
 					//free_command(cmd);
-					//print_all(cmd);
 					free_all(cmd);
 				}
 			}
@@ -238,5 +254,6 @@ int	main(int ac, char **av, char **envp)
 	//free_all(cmd);
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
+	printf("ret before exit %d\n", g_ret.ret);
 	return (g_ret.ret);
 }

@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:16:40 by alangloi          #+#    #+#             */
-/*   Updated: 2021/10/29 16:51:03 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/28 17:35:10 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ int	alloc_arg(t_split *split)
 	int len;
 
 	len = count_args(split->str, split->i) + 1;
-	split->new = malloc(sizeof(char *)
-			* (len));
+	split->new = malloc(sizeof(char *) * (len));
 	printf("nb arg %d\n", len);
+	//printf("create arg %p\n", split->new);
 	if (!split->new)
 		return (0);
 	split->new[split->o] = NULL;
@@ -61,6 +61,7 @@ t_command	*alloc_command(char **arg)
 	cmd->token_out = -1;
 	cmd->fd_out = -1;
 	cmd->fd_in = -1;
+	cmd->fd_heredoc = -1;
 	cmd->can_exec = -1;
 	cmd->next = NULL;
 	return (cmd);

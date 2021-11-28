@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alangloi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 21:58:04 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/26 21:58:09 by alangloi         ###   ########.fr       */
+/*   Updated: 2021/11/28 15:54:42 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include "minishell.h"
 
-void	heredoc_func(char *arg, t_command **cmd);
+void	heredoc_func(char *arg, t_command *cmd);
 
 #endif //HEREDOC_H

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_main.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alangloi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 14:35:46 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/26 14:35:47 by alangloi         ###   ########.fr       */
+/*   Updated: 2021/11/28 16:18:33 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ static int	redir_less(t_split *split, t_command **cur, t_list_envp *ms_env)
 	(*cur)->token_in = LESS;
 	(*cur)->token_out = 0;
 	(*cur)->in_file[split->red] = '\0';
-	init_in_file_fd((*cur)->token_in, (*cur)->in_file, &(*cur)->fd_in);
+	init_in_file_fd((*cur)->token_in, (*cur)->in_file, &(*cur)->fd_in, &(*cur)->fd_heredoc);
 	return (1);
 }
 
@@ -168,7 +168,7 @@ static int	redir_dless(t_split *split, t_command **cur, t_list_envp *ms_env)
 	(*cur)->token_out = 0;
 	(*cur)->end[split->red] = '\0';
 	g_ret.ret = EHERE;
-	init_in_file_fd((*cur)->token_in, (*cur)->in_file, &(*cur)->fd_in);
+	init_in_file_fd((*cur)->token_in, (*cur)->in_file, &(*cur)->fd_in, &(*cur)->fd_heredoc);
 	return (1);
 }
 
