@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/28 19:03:26 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/28 21:31:08 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,6 @@ void	sig_handler_2(int n)
 	}
 }
 
-void	sig_klakson(int n)
-{
-	printf("pouet %d !!\n", n);
-	if (n == SIGQUIT)
-	{
-		printf("bye\n");
-		g_ret.ret = QHERE;
-	}
-}
-
 void	ms_signal(int n)
 {
 	if (n == 1)
@@ -76,31 +66,6 @@ void	ms_signal(int n)
 		printf("exit\n");
 		exit(0);
 	}
-	if (n == 4)
-	{
-		if (signal(SIGINT, sig_klakson) == SIG_ERR)
-			exit(-1);
-		if (signal(SIGQUIT, sig_klakson) == SIG_ERR)
-			exit(1);
-	}
-}
-
-int	get_nb_cmds(t_command **cmds)
-{
-	int			i;
-	t_command	*cmd;
-
-	i = 0;
-	cmd = *cmds;
-	if (!cmd)
-		return (-1);
-	while (cmd != NULL)
-	{
-		if (cmd->token == WORD)
-			i++;
-		cmd = cmd->next;
-	}
-	return (i);
 }
 
 void	close_cmds_fd(t_command **cmds)
@@ -146,43 +111,39 @@ static void print_message(void)
 
 void free_all(t_command **cmd)
 {
-	t_command *temp;
-	t_command *tmp;
-	t_command *cur;
+	t_command	*tmp;
+	t_command	*cur;
+	int			i;
+	int			len;
 
 	if (cmd)
 	{
-		temp = *cmd;
-		while (temp)
+		cur = *cmd;
+		while (cur)
 		{
-			if (temp->arg)
+			if (cur->arg)
 			{
-				int i = 0;
-				int len = array_size(temp->arg);
+				i = 0;
+				len = array_size(cur->arg);
 				while (i < len)
 				{
-				//	printf("free arg[i] %p\n", temp->arg[i]);
-					free(temp->arg[i]);
-					temp->arg[i] = NULL;
+					free(cur->arg[i]);
+					cur->arg[i] = NULL;
 					i++;
 				}
-				//printf("free arg %p\n", temp->arg);
-				free(temp->arg);
-				temp->arg = NULL;
+				free(cur->arg);
+				cur->arg = NULL;
 			}
-			temp = temp->next;
+			cur = cur->next;
 		}
 		cur = *cmd;
 		while (cur)
 		{
 			tmp = cur;
 			cur = cur->next;
-			//printf("free arg\n");
-			//printf("free *cmd %p\n", tmp);
 			free(tmp);
 			tmp = NULL;
 		}
-		//printf("free cmd %p\n", cmd);
 		free(cmd);
 		cmd = NULL;
 	}
@@ -225,16 +186,18 @@ int	main(int ac, char **av, char **envp)
 					{
 						//if (g_ret.ret == EHERE)
 						//	heredoc_func(line, cmd);
-						set_cmd_ready_to_exec(cmd, ms_envp);
-						pipeline_env = convert_envplst_to_tab(ms_envp);
-						ms_pipeline(cmd, pipeline_env, ms_envp);
-						close_cmds_fd(cmd);
+						if (set_cmd_ready_to_exec(cmd, ms_envp) == 0)
+						{
+							pipeline_env = convert_envplst_to_tab(ms_envp);
+							if (ms_pipeline(cmd, pipeline_env, ms_envp) == 0)
+								close_cmds_fd(cmd);
+						}
 						free_tab(pipeline_env);
 					}
 					//free_tab_2((*cmd)->arg);
 					//free_command(cmd);
-					//free_all(cmd);
 					//print_all(cmd);
+					free_all(cmd);
 				}
 			}
 			else if (!ft_strcmp(line, ""))

@@ -23,6 +23,7 @@ SOURCES = \
 		exec/pipes.c \
 		exec/pipeline.c \
 		exec/redirection.c \
+		exec/init_fds.c \
 		heredoc/heredoc.c \
 		builtins/builtin_echo.c \
 		builtins/builtin_cd.c \
