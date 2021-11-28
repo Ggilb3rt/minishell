@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_add.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alangloi <alangloi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:02:15 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/09 16:23:41 by alangloi         ###   ########.fr       */
+/*   Updated: 2021/11/28 16:23:50 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ int	add_newline(t_command **cmd)
 	//printf("init newline\n");
 	new = alloc_command(NULL);
 	new->arg = malloc(sizeof(char *) * 2);
-	printf("create arg %p\n", new->arg);
+	//printf("create arg %p\n", new->arg);
 	new->arg[0] = malloc(sizeof(char) * 2);
-	printf("create arg[i] %p\n", new->arg[0]);
+	//printf("create arg[i] %p\n", new->arg[0]);
 	new->arg[0][0] = '/';
 	new->arg[0][1] = '\0';
 	//new->arg[1] = malloc(sizeof(char));

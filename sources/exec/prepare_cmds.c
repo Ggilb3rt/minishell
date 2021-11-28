@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/28 15:16:41 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/28 16:35:31 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,24 @@ int	check_read_access(char *path, int *fd)
 	return (1);
 }
 
-int	init_in_file_fd(int cur_token, char *path, int *fd_in)
+int	init_in_file_fd(int cur_token, char *path, int *fd_in, int *fd_her)
 {
 	if (cur_token == LESS)
 	{
 		if (!check_read_access(path, fd_in))
 			return (-1);
+		if (*fd_her != -1)
+			*fd_her = -1;
 	}
-	//else if (cur_token.in == DLESS)
-	//	*fd_in = 1;
+	else if (cur_token == DLESS)
+	{
+		if (*fd_in != -1)
+		{
+			close(*fd_in);
+			*fd_in = -1;
+		}
+		*fd_her = 0;
+	}
 	return (0);
 }
 
@@ -72,7 +81,7 @@ int	associate_file_to_cmd(t_command *cmds)
 	if (current_token == LESS || current_token == DLESS)
 	{
 		if (init_in_file_fd(current_token, cur->in_file,
-				&cmds->fd_in) < 0)
+				&cmds->fd_in, &cmds->fd_heredoc) < 0)
 			return (-1);
 	}
 	return (0);

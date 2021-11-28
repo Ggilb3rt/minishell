@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:16:40 by alangloi          #+#    #+#             */
-/*   Updated: 2021/10/29 16:51:03 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/28 17:35:10 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	alloc_word(t_split *split, t_list_envp *ms_env)
 {
-	printf("alloc word\n");
+	//printf("alloc word\n");
 	split->new[split->o] = malloc (sizeof(char)
 			* (count_word(split->str, ms_env, split->i) + 1));
-	printf("create arg[i] %p\n", split->new[split->o]);
+	//printf("create arg[i] %p\n", split->new[split->o]);
 	if (!split->new[split->o])
 		return (0);
 	split->open_d = 0;
@@ -29,7 +29,7 @@ int	alloc_arg(t_split *split)
 {
 	split->new = malloc(sizeof(char *)
 			* (count_args(split->str, split->i) + 1));
-	printf("create arg %p\n", split->new);
+	//printf("create arg %p\n", split->new);
 	if (!split->new)
 		return (0);
 	split->new[split->o] = NULL;
@@ -41,7 +41,7 @@ t_command	*alloc_command(char **arg)
 	t_command	*cmd;
 
 	cmd = malloc(sizeof(t_command));
-	printf("create *cmd %p\n", cmd);
+	//printf("create *cmd %p\n", cmd);
 	if (!cmd)
 		return (NULL);
 	if (arg)
@@ -54,6 +54,7 @@ t_command	*alloc_command(char **arg)
 	cmd->token_out = -1;
 	cmd->fd_out = -1;
 	cmd->fd_in = -1;
+	cmd->fd_heredoc = -1;
 	cmd->can_exec = -1;
 	cmd->next = NULL;
 	return (cmd);
