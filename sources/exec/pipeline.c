@@ -65,6 +65,7 @@ int	set_exec_pipeline(t_command *cur, int *nb_cmd, int *old_pipe, int *new_pipe,
 			if (ms_pipe(new_pipe) != 0)
 				return (-1);
 		pid = fork();
+		ms_signal(2);
 		if (pid == -1)
 		{
 			perror("can't fork");
