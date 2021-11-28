@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/28 17:22:10 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/28 19:03:26 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,5 +252,6 @@ int	main(int ac, char **av, char **envp)
 	//free_all(cmd);
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
+	printf("ret before exit %d\n", g_ret.ret);
 	return (g_ret.ret);
 }

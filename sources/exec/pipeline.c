@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 17:33:30 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/28 14:36:53 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/28 19:03:01 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	connect_inside(pid_t pid, t_command *cur, int *old, int *new)
 	}
 }
 
-int	set_exec_pipeline(t_command *cur, t_pipes *p, char **env, t_list_envp *lst)
+int	set_exec_pipeline(t_command *cur, t_pipes *p, char **env, t_list_envp *lst, t_command **cmd)
 {
 	pid_t	pid;
 
@@ -74,7 +74,7 @@ int	set_exec_pipeline(t_command *cur, t_pipes *p, char **env, t_list_envp *lst)
 		{
 			connect_inside(pid, cur, p->old_pipe, p->new_pipe);
 			set_redir(cur, p->new_pipe);
-			exec_built_or_bin(cur, env, lst);
+			exec_built_or_bin(cur, env, lst, cmd);
 		}
 		connect_inside(pid, cur, p->old_pipe, p->new_pipe);
 		cur = cur->next;
@@ -90,7 +90,7 @@ int	ms_pipeline(t_command **cmd, char **env, t_list_envp *lst)
 	cur = *cmd;
 	if (cmd[0]->build >= 10)
 		exec_builtin(cmd[0]->arg, lst);
-	if (set_exec_pipeline(cur, &pipes, env, lst) != 0)
+	if (set_exec_pipeline(cur, &pipes, env, lst, cmd) != 0)
 		return (-1);
 	waiter();
 	if (cur->nb_cmd > 1)
