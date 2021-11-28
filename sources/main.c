@@ -205,11 +205,10 @@ int	main(int ac, char **av, char **envp)
 	msg_prompt = ft_strjoin(get_ms_env_val(USER, ms_envp), " 🙌 minishell > ");
 	while (1)
 	{
-		ms_signal(1);
 		line = readline(msg_prompt);
-		//printf("ok create line %p\n", line);
 		if (line)
 		{
+			ms_signal(1);
 			if (line[0] == '|')
 			{
 				printf("minishell: syntax error near unexpected token `|'\n");

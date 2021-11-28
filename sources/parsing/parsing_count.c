@@ -16,6 +16,7 @@ static int	count_check_args(t_split *split, t_command **cur, t_command **cmd)
 {
 	int	count;
 
+	(void)cmd;
 	(void)cur;
 	count = 0;
 	if (open_quote(split))
@@ -23,6 +24,7 @@ static int	count_check_args(t_split *split, t_command **cur, t_command **cmd)
 		while (close_quote(split))
 		{
 			split->i++;
+			/*
 			if (!split->str[split->i])
 			{
 				free_all(cmd);
@@ -31,6 +33,7 @@ static int	count_check_args(t_split *split, t_command **cur, t_command **cmd)
 				printf("minishell: please close your quotes.\n");
 				exit (0);
 			}
+			 */
 		}
 	}
 	else if (split->str[split->i] == ' ')
