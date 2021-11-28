@@ -32,7 +32,7 @@ void	heredoc_func(char *arg, t_command *cmd)
 	int		fd;
 
 	(void)arg;
-	ms_signal(4);
+	//ms_signal(4);
 	rl_event_hook = &event_hook;
 	line = ft_strdup("");
 	file_name = create_tmp_file_name(".mini_heredoc", cmd->nb_cmd);

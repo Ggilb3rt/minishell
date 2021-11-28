@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 14:36:36 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/22 17:21:33 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/28 18:27:53 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	get_ms_env_index(char *to_find, t_list_envp *ms_env)
 		if (tmp->content)
 		{
 			if (ft_strnstr(tmp->content, to_find, len_to_find))
-				break;
+				break ;
 		}
 		tmp = tmp->next;
 	}
