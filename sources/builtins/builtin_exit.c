@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:45:07 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/27 16:27:06 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/28 14:52:29 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ int	has_one_arg(char **args)
 
 int	cmd_exit(char **args)
 {
-	//g_ret.ret = 0;
 	if (!args)
 		return (0);
 	if (ft_strcmp(args[0], "exit") == 0)

@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:03:00 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/27 21:33:31 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/28 14:34:36 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,6 @@ void	exec_built_or_bin(t_command *cur, char **env, t_list_envp *lst)
 		if (cur->build >= 10)
 			exit(0);
 		ret = exec_builtin(cur->arg, lst);
-<<<<<<< HEAD
-		//free_all();
-=======
->>>>>>> 1cd843c607c398466f4fdad05075e3181c791828
 		exit(ret);
 	}
 	else if (execve(cur->arg[0], cur->arg, env) == -1)

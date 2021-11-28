@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 17:33:30 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/27 18:31:29 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/28 14:36:53 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,17 @@ void	waiter(void)
 		g_ret.ret = (unsigned char)status;
 }
 
-void	connect_inside(pid_t pid, t_command *c, int *nb_cmd, int *old, int *new)
+void	connect_inside(pid_t pid, t_command *cur, int *old, int *new)
 {
 	if (pid == 0)
 	{
-		if (*nb_cmd > 0)
+		if (cur->nb_cmd > 1)
 		{
 			dup2(old[0], 0);
 			close(old[0]);
 			close(old[1]);
 		}
-		if (c->next != NULL && c->next->token != NWLINE)
+		if (cur->next != NULL && cur->next->token != NWLINE)
 		{
 			close(new[0]);
 			dup2(new[1], 1);
@@ -44,9 +44,9 @@ void	connect_inside(pid_t pid, t_command *c, int *nb_cmd, int *old, int *new)
 	}
 	else
 	{
-		if (*nb_cmd > 0)
+		if (cur->nb_cmd > 1)
 			close_pipe(old);
-		if (c->next != NULL && c->next->token != NWLINE)
+		if (cur->next != NULL && cur->next->token != NWLINE)
 		{
 			old[0] = new[0];
 			old[1] = new[1];
@@ -54,15 +54,14 @@ void	connect_inside(pid_t pid, t_command *c, int *nb_cmd, int *old, int *new)
 	}
 }
 
-int	set_exec_pipeline(t_command *cur, int *nb_cmd, int *old_pipe, int *new_pipe, char **env, t_list_envp *lst)
+int	set_exec_pipeline(t_command *cur, t_pipes *p, char **env, t_list_envp *lst)
 {
 	pid_t	pid;
 
-	*nb_cmd = 0;
 	while (cur != NULL && cur->token != NWLINE)
 	{
 		if (cur->next != NULL && cur->next->token != NWLINE)
-			if (ms_pipe(new_pipe) != 0)
+			if (ms_pipe(p->new_pipe) != 0)
 				return (-1);
 		pid = fork();
 		ms_signal(2);
@@ -73,12 +72,11 @@ int	set_exec_pipeline(t_command *cur, int *nb_cmd, int *old_pipe, int *new_pipe,
 		}
 		else if (pid == 0)
 		{
-			connect_inside(pid, cur, nb_cmd, old_pipe, new_pipe);
-            set_redir(cur, new_pipe);
+			connect_inside(pid, cur, p->old_pipe, p->new_pipe);
+			set_redir(cur, p->new_pipe);
 			exec_built_or_bin(cur, env, lst);
 		}
-		connect_inside(pid, cur, nb_cmd, old_pipe, new_pipe);
-		*nb_cmd += 1;
+		connect_inside(pid, cur, p->old_pipe, p->new_pipe);
 		cur = cur->next;
 	}
 	return (0);
@@ -87,20 +85,18 @@ int	set_exec_pipeline(t_command *cur, int *nb_cmd, int *old_pipe, int *new_pipe,
 int	ms_pipeline(t_command **cmd, char **env, t_list_envp *lst)
 {
 	t_command	*cur;
-	int			old_pipe[2];
-	int			new_pipe[2];
-	int			nb_cmd;
+	t_pipes		pipes;
 
 	cur = *cmd;
 	if (cmd[0]->build >= 10)
 		exec_builtin(cmd[0]->arg, lst);
-	if (set_exec_pipeline(cur, &nb_cmd, old_pipe, new_pipe, env, lst) != 0)
+	if (set_exec_pipeline(cur, &pipes, env, lst) != 0)
 		return (-1);
 	waiter();
-	if (nb_cmd > 1)
+	if (cur->nb_cmd > 1)
 	{
-		close(old_pipe[0]);
-		close(old_pipe[1]);
+		close(pipes.old_pipe[0]);
+		close(pipes.old_pipe[1]);
 	}
 	return (0);
 }

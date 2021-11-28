@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alangloi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 21:59:28 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/26 21:59:29 by alangloi         ###   ########.fr       */
+/*   Updated: 2021/11/28 14:58:14 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ int			cmd_export(t_list_envp *env, char **args);
 int			cmd_unset(t_list_envp **env, char **to_find);
 int			cmd_exit(char **args);
 int			exec_builtin(char **cmd_name, t_list_envp *env);
+void		set_builtin(char *cmd_name, t_command *cur);
 
 #endif

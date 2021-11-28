@@ -23,7 +23,6 @@ void	heredoc_func(char *arg, t_command **cmd)
 	rl_event_hook = &event_hook;
 	line = ft_strdup("");
 	fd = open((*cmd)->end, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	printf("hello darkness my old friend %d\n", fd);
 	while (g_ret.ret != QHERE)
 	{
 		free(line);

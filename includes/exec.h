@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 21:58:32 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/27 18:31:01 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/28 14:51:50 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,17 @@
 
 # include "minishell.h"
 
-/* theses function will allow minishell to look for and run programs */
-
 typedef struct s_token
 {
 	int		in;
 	int		out;
 }			t_token;
+
+typedef struct s_pipes
+{
+	int		old_pipe[2];
+	int		new_pipe[2];
+}	t_pipes;
 
 /* exec_cmd_path */
 char		*init_cmd_path(char *cmd, char *paths);
@@ -44,7 +48,6 @@ void		close_pipe(int *fd);
 int			ms_pipeline(t_command **cmd, char **env, t_list_envp *lst);
 
 /* redirection.c */
-// void		set_redir(t_command *cur, int *old_pipe, int *new_pipe);
 void		set_redir(t_command *cur, int pipe_fd[2]);
 
 #endif
