@@ -78,6 +78,7 @@ static void	check_ret(t_split *split, t_redir *redir, int print)
 int	ret_val(t_split *split, t_list_envp *ms_env, int print)
 {
 	t_redir	redir;
+	char 	*str;
 
 	redir.i = 0;
 	redir.l = split->i;
@@ -88,6 +89,8 @@ int	ret_val(t_split *split, t_list_envp *ms_env, int print)
 		&& split->str[redir.i + redir.l] != ' ')
 		check_ret(split, &redir, print);
 	if (redir.var)
-		redir.i += (int)ft_strlen(get_ms_env_val(redir.var, ms_env));
+		str = get_ms_env_val(redir.var, ms_env);
+	if (redir.var && str)
+		redir.i += (int)ft_strlen(str);
 	return (redir.i);
 }

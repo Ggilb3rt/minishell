@@ -20,13 +20,13 @@ void	init_split(t_split *split, char *str)
 	split->l = 0;
 	split->o = 0;
 	split->q = 0;
+	split->red = 0;
 	split->open_s = 0;
 	split->open_d = 0;
 }
 
 int	init_arg(t_split *split, t_list_envp *ms_env, t_command **cur)
 {
-	//printf("init arg\n");
 	*cur = alloc_command(NULL);
 	if (!*cur)
 		return (0);

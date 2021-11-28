@@ -32,7 +32,8 @@ static int	redir_great(t_split *split, t_command **cur, t_list_envp *ms_env)
 		printf("bash: syntax error near unexpected token `newline'\n");
 		return (-1);
 	}
-	(*cur)->out_file = malloc(sizeof(char) * (ret_val(split, ms_env, 0) + 1));
+	int len = ret_val(split, ms_env, 0) + 1;
+	(*cur)->out_file = malloc(sizeof(char) * (len));
 	if (!(*cur)->out_file)
 		return (0);
 	split->open_d = 0;
@@ -55,7 +56,7 @@ static int	redir_dgreat(t_split *split, t_command **cur, t_list_envp *ms_env)
 	split->i += 2;
 	if (split->str[split->i] == '<' || split->str[split->i] == '>')
 	{
-		printf("bash: syntax error near unexpected token `<<'\n");
+		printf("bash: syntax error near unexpected token `>>'\n");
 		return (-1);
 	}
 	del_spaces(split);

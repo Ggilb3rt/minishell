@@ -207,8 +207,6 @@ int	main(int ac, char **av, char **envp)
 				{
 					add_history(line);
 					ret = parsing_main(line, cmd, ms_envp);
-					if (g_ret.ret == EHERE)
-						heredoc_func(line, cmd);
 					if (ret == 1)
 					{
 						if (g_ret.ret == EHERE)
@@ -221,8 +219,9 @@ int	main(int ac, char **av, char **envp)
 					}
 					//free_tab_2((*cmd)->arg);
 					//free_command(cmd);
-					free_all(cmd);
 					//print_all(cmd);
+					free_all(cmd);
+
 				}
 			}
 			else if (!ft_strcmp(line, ""))

@@ -61,8 +61,11 @@ static int	check_char(t_split *split, t_command **cur,
 		into_quote(split, ms_env);
 	else
 	{
-		if (redirection(split, cur, ms_env) == -1)
-			return (-1);
+		if (split->str[split->i] == '<' || split->str[split->i] == '>')
+		{
+			if (redirection(split, cur, ms_env) == -1)
+				return (-1);
+		}
 		if (split->str[split->i] == '|' || split->str[split->i] == '<'
 			|| split->str[split->i] == '>')
 			return (1);

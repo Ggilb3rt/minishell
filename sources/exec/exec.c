@@ -28,7 +28,9 @@ void	exec_built_or_bin(t_command *cur, char **env, t_list_envp *lst)
 	if (cur->build >= 0)
 	{
 		if (cur->build >= 10)
+		{
 			exit(0);
+		}
 		ret = exec_builtin(cur->arg, lst);
 		exit(ret);
 	}
