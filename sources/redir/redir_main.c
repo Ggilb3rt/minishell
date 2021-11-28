@@ -32,8 +32,7 @@ static int	redir_great(t_split *split, t_command **cur, t_list_envp *ms_env)
 		printf("bash: syntax error near unexpected token `newline'\n");
 		return (-1);
 	}
-	int len = ret_val(split, ms_env, 0) + 1;
-	(*cur)->out_file = malloc(sizeof(char) * (len));
+	(*cur)->out_file = malloc(sizeof(char) * (ret_val(split, ms_env, 0) + 1));
 	if (!(*cur)->out_file)
 		return (0);
 	split->open_d = 0;

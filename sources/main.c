@@ -165,10 +165,11 @@ int	main(int ac, char **av, char **envp)
 	//(void)pipeline_env;
 	while (1)
 	{
+		ms_signal(1);
 		line = readline(msg_prompt);
+		printf("line = %s\n", line);
 		if (line)
 		{
-			ms_signal(1);
 			if (line[0] == '|')
 			{
 				printf("minishell: syntax error near unexpected token `|'\n");
@@ -198,8 +199,8 @@ int	main(int ac, char **av, char **envp)
 			}
 			else if (!ft_strcmp(line, ""))
 				continue ;
-			free(line);
-			line = NULL;
+			//free(line);
+			//line = NULL;
 			if (g_ret.quit == 1)
 			{
 				break ;

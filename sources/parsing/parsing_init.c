@@ -20,7 +20,7 @@ void	init_split(t_split *split, char *str)
 	split->l = 0;
 	split->o = 0;
 	split->q = 0;
-	split->red = 0;
+	//split->red = 0;
 	split->open_s = 0;
 	split->open_d = 0;
 }

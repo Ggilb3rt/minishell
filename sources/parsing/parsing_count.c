@@ -82,7 +82,7 @@ int	count_args(char *str, int pos)
 	{
 		count += count_check_args(&split, &cur);
 	}
-	//count++;
+	count++;
 	free(cur);
 	cur = NULL;
 	return (count);
