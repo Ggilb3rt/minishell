@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   env_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:56:08 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/24 11:56:13 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/28 20:22:02 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,11 @@ t_list_envp	*create_msenvp_lst(char **envp)
 	int			i;
 
 	i = 0;
+	if (envp[0] == NULL)
+	{
+		printf("Pas de variable d'environnements.\nJe rentre a ma maison.\n");
+		exit(-1);
+	}
 	ms_envp = new_char_list(envp[i]);
 	i++;
 	while (envp[i] != NULL)

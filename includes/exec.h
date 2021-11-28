@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 21:58:32 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/28 19:03:06 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/28 21:05:02 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,14 @@ typedef struct s_pipes
 char		*init_cmd_path(char *cmd, char *paths);
 
 /* exec */
-void		exec_built_or_bin(t_command *cur, char **env, t_list_envp *lst, t_command **cmd);
+int			exec_built_or_bin(t_command *cur, char **env, t_list_envp *lst);
 
 int			init_in_file_fd(int cur_token, char *path, int *fd_in, int *fd_her);
 int			init_out_file_fd(int cur_token, char *path, int *fd_out);
+
+/* init_fds.c */
+int			init_out_file_fd(int cur_token, char *path, int *fd_out);
+int			init_in_file_fd(int cur_token, char *path, int *fd_in, int *fd_her);
 
 /* prepare_cmds.c */
 int			associate_file_to_cmd(t_command *cmds);

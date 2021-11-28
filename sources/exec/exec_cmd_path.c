@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 17:37:53 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/17 16:02:51 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/28 21:29:42 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ char	*select_wokring_path(char **splitted_paths, char *cmd)
 	int		can_access;
 	char	*good_path;
 
+	(void)cmd;
 	i = 0;
 	if (!splitted_paths)
 		return (NULL);
@@ -67,7 +68,7 @@ char	*select_wokring_path(char **splitted_paths, char *cmd)
 	}
 	if (can_access == -1)
 		free_tab(splitted_paths);
-	return (cmd);
+	return (NULL);
 }
 
 char	*init_cmd_path(char *cmd, char *paths)

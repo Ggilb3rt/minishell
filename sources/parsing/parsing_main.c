@@ -88,7 +88,6 @@ int	parsing_main(char *str, t_command **cmd, t_list_envp *ms_env)
 	init_split(&split, str);
 	if (!init_arg(&split, ms_env, &cur, cmd))
 		return (0);
-	//init_split(&split, str);
 	while (split.str[split.i])
 	{
 		ret = check_char(&split, &cur, cmd, ms_env);
