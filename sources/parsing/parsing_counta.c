@@ -35,6 +35,8 @@ void	skip_count(t_split *split)
 		split->i++;
 	while (split->str[split->i] && split->str[split->i] != ' ')
 		split->i++;
+	while (split->str[split->i] && split->str[split->i] == ' ')
+		split->i++;
 }
 
 static void	count_not(t_split *split)
@@ -79,6 +81,5 @@ int	count_args(char *str, int pos)
 			break ;
 	}
 	count++;
-	printf("count arg\t%d\n", count);
 	return (count);
 }
