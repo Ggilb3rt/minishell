@@ -59,6 +59,25 @@ void	free_command(t_command **cmd)
 	cmd = NULL;
 }
 
+static void free_files(t_command *cur)
+{
+	if (cur->in_file)
+	{
+		free(cur->in_file);
+		cur->in_file = NULL;
+	}
+	if (cur->out_file)
+	{
+		free(cur->out_file);
+		cur->out_file = NULL;
+	}
+	if (cur->end)
+	{
+		free(cur->end);
+		cur->end = NULL;
+	}
+}
+
 void	free_all(t_command **cmd)
 {
 	t_command	*cur;
@@ -70,6 +89,7 @@ void	free_all(t_command **cmd)
 		{
 			if (cur->arg)
 				free_tab(cur->arg);
+			free_files(cur);
 			cur = cur->next;
 		}
 		free_command(cmd);

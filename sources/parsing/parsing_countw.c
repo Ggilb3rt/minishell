@@ -41,7 +41,20 @@ static int	count_open_quote(t_split *split, t_list_envp *ms_env)
 static int	continue_count(t_split *split, int count, t_list_envp *ms_env)
 {
 	if (split->str[split->i] == '>' || split->str[split->i] == '<')
-		skip_redir(split);
+	{
+		//printf("1\t%c\n", split->str[split->i]);
+		while (split->str[split->i] == '<' || split->str[split->i] == '>'
+			   || split->str[split->i] == ' ')
+		{
+			split->i++;
+			//printf("1\t%c\n", split->str[split->i]);
+		}
+		while (split->str[split->i] && split->str[split->i] != ' ')
+		{
+			split->i++;
+			//printf("1\t%c\n", split->str[split->i]);
+		}
+	}
 	else if (!search_var(split, ms_env, 0, NULL))
 	{
 		split->i++;

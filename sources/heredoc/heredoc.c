@@ -36,14 +36,10 @@ char	*create_tmp_file_name(char *str, int nb)
 static int	handle_heredoc(char *line, t_command *cmd, int fd)
 {
 	if (line[0] == '\1')
-	{
-		free(line);
 		return (0);
-	}
 	else if (!ft_strcmp(line, cmd->end))
 	{
 		g_ret.ret = 0;
-		free(line);
 		return (0);
 	}
 	else if (line && ft_strlen(line) != ft_strlen(cmd->end))
@@ -56,18 +52,13 @@ static int	handle_heredoc(char *line, t_command *cmd, int fd)
 	return (1);
 }
 
-static int	get_heredoc(t_command *cmd, int fd)
+static int	get_heredoc(t_command *cmd, int fd, char *line)
 {
-	char	*line;
-
 	line = readline("> ");
 	if (line == NULL)
-	{
-		free(line);
 		return (0);
-	}
-	handle_heredoc(line, cmd, fd);
-	free(line);
+	if (!handle_heredoc(line, cmd, fd))
+		return (0);
 	return (1);
 }
 
@@ -75,17 +66,20 @@ void	heredoc_func(const char *arg, t_command *cmd)
 {
 	char	*file_name;
 	int		fd;
+	char	*line;
 
 	(void)arg;
+	line = ft_strdup("");
 	rl_event_hook = &event_hook;
 	file_name = create_tmp_file_name(".mini_heredoc", cmd->nb_cmd);
 	fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	while (g_ret.ret != QHERE)
 	{
-		if (!get_heredoc(cmd, fd))
+		if (!get_heredoc(cmd, fd, line))
 			break ;
 	}
 	close(fd);
+	free(line);
 	cmd->fd_heredoc = open(file_name, O_RDONLY | O_CREAT, 0777);
 	unlink(file_name);
 	free(file_name);

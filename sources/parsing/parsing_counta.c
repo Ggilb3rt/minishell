@@ -12,15 +12,6 @@
 
 #include "minishell.h"
 
-void	skip_redir(t_split *split)
-{
-	while (split->str[split->i] == '<' || split->str[split->i] == '>'
-		|| split->str[split->i] == ' ')
-		split->i++;
-	while (split->str[split->i] != ' ')
-		split->i++;
-}
-
 static int	count_into_quote(t_split *split)
 {
 	while (close_quote(split))
@@ -35,7 +26,20 @@ static int	count_into_quote(t_split *split)
 static void	count_not(t_split *split)
 {
 	if (split->str[split->i] == '>' || split->str[split->i] == '<')
-		skip_redir(split);
+	{
+		//printf("1\t%c\n", split->str[split->i]);
+		while (split->str[split->i] == '<' || split->str[split->i] == '>'
+			   || split->str[split->i] == ' ')
+		{
+			split->i++;
+			//printf("2\t%c\n", split->str[split->i]);
+		}
+		while (split->str[split->i] && split->str[split->i] != ' ')
+		{
+			split->i++;
+			//printf("3\t%c\n", split->str[split->i]);
+		}
+	}
 	else
 		split->i++;
 }

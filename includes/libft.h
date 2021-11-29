@@ -32,5 +32,6 @@ char	*ft_substr(const char *s, unsigned int start, size_t len);
 int		ft_atoi(const char *str);
 char	*ft_itoa(int n);
 int		ft_isnbr(char *str);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 #endif //MINISHELL_LIBFT_H
