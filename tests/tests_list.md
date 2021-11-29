@@ -1,7 +1,7 @@
 echo -n -n -nnnn -nnnnm
 cat /dev/random | head -n 1 | cat -e
-unset var1 # with undefined var1
-export "" et unset ""
+**unset var1 # with undefined var1**
+export "" et unset "" #revoir messages erreur
 $
 not_cmd bonjour > salut
 env puis export puis env # vars aren't sorted
@@ -34,8 +34,8 @@ cat < >
 **cd $HOME/Documents**
 ~~echo "\s" & echo "\s"~~
 **echo >**
-**`echo test > file test1`**
-**echo bonjour >>> test**
+**echo test > file test1**
+**echo bonjour >>> test** #revoir message erreur
 **echo bonjour > > out**
 **echo 2 >> out1 > out2**
 **echo 2 > out1 >> out2**

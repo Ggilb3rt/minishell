@@ -39,8 +39,8 @@ void	add_command(t_command **new, t_command **cmd)
 	{
 		tmp = (*cmd)->nb_cmd;
 		cur = command_last(*cmd);
+		(*new)->nb_cmd = tmp + 1;
 		cur->next = *new;
-		cur->nb_cmd = tmp + 1;
 		cur->next->next = NULL;
 
 	}

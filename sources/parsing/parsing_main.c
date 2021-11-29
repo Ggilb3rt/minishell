@@ -55,16 +55,24 @@ static int	check_char(t_split *split, t_command **cur,
 	{
 		if (get_arg_pipe(split, cur, cmd) == -1)
 			return (-1);
-		init_arg(split, ms_env, cur, cmd);
+		init_arg(split, ms_env, cur);
 	}
 	else if (open_quote(split))
-		into_quote(split, ms_env);
+	{
+		if (!into_quote(split, ms_env))
+		{
+			printf("minishell: unclosed quote.\n");
+			return (-1);
+		}
+	}
 	else
 	{
 		if (split->str[split->i] == '<' || split->str[split->i] == '>')
 		{
 			if (redirection(split, cur, ms_env) == -1)
+			{
 				return (-1);
+			}
 		}
 		if (split->str[split->i] == '|' || split->str[split->i] == '<'
 			|| split->str[split->i] == '>')
@@ -86,7 +94,7 @@ int	parsing_main(char *str, t_command **cmd, t_list_envp *ms_env)
 	cur = NULL;
 	split.new = NULL;
 	init_split(&split, str);
-	if (!init_arg(&split, ms_env, &cur, cmd))
+	if (!init_arg(&split, ms_env, &cur))
 		return (0);
 	while (split.str[split.i])
 	{

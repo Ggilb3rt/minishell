@@ -85,7 +85,6 @@ void	close_cmds_fd(t_command **cmds)
 			ret_in = close(cmd->fd_in);
 		if (cmd->fd_out != -1)
 			ret_out = close(cmd->fd_out);
-		//printf("fds_close %d, %d\n", ret_in, ret_out);
 		cmd = cmd->next;
 	}
 }
@@ -93,7 +92,6 @@ void	close_cmds_fd(t_command **cmds)
 static int	init_cmd(t_command ***cmd)
 {
 	*cmd = malloc(sizeof(t_command *));
-	//printf("create cmd %p\n", *cmd);
 	if (!*cmd)
 		return (0);
 	**cmd = NULL;
@@ -164,10 +162,10 @@ int	main(int ac, char **av, char **envp)
 	msg_prompt = ft_strjoin(get_ms_env_val(USER, ms_envp), " 🙌 minishell > ");
 	while (1)
 	{
+		ms_signal(1);
 		line = readline(msg_prompt);
 		if (line)
 		{
-			ms_signal(1);
 			if (line[0] == '|')
 			{
 				printf("minishell: syntax error near unexpected token `|'\n");
@@ -186,8 +184,6 @@ int	main(int ac, char **av, char **envp)
 					ret = parsing_main(line, cmd, ms_envp);
 					if (ret == 1)
 					{
-						//if (g_ret.ret == EHERE)
-						//	heredoc_func(line, cmd);
 						if (set_cmd_ready_to_exec(cmd, ms_envp) == 0)
 						{
 							pipeline_env = convert_envplst_to_tab(ms_envp);
@@ -196,15 +192,12 @@ int	main(int ac, char **av, char **envp)
 						}
 						free_tab(pipeline_env);
 					}
-					//free_tab_2((*cmd)->arg);
-					//free_command(cmd);
 					//print_all(cmd);
 					free_all(cmd);
 				}
 			}
 			else if (!ft_strcmp(line, ""))
 				continue ;
-			//printf("ok free line %p\n", line);
 			free(line);
 			line = NULL;
 			if (g_ret.quit == 1)
@@ -215,7 +208,6 @@ int	main(int ac, char **av, char **envp)
 		else
 			ms_signal(3);
 	}
-	//free_all(cmd);
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
 	//printf("ret before exit %d\n", g_ret.ret);

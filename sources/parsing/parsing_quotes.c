@@ -48,11 +48,13 @@ int	close_quote(t_split *split)
 		return (1);
 }
 
-void	into_quote(t_split *split, t_list_envp *ms_env)
+int		into_quote(t_split *split, t_list_envp *ms_env)
 {
 	while (close_quote(split))
 	{
-		if (!split->open_s && split->open_d)
+		if (!split->str[split->i] && (split->open_s || split->open_d))
+			return (0);
+		else if (!split->open_s && split->open_d)
 		{
 			if (!search_var(split, ms_env, 1, NULL))
 				get_char(split);
@@ -60,6 +62,7 @@ void	into_quote(t_split *split, t_list_envp *ms_env)
 		else
 			get_char(split);
 	}
+	return (1);
 }
 
 void	dup_quotes(char **arr)
