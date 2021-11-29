@@ -26,7 +26,8 @@ int	redirection(t_split *split, t_command **cur, t_list_envp *ms_env)
 		ret = redir_dless(split, cur, ms_env);
 	if (split->str[split->i] == ' ')
 	{
-		if (split->new[split->o] != NULL && (ft_strcmp(split->new[split->o], "") != 0))
+		if (split->new[split->o] != NULL
+			&& (ft_strcmp(split->new[split->o], "") != 0))
 		{
 			if (!get_word_space(split, ms_env))
 				return (0);

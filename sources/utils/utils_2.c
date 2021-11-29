@@ -59,7 +59,7 @@ void	free_command(t_command **cmd)
 	cmd = NULL;
 }
 
-static void free_files(t_command *cur)
+static void	free_files(t_command *cur)
 {
 	if (cur->in_file)
 	{

@@ -28,10 +28,10 @@ static int	count_into_quote(t_split *split)
 	return (1);
 }
 
-void skip_count(t_split *split)
+void	skip_count(t_split *split)
 {
 	while (split->str[split->i] == '<' || split->str[split->i] == '>'
-		   || split->str[split->i] == ' ')
+		|| split->str[split->i] == ' ')
 		split->i++;
 	while (split->str[split->i] && split->str[split->i] != ' ')
 		split->i++;
@@ -79,6 +79,6 @@ int	count_args(char *str, int pos)
 			break ;
 	}
 	count++;
-	//printf("count arg\t%d\n", count);
+	printf("count arg\t%d\n", count);
 	return (count);
 }

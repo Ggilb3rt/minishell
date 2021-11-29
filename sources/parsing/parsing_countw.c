@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int count_into_quote(t_split *split, t_list_envp *ms_env, int *count)
+static int	count_into_quote(t_split *split, t_list_envp *ms_env, int *count)
 {
 	if (split->str[split->i])
 	{
@@ -68,7 +68,7 @@ static int	continue_count(t_split *split, t_list_envp *ms_env, int *count)
 	return (1);
 }
 
-static int count_ret(t_split *split, t_list_envp *ms_env, int *count)
+static int	count_ret(t_split *split, t_list_envp *ms_env, int *count)
 {
 	if (open_quote(split))
 	{
@@ -96,6 +96,6 @@ int	count_word(char *str, t_list_envp *ms_env, int pos)
 		if (!count_ret(&split, ms_env, &count))
 			break ;
 	}
-	//printf("count word\t%d\n", count);
+	printf("count word\t%d\n", count);
 	return (count);
 }

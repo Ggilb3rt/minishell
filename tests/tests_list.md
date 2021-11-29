@@ -19,9 +19,9 @@ exit 1 | exit 0
 cd ~
 echo |
 | echo
-cat < >
+**cat < >**
 > a ls > b < Makefile
-> log echo coucou
+> log echo coucou #leaks
 **echo ''**
 **ecrire "nom_dun_fichier" puis ctrl-c ne marche pas**
 **echo ""**

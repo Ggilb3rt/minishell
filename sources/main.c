@@ -99,6 +99,5 @@ int	main(int ac, char **av, char **envp)
 	}
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
-	//printf("ret before exit %d\n", g_ret.ret);
 	return (g_ret.ret);
 }

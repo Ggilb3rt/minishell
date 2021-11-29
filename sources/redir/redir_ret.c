@@ -92,5 +92,7 @@ int	ret_val(t_split *split, t_list_envp *ms_env, int print)
 		str = get_ms_env_val(redir.var, ms_env);
 	if (redir.var && str)
 		redir.i += (int)ft_strlen(str);
+	free(redir.var);
+	redir.var = NULL;
 	return (redir.i);
 }

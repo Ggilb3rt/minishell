@@ -77,6 +77,11 @@ static void	handle_var(t_split *split, int print,
 			arg = ft_strdup("");
 		print_var(split, print, cur, arg);
 	}
+	if (!ft_strcmp(arg, ""))
+	{
+		free(arg);
+		arg = NULL;
+	}
 	free(var);
 	var = NULL;
 }

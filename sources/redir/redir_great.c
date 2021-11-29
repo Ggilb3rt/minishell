@@ -33,12 +33,22 @@ static int	exit_redir(t_split *split)
 	return (1);
 }
 
+static void	check_file(t_command **cur)
+{
+	if ((*cur)->out_file)
+	{
+		free((*cur)->out_file);
+		(*cur)->out_file = NULL;
+	}
+}
+
 int	redir_great(t_split *split, t_command **cur, t_list_envp *ms_env)
 {
 	split->red = 0;
 	split->i++;
 	if (exit_redir(split) == -1)
 		return (-1);
+	check_file(cur);
 	(*cur)->out_file = malloc(sizeof(char) * (ret_val(split, ms_env, 0) + 1));
 	if (!(*cur)->out_file)
 		return (0);
