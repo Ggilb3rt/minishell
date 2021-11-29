@@ -27,7 +27,6 @@ int	alloc_arg(t_split *split)
 {
 	split->new = malloc(sizeof(char *)
 			* (count_args(split->str, split->i) + 1));
-	//printf("create arg %p\n", split->new);
 	if (!split->new)
 		return (0);
 	split->new[split->o] = NULL;

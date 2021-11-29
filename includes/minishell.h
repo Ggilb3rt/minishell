@@ -43,6 +43,7 @@
 # include "redir.h"
 # include "exec.h"
 # include "heredoc.h"
+# include "signals.h"
 
 extern t_g_sig	g_ret;
 

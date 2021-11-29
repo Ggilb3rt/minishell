@@ -96,4 +96,3 @@ cat < >
 **echo > a Hello World!**
 **> a echo Hello World!**
 **cat < Makefile | grep gcc > output**
-

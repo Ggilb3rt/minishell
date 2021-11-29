@@ -48,33 +48,48 @@ static void	print_var(t_split *split, int print,
 	}
 }
 
-int	search_var(t_split *split, t_list_envp *ms_env,
-				int print, t_command **cur)
+static int	return_value(t_split *split, int print, t_command **cur)
+{
+	char	*arg;
+
+	if (split->str[split->i + 1] == '?')
+	{
+		split->i += 2;
+		arg = ft_itoa(g_ret.ret);
+		print_var(split, print, cur, arg);
+		free(arg);
+		return (0);
+	}
+	return (1);
+}
+
+static void	handle_var(t_split *split, int print,
+						t_list_envp *ms_env, t_command **cur)
 {
 	char	*var;
 	char	*arg;
 
+	var = assign_var(split);
+	if (var)
+	{
+		arg = get_ms_env_val(var, ms_env);
+		if (!arg)
+			arg = ft_strdup("");
+		print_var(split, print, cur, arg);
+	}
+	free(var);
+	var = NULL;
+}
+
+int	search_var(t_split *split, t_list_envp *ms_env,
+				int print, t_command **cur)
+{
 	(void)cur;
 	if (split->str[split->i] == '$')
 	{
-		if (split->str[split->i + 1] == '?')
-		{
-			split->i += 2;
-			arg = ft_itoa(g_ret.ret);
-			print_var(split, print, cur, arg);
-			free(arg);
+		if (!return_value(split, print, cur))
 			return (1);
-		}
-		var = assign_var(split);
-		if (var)
-		{
-			arg = get_ms_env_val(var, ms_env);
-			if (!arg)
-				arg = ft_strdup("");
-			print_var(split, print, cur, arg);
-		}
-		free(var);
-		var = NULL;
+		handle_var(split, print, ms_env, cur);
 		return (1);
 	}
 	else

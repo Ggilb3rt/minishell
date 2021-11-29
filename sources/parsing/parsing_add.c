@@ -24,7 +24,7 @@ static t_command	*command_last(t_command *cmd)
 void	add_command(t_command **new, t_command **cmd)
 {
 	t_command	*cur;
-	int tmp;
+	int			tmp;
 
 	if (!*new)
 		return ;
@@ -42,7 +42,6 @@ void	add_command(t_command **new, t_command **cmd)
 		(*new)->nb_cmd = tmp + 1;
 		cur->next = *new;
 		cur->next->next = NULL;
-
 	}
 }
 
@@ -50,21 +49,13 @@ int	add_newline(t_command **cmd)
 {
 	t_command	*new;
 
-	//printf("init newline\n");
 	new = alloc_command(NULL);
 	new->arg = malloc(sizeof(char *) * 2);
-	//printf("create arg %p\n", new->arg);
 	new->arg[0] = malloc(sizeof(char) * 2);
-	//printf("create arg[i] %p\n", new->arg[0]);
 	new->arg[0][0] = '/';
 	new->arg[0][1] = '\0';
-	//new->arg[1] = malloc(sizeof(char));
-	//printf("create arg[i] %p\n", new->arg[1]);
 	new->arg[1] = NULL;
-	//printf("create arg[i] %p\n", new->arg[1]);
 	new->token = create_token(new->arg[0]);
 	add_command(&new, cmd);
-	//free(new->arg[0]);
-	//free(new->arg);
 	return (1);
 }

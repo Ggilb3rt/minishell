@@ -46,6 +46,24 @@ int	parse_var(int c)
 	return (0);
 }
 
+static int	continue_parsing(t_split *split,
+						t_command **cur, t_list_envp *ms_env)
+{
+	if (split->str[split->i] == '<' || split->str[split->i] == '>')
+	{
+		if (redirection(split, cur, ms_env) == -1)
+			return (-1);
+	}
+	if (split->str[split->i] == '|' || split->str[split->i] == '<'
+		|| split->str[split->i] == '>')
+		return (1);
+	if (!split->str[split->i])
+		return (0);
+	if (!search_var(split, ms_env, 1, NULL))
+		get_char(split);
+	return (1);
+}
+
 static int	check_char(t_split *split, t_command **cur,
 						t_command **cmd, t_list_envp *ms_env)
 {
@@ -67,20 +85,7 @@ static int	check_char(t_split *split, t_command **cur,
 	}
 	else
 	{
-		if (split->str[split->i] == '<' || split->str[split->i] == '>')
-		{
-			if (redirection(split, cur, ms_env) == -1)
-			{
-				return (-1);
-			}
-		}
-		if (split->str[split->i] == '|' || split->str[split->i] == '<'
-			|| split->str[split->i] == '>')
-			return (1);
-		if (!split->str[split->i])
-			return (0);
-		if (!search_var(split, ms_env, 1, NULL))
-			get_char(split);
+		return (continue_parsing(split, cur, ms_env));
 	}
 	return (1);
 }

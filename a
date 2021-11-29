@@ -5,7 +5,7 @@ COMMAND TABLE :
 [0] [les]
 [0] [amis]
 [0] [(null)]
-out file = log
+out file = a
 in file = (null)
 here file = (null)
 nb_cmd = 1

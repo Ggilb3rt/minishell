@@ -29,6 +29,7 @@ typedef struct s_pipes
 
 /* exec_cmd_path */
 char		*init_cmd_path(char *cmd, char *paths);
+void		close_cmds_fd(t_command **cmds);
 
 /* exec */
 int			exec_built_or_bin(t_command *cur, char **env, t_list_envp *lst);

@@ -4,12 +4,17 @@ SOURCES = \
 		parsing/parsing_alloc.c \
 		parsing/parsing_add.c \
 		parsing/parsing_token.c \
-		parsing/parsing_count.c \
+		parsing/parsing_counta.c \
+		parsing/parsing_countw.c \
 		parsing/parsing_env.c \
 		parsing/parsing_get.c \
 		parsing/parsing_init.c \
 		parsing/parsing_quotes.c \
 		redir/redir_main.c \
+		redir/redir_less.c \
+		redir/redir_dless.c \
+		redir/redir_great.c \
+		redir/redir_dgreat.c \
 		redir/redir_ret.c \
 		redir/redir_get.c \
 		env/env_main.c \
@@ -25,6 +30,7 @@ SOURCES = \
 		exec/redirection.c \
 		exec/init_fds.c \
 		heredoc/heredoc.c \
+		signals/signals.c \
 		builtins/builtin_echo.c \
 		builtins/builtin_cd.c \
 		builtins/builtin_env.c \

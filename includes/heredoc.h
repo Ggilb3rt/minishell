@@ -15,6 +15,6 @@
 
 # include "minishell.h"
 
-void	heredoc_func(char *arg, t_command *cmd);
+void	heredoc_func(const char *arg, t_command *cmd);
 
 #endif //HEREDOC_H

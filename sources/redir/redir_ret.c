@@ -78,7 +78,7 @@ static void	check_ret(t_split *split, t_redir *redir, int print)
 int	ret_val(t_split *split, t_list_envp *ms_env, int print)
 {
 	t_redir	redir;
-	char 	*str;
+	char	*str;
 
 	redir.i = 0;
 	redir.l = split->i;

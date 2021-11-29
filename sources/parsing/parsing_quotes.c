@@ -48,7 +48,7 @@ int	close_quote(t_split *split)
 		return (1);
 }
 
-int		into_quote(t_split *split, t_list_envp *ms_env)
+int	into_quote(t_split *split, t_list_envp *ms_env)
 {
 	while (close_quote(split))
 	{

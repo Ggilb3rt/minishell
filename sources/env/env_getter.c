@@ -28,7 +28,7 @@ char	*to_find_sanitize(char *to_find)
 */
 int	get_ms_env_len(t_list_envp *ms_env)
 {
-	int		i;
+	int			i;
 	t_list_envp	*tmp;
 
 	i = 0;

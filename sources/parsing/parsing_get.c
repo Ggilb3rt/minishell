@@ -36,7 +36,7 @@ int	get_arg_pipe(t_split *split, t_command **cur, t_command **cmd)
 	del_spaces(split);
 	if (!split->str[split->i])
 	{
-		printf("comme diraient les Black Eyed Peas: don't mess with my heart.\n");
+		printf("minishell: don't mess with my heart.\n");
 		return (-1);
 	}
 	if (split->str[split->i] == '|')
