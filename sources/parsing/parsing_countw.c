@@ -12,87 +12,90 @@
 
 #include "minishell.h"
 
-static int	count_open_quote(t_split *split, t_list_envp *ms_env)
+static int count_into_quote(t_split *split, t_list_envp *ms_env, int *count)
 {
-	int	count;
-
-	count = 0;
-	while (close_quote(split))
+	if (split->str[split->i])
 	{
 		if (!split->open_s && split->open_d)
 		{
 			if (!search_var(split, ms_env, 0, NULL))
 			{
-				count++;
+				*count += 1;
 				split->i++;
 			}
 			else
-				count += split->q;
+				*count += split->q;
 		}
 		else
 		{
 			split->i++;
-			count++;
+			*count += 1;
 		}
+		return (1);
 	}
-	return (count);
+	else
+		return (0);
 }
 
-static int	continue_count(t_split *split, int count, t_list_envp *ms_env)
+static int	count_open_quote(t_split *split, t_list_envp *ms_env, int *count)
 {
-	if (split->str[split->i] == '>' || split->str[split->i] == '<')
+	if (split->str[split->i])
 	{
-		//printf("1\t%c\n", split->str[split->i]);
-		while (split->str[split->i] == '<' || split->str[split->i] == '>'
-			   || split->str[split->i] == ' ')
+		while (close_quote(split))
 		{
-			split->i++;
-			//printf("1\t%c\n", split->str[split->i]);
-		}
-		while (split->str[split->i] && split->str[split->i] != ' ')
-		{
-			split->i++;
-			//printf("1\t%c\n", split->str[split->i]);
+			if (!count_into_quote(split, ms_env, count))
+				return (0);
 		}
 	}
+	else
+		return (0);
+	return (1);
+}
+
+static int	continue_count(t_split *split, t_list_envp *ms_env, int *count)
+{
+	if (split->str[split->i] == '>' || split->str[split->i] == '<')
+		skip_count(split);
 	else if (!search_var(split, ms_env, 0, NULL))
 	{
 		split->i++;
-		count++;
+		*count += 1;
 		if (split->str[split->i] == ' ')
-			return (count);
+			return (0);
+	}
+	else
+		*count += split->q;
+	return (1);
+}
+
+static int count_ret(t_split *split, t_list_envp *ms_env, int *count)
+{
+	if (open_quote(split))
+	{
+		if (!count_open_quote(split, ms_env, count))
+			return (0);
 	}
 	else
 	{
-		count += split->q;
-		if (split->str[split->i] == ' ')
-			return (count);
+		if (!continue_count(split, ms_env, count))
+			return (0);
 	}
-	return (count);
+	return (1);
 }
 
 int	count_word(char *str, t_list_envp *ms_env, int pos)
 {
 	int			count;
 	t_split		split;
-	t_command	*cur;
 
 	count = 0;
 	init_split(&split, str);
-	cur = alloc_command(NULL);
 	split.i = pos;
 	while (split.str[split.i])
 	{
-		if (open_quote(&split))
-		{
-			count += count_open_quote(&split, ms_env);
-			if (split.str[split.i] == ' ')
-				return (count);
-		}
-		else
-			count += continue_count(&split, count, ms_env);
+		if (!count_ret(&split, ms_env, &count))
+			break ;
 	}
-	free(cur);
-	cur = NULL;
+	//printf("count word\t%d\n", count);
 	return (count);
 }

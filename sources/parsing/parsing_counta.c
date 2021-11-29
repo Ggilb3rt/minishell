@@ -14,42 +14,39 @@
 
 static int	count_into_quote(t_split *split)
 {
-	while (close_quote(split))
+	if (split->str[split->i])
 	{
-		split->i++;
-		if (!split->str[split->i])
-			return (0);
+		while (close_quote(split))
+		{
+			split->i++;
+			if (!split->str[split->i])
+				return (0);
+		}
 	}
+	else
+		return (0);
 	return (1);
+}
+
+void skip_count(t_split *split)
+{
+	while (split->str[split->i] == '<' || split->str[split->i] == '>'
+		   || split->str[split->i] == ' ')
+		split->i++;
+	while (split->str[split->i] && split->str[split->i] != ' ')
+		split->i++;
 }
 
 static void	count_not(t_split *split)
 {
 	if (split->str[split->i] == '>' || split->str[split->i] == '<')
-	{
-		//printf("1\t%c\n", split->str[split->i]);
-		while (split->str[split->i] == '<' || split->str[split->i] == '>'
-			   || split->str[split->i] == ' ')
-		{
-			split->i++;
-			//printf("2\t%c\n", split->str[split->i]);
-		}
-		while (split->str[split->i] && split->str[split->i] != ' ')
-		{
-			split->i++;
-			//printf("3\t%c\n", split->str[split->i]);
-		}
-	}
+		skip_count(split);
 	else
 		split->i++;
 }
 
-static int	count_check_args(t_split *split, t_command **cur)
+static int	count_check_args(t_split *split, int *count)
 {
-	int	count;
-
-	(void)cur;
-	count = 0;
 	if (open_quote(split))
 	{
 		if (!count_into_quote(split))
@@ -60,28 +57,28 @@ static int	count_check_args(t_split *split, t_command **cur)
 		split->i++;
 		del_spaces(split);
 		if (!split->str[split->i] || split->str[split->i] == '|')
-			return (count);
-		count++;
+			return (0);
+		*count += 1;
 	}
 	else
 		count_not(split);
-	return (count);
+	return (1);
 }
 
 int	count_args(char *str, int pos)
 {
 	t_split		split;
 	int			count;
-	t_command	*cur;
 
-	cur = alloc_command(NULL);
 	count = 0;
 	init_split(&split, str);
 	split.i = pos;
 	while (split.str[split.i] && split.str[split.i] != '|')
-		count += count_check_args(&split, &cur);
+	{
+		if (!count_check_args(&split, &count))
+			break ;
+	}
 	count++;
-	free(cur);
-	cur = NULL;
+	//printf("count arg\t%d\n", count);
 	return (count);
 }
