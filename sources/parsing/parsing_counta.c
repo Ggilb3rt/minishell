@@ -60,7 +60,9 @@ static int	count_not(t_split *split, int *count)
 
 static int	count_check_args(t_split *split, int *count)
 {
-	if (open_quote(split))
+	if (split->str[split->i] == '\\' || split->str[split->i] == ';')
+		split->i++;
+	else if (open_quote(split))
 	{
 		if (!count_into_quote(split))
 			return (0);

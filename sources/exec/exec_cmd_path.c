@@ -68,7 +68,7 @@ char	*select_wokring_path(char **splitted_paths, char *cmd)
 	}
 	if (can_access == -1)
 		free_tab(splitted_paths);
-	return (NULL);
+	return (ft_strdup(cmd));
 }
 
 char	*init_cmd_path(char *cmd, char *paths)

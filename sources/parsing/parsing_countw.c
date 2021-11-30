@@ -54,7 +54,9 @@ static int	count_open_quote(t_split *split, t_list_envp *ms_env, int *count)
 
 static int	continue_count(t_split *split, t_list_envp *ms_env, int *count)
 {
-	if (split->str[split->i] == '>' || split->str[split->i] == '<')
+	if (split->str[split->i] == '\\' || split->str[split->i] == ';')
+		split->i++;
+	else if (split->str[split->i] == '>' || split->str[split->i] == '<')
 		skip_count(split, NULL);
 	else if (!search_var(split, ms_env, 0, NULL))
 	{

@@ -67,7 +67,9 @@ static int	continue_parsing(t_split *split,
 static int	check_char(t_split *split, t_command **cur,
 						t_command **cmd, t_list_envp *ms_env)
 {
-	if (split->str[split->i] == ' ')
+	if (split->str[split->i] == '\\' || split->str[split->i] == ';')
+		split->i++;
+	else if (split->str[split->i] == ' ')
 		get_word_space(split, ms_env);
 	else if (split->str[split->i] == '|')
 	{

@@ -61,7 +61,7 @@ static int	get_heredoc(t_command **cmd, int fd, char *line)
 		return (0);
 	return (1);
 }
-
+/*
 static int check_id_heredoc(t_command ***cmd)
 {
 	t_command *cur;
@@ -77,7 +77,7 @@ static int check_id_heredoc(t_command ***cmd)
 	}
 	return (tmp);
 }
-
+*/
 void	heredoc_func(const char *arg, t_command **cmd)
 {
 	char	*file_name;
@@ -85,8 +85,8 @@ void	heredoc_func(const char *arg, t_command **cmd)
 	char	*line;
 
 	(void)arg;
-	(*cmd)->id_heredoc = check_id_heredoc(&cmd);
-	printf("\t%d\n", (*cmd)->id_heredoc);
+	//(*cmd)->id_heredoc = check_id_heredoc(&cmd);
+	//printf("\t%d\n", (*cmd)->id_heredoc);
 	line = ft_strdup("");
 	rl_event_hook = &event_hook;
 	file_name = create_tmp_file_name(".mini_heredoc", (*cmd)->nb_cmd);
