@@ -93,8 +93,10 @@ int	count_word(char *str, t_list_envp *ms_env, int pos)
 	split.i = pos;
 	while (split.str[split.i])
 	{
+		printf("w\t%c\t%d\n", split.str[split.i], count);
 		if (!count_ret(&split, ms_env, &count))
 			break ;
 	}
+	printf("count word\t%d\n", count);
 	return (count);
 }

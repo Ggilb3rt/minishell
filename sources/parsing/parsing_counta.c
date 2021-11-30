@@ -77,9 +77,11 @@ int	count_args(char *str, int pos)
 	split.i = pos;
 	while (split.str[split.i] && split.str[split.i] != '|')
 	{
+		printf("a\t%c\t%d\n", split.str[split.i], count);
 		if (!count_check_args(&split, &count))
 			break ;
 	}
 	count++;
+	printf("count arg\t%d\n", count);
 	return (count);
 }
