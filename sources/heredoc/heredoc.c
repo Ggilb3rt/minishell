@@ -73,7 +73,7 @@ void	heredoc_func(const char *arg, t_command *cmd)
 	rl_event_hook = &event_hook;
 	file_name = create_tmp_file_name(".mini_heredoc", cmd->nb_cmd);
 	fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	while (g_ret.ret != QHERE)
+	while (!ft_strcmp(line, cmd->end) || (ft_strlen(line) != ft_strlen(cmd->end)))//g_ret.ret != QHERE)
 	{
 		if (!get_heredoc(cmd, fd, line))
 			break ;
