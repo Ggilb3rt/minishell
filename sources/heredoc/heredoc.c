@@ -42,8 +42,9 @@ static int	handle_heredoc(char *line, t_command *cmd, int fd)
 		g_ret.ret = 0;
 		return (0);
 	}
-	else if (line && ft_strlen(line) != ft_strlen(cmd->end))
+	else if (!ft_strcmp(line, cmd->end)) //line && ft_strlen(line) != ft_strlen(cmd->end))
 	{
+		printf("yesss\n");
 		if (fd == -1)
 			perror("error");
 		write(fd, line, ft_strlen(line));
@@ -59,6 +60,8 @@ static int	get_heredoc(t_command *cmd, int fd, char *line)
 		return (0);
 	if (!handle_heredoc(line, cmd, fd))
 		return (0);
+	//if (g_ret.ret != QHERE)
+	//	return (0);
 	return (1);
 }
 
@@ -73,7 +76,7 @@ void	heredoc_func(const char *arg, t_command *cmd)
 	rl_event_hook = &event_hook;
 	file_name = create_tmp_file_name(".mini_heredoc", cmd->nb_cmd);
 	fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	while (!ft_strcmp(line, cmd->end) || (ft_strlen(line) != ft_strlen(cmd->end)))//g_ret.ret != QHERE)
+	while (g_ret.ret != QHERE) //(!ft_strcmp(line, cmd->end) || (ft_strlen(line) != ft_strlen(cmd->end)))
 	{
 		if (!get_heredoc(cmd, fd, line))
 			break ;

@@ -31,7 +31,7 @@ static void	launch_commands(char *line, t_list_envp *ms_envp)
 				if (ms_pipeline(cmd, pipeline_env, ms_envp) == 0)
 					close_cmds_fd(cmd);
 			}
-			free_tab(pipeline_env);
+			//free_tab(pipeline_env); //pb double free when input dont exist
 		}
 		free_all(cmd);
 	}
