@@ -52,6 +52,7 @@ t_command	*alloc_command(char **arg)
 	cmd->fd_out = -1;
 	cmd->fd_in = -1;
 	cmd->fd_heredoc = -1;
+	cmd->id_heredoc = 0;
 	cmd->can_exec = -1;
 	cmd->next = NULL;
 	return (cmd);

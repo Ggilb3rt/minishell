@@ -16,6 +16,83 @@ exit -10
 exit +10
 exit 0 | exit 1
 exit 1 | exit 0
+PARSING/EXPANSION
+echo \\\$PATH
+echo \"\"\"
+echo \'\'\'
+echo $"PWD"
+echo $HO"ME"
+RM BACKSLASH :  
+echo \>\>
+AST :
+<coucou echo ca va
+echo coucou >text ca va
+echo "-n "hello      world""
+EXECUTION :
+echo -n -n One"argument"'lo'l; echo
+
+EN VRAC FUCK :
+echo $"HOME"
+echo "$     a"
+$HOME $HOME $HOME
+echo elie \ elie
+echo elie$USER$PWD/elie$USER$?/elie$USERelie/$USER
+echo 'tom'rrr' et "bonjour" et 'tom' "elie" et "elie 'elie' tom"" ; echo "elie'tom and me'" tom elie 	tom ; echo 'tom' elie
+echo elie \ \ \ \ \ \ \ \ \ \ \ elie \ elie
+echo "elie'$USER'elie$USER"
+echo "elie 'tom et elie' elie $USER/elie"
+echo "elie ""
+echo |
+echo \
+>
+=========================
+-	ls ;; ls
+     ; ls ; ls
+     cat <<<<< bar
+     cat << << bar
+     echo -nnnnnnnnnnnnnnnnnnnnn FOO
+     echo -n -n -n -n bar
+     echo "$ $ $ $ $SHELL----------$LOL.......$123TEST"
+     cd ../../../..; pwd; echo $PWD; echo $OLDPWD
+     export HELLO\WORLD
+     export A==a; echo $A; export A=a=a=a=a=a; echo $A
+     echo >> FILE foo
+     echo >> FILE1 foo > FILE2
+     < main.c cat <redir.c < Makefile
+     ec""ho bonjour
+     echo "\\"
+     echo a\ \ \ \ \ \ \ b
+     echo "a\ \ b c" '$SHELL'" (print erreur pas de gestion de multilignes)
+     top | grep root
+     ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|
+     ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|
+     ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|
+     ls|ls
+     <main.c cat <redir.c >file1 <Makefile >file2 >>file3 ; >f1 echo >>f2 coucou ca >f3 va >f4 et toi
+     echo $PWD/file
+-	$OLDPWD; cd .; pwd; echo $PWD; echo $OLDPWD      
+     cd ..; pwd; echo $PWD; echo $OLDPWD
+     echo $PWD; echo $OLDPWD; cd ../..; pwd; echo $PWD; echo $OLDPWD                                                    
+     echo $PWD; echo $OLDPWD; cd ../../..; pwd; echo $PWD; echo $OLDPWD                                                 
+     echo $PWD; echo $OLDPWD; cd ../../../..; pwd; echo $PWD; echo $OLDPWD                                              
+     echo $PWD; echo $OLDPWD; cd ../../../../..; pwd; echo $PWD; echo $OLDPWD                                           
+     echo $PWD; echo $OLDPWD; cd ../../../../../..; pwd; echo $PWD; echo $OLDPWD
+     cd /; pwd; echo $PWD; echo $OLDPWD                                     
+     cd /.; pwd; echo $PWD; echo $OLDPWD
+     cd /././././; pwd; echo $PWD; echo $OLDPWD
+     cd //; pwd; echo $PWD; echo $OLDPWD
+     cd //////////////////////////////////////////////////////; pwd; echo $PWD; echo $OLDPWD
+     cd //home;
+     cd $HOME/Bureau
+     unset HOME; cd
+     export HOME= ; cd
+     cd Documents ..
+     cd -
+     ./a.out (sur fichier non executable retourne 126)
+     export $var=test
+     export $var=test avec var unset
+     export la même variable
+     unset var (var 1 ne doit pas etre unset)
 cd ~
 echo |
 | echo
