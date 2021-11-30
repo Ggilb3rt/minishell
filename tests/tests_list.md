@@ -21,7 +21,7 @@ echo |
 | echo
 **cat < >**
 > a ls > b < Makefile
-> log echo coucou #leaks
+**> log echo coucou**
 **echo ''**
 **ecrire "nom_dun_fichier" puis ctrl-c ne marche pas**
 **echo ""**

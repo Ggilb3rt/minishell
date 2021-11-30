@@ -28,7 +28,7 @@ static int	count_into_quote(t_split *split)
 	return (1);
 }
 
-void	skip_count(t_split *split)
+int	skip_count(t_split *split, int *count)
 {
 	while (split->str[split->i] == '<' || split->str[split->i] == '>'
 		|| split->str[split->i] == ' ')
@@ -37,14 +37,25 @@ void	skip_count(t_split *split)
 		split->i++;
 	while (split->str[split->i] && split->str[split->i] == ' ')
 		split->i++;
+	if (!split->str[split->i])
+	{
+		if (*count)
+			*count -= 1;
+		return (0);
+	}
+	return (1);
 }
 
-static void	count_not(t_split *split)
+static int	count_not(t_split *split, int *count)
 {
 	if (split->str[split->i] == '>' || split->str[split->i] == '<')
-		skip_count(split);
+	{
+		if (!skip_count(split, count))
+			return (0);
+	}
 	else
 		split->i++;
+	return (1);
 }
 
 static int	count_check_args(t_split *split, int *count)
@@ -58,12 +69,15 @@ static int	count_check_args(t_split *split, int *count)
 	{
 		split->i++;
 		del_spaces(split);
+		*count += 1;
 		if (!split->str[split->i] || split->str[split->i] == '|')
 			return (0);
-		*count += 1;
 	}
 	else
-		count_not(split);
+	{
+		if (!count_not(split, count))
+			return (0);
+	}
 	return (1);
 }
 
@@ -72,7 +86,7 @@ int	count_args(char *str, int pos)
 	t_split		split;
 	int			count;
 
-	count = 0;
+	count = 1;
 	init_split(&split, str);
 	split.i = pos;
 	while (split.str[split.i] && split.str[split.i] != '|')
@@ -81,7 +95,6 @@ int	count_args(char *str, int pos)
 		if (!count_check_args(&split, &count))
 			break ;
 	}
-	count++;
 	printf("count arg\t%d\n", count);
 	return (count);
 }

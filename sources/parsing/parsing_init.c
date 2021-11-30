@@ -38,6 +38,7 @@ void	init_split(t_split *split, char *str)
 int	init_arg(t_split *split, t_list_envp *ms_env, t_command **cur)
 {
 	*cur = alloc_command(NULL);
+	//printf("create cmd\t%p\n", *cur);
 	if (!*cur)
 		return (0);
 	split->o = 0;
