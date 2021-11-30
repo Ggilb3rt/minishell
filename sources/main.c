@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/28 21:31:08 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/30 19:41:50 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,8 +191,8 @@ int	main(int ac, char **av, char **envp)
 							pipeline_env = convert_envplst_to_tab(ms_envp);
 							if (ms_pipeline(cmd, pipeline_env, ms_envp) == 0)
 								close_cmds_fd(cmd);
+							free_tab(pipeline_env);
 						}
-						free_tab(pipeline_env);
 					}
 					//free_tab_2((*cmd)->arg);
 					//free_command(cmd);

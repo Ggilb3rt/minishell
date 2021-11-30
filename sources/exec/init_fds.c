@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 20:30:08 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/28 20:30:37 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/11/30 19:43:24 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	check_read_access(char *path, int *fd)
 {
 	if (access(path, F_OK | R_OK) == -1)
 	{
-		*fd = -2;
+		*fd = -1;
 		perror(path);
 		return (0);
 	}
