@@ -120,8 +120,3 @@ char	*get_ms_env_val(char *to_find, t_list_envp *ms_env)
 	free(to_find);
 	return ((tmp->content) + len_to_find);
 }
-
-char	*strdup_ms_env_val(char *get_ms_env_val)
-{
-	return (ft_strdup(get_ms_env_val));
-}

@@ -102,6 +102,7 @@ int	main(int ac, char **av, char **envp)
 		if (!get_line(ms_envp, msg_prompt))
 			break ;
 	}
+	rl_clear_history();
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
 	return (g_ret.ret);

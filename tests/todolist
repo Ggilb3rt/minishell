@@ -1,2 +1,8 @@
 - command not found doit renvoyer code erreur de 127 (ici 2)
 - permission denied doit renvoyer code erreur de 126 (ici 13)
+- executer fichier non executable doit renvoyer code erreur de 126 (ici 127)
+- cd - double free aiiiiie
+- $ doit renvoyer command not found
+- revoir messages erreur
+- exit et pipes
+-  echo $>a #segfault

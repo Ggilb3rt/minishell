@@ -92,7 +92,7 @@ static void	handle_var(t_split *split, int print,
 	var = assign_var(split);
 	if (var)
 	{
-		arg = get_ms_env_val(var, ms_env);
+		arg = ft_strdup(get_ms_env_val(var, ms_env));
 		if (!arg)
 			arg = ft_strdup("\0");
 		print_var(split, print, cur, arg);
@@ -108,7 +108,11 @@ int	search_var(t_split *split, t_list_envp *ms_env,
 {
 	if (split->str[split->i] == '$')
 	{
-		if (split->str[split->i + 1] == ' ')
+		if (split->str[split->i + 1] == ' ' || !split->str[split->i + 1]
+			|| split->str[split->i + 1] == '<'
+			|| split->str[split->i + 1] == '>'
+			|| split->str[split->i + 1] == '\"'
+			|| split->str[split->i + 1] == '\'')
 			return (0);
 		if (!return_value(split, print, cur))
 			return (1);
