@@ -25,7 +25,7 @@ static void	launch_commands(char *line, t_list_envp *ms_envp)
 		add_history(line);
 		if (parsing_main(line, cmd, ms_envp))
 		{
-			print_all(cmd);
+			//print_all(cmd);
 			if (set_cmd_ready_to_exec(cmd, ms_envp) == 0)
 			{
 				pipeline_env = convert_envplst_to_tab(ms_envp);
