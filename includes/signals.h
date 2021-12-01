@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alangloi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/26 21:59:12 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/26 21:59:13 by alangloi         ###   ########.fr       */
+/*   Created: 2021/11/29 17:42:37 by alangloi          #+#    #+#             */
+/*   Updated: 2021/11/29 17:42:39 by alangloi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#ifndef SIGNALS_H
+# define SIGNALS_H
 
 # include "minishell.h"
 
-int			array_size(char **arr);
-int			arr_int_size(int *arr);
-
-void		free_tab(char **arr);
-void		free_tab_2(char **arr);
-void		free_command(t_command **cmd);
-void		free_all(t_command **cmd);
+void	sig_handler_1(int n);
+void	sig_handler_2(int n);
+void	ms_signal(int n);
 
 #endif

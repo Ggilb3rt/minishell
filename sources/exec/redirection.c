@@ -15,7 +15,7 @@
 void	set_redir(t_command *cur, int pipe_fd[2])
 {
 	if (cur->end != NULL)
-		heredoc_func("pouet", cur);
+		heredoc_func("pouet", &cur);
 	if (cur->fd_heredoc != -1)
 	{
 		if (cur->nb_cmd > 1)

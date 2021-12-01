@@ -15,9 +15,11 @@
 void	free_tab(char **arr)
 {
 	int	i;
+	int	len;
 
 	i = 0;
-	while (arr[i])
+	len = array_size(arr);
+	while (i < len)
 	{
 		free(arr[i]);
 		arr[i] = NULL;
@@ -40,76 +42,57 @@ void	free_tab_2(char **arr)
 	}
 }
 
-void	free_command(t_command **list)
+void	free_command(t_command **cmd)
 {
-	int	i;
-	int	size;
-	t_command *tmp;
+	t_command	*cur;
+	t_command	*tmp;
 
-	if (list)
+	cur = *cmd;
+	while (cur)
 	{
-		while (*list != NULL)
-		{
-			tmp = *list;
-			*list = (*list)->next;
-			if (tmp->arg)
-			{
-				i = 0;
-				size = array_size(tmp->arg);
-				while (i < size)
-				{
-					printf("free tmp->arg[i] %p\n", tmp->arg[i]);
-					free(tmp->arg[i]);
-					tmp->arg[i] = NULL;
-					i++;
-				}
-				printf("free tmp->arg %p\n", tmp->arg);
-				free(tmp->arg);
-				tmp->arg = NULL;
-			}
-			if (tmp->out_file)
-			{
-				printf("free tmp->out_file %p\n", tmp->out_file);
-				free(tmp->out_file);
-				tmp->out_file = NULL;
-			}
-			if (tmp->in_file)
-			{
-				printf("free tmp->in_file %p\n", tmp->in_file);
-				free(tmp->in_file);
-				tmp->in_file = NULL;
-			}
-			if (tmp->end)
-			{
-				printf("free tmp->end %p\n", tmp->end);
-				free(tmp->end);
-				tmp->end = NULL;
-			}
-			printf("free tmp %p\n", tmp);
-			free(tmp);
-			tmp = NULL;
-		}
-		printf("free *list %p\n", *list);
-		free(*list);
-		*list = NULL;
+		tmp = cur;
+		cur = cur->next;
+		//printf("free cmd\t%p\n", tmp);
+		free(tmp);
+		tmp = NULL;
+	}
+	free(cmd);
+	cmd = NULL;
+}
+
+static void	free_files(t_command *cur)
+{
+	if (cur->in_file)
+	{
+		free(cur->in_file);
+		cur->in_file = NULL;
+	}
+	if (cur->out_file)
+	{
+		free(cur->out_file);
+		cur->out_file = NULL;
+	}
+	if (cur->end)
+	{
+		free(cur->end);
+		cur->end = NULL;
 	}
 }
-/*
-void	free_split(t_split *split)
-{
-	int	i;
 
-	i = 0;
-	if (split->new)
+void	free_all(t_command **cmd)
+{
+	t_command	*cur;
+
+	if (cmd)
 	{
-		while (split->new[i])
+		cur = *cmd;
+		while (cur)
 		{
-			free(split->new[i]);
-			split->new[i] = NULL;
-			i++;
+			if (cur->arg)
+				free_tab(cur->arg);
+			free_files(cur);
+			cur = cur->next;
 		}
-		free(split->new);
-		split->new = NULL;
+		free_command(cmd);
 	}
 }
-*/

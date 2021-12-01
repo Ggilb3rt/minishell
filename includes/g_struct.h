@@ -53,6 +53,7 @@ typedef struct s_command
 	int					fd_in;
 	int					fd_out;
 	int					fd_heredoc;
+	int 				id_heredoc;
 	char				*end;
 	int					build;
 	int					can_exec;

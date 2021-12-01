@@ -46,36 +46,48 @@ int	parse_var(int c)
 	return (0);
 }
 
+static int	continue_parsing(t_split *split,
+						t_command **cur, t_list_envp *ms_env)
+{
+	if (split->str[split->i] == '<' || split->str[split->i] == '>')
+	{
+		if (redirection(split, cur, ms_env) == -1)
+			return (-1);
+	}
+	if (split->str[split->i] == '|' || split->str[split->i] == '<'
+		|| split->str[split->i] == '>')
+		return (1);
+	if (!split->str[split->i])
+		return (0);
+	if (!search_var(split, ms_env, 1, NULL))
+		get_char(split);
+	return (1);
+}
+
 static int	check_char(t_split *split, t_command **cur,
 						t_command **cmd, t_list_envp *ms_env)
 {
-	if (split->str[split->i] == ' ')
+	if (split->str[split->i] == '\\' || split->str[split->i] == ';')
+		split->i++;
+	else if (split->str[split->i] == ' ')
 		get_word_space(split, ms_env);
 	else if (split->str[split->i] == '|')
 	{
 		if (get_arg_pipe(split, cur, cmd) == -1)
-		{
-			free_all(cmd);
-			exit(1);
-		}
+			return (-1);
 		init_arg(split, ms_env, cur);
 	}
 	else if (open_quote(split))
-		into_quote(split, ms_env);
+	{
+		if (!into_quote(split, ms_env))
+		{
+			printf("minishell: unclosed quote.\n");
+			return (-1);
+		}
+	}
 	else
 	{
-		if (redirection(split, cur, ms_env) == -1)
-		{
-			free_all(cmd);
-			exit(1);
-		}
-		if (split->str[split->i] == '|' || split->str[split->i] == '<'
-			|| split->str[split->i] == '>')
-			return (1);
-		if (!split->str[split->i])
-			return (0);
-		if (!search_var(split, ms_env, 1, NULL))
-			get_char(split);
+		return (continue_parsing(split, cur, ms_env));
 	}
 	return (1);
 }
@@ -87,7 +99,6 @@ int	parsing_main(char *str, t_command **cmd, t_list_envp *ms_env)
 	int			ret;
 
 	cur = NULL;
-	split.new = NULL;
 	init_split(&split, str);
 	if (!init_arg(&split, ms_env, &cur))
 		return (0);
@@ -96,6 +107,8 @@ int	parsing_main(char *str, t_command **cmd, t_list_envp *ms_env)
 		ret = check_char(&split, &cur, cmd, ms_env);
 		if (!ret)
 			break ;
+		if (ret == -1)
+			return (0);
 	}
 	get_arg(&split, &cur, cmd);
 	add_newline(cmd);

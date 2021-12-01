@@ -33,4 +33,16 @@ int		ret_val(t_split *split, t_list_envp *ms_env, int print);
 int		get_string(t_split *split, t_list_envp *ms_env,
 			t_command **cur, int print);
 
+/* redir great */
+int		redir_great(t_split *split, t_command **cur, t_list_envp *ms_env);
+
+/* redir less */
+int		redir_less(t_split *split, t_command **cur, t_list_envp *ms_env);
+
+/* redir dgreat */
+int		redir_dgreat(t_split *split, t_command **cur, t_list_envp *ms_env);
+
+/* redir dless */
+int		redir_dless(t_split *split, t_command **cur, t_list_envp *ms_env);
+
 #endif

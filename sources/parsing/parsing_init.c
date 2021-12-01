@@ -12,6 +12,15 @@
 
 #include "minishell.h"
 
+int	init_cmd(t_command ***cmd)
+{
+	*cmd = malloc(sizeof(t_command *));
+	if (!*cmd)
+		return (0);
+	**cmd = NULL;
+	return (1);
+}
+
 void	init_split(t_split *split, char *str)
 {
 	(void)str;
@@ -20,14 +29,16 @@ void	init_split(t_split *split, char *str)
 	split->l = 0;
 	split->o = 0;
 	split->q = 0;
+	split->new = NULL;
+	split->red = 0;
 	split->open_s = 0;
 	split->open_d = 0;
 }
 
 int	init_arg(t_split *split, t_list_envp *ms_env, t_command **cur)
 {
-	//printf("init arg\n");
 	*cur = alloc_command(NULL);
+	//printf("create cmd\t%p\n", *cur);
 	if (!*cur)
 		return (0);
 	split->o = 0;

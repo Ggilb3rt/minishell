@@ -68,3 +68,24 @@ int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 	}
 	return (0);
 }
+
+void	close_cmds_fd(t_command **cmds)
+{
+	t_command	*cmd;
+	int			ret_in;
+	int			ret_out;
+
+	cmd = *cmds;
+	ret_in = 0;
+	ret_out = 0;
+	(void)ret_in;
+	(void)ret_out;
+	while (cmd != NULL)
+	{
+		if (cmd->fd_in != -1)
+			ret_in = close(cmd->fd_in);
+		if (cmd->fd_out != -1)
+			ret_out = close(cmd->fd_out);
+		cmd = cmd->next;
+	}
+}

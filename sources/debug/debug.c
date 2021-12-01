@@ -1,6 +1,14 @@
-//
-// Created by Antoine LANGLOIS on 27/09/2021.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alangloi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/29 17:36:49 by alangloi          #+#    #+#             */
+/*   Updated: 2021/11/29 17:36:51 by alangloi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -8,8 +16,8 @@ int	print_command(t_command *cmd)
 {
 	printf("out file = %s\n", cmd->out_file);
 	printf("in file = %s\n", cmd->in_file);
+	printf("here file = %s\n", cmd->end);
 	printf("nb_cmd = %d\n", cmd->nb_cmd);
-	//printf("err file = %s\n", cmd->err_file);
 	return (0);
 }
 
@@ -29,7 +37,7 @@ int	print_all(t_command **cmd)
 		arr = cur->arg;
 		while (arr[i])
 		{
-			printf("[%i] [%s]\n", count, arr[i]);//, (*cmd)->token);
+			printf("[%i] [%s]\n", count, arr[i]);
 			i++;
 		}
 		printf("[%i] [%s]\n", count, arr[i]);
@@ -38,21 +46,5 @@ int	print_all(t_command **cmd)
 		cur = cur->next;
 		count++;
 	}
-
-	/*
-	int j = 0;
-	t_command *cur;
-
-	cur = *cmd;
-	while (cur != NULL)
-	{
-		for (int i = 0; cur->arg[i] != NULL; i++)
-		{
-			printf("%d %d stparg = %s\n", j, i, cur->arg[i]);
-		}
-		cur = cur->next;
-		j++;
-	}
-	 */
 	return (0);
 }

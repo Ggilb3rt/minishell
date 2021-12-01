@@ -28,7 +28,7 @@ char	*to_find_sanitize(char *to_find)
 */
 int	get_ms_env_len(t_list_envp *ms_env)
 {
-	int		i;
+	int			i;
 	t_list_envp	*tmp;
 
 	i = 0;
@@ -109,7 +109,10 @@ char	*get_ms_env_val(char *to_find, t_list_envp *ms_env)
 	to_find = to_find_sanitize(to_find);
 	i = get_ms_env_index(to_find, tmp);
 	if (i < 0)
+	{
+		free(to_find);
 		return (NULL);
+	}
 	len_to_find = ft_strlen(to_find);
 	while (i-- > 0)
 		tmp = tmp->next;

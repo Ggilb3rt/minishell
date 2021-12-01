@@ -1,6 +1,14 @@
-//
-// Created by Antoine LANGLOIS on 27/10/2021.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alangloi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/29 17:34:39 by alangloi          #+#    #+#             */
+/*   Updated: 2021/11/29 17:34:40 by alangloi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -25,55 +33,85 @@ char	*create_tmp_file_name(char *str, int nb)
 	return (file_name);
 }
 
-void	heredoc_func(char *arg, t_command *cmd)
+static int	handle_heredoc(char *line, t_command **cmd, int fd)
 {
-	char	*line;
+	if (line[0] == '\1')
+		return (0);
+	else if (!ft_strcmp(line, (*cmd)->end))
+	{
+		g_ret.ret = 0;
+		return (0);
+	}
+	else if (ft_strcmp(line, (*cmd)->end))
+	{
+		if (fd == -1)
+			perror("error");
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+	}
+	return (1);
+}
+
+static int	get_heredoc(t_command **cmd, int fd, char *line)
+{
+	line = readline("> ");
+	if (line == NULL)
+		return (0);
+	if (!handle_heredoc(line, cmd, fd))
+		return (0);
+	return (1);
+}
+/*
+static int check_id_heredoc(t_command ***cmd)
+{
+	t_command *cur;
+	int tmp;
+
+	cur = **cmd;
+	tmp = 0;
+	while (cur)
+	{
+		if (cur->id_heredoc > tmp)
+			tmp = cur->id_heredoc;
+		cur = cur->next;
+	}
+	return (tmp);
+}
+*/
+void	heredoc_func(const char *arg, t_command **cmd)
+{
 	char	*file_name;
 	int		fd;
+	char	*line;
 
 	(void)arg;
-	//ms_signal(4);
-	rl_event_hook = &event_hook;
+	//(*cmd)->id_heredoc = check_id_heredoc(&cmd);
+	//printf("\t%d\n", (*cmd)->id_heredoc);
 	line = ft_strdup("");
-	file_name = create_tmp_file_name(".mini_heredoc", cmd->nb_cmd);
+	rl_event_hook = &event_hook;
+	file_name = create_tmp_file_name(".mini_heredoc", (*cmd)->nb_cmd);
 	fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	while (g_ret.ret != QHERE)
 	{
-		free(line);
-		line = readline("> ");
-		if (line == NULL)
+		//free(line);
+		if (!get_heredoc(cmd, fd, line))
 			break ;
-		if (line[0] == '\1')
-			break ;
-		else if (!ft_strcmp(line, cmd->end))
-		{
-			g_ret.ret = 0;
-			break ;
-		}
-		else if (line && ft_strlen(line) != ft_strlen(cmd->end))
-		{
-			if (fd == -1)
-				perror("error");
-			write(fd, line, ft_strlen(line));
-			write(fd, "\n", 1);
-		}
 	}
 	close(fd);
 	free(line);
-	cmd->fd_heredoc = open(file_name, O_RDONLY | O_CREAT, 0777);
+	(*cmd)->fd_heredoc = open(file_name, O_RDONLY | O_CREAT, 0777);
 	unlink(file_name);
 	free(file_name);
-	//utiliser dup 2 mettre end dans in
 }
 
 /*
-
 ctrl + d ==> send EOF
-if heredoc EOF != EOF print : warning: here-document at line 2 delimited by end-of-file (wanted `out')
+if heredoc EOF != EOF print : warning: here-document at
+line 2 delimited by end-of-file (wanted `out')
 
 ctrl + c ==> quit
 
-
-La difference entre les deux est que le premier continue l'execution (print le resultat)
-alors que le second quit l'execution (ne print rien)
+La difference entre les deux est que le premier continue
+l'execution (print le resultat) alors que le second quit
+ l'execution (ne print rien)
 */

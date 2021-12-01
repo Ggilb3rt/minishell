@@ -70,6 +70,7 @@ int			alloc_word(t_split *split, t_list_envp *ms_env);
 int			alloc_arg(t_split *split);
 
 /* parsing init */
+int			init_cmd(t_command ***cmd);
 void		init_split(t_split *split, char *str);
 int			init_arg(t_split *split, t_list_envp *ms_env, t_command **cur);
 
@@ -83,16 +84,19 @@ int			get_word(t_split *split, t_list_envp *ms_env);
 /* parsing quotes */
 int			open_quote(t_split *split);
 int			close_quote(t_split *split);
-void		into_quote(t_split *split, t_list_envp *ms_env);
+int			into_quote(t_split *split, t_list_envp *ms_env);
 void		dup_quotes(char **arr);
 
 /* parsing env */
 int			search_var(t_split *split, t_list_envp *ms_env,
 				int yes, t_command **cur);
 
-/* parsing count */
-int			count_args(char *str, int pos);
+/* parsing count word */
 int			count_word(char *str, t_list_envp *ms_env, int pos);
+
+/* parsing count arg */
+int			count_args(char *str, int pos);
+int			skip_count(t_split *split, int *count);
 
 /* debug */
 int			print_command(t_command *cmd);

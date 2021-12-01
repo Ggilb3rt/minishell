@@ -36,12 +36,12 @@ int	get_arg_pipe(t_split *split, t_command **cur, t_command **cmd)
 	del_spaces(split);
 	if (!split->str[split->i])
 	{
-		printf("minishell: c'est pas serieux.\n");
+		printf("minishell: don't mess with my heart.\n");
 		return (-1);
 	}
 	if (split->str[split->i] == '|')
 	{
-		printf("minishell: syntax error near unexpected token '|'\n");
+		printf("minishell: syntax error near unexpected token `|'\n");
 		return (-1);
 	}
 	get_arg(split, cur, cmd);
