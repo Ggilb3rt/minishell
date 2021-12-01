@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 14:36:36 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/12/01 19:50:23 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/01 19:57:57 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,9 +119,4 @@ char	*get_ms_env_val(char *to_find, t_list_envp *ms_env)
 	//printf("GET MS ENV VAL = |%s|\n", (tmp->content) + len_to_find);
 	free(to_find);
 	return ((tmp->content) + len_to_find);
-}
-
-char	*strdup_ms_env_val(char *get_ms_env_val)
-{
-	return (ft_strdup(get_ms_env_val));
 }
