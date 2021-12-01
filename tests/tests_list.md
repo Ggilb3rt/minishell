@@ -182,3 +182,16 @@ cd ~
 **echo > a Hello World!**
 **> a echo Hello World!**
 **cat < Makefile | grep gcc > output**
+
+
+
+
+-----------------------------
+Problemes du sujet
+
+**Doubles quotes**
+echo "cat lol.c | cat > lol,c $"USER""
+     nous => cat lol.c | cat > lol,c USER
+     leaks => non, invalid read of size
+     bash => cat lol.c | cat > lol,c $USER
+

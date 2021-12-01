@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 14:48:32 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/28 16:10:11 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/01 19:21:28 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_command
 	int					fd_in;
 	int					fd_out;
 	int					fd_heredoc;
-	int 				id_heredoc;
+	int					id_heredoc;
 	char				*end;
 	int					build;
 	int					can_exec;

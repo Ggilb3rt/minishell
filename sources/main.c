@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/12/01 09:47:11 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/01 19:34:37 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ int	main(int ac, char **av, char **envp)
 	msg_prompt = ft_strjoin(get_ms_env_val(USER, ms_envp), " 🙌 minishell > ");
 	while (1)
 	{
+		if (g_ret.quit == 1)
+			break ;
 		if (!get_line(ms_envp, msg_prompt))
 			break ;
 	}
