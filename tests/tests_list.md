@@ -20,10 +20,17 @@ exit 1 | exit 0
 -------------------------------------------------------------------
 
 PARSING/EXPANSION
+<<<<<<< HEAD
 **echo \\\$PATH**
 **echo \"\"\"**
 **echo \'\'\'**
 **echo $"PWD"** #leaks guillaume
+=======
+`echo \\\$PATH`
+echo \"\"\"
+echo \'\'\'
+**echo $"PWD"** #invalid read of size 1 Antoine Guillaume
+>>>>>>> 75b78cd3e4a014f5a52a43592e70f55a4c88472f
 **echo $HO"ME"**
 
 RM BACKSLASH :  
@@ -182,3 +189,16 @@ cd ~
 **echo > a Hello World!**
 **> a echo Hello World!**
 **cat < Makefile | grep gcc > output**
+
+
+
+
+-----------------------------
+Problemes du sujet
+
+**Doubles quotes**
+echo "cat lol.c | cat > lol,c $"USER""
+     nous => cat lol.c | cat > lol,c USER
+     leaks => non, invalid read of size
+     bash => cat lol.c | cat > lol,c $USER
+

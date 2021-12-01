@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:56:51 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/24 11:59:41 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/01 19:25:46 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	check_valide_identifier(char *arg)
 	int	i;
 
 	i = 0;
+	if (!ft_isalpha(arg[0]) && arg[0] != '_')
+		return (0);
 	while (arg[i] != '\0' || arg[i] != '=')
 	{
 		if (!ft_isalnum(arg[i]) && arg[i] != '_')
@@ -94,6 +96,8 @@ int	export_update_env(t_list_envp *env, int equal_pos, char *arg)
 	return (1);
 }
 
+// premier char ne pas etre un chiffre mais _ ou une lettre => ok
+// find invalid free if export empty var. Ex : export POUET=
 int	cmd_export(t_list_envp *env, char **args)
 {
 	int		i;

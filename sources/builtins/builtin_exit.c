@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:45:07 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/28 14:52:29 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/01 17:43:09 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	too_many_arg_err(void)
 
 int	not_numeric_arg_err(char *arg)
 {
-	g_ret.ret = 255;
+	g_ret.ret = 2;
 	g_ret.quit = 1;
 	printf("minishell : exit : %s: numeric argument required\n", arg);
 	return (255);

@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 20:30:08 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/28 20:30:37 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/01 16:56:08 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,9 @@ int	init_out_file_fd(int cur_token, char *path, int *fd_out)
 		*fd_out = open(path, O_CREAT | O_WRONLY | O_APPEND, 0666);
 	if (*fd_out == -1 && (cur_token == GREAT || cur_token == DGREAT))
 	{
+		*fd_out = -2;
 		perror(path);
-		return (errno);
+		return (-1);
 	}
 	return (0);
 }

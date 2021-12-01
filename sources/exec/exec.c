@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:03:00 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/28 21:06:32 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/01 17:16:58 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,20 @@
 
 // priorities pipe (|) then redirect (< > >> <<) then others
 
-//! NEW VERSION
+void	set_g_ret_err(t_command *cur)
+{
+	perror(cur->arg[0]);
+	g_ret.ret = 127;
+	g_ret.quit = 1;
+}
 
 int	exec_built_or_bin(t_command *cur, char **env, t_list_envp *lst)
 {
 	if (cur->arg[0] == NULL)
 	{
 		g_ret.ret = 2;
-		exit(2);
+		g_ret.quit = 1;
+		return (-1);
 	}
 	if (cur->build >= 0)
 	{
@@ -36,11 +42,9 @@ int	exec_built_or_bin(t_command *cur, char **env, t_list_envp *lst)
 	}
 	else if (execve(cur->arg[0], cur->arg, env) == -1)
 	{
-		g_ret.ret = errno;
-		perror(cur->arg[0]);
-		exit(errno);
+		set_g_ret_err(cur);
+		return (-1);
 	}
-	//fprintf(stderr, "just before exec |%s| |%s|\n", cur->arg[0], cur->arg[1]);
-	perror(cur->arg[0]);
-	exit(errno);
+	set_g_ret_err(cur);
+	return (-1);
 }

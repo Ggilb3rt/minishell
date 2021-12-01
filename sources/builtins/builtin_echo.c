@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:54:18 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/24 11:54:22 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/01 17:37:45 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ void	print_words(char **words, int flag)
 		i++;
 	while (i < nb_words)
 	{
+		if (ft_strcmp(words[i], "-n"))
+			break ;
+		i++;
+	}
+	while (i < nb_words)
+	{
 		printf("%s", words[i]);
 		if (i + 1 < nb_words)
 			printf(" ");
@@ -53,8 +59,11 @@ int	cmd_echo(char **words)
 {
 	int		flag;
 
-	if (!words)
-		return (1);
+	if (!words || !words[0])
+	{
+		printf("\n");
+		return (0);
+	}
 	flag = is_flag(words[1]);
 	print_words(words, flag);
 	return (0);
