@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/12/01 19:34:37 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/01 20:03:18 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,6 @@ int	main(int ac, char **av, char **envp)
 	}
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
+	rl_clear_history();
 	return (g_ret.ret);
 }
