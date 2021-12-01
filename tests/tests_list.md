@@ -23,7 +23,7 @@ PARSING/EXPANSION
 `echo \\\$PATH`
 echo \"\"\"
 echo \'\'\'
-**echo $"PWD"** #leaks guillaume
+**echo $"PWD"** #invalid read of size 1 Antoine Guillaume
 **echo $HO"ME"**
 
 RM BACKSLASH :  

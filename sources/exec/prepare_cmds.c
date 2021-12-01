@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/12/01 10:11:12 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/01 15:51:53 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,12 @@ void	set_cmd_path(t_command *cur, t_list_envp *env)
 int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 {
 	t_command	*cur;
-	int			ret_file;
 
 	cur = *cmd;
 	while (cur != NULL && cur->token != NWLINE)
 	{
-		ret_file = associate_file_to_cmd(cur);
-		if (ret_file < 0)
-			return (ret_file);
+		if (cur->fd_in == -2 || cur->fd_out == -2)
+			return (1);
 		set_builtin(cur->arg[0], cur);
 		if (cur->token != NWLINE)
 			set_cmd_path(cur, env);
