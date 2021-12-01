@@ -20,17 +20,17 @@ exit 1 | exit 0
 -------------------------------------------------------------------
 
 PARSING/EXPANSION
-echo \\\$PATH
-echo \"\"\"
-echo \'\'\'
+**echo \\\$PATH**
+**echo \"\"\"**
+**echo \'\'\'**
 **echo $"PWD"** #leaks guillaume
 **echo $HO"ME"**
 
 RM BACKSLASH :  
-echo \>\> #segfault aie
+**echo \>\>**
 
 AST :
-**`<coucou echo ca va`** #leaks guillaume
+**<coucou echo ca va**
 **echo coucou >text ca va**
 **echo "-n "hello      world""**
 
@@ -41,21 +41,21 @@ EN VRAC FUCK :
 **echo $"HOME"**
 echo "$     a"
 **$HOME $HOME $HOME**
-echo elie \ elie
+**echo elie \ elie**
 **echo elie$USER$PWD/elie$USER$?/elie$USERelie/$USER**
 echo 'tom'rrr' et "bonjour" et 'tom' "elie" et "elie 'elie' tom"" ; echo "elie'tom and me'" tom elie 	tom ; echo 'tom' elie
-echo elie \ \ \ \ \ \ \ \ \ \ \ elie \ elie
+**echo elie \ \ \ \ \ \ \ \ \ \ \ elie \ elie**
 **echo "elie'$USER'elie$USER"**
 **echo "elie 'tom et elie' elie $USER/elie"**
-echo "elie ""
-echo |
+**echo "elie ""**
+**echo |**
 echo \
 >
 =========================
 - ls ;; ls
      ; ls ; ls
-     cat <<<<< bar
-     cat << << bar
+     **cat <<<<< bar**
+     **cat << << bar**
      echo -nnnnnnnnnnnnnnnnnnnnn FOO
      echo -n -n -n -n bar
      echo "$ $ $ $ $SHELL----------$LOL.......$123TEST"

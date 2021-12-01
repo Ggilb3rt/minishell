@@ -41,7 +41,7 @@ void	del_spaces(t_split *split)
 int	parse_var(int c)
 {
 	if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z')
-		|| (c >= 'A' && c <= 'Z'))
+		|| (c >= 'A' && c <= 'Z') || c == '_')
 		return (1);
 	return (0);
 }

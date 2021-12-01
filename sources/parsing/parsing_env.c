@@ -35,16 +35,26 @@ static void	print_var(t_split *split, int print,
 	while (arg[split->q])
 	{
 		if (print == 1)
+		{
 			split->new[split->o][split->l] = arg[split->q];
+			split->l++;
+		}
 		else if (print == 2)
+		{
 			(*cur)->out_file[split->red] = arg[split->q];
+			split->red++;
+		}
 		else if (print == 3)
+		{
 			(*cur)->in_file[split->red] = arg[split->q];
+			split->red++;
+		}
 		else if (print == 4)
+		{
 			(*cur)->end[split->red] = arg[split->q];
-		split->l++;
+			split->red++;
+		}
 		split->q++;
-		split->red++;
 	}
 }
 
@@ -58,6 +68,16 @@ static int	return_value(t_split *split, int print, t_command **cur)
 		arg = ft_itoa(g_ret.ret);
 		print_var(split, print, cur, arg);
 		free(arg);
+		arg = NULL;
+		return (0);
+	}
+	else if (split->str[split->i + 1] == '0')
+	{
+		split->i += 2;
+		arg = ft_strdup("minishell");
+		print_var(split, print, cur, arg);
+		free(arg);
+		arg = NULL;
 		return (0);
 	}
 	return (1);
@@ -74,14 +94,11 @@ static void	handle_var(t_split *split, int print,
 	{
 		arg = get_ms_env_val(var, ms_env);
 		if (!arg)
-			arg = ft_strdup("");
+			arg = ft_strdup("\0");
 		print_var(split, print, cur, arg);
 	}
-	if (!ft_strcmp(arg, ""))
-	{
-		free(arg);
-		arg = NULL;
-	}
+	free(arg);
+	arg = NULL;
 	free(var);
 	var = NULL;
 }
@@ -89,11 +106,17 @@ static void	handle_var(t_split *split, int print,
 int	search_var(t_split *split, t_list_envp *ms_env,
 				int print, t_command **cur)
 {
-	(void)cur;
 	if (split->str[split->i] == '$')
 	{
+		if (split->str[split->i + 1] == ' ')
+			return (0);
 		if (!return_value(split, print, cur))
 			return (1);
+		if (ft_isdigit(split->str[split->i + 1]))
+		{
+			split->i += 2;
+			return (0);
+		}
 		handle_var(split, print, ms_env, cur);
 		return (1);
 	}

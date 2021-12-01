@@ -56,7 +56,10 @@ static int	get_heredoc(t_command **cmd, int fd, char *line)
 {
 	line = readline("> ");
 	if (line == NULL)
+	{
+		printf("\n");
 		return (0);
+	}
 	if (!handle_heredoc(line, cmd, fd))
 	{
 		free(line);
