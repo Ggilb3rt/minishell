@@ -52,7 +52,6 @@ void	free_command(t_command **cmd)
 	{
 		tmp = cur;
 		cur = cur->next;
-		//printf("free cmd\t%p\n", tmp);
 		free(tmp);
 		tmp = NULL;
 	}

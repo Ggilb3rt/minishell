@@ -10,6 +10,7 @@ SOURCES = \
 		parsing/parsing_get.c \
 		parsing/parsing_init.c \
 		parsing/parsing_quotes.c \
+		parsing/parsing_clean.c \
 		redir/redir_main.c \
 		redir/redir_less.c \
 		redir/redir_dless.c \

@@ -54,9 +54,7 @@ static int	count_open_quote(t_split *split, t_list_envp *ms_env, int *count)
 
 static int	continue_count(t_split *split, t_list_envp *ms_env, int *count)
 {
-	if (split->str[split->i] == '\\' || split->str[split->i] == ';')
-		split->i++;
-	else if (split->str[split->i] == '>' || split->str[split->i] == '<')
+	if (split->str[split->i] == '>' || split->str[split->i] == '<')
 		skip_count(split, NULL);
 	else if (!search_var(split, ms_env, 0, NULL))
 	{
@@ -95,10 +93,8 @@ int	count_word(char *str, t_list_envp *ms_env, int pos)
 	split.i = pos;
 	while (split.str[split.i])
 	{
-		//printf("w\t%c\t%d\n", split.str[split.i], count);
 		if (!count_ret(&split, ms_env, &count))
 			break ;
 	}
-	//printf("count word\t%d\n", count);
 	return (count);
 }

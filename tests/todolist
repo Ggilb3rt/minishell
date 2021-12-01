@@ -1,0 +1,2 @@
+- command not found doit renvoyer code erreur de 127 (ici 2)
+- permission denied doit renvoyer code erreur de 126 (ici 13)

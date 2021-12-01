@@ -67,9 +67,7 @@ static int	continue_parsing(t_split *split,
 static int	check_char(t_split *split, t_command **cur,
 						t_command **cmd, t_list_envp *ms_env)
 {
-	if (split->str[split->i] == '\\' || split->str[split->i] == ';')
-		split->i++;
-	else if (split->str[split->i] == ' ')
+	if (split->str[split->i] == ' ')
 		get_word_space(split, ms_env);
 	else if (split->str[split->i] == '|')
 	{
@@ -80,10 +78,7 @@ static int	check_char(t_split *split, t_command **cur,
 	else if (open_quote(split))
 	{
 		if (!into_quote(split, ms_env))
-		{
-			printf("minishell: unclosed quote.\n");
-			return (-1);
-		}
+			return (0);
 	}
 	else
 	{

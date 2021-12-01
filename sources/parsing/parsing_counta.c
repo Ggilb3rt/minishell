@@ -60,9 +60,7 @@ static int	count_not(t_split *split, int *count)
 
 static int	count_check_args(t_split *split, int *count)
 {
-	if (split->str[split->i] == '\\' || split->str[split->i] == ';')
-		split->i++;
-	else if (open_quote(split))
+	if (open_quote(split))
 	{
 		if (!count_into_quote(split))
 			return (0);
@@ -93,10 +91,8 @@ int	count_args(char *str, int pos)
 	split.i = pos;
 	while (split.str[split.i] && split.str[split.i] != '|')
 	{
-		//printf("a\t%c\t%d\n", split.str[split.i], count);
 		if (!count_check_args(&split, &count))
 			break ;
 	}
-	//printf("count arg\t%d\n", count);
 	return (count);
 }

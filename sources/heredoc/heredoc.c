@@ -58,26 +58,16 @@ static int	get_heredoc(t_command **cmd, int fd, char *line)
 	if (line == NULL)
 		return (0);
 	if (!handle_heredoc(line, cmd, fd))
+	{
+		free(line);
+		line = NULL;
 		return (0);
+	}
+	free(line);
+	line = NULL;
 	return (1);
 }
-/*
-static int check_id_heredoc(t_command ***cmd)
-{
-	t_command *cur;
-	int tmp;
 
-	cur = **cmd;
-	tmp = 0;
-	while (cur)
-	{
-		if (cur->id_heredoc > tmp)
-			tmp = cur->id_heredoc;
-		cur = cur->next;
-	}
-	return (tmp);
-}
-*/
 void	heredoc_func(const char *arg, t_command **cmd)
 {
 	char	*file_name;
@@ -85,20 +75,16 @@ void	heredoc_func(const char *arg, t_command **cmd)
 	char	*line;
 
 	(void)arg;
-	//(*cmd)->id_heredoc = check_id_heredoc(&cmd);
-	//printf("\t%d\n", (*cmd)->id_heredoc);
 	line = ft_strdup("");
 	rl_event_hook = &event_hook;
 	file_name = create_tmp_file_name(".mini_heredoc", (*cmd)->nb_cmd);
 	fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	while (g_ret.ret != QHERE)
 	{
-		//free(line);
 		if (!get_heredoc(cmd, fd, line))
 			break ;
 	}
 	close(fd);
-	free(line);
 	(*cmd)->fd_heredoc = open(file_name, O_RDONLY | O_CREAT, 0777);
 	unlink(file_name);
 	free(file_name);

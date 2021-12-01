@@ -98,6 +98,9 @@ int			count_word(char *str, t_list_envp *ms_env, int pos);
 int			count_args(char *str, int pos);
 int			skip_count(t_split *split, int *count);
 
+/* parsing cleanup */
+char		*cleanup_string(char *str);
+
 /* debug */
 int			print_command(t_command *cmd);
 int			print_all(t_command **cmd);

@@ -20,7 +20,7 @@ exit 1 | exit 0
 -------------------------------------------------------------------
 
 PARSING/EXPANSION
-`echo \\\$PATH`
+echo \\\$PATH
 echo \"\"\"
 echo \'\'\'
 **echo $"PWD"** #leaks guillaume

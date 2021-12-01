@@ -30,8 +30,8 @@ static void	launch_commands(char *line, t_list_envp *ms_envp)
 				pipeline_env = convert_envplst_to_tab(ms_envp);
 				if (ms_pipeline(cmd, pipeline_env, ms_envp) == 0)
 					close_cmds_fd(cmd);
+				free_tab(pipeline_env);
 			}
-			//free_tab(pipeline_env); //pb double free when input dont exist
 		}
 		free_all(cmd);
 	}
@@ -39,19 +39,22 @@ static void	launch_commands(char *line, t_list_envp *ms_envp)
 
 static int	interpret_line(char *line, t_list_envp *ms_envp)
 {
-	if (line[0] == '|')
+	char	*str;
+
+	str = cleanup_string(line);
+	if (str[0] == '|')
 	{
 		printf("minishell: syntax error near unexpected token `|'\n");
-		free(line);
-		line = NULL;
+		free(str);
+		str = NULL;
 		return (1);
 	}
-	if (ft_strlen(line) > 0)
-		launch_commands(line, ms_envp);
-	else if (!ft_strcmp(line, ""))
+	if (ft_strlen(str) > 0)
+		launch_commands(str, ms_envp);
+	else if (!ft_strcmp(str, ""))
 		return (1);
-	free(line);
-	line = NULL;
+	free(str);
+	str = NULL;
 	if (g_ret.quit == 1)
 		return (0);
 	return (1);
