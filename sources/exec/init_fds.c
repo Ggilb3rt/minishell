@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 20:30:08 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/30 19:43:24 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/01 10:05:57 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	check_read_access(char *path, int *fd)
 {
+	printf("S'execute deux fois car utilisé dans le parsing et dans la préparation de cmd\n", path);
 	if (access(path, F_OK | R_OK) == -1)
 	{
 		*fd = -1;

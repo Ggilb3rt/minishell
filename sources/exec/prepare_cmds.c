@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/28 21:30:42 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/01 10:11:12 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	associate_file_to_cmd(t_command *cmds)
 
 	cur = cmds;
 	current_token = cur->token_out;
+	if (current_token == NWLINE)
+		return (0);
 	if (current_token == GREAT || current_token == DGREAT)
 	{
 		if (init_out_file_fd(current_token, cur->out_file,
