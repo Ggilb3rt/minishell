@@ -87,10 +87,10 @@ echo \
      echo $PWD; echo $OLDPWD; cd ../../../..; pwd; echo $PWD; echo $OLDPWD                                              
      echo $PWD; echo $OLDPWD; cd ../../../../..; pwd; echo $PWD; echo $OLDPWD                                           
      echo $PWD; echo $OLDPWD; cd ../../../../../..; pwd; echo $PWD; echo $OLDPWD
-     cd /; pwd; echo $PWD; echo $OLDPWD                                     
-     cd /.; pwd; echo $PWD; echo $OLDPWD
-     cd /././././; pwd; echo $PWD; echo $OLDPWD
-     cd //; pwd; echo $PWD; echo $OLDPWD
+     ~~cd /; pwd; echo $PWD; echo $OLDPWD~~                                     
+     ~~cd /.; pwd; echo $PWD; echo $OLDPWD~~
+     ~~cd /././././; pwd; echo $PWD; echo $OLDPWD~~
+     ~~cd //; pwd; echo $PWD; echo $OLDPWD~~
      cd //////////////////////////////////////////////////////; pwd; echo $PWD; echo $OLDPWD
      **cd //home;**
      cd $HOME/Bureau
