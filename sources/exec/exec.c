@@ -17,7 +17,10 @@
 void	set_g_ret_err(t_command *cur)
 {
 	if (errno == 2)
-		printf("%s: command not found\n", cur->arg[0]);
+	{
+		write(2, cur->arg[0], ft_strlen(cur->arg[0]));
+		write(2, ": command not found\n", 20);
+	}
 	else
 		perror(cur->arg[0]);
 	g_ret.ret = 127;

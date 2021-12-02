@@ -73,5 +73,6 @@ int	cmd_echo(char **words)
 	}
 	flag = is_flag(words[1]);
 	print_words(words, flag);
+	g_ret.ret = 0;
 	return (0);
 }

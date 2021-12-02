@@ -57,7 +57,6 @@ int	check_valide_identifier(char *arg)
 			break ;
 		i++;
 	}
-	printf("arg end |%c|\n", arg[i]);
 	if (arg[i] != '=' && arg[i] != '\0')
 		return (0);
 	if (arg[i] == '\0')
