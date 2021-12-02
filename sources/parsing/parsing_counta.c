@@ -30,6 +30,10 @@ static int	count_into_quote(t_split *split)
 
 int	skip_count(t_split *split, int *count)
 {
+	//if (ft_isalnum(split->str[split->i - 1] && count == NULL)
+	//	return (0);
+	if (ft_isalnum(split->str[split->i - 1]) && count != NULL)
+		count++;
 	while (split->str[split->i] == '<' || split->str[split->i] == '>'
 		|| split->str[split->i] == ' ')
 		split->i++;
@@ -39,7 +43,7 @@ int	skip_count(t_split *split, int *count)
 		split->i++;
 	if (!split->str[split->i])
 	{
-		if (*count)
+		if (count)
 			*count -= 1;
 		return (0);
 	}
@@ -94,5 +98,6 @@ int	count_args(char *str, int pos)
 		if (!count_check_args(&split, &count))
 			break ;
 	}
+	printf("count arg\t%d\n", count);
 	return (count);
 }

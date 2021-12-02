@@ -3,41 +3,38 @@ cat /dev/random | head -n 1 | cat -e
 **unset var1 # with undefined var1**
 export "" et unset "" #revoir messages erreur
 $
-not_cmd bonjour > salut
-env puis export puis env # vars aren't sorted
+**not_cmd bonjour > salut**
+**env puis export puis env # vars aren't sorted**
 cat Makefile | grep pr | head -n 5 | cd test (mybin) # check status code
 cat Makefile | grep pr | head -n 5 | cat test (bin) # check status code
 cat Makefile | grep pr | head -n 5 | hello (NA) # check status code
-cat < test # with non-existent test a
-echo bonjour > $test # with test not defined
+**cat < test # with non-existent test a**
+**echo bonjour > $test # with test not defined**
 ctrl-C . 130 sur bin(ex : sleep 10)&line vide
 minishell # binary not in path without "./" before
-exit -10
-exit +10
+**exit -10**
+**exit +10**
 exit 0 | exit 1
 exit 1 | exit 0
 
 -------------------------------------------------------------------
 
 PARSING/EXPANSION
-<<<<<<< HEAD
 **echo \\\$PATH**
 **echo \"\"\"**
 **echo \'\'\'**
 **echo $"PWD"** #leaks guillaume
-=======
 `echo \\\$PATH`
 echo \"\"\"
 echo \'\'\'
-**echo $"PWD"** #invalid read of size 1 Antoine Guillaume
->>>>>>> 75b78cd3e4a014f5a52a43592e70f55a4c88472f
+**echo $"PWD"**
 **echo $HO"ME"**
 
 RM BACKSLASH :  
 **echo \>\>**
 
 AST :
-**<coucou echo ca va**
+**<coucou echo ca va** #LEAKSLEAKSLEAKS
 **echo coucou >text ca va**
 **echo "-n "hello      world""**
 
@@ -46,7 +43,7 @@ EXECUTION :
 
 EN VRAC FUCK :
 **echo $"HOME"**
-echo "$     a"
+**echo "$     a"**
 **$HOME $HOME $HOME**
 **echo elie \ elie**
 **echo elie$USER$PWD/elie$USER$?/elie$USERelie/$USER**
@@ -56,7 +53,7 @@ echo 'tom'rrr' et "bonjour" et 'tom' "elie" et "elie 'elie' tom"" ; echo "elie't
 **echo "elie 'tom et elie' elie $USER/elie"**
 **echo "elie ""**
 **echo |**
-echo \
+echo \ #LEAKSLEAKSLEAKS
 >
 =========================
 - ls ;; ls
@@ -65,14 +62,14 @@ echo \
      **cat << << bar**
      echo -nnnnnnnnnnnnnnnnnnnnn FOO
      echo -n -n -n -n bar
-     echo "$ $ $ $ $SHELL----------$LOL.......$123TEST"
+     echo "$ $ $ $ $SHELL----------$LOL.......$123TEST" #LEAKSLEAKSLEAKS
      cd ../../../..; pwd; echo $PWD; echo $OLDPWD
      export HELLO\WORLD
      export A==a; echo $A; export A=a=a=a=a=a; echo $A
      echo >> FILE foo
      echo >> FILE1 foo > FILE2
-     < main.c cat <redir.c < Makefile
-     ec""ho bonjour
+     `< main.c cat <redir.c < Makefile`
+     **ec""ho bonjour**
      echo "\\"
      echo a\ \ \ \ \ \ \ b
      echo "a\ \ b c" '$SHELL'" (print erreur pas de gestion de multilignes)
@@ -81,31 +78,31 @@ echo \
      ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|
      ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|
      ls|ls**
-     <main.c cat <redir.c >file1 <Makefile >file2 >>file3 ; >f1 echo >>f2 coucou ca >f3 va >f4 et toi
+     <main.c cat <redir.c >file1 <Makefile >file2 >>file3 ; >f1 echo >>f2 coucou ca >f3 va >f4 et toi #PRINT TROP DE TRUCS
      **echo $PWD/file**
-- $OLDPWD; cd .; pwd; echo $PWD; echo $OLDPWD      
+     - $OLDPWD; cd .; pwd; echo $PWD; echo $OLDPWD      
      cd ..; pwd; echo $PWD; echo $OLDPWD
      echo $PWD; echo $OLDPWD; cd ../..; pwd; echo $PWD; echo $OLDPWD                                                    
      echo $PWD; echo $OLDPWD; cd ../../..; pwd; echo $PWD; echo $OLDPWD                                                 
      echo $PWD; echo $OLDPWD; cd ../../../..; pwd; echo $PWD; echo $OLDPWD                                              
      echo $PWD; echo $OLDPWD; cd ../../../../..; pwd; echo $PWD; echo $OLDPWD                                           
      echo $PWD; echo $OLDPWD; cd ../../../../../..; pwd; echo $PWD; echo $OLDPWD
-     cd /; pwd; echo $PWD; echo $OLDPWD                                     
-     cd /.; pwd; echo $PWD; echo $OLDPWD
-     cd /././././; pwd; echo $PWD; echo $OLDPWD
-     cd //; pwd; echo $PWD; echo $OLDPWD
+     ~~cd /; pwd; echo $PWD; echo $OLDPWD~~                                     
+     ~~cd /.; pwd; echo $PWD; echo $OLDPWD~~
+     ~~cd /././././; pwd; echo $PWD; echo $OLDPWD~~
+     ~~cd //; pwd; echo $PWD; echo $OLDPWD~~
      cd //////////////////////////////////////////////////////; pwd; echo $PWD; echo $OLDPWD
-     cd //home;
+     **cd //home;**
      cd $HOME/Bureau
      unset HOME; cd
      export HOME= ; cd
-     cd Documents ..
-     cd -
+     cd Documents .. #too many arguements
+     cd -   #double free aiaiaiaie
      ./a.out (sur fichier non executable retourne 126)
-     export $var=test
-     export $var=test avec var unset
-     export la même variable
-     unset var (var 1 ne doit pas etre unset)
+     **export $var=test**
+     **export $var=test avec var unset**
+     **export la même variable**
+     **unset var (var 1 ne doit pas etre unset)**
 
 ------------------------------------------------------------------------
 
@@ -114,7 +111,7 @@ cd ~
 **| echo**
 **cat < >**
 > a ls > b < Makefile
-**> log echo coucou**
+**> log echo coucou** #LEAKSLEAKSLEAKS
 **echo ''**
 **ecrire "nom_dun_fichier" puis ctrl-c ne marche pas**
 **echo ""**

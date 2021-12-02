@@ -48,6 +48,7 @@ char	*cleanup_string(char *str)
 		j++;
 	}
 	new[i] = '\0';
+	printf("\t%s[%d]\n", new, len - count_semi_slash(str) + 1);
 	free(str);
 	str = NULL;
 	return (new);

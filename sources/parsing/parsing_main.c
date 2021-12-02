@@ -51,6 +51,8 @@ static int	continue_parsing(t_split *split,
 {
 	if (split->str[split->i] == '<' || split->str[split->i] == '>')
 	{
+		//if (ft_strlen(split->new[split->o]) > 0)
+		//	get_word(split, ms_env);
 		if (redirection(split, cur, ms_env) == -1)
 			return (-1);
 	}
