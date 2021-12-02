@@ -98,6 +98,6 @@ int	count_args(char *str, int pos)
 		if (!count_check_args(&split, &count))
 			break ;
 	}
-	//printf("count arg\t%d\n", count);
+	printf("count arg\t%d\n", count);
 	return (count);
 }
