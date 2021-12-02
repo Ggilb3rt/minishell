@@ -96,11 +96,11 @@ static void	handle_var(t_split *split, int print,
 		if (!arg)
 			arg = ft_strdup("\0");
 		print_var(split, print, cur, arg);
+		free(arg);
+		arg = NULL;
+		free(var);
+		var = NULL;
 	}
-	free(arg);
-	arg = NULL;
-	free(var);
-	var = NULL;
 }
 
 int	search_var(t_split *split, t_list_envp *ms_env,
