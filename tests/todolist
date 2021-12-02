@@ -4,3 +4,10 @@
 - cd - double free aiiiiie
 - revoir messages erreur
 - exit et pipes
+- "echo -nnn -nnnnn -nnnnn hey" devrait se comporter comme "echo -n hey"
+- cd sans arguments est censé aller dans le home (attention au cas ou la variable HOME est pas set)
+- quand pas de path et que le shell trouve pas l'executable, bash affiche un message "no such file"
+- builtins modifient la valeur de $?
+- dans bash, export sans argument trie les variables par ordre alphabetique
+- segfault ./minishell < /dev/urandom
+- leaks de temps en temps en faisant exit

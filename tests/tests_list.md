@@ -34,7 +34,7 @@ RM BACKSLASH :
 **echo \>\>**
 
 AST :
-**<coucou echo ca va**
+**<coucou echo ca va** #LEAKSLEAKSLEAKS
 **echo coucou >text ca va**
 **echo "-n "hello      world""**
 
@@ -53,7 +53,7 @@ echo 'tom'rrr' et "bonjour" et 'tom' "elie" et "elie 'elie' tom"" ; echo "elie't
 **echo "elie 'tom et elie' elie $USER/elie"**
 **echo "elie ""**
 **echo |**
-echo \
+echo \ #LEAKSLEAKSLEAKS
 >
 =========================
 - ls ;; ls
@@ -62,7 +62,7 @@ echo \
      **cat << << bar**
      echo -nnnnnnnnnnnnnnnnnnnnn FOO
      echo -n -n -n -n bar
-     echo "$ $ $ $ $SHELL----------$LOL.......$123TEST"
+     echo "$ $ $ $ $SHELL----------$LOL.......$123TEST" #LEAKSLEAKSLEAKS
      cd ../../../..; pwd; echo $PWD; echo $OLDPWD
      export HELLO\WORLD
      export A==a; echo $A; export A=a=a=a=a=a; echo $A
@@ -111,7 +111,7 @@ cd ~
 **| echo**
 **cat < >**
 > a ls > b < Makefile
-**> log echo coucou**
+**> log echo coucou** #LEAKSLEAKSLEAKS
 **echo ''**
 **ecrire "nom_dun_fichier" puis ctrl-c ne marche pas**
 **echo ""**
