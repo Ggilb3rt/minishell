@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alangloi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 14:34:30 by alangloi          #+#    #+#             */
-/*   Updated: 2021/11/26 14:34:33 by alangloi         ###   ########.fr       */
+/*   Updated: 2021/12/02 07:46:37 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,18 @@ static void	handle_var(t_split *split, int print,
 	char	*arg;
 
 	var = assign_var(split);
+	arg = cur[0]->arg[0];
 	if (var)
 	{
 		arg = get_ms_env_val(var, ms_env);
 		if (!arg)
 			arg = ft_strdup("\0");
 		print_var(split, print, cur, arg);
+		free(var);
+		var = NULL;
 	}
 	free(arg);
 	arg = NULL;
-	free(var);
-	var = NULL;
 }
 
 int	search_var(t_split *split, t_list_envp *ms_env,

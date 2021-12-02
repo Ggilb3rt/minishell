@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 17:33:30 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/28 21:04:47 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 08:28:00 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	ms_pipeline(t_command **cmd, char **env, t_list_envp *lst)
 
 	cur = *cmd;
 	if (cmd[0]->build >= 10)
-		exec_builtin(cmd[0]->arg, lst);
+		exec_builtin(cmd[0]->arg, lst, 0);
 	if (set_exec_pipeline(cur, &pipes, env, lst) != 0)
 		return (-1);
 	waiter();

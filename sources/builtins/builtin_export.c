@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:56:51 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/12/01 19:25:46 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 08:40:21 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,18 +96,24 @@ int	export_update_env(t_list_envp *env, int equal_pos, char *arg)
 	return (1);
 }
 
-// premier char ne pas etre un chiffre mais _ ou une lettre => ok
-// find invalid free if export empty var. Ex : export POUET=
-int	cmd_export(t_list_envp *env, char **args)
+int	no_export(t_list_envp *env, char **args, int print)
+{
+	if (args[1] == NULL)
+	{
+		if (print)
+			print_envp(env, 1);
+		return (1);
+	}
+	return (0);
+}
+
+int	cmd_export(t_list_envp *env, char **args, int print)
 {
 	int		i;
 	int		equal_pos;
 
-	if (args[1] == NULL)
-	{
-		print_envp(env, 1);
+	if (no_export(env, args, print))
 		return (0);
-	}
 	i = 0;
 	while (args[++i] != NULL)
 	{
@@ -119,8 +125,9 @@ int	cmd_export(t_list_envp *env, char **args)
 		}
 		else
 		{
-			printf("export: not valid in this context: %s\n", args[i]);
-			return (1);
+			if (print)
+				printf("export: not valid in this context: %s\n", args[i]);
+			return (g_ret.ret = 1);
 		}
 	}
 	return (0);
