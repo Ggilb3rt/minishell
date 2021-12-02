@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:45:07 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/12/01 17:43:09 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 17:56:31 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,57 +68,54 @@ int	ft_can_int_convert(char *arg)
 	return (0);
 }
 
-int	too_many_arg_err(void)
-{
-	g_ret.ret = 1;
-	g_ret.quit = 0;
-	printf("minishell: exit: too many arguments\n");
-	return (1);
-}
-
-int	not_numeric_arg_err(char *arg)
-{
-	g_ret.ret = 2;
-	g_ret.quit = 1;
-	printf("minishell : exit : %s: numeric argument required\n", arg);
-	return (255);
-}
-
-int	has_one_arg(char **args)
+int	has_one_arg(char **args, t_command *cur, int print)
 {
 	if (args[2] == NULL)
 	{
 		g_ret.ret = (unsigned char)ft_atoi(args[1]);
-		g_ret.quit = 1;
-		printf("exit\n");
+		if (cur->next != NULL && cur->next->token != NWLINE && cur->nb_cmd >= 1)
+			g_ret.quit = 0;
+		else
+			g_ret.quit = 1;
+		if (print)
+			printf("exit\n");
 		return (1);
 	}
 	return (0);
 }
 
-int	cmd_exit(char **args)
+void	set_quit(t_command *cur)
+{
+	if (cur->next != NULL && cur->next->token != NWLINE && cur->nb_cmd >= 1)
+		g_ret.quit = 0;
+	else
+		g_ret.quit = 1;
+}
+
+int	cmd_exit(char **args, t_command *cur, int print)
 {
 	if (!args)
 		return (0);
 	if (ft_strcmp(args[0], "exit") == 0)
 	{
-		g_ret.quit = 1;
+		set_quit(cur);
 		if (args[1] == NULL)
 		{
-			printf("exit\n");
+			if (print)
+				printf("exit\n");
 			return (0);
 		}
 		if (ft_isnbr(args[1]))
 		{
 			if (ft_can_int_convert(args[1]))
 			{
-				if (has_one_arg(args))
+				if (has_one_arg(args, cur, print))
 					return (g_ret.ret);
 				else
-					return (too_many_arg_err());
+					return (too_many_arg_err(print));
 			}
 		}
-		return (not_numeric_arg_err(args[1]));
+		return (not_numeric_arg_err(args[1], print));
 	}
 	return (0);
 }

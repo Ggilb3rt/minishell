@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 20:30:08 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/12/01 16:56:08 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 15:55:54 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	check_read_access(char *path, int *fd)
 	{
 		*fd = -2;
 		perror(path);
+		g_ret.ret = 1;
 		return (0);
 	}
 	*fd = open(path, O_RDONLY);

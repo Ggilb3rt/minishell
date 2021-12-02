@@ -58,7 +58,8 @@ static int	get_heredoc(t_command **cmd, int fd, char *line)
 	line = readline("> ");
 	if (line == NULL)
 	{
-		printf("bash: warning: here-document at line 8 delimited by end-of-file (wanted `%s')\n", (*cmd)->end);
+		printf("bash: warning: here-document at line 8 delimited");
+		printf(" by end-of-file (wanted `%s')\n", (*cmd)->end);
 		return (0);
 	}
 	if (!handle_heredoc(line, cmd, fd))
@@ -72,7 +73,6 @@ static int	get_heredoc(t_command **cmd, int fd, char *line)
 	return (1);
 }
 
-
 int	heredoc_func(t_command **cmd)
 {
 	char	*file_name;
@@ -81,7 +81,8 @@ int	heredoc_func(t_command **cmd)
 
 	line = ft_strdup("");
 	rl_event_hook = &event_hook;
-	file_name = create_tmp_file_name(".mini_heredoc", (*cmd)->nb_cmd);
+	file_name = create_tmp_file_name(".mini_heredoc",
+			(*cmd)->nb_cmd);
 	fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	while (g_ret.ret != QHERE)
 	{

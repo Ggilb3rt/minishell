@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 10:52:52 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/24 11:06:50 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 15:17:13 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,5 @@ int	ft_atoi(const char *str)
 		res = res * 10 + ((char)*str - '0');
 		str++;
 	}
-	//if (res > INT_MAX)
-	//	res = INT_MAX;
-	//if (res < INT_MIN)
-	//	res = INT_MIN;
 	return (sign * (int)res);
 }

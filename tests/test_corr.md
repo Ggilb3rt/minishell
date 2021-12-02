@@ -34,9 +34,9 @@ exit
 Return value of a process
 **- Execute a simple command with an absolute path like /bin/ls or any other command with arguments but without quotes and
   double quotes then execute echo $?**
-- Check the printed value. You can repeat the same in bash and compare it.
-- Repeat multiple times with different commands and arguments, use some failing commands like '/bin/ls filethatdoesntexist'
-- anything like expr $? + $?
+**- Check the printed value. You can repeat the same in bash and compare it.**
+**- Repeat multiple times with different commands and arguments, use some failing commands like '/bin/ls filethatdoesntexist'**
+**- anything like expr $? + $?**
 - if something crashes use the crash flag.
 - if something is not working use the incomplete work flag.
 

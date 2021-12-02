@@ -12,13 +12,10 @@
 
 #include "minishell.h"
 
-int		set_redir(t_command *cur, int pipe_fd[2])
+int	set_redir(t_command *cur, int pipe_fd[2])
 {
 	if (cur->end != NULL)
-	{
-		if (!heredoc_func(&cur))
-			return (0);
-	}
+		heredoc_func(&cur);
 	if (cur->fd_heredoc != -1)
 	{
 		if (cur->nb_cmd > 1)

@@ -101,11 +101,8 @@ int	count_args(char *str, int pos)
 	split.i = pos;
 	while (split.str[split.i] && split.str[split.i] != '|')
 	{
-		//if (split.str[split.i] == '\\' || split.str[split.i] == ';')
-		//	split.i++;
 		if (!count_check_args(&split, &count))
 			break ;
 	}
-	printf("count arg\t%d\n", count);
 	return (count);
 }

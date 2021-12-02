@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/12/01 20:03:18 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 19:49:31 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void	launch_commands(char *line, t_list_envp *ms_envp)
 		add_history(line);
 		if (parsing_main(line, cmd, ms_envp))
 		{
-			//print_all(cmd);
 			if (set_cmd_ready_to_exec(cmd, ms_envp) == 0)
 			{
 				pipeline_env = convert_envplst_to_tab(ms_envp);
@@ -40,9 +39,6 @@ static void	launch_commands(char *line, t_list_envp *ms_envp)
 
 static int	interpret_line(char *str, t_list_envp *ms_envp)
 {
-	//char	*str;
-
-	//str = cleanup_string(line);
 	if (str[0] == '|')
 	{
 		printf("minishell: syntax error near unexpected token `|'\n");

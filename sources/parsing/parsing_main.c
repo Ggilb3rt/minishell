@@ -82,10 +82,6 @@ static int	check_char(t_split *split, t_command **cur,
 	}
 	else
 	{
-		//while (split->str[split->i] == '\\' || split->str[split->i] == ';')
-		//	split->i++;
-		//if (!split->str[split->i])
-		//	return (0);
 		return (continue_parsing(split, cur, ms_env));
 	}
 	return (1);
@@ -103,8 +99,6 @@ int	parsing_main(char *str, t_command **cmd, t_list_envp *ms_env)
 		return (0);
 	while (split.str[split.i])
 	{
-		//if (split.str[split.i] == '\\' || split.str[split.i] == ';')
-		//	split.i++;
 		ret = check_char(&split, &cur, cmd, ms_env);
 		if (!ret)
 			break ;

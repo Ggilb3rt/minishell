@@ -40,6 +40,7 @@ SOURCES = \
 		builtins/builtin_pwd.c \
 		builtins/builtin_unset.c \
 		builtins/select_builtin.c \
+		builtins/exit_errors.c \
 		utils/utils_1.c \
 		utils/utils_2.c \
 		libft/ft_isalnum.c \

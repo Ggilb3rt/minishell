@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:49:59 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/12/02 13:35:34 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 15:40:33 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,29 +97,34 @@ void	update_old_pwd(t_list_envp *env)
 	free(next_old_pwd);
 }
 
+static void	print_error(char *path)
+{
+	char	*msg;
+
+	msg = ft_strjoin("minishell: cd: ", path);
+	perror(msg);
+	free(msg);
+}
+
 int	cmd_cd(char **path, t_list_envp *ms_env)
 {
 	int		err;
-	char	*msg;
 	char	*new_path;
 
-	msg = NULL;
 	if (array_size(path) > 2)
 	{
 		printf("minishell: cd: too many arguments\n");
 		return (g_ret.ret = 1);
 	}
 	new_path = change_tild(path[1], ms_env);
-	new_path= select_path_dash_op(new_path, ms_env);
+	new_path = select_path_dash_op(new_path, ms_env);
 	if (new_path != NULL)
 	{
 		err = chdir(new_path);
 		free(new_path);
 		if (err == -1)
 		{
-			msg = ft_strjoin("minishell: cd: ", path[1]);
-			perror(msg);
-			free(msg);
+			print_error(path[1]);
 			return (g_ret.ret = 1);
 		}
 		update_old_pwd(ms_env);

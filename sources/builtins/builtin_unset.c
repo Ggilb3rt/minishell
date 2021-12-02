@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 12:02:48 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/24 12:03:20 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 14:46:26 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	cmd_unset(t_list_envp **env, char **to_find)
 		{
 			printf("minishell: unset: `%s': not a valid identifier\n",
 				to_find[i]);
+			g_ret.ret = 1;
 			break ;
 		}
 		current_index = get_ms_env_index(to_find[i], *env);
