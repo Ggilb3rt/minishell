@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 14:36:36 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/12/02 19:25:43 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 20:08:25 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,18 @@ char	*to_find_sanitize(char *to_find)
 {
 	int		len;
 
+	if (!to_find)
+		return (NULL);
 	len = ft_strlen(to_find);
-	if (to_find[--len] == '=')
-		return (ft_strjoin(to_find, ""));
+	if (len > 0)
+	{
+		if (to_find[--len] == '=')
+			return (ft_strjoin(to_find, ""));
+		else
+			return (ft_strjoin(to_find, "="));
+	}
 	else
-		return (ft_strjoin(to_find, "="));
+		return (ft_strdup("="));
 }
 
 /*
@@ -106,6 +113,8 @@ char	*get_ms_env_val(char *to_find, t_list_envp *ms_env)
 	t_list_envp	*tmp;
 
 	tmp = ms_env;
+	if (!to_find)
+		return (NULL);
 	to_find = to_find_sanitize(to_find);
 	i = get_ms_env_index(to_find, tmp);
 	if (i < 0)
