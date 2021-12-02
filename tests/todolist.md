@@ -12,6 +12,7 @@
 		- heredoc
 
 **Fait :**
+	- remove leaks when unset ""
 	- quand pas de path et que le shell trouve pas l'executable, bash affiche un message "no such file"
 	- leaks de temps en temps en faisant exit
 	- "export name" ne doit pas ajouter ou changer la var (ok) mais n'affiche pas d'erreur non plus
