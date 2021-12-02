@@ -1,16 +1,26 @@
 - command not found doit renvoyer code erreur de 127 (ici 2)
 - permission denied doit renvoyer code erreur de 126 (ici 13)
 - executer fichier non executable doit renvoyer code erreur de 126 (ici 127)
-- cd - double free aiiiiie
 - revoir messages erreur
 - exit et pipes
-- cd sans arguments est censé aller dans le home (attention au cas ou la variable HOME est pas set)
 - quand pas de path et que le shell trouve pas l'executable, bash affiche un message "no such file"
-- builtins modifient la valeur de $?
-- dans bash, export sans argument trie les variables par ordre alphabetique
 - segfault ./minishell < /dev/urandom
 - leaks de temps en temps en faisant exit
 
+En cours :
+	- dans bash, export sans argument trie les variables par ordre alphabetique
+		pas forcement, ca depends de la distrib et de l'os
+	- builtins modifient la valeur de $?
+		exit ok
+		echo je sais pas lui faire retourner une erreur
+		cd return 1 en cas d'erreur
+		unset pas check
+		env pas check (comme pas d'options devrait toujours return 0)
+		pwd (comme env)
+		export, return 1 en cas d'erreur
+	- cd sans arguments est censé aller dans le home (attention au cas ou la variable HOME est pas set)
+		cd sans arguments va dans home, ecrit message erreur si HOME pqs set
 
 Fait :
+- cd - double free aiiiiie
 - "echo -nnn -nnnnn -nnnnn hey" devrait se comporter comme "echo -n hey"

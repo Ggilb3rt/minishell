@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:49:59 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/12/02 13:02:31 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 13:35:34 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,23 @@ need to interpret ~ and -
 char	*change_tild(char *path, t_list_envp *env)
 {
 	if (path == NULL || path[0] == '\0')
+	{
+		if (get_ms_env_index(HOME, env) == -1)
+		{
+			printf("minishell: cd: HOME not set\n");
+			return (NULL);
+		}
 		return (ft_strdup(get_ms_env_val(HOME, env)));
+	}
 	if (path[0] == '~')
+	{
+		if (get_ms_env_index(HOME, env) == -1)
+		{
+			printf("minishell: cd: HOME not set\n");
+			return (NULL);
+		}
 		return (ft_strjoin(get_ms_env_val(HOME, env), path + 1));
+	}
 	return (ft_strdup(path));
 }
 
@@ -97,16 +111,20 @@ int	cmd_cd(char **path, t_list_envp *ms_env)
 	}
 	new_path = change_tild(path[1], ms_env);
 	new_path= select_path_dash_op(new_path, ms_env);
-	err = chdir(new_path);
-	free(new_path);
-	if (err == -1)
+	if (new_path != NULL)
 	{
-		msg = ft_strjoin("minishell: cd: ", path[1]);
-		perror(msg);
-		free(msg);
-		return (g_ret.ret = 1);
+		err = chdir(new_path);
+		free(new_path);
+		if (err == -1)
+		{
+			msg = ft_strjoin("minishell: cd: ", path[1]);
+			perror(msg);
+			free(msg);
+			return (g_ret.ret = 1);
+		}
+		update_old_pwd(ms_env);
+		cmd_pwd(ms_env, 0);
+		return (0);
 	}
-	update_old_pwd(ms_env);
-	cmd_pwd(ms_env, 0);
-	return (0);
+	return (g_ret.ret = 1);
 }
