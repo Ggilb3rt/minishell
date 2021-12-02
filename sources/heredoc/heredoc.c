@@ -37,11 +37,6 @@ static int	handle_heredoc(char *line, t_command **cmd, int fd)
 {
 	if (line[0] == '\1')
 		return (0);
-	else if (!ft_strcmp(line, (*cmd)->end))
-	{
-		g_ret.ret = 0;
-		return (0);
-	}
 	else if (ft_strcmp(line, (*cmd)->end))
 	{
 		if (fd == -1)
@@ -49,15 +44,21 @@ static int	handle_heredoc(char *line, t_command **cmd, int fd)
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 	}
+	else
+	{
+		g_ret.ret = 0;
+		return (0);
+	}
 	return (1);
 }
 
 static int	get_heredoc(t_command **cmd, int fd, char *line)
 {
+	ms_signal(1);
 	line = readline("> ");
 	if (line == NULL)
 	{
-		printf("\n");
+		printf("bash: warning: here-document at line 8 delimited by end-of-file (wanted `%s')\n", (*cmd)->end);
 		return (0);
 	}
 	if (!handle_heredoc(line, cmd, fd))
@@ -71,13 +72,13 @@ static int	get_heredoc(t_command **cmd, int fd, char *line)
 	return (1);
 }
 
-void	heredoc_func(const char *arg, t_command **cmd)
+
+int	heredoc_func(t_command **cmd)
 {
 	char	*file_name;
 	int		fd;
 	char	*line;
 
-	(void)arg;
 	line = ft_strdup("");
 	rl_event_hook = &event_hook;
 	file_name = create_tmp_file_name(".mini_heredoc", (*cmd)->nb_cmd);
@@ -87,20 +88,12 @@ void	heredoc_func(const char *arg, t_command **cmd)
 		if (!get_heredoc(cmd, fd, line))
 			break ;
 	}
+	if (g_ret.ret == QHERE)
+		g_ret.ret = 130;
 	close(fd);
 	(*cmd)->fd_heredoc = open(file_name, O_RDONLY | O_CREAT, 0777);
 	unlink(file_name);
 	free(file_name);
+	file_name = NULL;
+	return (1);
 }
-
-/*
-ctrl + d ==> send EOF
-if heredoc EOF != EOF print : warning: here-document at
-line 2 delimited by end-of-file (wanted `out')
-
-ctrl + c ==> quit
-
-La difference entre les deux est que le premier continue
-l'execution (print le resultat) alors que le second quit
- l'execution (ne print rien)
-*/

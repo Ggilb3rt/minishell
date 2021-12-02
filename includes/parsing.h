@@ -96,7 +96,7 @@ int			count_word(char *str, t_list_envp *ms_env, int pos);
 
 /* parsing count arg */
 int			count_args(char *str, int pos);
-int			skip_count(t_split *split, int *count);
+int			skip_count(t_split *split);
 
 /* parsing cleanup */
 char		*cleanup_string(char *str);

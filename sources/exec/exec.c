@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:03:00 by alangloi          #+#    #+#             */
-/*   Updated: 2021/12/01 17:16:58 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 08:23:46 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ int	exec_built_or_bin(t_command *cur, char **env, t_list_envp *lst)
 	}
 	if (cur->build >= 0)
 	{
-		if (cur->build >= 10)
+		if (cur->build >= 10 && cur->build < 20)
 		{
 			g_ret.quit = 1;
 			return (-1);
 		}
-		exec_builtin(cur->arg, lst);
+		exec_builtin(cur->arg, lst, 1);
 		g_ret.quit = 1;
 		return (-1);
 	}

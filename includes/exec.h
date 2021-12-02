@@ -53,6 +53,6 @@ void		close_pipe(int *fd);
 int			ms_pipeline(t_command **cmd, char **env, t_list_envp *lst);
 
 /* redirection.c */
-void		set_redir(t_command *cur, int pipe_fd[2]);
+int 		set_redir(t_command *cur, int pipe_fd[2]);
 
 #endif

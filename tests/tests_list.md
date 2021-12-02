@@ -1,4 +1,4 @@
-echo -n -n -nnnn -nnnnm
+**echo -n -n -nnnn -nnnnm**
 cat /dev/random | head -n 1 | cat -e
 **unset var1 # with undefined var1**
 export "" et unset "" #revoir messages erreur
@@ -22,7 +22,7 @@ exit 1 | exit 0
 PARSING/EXPANSION
 **echo \\\$PATH**
 **echo \"\"\"**
-**echo \'\'\'**
+**`echo \'\'\'`**
 **echo $"PWD"** #leaks guillaume
 `echo \\\$PATH`
 echo \"\"\"
@@ -34,7 +34,7 @@ RM BACKSLASH :
 **echo \>\>**
 
 AST :
-**<coucou echo ca va** #LEAKSLEAKSLEAKS
+**<coucou echo ca va**
 **echo coucou >text ca va**
 **echo "-n "hello      world""**
 
@@ -53,7 +53,7 @@ echo 'tom'rrr' et "bonjour" et 'tom' "elie" et "elie 'elie' tom"" ; echo "elie't
 **echo "elie 'tom et elie' elie $USER/elie"**
 **echo "elie ""**
 **echo |**
-echo \ #LEAKSLEAKSLEAKS
+echo \
 >
 =========================
 - ls ;; ls

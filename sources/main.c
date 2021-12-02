@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 15:33:48 by alangloi          #+#    #+#             */
-/*   Updated: 2021/12/01 19:34:37 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/01 20:03:18 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ static void	launch_commands(char *line, t_list_envp *ms_envp)
 	}
 }
 
-static int	interpret_line(char *line, t_list_envp *ms_envp)
+static int	interpret_line(char *str, t_list_envp *ms_envp)
 {
-	char	*str;
+	//char	*str;
 
-	str = cleanup_string(line);
+	//str = cleanup_string(line);
 	if (str[0] == '|')
 	{
 		printf("minishell: syntax error near unexpected token `|'\n");
@@ -106,5 +106,6 @@ int	main(int ac, char **av, char **envp)
 	rl_clear_history();
 	free(msg_prompt);
 	ms_lst_free_all(ms_envp);
+	rl_clear_history();
 	return (g_ret.ret);
 }

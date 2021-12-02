@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:54:18 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/12/01 17:37:45 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 13:22:55 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,18 @@
 
 int	is_flag(char *str)
 {
+	int	len;
+	int	i;
+
 	if (!str)
 		return (0);
-	if (ft_strlen(str) == 2)
+	len = ft_strlen(str);
+	i = 1;
+	if (str[0] == '-')
 	{
-		if (str[0] == '-' && str[1] == 'n')
+		while (i < len && str[i] == 'n')
+			i++;
+		if (i == len)
 			return (1);
 	}
 	return (0);
@@ -40,7 +47,7 @@ void	print_words(char **words, int flag)
 		i++;
 	while (i < nb_words)
 	{
-		if (ft_strcmp(words[i], "-n"))
+		if (!is_flag(words[i]))
 			break ;
 		i++;
 	}

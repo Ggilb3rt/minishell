@@ -51,8 +51,6 @@ static int	continue_parsing(t_split *split,
 {
 	if (split->str[split->i] == '<' || split->str[split->i] == '>')
 	{
-		//if (ft_strlen(split->new[split->o]) > 0)
-		//	get_word(split, ms_env);
 		if (redirection(split, cur, ms_env) == -1)
 			return (-1);
 	}
@@ -84,6 +82,10 @@ static int	check_char(t_split *split, t_command **cur,
 	}
 	else
 	{
+		//while (split->str[split->i] == '\\' || split->str[split->i] == ';')
+		//	split->i++;
+		//if (!split->str[split->i])
+		//	return (0);
 		return (continue_parsing(split, cur, ms_env));
 	}
 	return (1);
@@ -101,6 +103,8 @@ int	parsing_main(char *str, t_command **cmd, t_list_envp *ms_env)
 		return (0);
 	while (split.str[split.i])
 	{
+		//if (split.str[split.i] == '\\' || split.str[split.i] == ';')
+		//	split.i++;
 		ret = check_char(&split, &cur, cmd, ms_env);
 		if (!ret)
 			break ;

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	count_semi_slash(char *str)
+static int	count_semi_slash(char *str)
 {
 	int	i;
 	int	count;
@@ -41,14 +41,16 @@ char	*cleanup_string(char *str)
 	new = malloc(sizeof(char) * (len - count_semi_slash(str) + 1));
 	while (j < len)
 	{
-		while (str[j] == '\\' || str[j] == ';')
+		if (str[j] == '\\' || str[j] == ';')
 			j++;
-		new[i] = str[j];
-		i++;
-		j++;
+		else
+		{
+			new[i] = str[j];
+			i++;
+			j++;
+		}
 	}
 	new[i] = '\0';
-	printf("\t%s[%d]\n", new, len - count_semi_slash(str) + 1);
 	free(str);
 	str = NULL;
 	return (new);

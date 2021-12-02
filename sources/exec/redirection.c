@@ -12,10 +12,13 @@
 
 #include "minishell.h"
 
-void	set_redir(t_command *cur, int pipe_fd[2])
+int		set_redir(t_command *cur, int pipe_fd[2])
 {
 	if (cur->end != NULL)
-		heredoc_func("pouet", &cur);
+	{
+		if (!heredoc_func(&cur))
+			return (0);
+	}
 	if (cur->fd_heredoc != -1)
 	{
 		if (cur->nb_cmd > 1)
@@ -37,4 +40,5 @@ void	set_redir(t_command *cur, int pipe_fd[2])
 		dup2(cur->fd_out, STDOUT_FILENO);
 		close(cur->fd_out);
 	}
+	return (1);
 }

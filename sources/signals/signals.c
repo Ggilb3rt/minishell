@@ -17,7 +17,9 @@ void	sig_handler_1(int n)
 	if (n == SIGINT)
 	{
 		if (g_ret.ret == EHERE)
+		{
 			g_ret.ret = QHERE;
+		}
 		else
 		{
 			g_ret.ret = 130;
@@ -43,30 +45,33 @@ void	sig_handler_2(int n)
 	}
 }
 
+void	sig_handler_3(int n)
+{
+	if (n == SIGINT)
+	{
+
+	}
+}
+
 void	ms_signal(int n)
 {
 	if (n == 1)
 	{
 		if (signal(SIGINT, sig_handler_1) == SIG_ERR)
 			g_ret.quit = 1;
-			//exit(1);
 		if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 			g_ret.quit = 1;
-			//exit(1);
 	}
-	if (n == 2)
+	else if (n == 2)
 	{
 		if (signal(SIGINT, sig_handler_2) == SIG_ERR)
 			g_ret.quit = 1;
-			//exit(1);
 		if (signal(SIGQUIT, sig_handler_2) == SIG_ERR)
 			g_ret.quit = 1;
-			//exit(1);
 	}
-	if (n == 3)
+	else if (n == 3)
 	{
 		printf("exit\n");
 		g_ret.quit = 1;
-		//exit(0);
 	}
 }

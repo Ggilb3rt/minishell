@@ -6,13 +6,13 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 08:13:19 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/28 14:57:11 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 10:57:18 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_builtin(char **cmd, t_list_envp *env)
+int	exec_builtin(char **cmd, t_list_envp *env, int print)
 {
 	char	*cmd_name;
 
@@ -22,11 +22,11 @@ int	exec_builtin(char **cmd, t_list_envp *env)
 	if (!strcmp(cmd_name, "echo"))
 		return (cmd_echo(cmd));
 	else if (!strcmp(cmd_name, "cd"))
-		return (cmd_cd(cmd[1], env));
+		return (cmd_cd(cmd, env));
 	else if (!strcmp(cmd_name, "pwd"))
 		return (cmd_pwd(env, 1));
 	else if (!strcmp(cmd_name, "export"))
-		return (cmd_export(env, cmd));
+		return (cmd_export(env, cmd, print));
 	else if (!strcmp(cmd_name, "unset"))
 		return (cmd_unset(&env, cmd));
 	else if (!strcmp(cmd_name, "env"))
