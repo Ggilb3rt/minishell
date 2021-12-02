@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:56:51 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/12/02 08:40:21 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 11:16:38 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	check_valide_identifier(char *arg)
 
 	i = 0;
 	if (!ft_isalpha(arg[0]) && arg[0] != '_')
-		return (0);
+		return (-1);
 	while (arg[i] != '\0' || arg[i] != '=')
 	{
 		if (!ft_isalnum(arg[i]) && arg[i] != '_')

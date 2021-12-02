@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 21:59:28 by alangloi          #+#    #+#             */
-/*   Updated: 2021/12/02 08:20:33 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 10:57:30 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 
 int			cmd_echo(char **words);
 int			cmd_env(t_list_envp *ms_env);
-int			cmd_cd(char *path, t_list_envp *env);
+int			cmd_cd(char **path, t_list_envp *env);
 int			cmd_pwd(t_list_envp *env, int print);
 int			cmd_export(t_list_envp *env, char **args, int print);
 int			cmd_unset(t_list_envp **env, char **to_find);

@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 08:13:19 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/12/02 08:18:31 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 10:57:18 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	exec_builtin(char **cmd, t_list_envp *env, int print)
 	if (!strcmp(cmd_name, "echo"))
 		return (cmd_echo(cmd));
 	else if (!strcmp(cmd_name, "cd"))
-		return (cmd_cd(cmd[1], env));
+		return (cmd_cd(cmd, env));
 	else if (!strcmp(cmd_name, "pwd"))
 		return (cmd_pwd(env, 1));
 	else if (!strcmp(cmd_name, "export"))

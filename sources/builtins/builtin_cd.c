@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:49:59 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/24 11:51:25 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 12:50:39 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,26 @@
 /*
 return 0 if ok, 1 otherwise (permission denied, No such file or directory)
 
-need to interpret ~ and - (not true)
-~ = $HOME
+need to interpret ~ and -
+~ = $HOME ; working
 - = $OLDPWD ; working, need parsing to see if I must free(path)
 
 - print pwd
 */
 
+char	*change_tild(char *path, t_list_envp *env)
+{
+	if (path == NULL || path[0] == '\0')
+		return (ft_strdup(get_ms_env_val(HOME, env)));
+	if (path[0] == '~')
+		return (ft_strjoin(get_ms_env_val(HOME, env), path + 1));
+	return (ft_strdup(path));
+}
+
 char	*select_path_dash_op(char *path, t_list_envp *ms_env)
 {
 	if (!path)
-		return (get_ms_env_val(HOME, ms_env));
+		return (ft_strdup(get_ms_env_val(HOME, ms_env)));
 	if (get_ms_env_index(OLDPWD, ms_env) == -1)
 		return (path);
 	if (path[0] == '-')
@@ -52,7 +61,7 @@ char	*select_path_dash_op(char *path, t_list_envp *ms_env)
 				return (path);
 		}
 		free(path);
-		path = get_ms_env_val(OLDPWD, ms_env);
+		path = ft_strdup(get_ms_env_val(OLDPWD, ms_env));
 	}
 	return (path);
 }
@@ -75,23 +84,32 @@ void	update_old_pwd(t_list_envp *env)
 }
 
 /*
-dont use path because must free (with path maybe need free)
+cd segfault if use multiple times
+==> because **path dont have null at the end when change path[1] (null) by path[1] ($HOME)
 */
 
-int	cmd_cd(char *path, t_list_envp *ms_env)
+int	cmd_cd(char **path, t_list_envp *ms_env)
 {
 	int		err;
 	char	*msg;
+	char	*new_path;
 
 	msg = NULL;
-	path = select_path_dash_op(path, ms_env);
-	err = chdir(path);
+	if (array_size(path) > 2)
+	{
+		printf("minishell: cd: too many arguments\n");
+		return (g_ret.ret = 1);
+	}
+	new_path = change_tild(path[1], ms_env);
+	new_path= select_path_dash_op(new_path, ms_env);
+	err = chdir(new_path);
+	free(new_path);
 	if (err == -1)
 	{
-		msg = ft_strjoin("cd: ", path);
+		msg = ft_strjoin("minishell: cd: ", path[1]);
 		perror(msg);
 		free(msg);
-		return (1);
+		return (g_ret.ret = 1);
 	}
 	update_old_pwd(ms_env);
 	cmd_pwd(ms_env, 0);
