@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 11:12:42 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/12/01 15:51:53 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 19:38:29 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ void	set_cmd_path(t_command *cur, t_list_envp *env)
 	char		*env_path;
 	char		*tmp;
 
-	env_path = get_ms_env_val(PATH, env);
+	env_path = ft_strdup(get_ms_env_val(PATH, env));
+	if (env_path == NULL)
+		env_path = ft_strdup("");
 	if (cur->build == -1)
 	{
 		tmp = cur->arg[0];
@@ -50,6 +52,7 @@ void	set_cmd_path(t_command *cur, t_list_envp *env)
 				env_path);
 		free(tmp);
 	}
+	free(env_path);
 }
 
 int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
@@ -72,20 +75,14 @@ int	set_cmd_ready_to_exec(t_command **cmd, t_list_envp *env)
 void	close_cmds_fd(t_command **cmds)
 {
 	t_command	*cmd;
-	int			ret_in;
-	int			ret_out;
 
 	cmd = *cmds;
-	ret_in = 0;
-	ret_out = 0;
-	(void)ret_in;
-	(void)ret_out;
 	while (cmd != NULL)
 	{
 		if (cmd->fd_in != -1)
-			ret_in = close(cmd->fd_in);
+			close(cmd->fd_in);
 		if (cmd->fd_out != -1)
-			ret_out = close(cmd->fd_out);
+			close(cmd->fd_out);
 		cmd = cmd->next;
 	}
 }

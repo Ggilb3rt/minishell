@@ -1,12 +1,8 @@
-- fd leaks when exit | exit
 - voir les valeurs de retour quand exit avec les signaux
-- quand pas de path et que le shell trouve pas l'executable, bash affiche un message "no such file"
 - probleme signaux dans heredoc (probablement du au remplacement des exit() par g_ret.quit)
 - segfault ./minishell < /dev/urandom
 
 **Comprends pas :**
-	- leaks de temps en temps en faisant exit
-		trouver a quel moment
 
 **En cours :**
 	- revoir messages erreur
@@ -16,6 +12,8 @@
 		- heredoc
 
 **Fait :**
+	- quand pas de path et que le shell trouve pas l'executable, bash affiche un message "no such file"
+	- leaks de temps en temps en faisant exit
 	- "export name" ne doit pas ajouter ou changer la var (ok) mais n'affiche pas d'erreur non plus
 	- exit et pipes
 	- put builtins cd to the norme

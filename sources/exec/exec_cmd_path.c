@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 17:37:53 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/11/30 19:20:39 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 19:38:09 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ char	*select_wokring_path(char **splitted_paths, char *cmd)
 	i = 0;
 	if (!splitted_paths)
 		return (NULL);
+	can_access = -1;
 	while (splitted_paths[i] != NULL)
 	{
 		can_access = access(splitted_paths[i], X_OK);
