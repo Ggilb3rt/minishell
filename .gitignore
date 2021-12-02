@@ -103,6 +103,7 @@ Temporary Items
 # End of https://www.toptal.com/developers/gitignore/api/c,macos,linux
 
 .vscode
+.idea
 minishell
 exec_no_perm
 objects
