@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:49:59 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/12/02 12:50:39 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 13:02:31 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ return 0 if ok, 1 otherwise (permission denied, No such file or directory)
 
 need to interpret ~ and -
 ~ = $HOME ; working
-- = $OLDPWD ; working, need parsing to see if I must free(path)
+- = $OLDPWD ; working
 
 - print pwd
 */
@@ -82,11 +82,6 @@ void	update_old_pwd(t_list_envp *env)
 	edit_lst_content(tmp, index_old_pwd, next_old_pwd);
 	free(next_old_pwd);
 }
-
-/*
-cd segfault if use multiple times
-==> because **path dont have null at the end when change path[1] (null) by path[1] ($HOME)
-*/
 
 int	cmd_cd(char **path, t_list_envp *ms_env)
 {
