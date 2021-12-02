@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:49:59 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/12/02 13:35:34 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 15:20:42 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	cmd_cd(char **path, t_list_envp *ms_env)
 		return (g_ret.ret = 1);
 	}
 	new_path = change_tild(path[1], ms_env);
-	new_path= select_path_dash_op(new_path, ms_env);
+	new_path = select_path_dash_op(new_path, ms_env);
 	if (new_path != NULL)
 	{
 		err = chdir(new_path);

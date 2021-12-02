@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 17:34:10 by alangloi          #+#    #+#             */
-/*   Updated: 2021/12/01 18:00:20 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 15:18:11 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,24 +49,20 @@ void	ms_signal(int n)
 	{
 		if (signal(SIGINT, sig_handler_1) == SIG_ERR)
 			g_ret.quit = 1;
-			//exit(1);
 		if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 			g_ret.quit = 1;
-			//exit(1);
 	}
 	if (n == 2)
 	{
 		if (signal(SIGINT, sig_handler_2) == SIG_ERR)
 			g_ret.quit = 1;
-			//exit(1);
 		if (signal(SIGQUIT, sig_handler_2) == SIG_ERR)
 			g_ret.quit = 1;
-			//exit(1);
 	}
 	if (n == 3)
 	{
 		printf("exit\n");
+		g_ret.ret = 0;
 		g_ret.quit = 1;
-		//exit(0);
 	}
 }
