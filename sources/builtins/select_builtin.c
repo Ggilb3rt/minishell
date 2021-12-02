@@ -6,13 +6,13 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 08:13:19 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/12/02 10:57:18 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 17:42:45 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_builtin(char **cmd, t_list_envp *env, int print)
+int	exec_builtin(char **cmd, t_list_envp *env, int print, t_command *cur)
 {
 	char	*cmd_name;
 
@@ -32,7 +32,7 @@ int	exec_builtin(char **cmd, t_list_envp *env, int print)
 	else if (!strcmp(cmd_name, "env"))
 		return (cmd_env(env));
 	else if (!strcmp(cmd_name, "exit"))
-		return (cmd_exit(cmd));
+		return (cmd_exit(cmd, cur, print));
 	return (0);
 }
 

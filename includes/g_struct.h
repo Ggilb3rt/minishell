@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 14:48:32 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/12/02 08:05:30 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 17:33:32 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@
 
 # define BUILT_CD 10
 # define BUILT_UNSET 12
-# define BUILT_EXIT 13
 
 # define BUILT_EXPORT 20
+# define BUILT_EXIT 23
 
 typedef struct s_list_envp
 {
