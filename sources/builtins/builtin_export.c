@@ -6,7 +6,7 @@
 /*   By: ggilbert <ggilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 11:56:51 by ggilbert          #+#    #+#             */
-/*   Updated: 2021/12/02 11:16:38 by ggilbert         ###   ########.fr       */
+/*   Updated: 2021/12/02 18:44:37 by ggilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,18 @@ int	check_valide_identifier(char *arg)
 
 	i = 0;
 	if (!ft_isalpha(arg[0]) && arg[0] != '_')
-		return (-1);
+		return (0);
 	while (arg[i] != '\0' || arg[i] != '=')
 	{
 		if (!ft_isalnum(arg[i]) && arg[i] != '_')
 			break ;
 		i++;
 	}
-	if (arg[i] != '=')
+	printf("arg end |%c|\n", arg[i]);
+	if (arg[i] != '=' && arg[i] != '\0')
 		return (0);
+	if (arg[i] == '\0')
+		return (-1);
 	return (i);
 }
 
@@ -123,11 +126,13 @@ int	cmd_export(t_list_envp *env, char **args, int print)
 			if (!export_update_env(env, equal_pos, args[i]))
 				return (0);
 		}
+		else if (equal_pos == -1)
+			g_ret.ret = 0;
 		else
 		{
 			if (print)
-				printf("export: not valid in this context: %s\n", args[i]);
-			return (g_ret.ret = 1);
+				printf("export: `%s': not a valid identifier\n", args[i]);
+			g_ret.ret = 1;
 		}
 	}
 	return (0);
